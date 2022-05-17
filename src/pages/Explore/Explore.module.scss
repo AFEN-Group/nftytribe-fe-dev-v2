@@ -1,0 +1,133 @@
+@import '../../variables';
+@import '../../mixins';
+
+// ----- Explore
+.explore {
+  padding: 12em 0 2em 0;
+}
+.exploreContent {
+  //background: pink;
+  width: 95%;
+  margin: auto;
+  max-width: 1300px;
+  position: relative;
+}
+.exploreTop {
+  text-align: center;
+  h1 {
+    font-family: Neue-bold;
+    margin-bottom: 0.5em;
+    overflow: hidden;
+    span {
+      display: inline-block;
+      transform: translateY(100%);
+    }
+  }
+  p {
+    overflow: hidden;
+    span {
+      display: inline-block;
+      transform: translateY(100%);
+    }
+  }
+
+  .exploreCats {
+    margin: 2em auto 1em auto;
+    width: 60%;
+    @include flexRegular(row, space-between);
+  }
+  .exploreCat,
+  .exploreCatActive {
+    cursor: pointer;
+    border: 1px solid #000000;
+    border-radius: 0px 6px;
+    padding: 0.5em 2em;
+  }
+  .exploreCatActive {
+    background: radial-gradient(
+      72.94% 98.64% at 75.16% 76.53%,
+      #ebedff 0%,
+      #fff2e3 78.65%,
+      #fefdf8 100%
+    );
+  }
+}
+.body {
+  position: relative;
+  margin-top: 3em;
+  @include flexRegular(row, flex-start);
+  align-items: flex-start;
+  //background: lavender;
+  .sideBar {
+    width: 24%;
+    min-width: 280px;
+    //width: 315px;
+    //height: 90vh;
+    padding: 2em 1em;
+    background: radial-gradient(
+      72.94% 98.64% at 75.16% 76.53%,
+      #ebedff 0%,
+      #fff2e3 78.65%,
+      #fefdf8 100%
+    );
+    border: 1px solid #4d55a6;
+    border-radius: 0px 8px;
+    //position: relative;
+    //position: fixed;
+    //top: 0;
+    transition: 0.4s ease-in;
+  }
+  //   .sideBarScroll {
+  //     position: fixed;
+  //   }
+}
+
+.sideBarContent {
+  padding: 0 2em;
+  transition: 0.4s ease-in;
+}
+
+.sBItemA {
+  // background: lavender;
+  margin: 1em 0 1.5em -10px;
+  @include flexRegular(row, flex-start);
+  p {
+    margin-left: 1em;
+  }
+}
+.sBItem {
+  //   background: lavender;
+  margin: 2em 0 3em 0;
+  @include flexRegular(row, flex-start);
+  img {
+    margin-left: 1em;
+  }
+  p {
+    font-weight: 300;
+  }
+}
+.itemsContainer {
+  width: 76%;
+  max-width: 1500px;
+  margin-left: 1em;
+  .itemsContent {
+    // @include flexRegular(row, flex-start);
+    @include gridRegular(1em);
+    grid-template-columns: 2fr 2fr 2fr;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    overflow-y: scroll;
+    overflow-x: visible;
+    height: 90vh;
+  }
+  .itemBx {
+    margin-left: 0em;
+    //width: 100%;
+    //width: 285px;
+    //background: pink;
+    //margin-right: 2em;
+  }
+}

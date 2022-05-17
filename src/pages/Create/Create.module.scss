@@ -1,0 +1,110 @@
+@import '../../variables';
+@import '../../mixins';
+
+// ----- CreateOptions
+.createOptions {
+  padding: 12em 0 2em 0;
+}
+.cOptContent1 {
+  ///background: pink;
+  width: 95%;
+  margin: auto;
+  max-width: 1300px;
+  position: relative;
+}
+.cOptContent2 {
+  //background: pink;
+  width: 73%;
+  margin: auto;
+  max-width: 950px;
+  position: relative;
+}
+.cOptTop {
+  text-align: center;
+  h1 {
+    font-family: Neue-bold;
+    font-size: 2.5em;
+    margin-bottom: 0.5em;
+    overflow: hidden;
+    span {
+      display: inline-block;
+      transform: translateY(100%);
+    }
+  }
+  p {
+    overflow: hidden;
+    span {
+      display: inline-block;
+      transform: translateY(100%);
+    }
+  }
+}
+.cOptTop2 {
+  text-align: center;
+  h1 {
+    font-family: Neue-bold;
+    font-size: 2.5em;
+    margin-bottom: 0.5em;
+    //overflow: hidden;
+    //   span {
+    //     display: inline-block;
+    //     transform: translateY(100%);
+    //   }
+  }
+}
+.cOptBody {
+  margin-top: 2em;
+}
+.optBoxes {
+  width: 90%;
+  margin: 5em auto;
+  @include flexRegular(row, space-between);
+  //background: pink;
+}
+.optBox {
+  width: 20%;
+  max-width: 250px;
+}
+.optBox2 {
+  width: 45%;
+  max-width: 420px;
+  p {
+    margin-top: 2em;
+  }
+}
+.optBox {
+  p {
+    margin-top: 1em;
+  }
+}
+.optBox,
+.optBox2 {
+  @include flexRegular(column, center);
+  border: 1.5px solid #52525bb2;
+  border-radius: 16px;
+  cursor: pointer;
+  height: 42vh;
+  max-height: 310px;
+  transition: 0.2s ease-in;
+  border-radius: 16px;
+  font-family: Neue-bold;
+  font-size: 1.2em;
+
+  &:hover {
+    background: radial-gradient(
+      72.94% 98.64% at 75.16% 76.53%,
+      #ebedff 0%,
+      #fff2e3 78.65%,
+      #fefdf8 100%
+    );
+    transform: scale(1.03);
+  }
+}
+.mg1 {
+  margin-top: 1.5em !important;
+}
+
+// ----- CreateItem
+.create {
+  padding: 12em 0 2em 0;
+}

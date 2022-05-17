@@ -1,0 +1,64 @@
+@import '../../variables';
+@import '../../mixins';
+
+.card {
+  position: relative;
+  box-shadow: 0px 2px 4px rgba(91, 91, 91, 0.24);
+  border-radius: 0px 24px;
+  padding: 1em;
+  background: radial-gradient(
+    72.94% 98.64% at 75.16% 76.53%,
+    #ebedff 0%,
+    #fff2e3 78.65%,
+    #fefdf8 100%
+  );
+  //background: black;
+}
+.cardImgBx {
+  position: relative;
+}
+.cardImg {
+  img {
+    border-radius: 20px;
+    object-fit: contain;
+    width: 100%;
+    max-width: 468px;
+  }
+}
+.cardTop {
+  position: absolute;
+  top: 1em;
+  @include flexRegular(row, space-between);
+  width: 90%;
+  margin: 0 5%;
+}
+.descBox1 {
+  @include flexRegular(column, center);
+  //   background: rgba(23, 18, 20, 0.4);
+  //   box-shadow: inset 0px 0.8px 100px rgba(216, 57, 166, 0.1);
+  //   backdrop-filter: blur(20px);
+  //   border-radius: 20px;
+  //   padding: 0.3em;
+  //   border-radius: 20px;
+
+  transition: all 0.4s ease;
+  position: absolute;
+  padding: 25px 10px 10px 10px;
+  bottom: 1px;
+  background: rgba(23, 18, 20, 0.4);
+  box-shadow: inset 0px 0.8px 100px rgba(216, 57, 166, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  width: 96%;
+  left: 2%;
+  right: 2%;
+  margin: auto;
+  color: #fff;
+}
+.userInfo {
+  @include flexRegular(row, center);
+  margin: 0.4em;
+  p {
+    margin: 0 1em;
+  }
+}
