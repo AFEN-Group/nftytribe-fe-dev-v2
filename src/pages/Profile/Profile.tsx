@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import style from './Profile.module.scss'
 import Header from '../../components/Header/Header'
 import Cover from './assets/cover.svg'

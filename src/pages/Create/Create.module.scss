@@ -107,3 +107,80 @@
 .create {
   padding: 12em 0 2em 0;
 }
+.createContent {
+  margin: auto;
+  width: 80%;
+  max-width: 1200px;
+  @include flexRegular(row, flex-start);
+  align-items: flex-start;
+}
+.left,
+.right {
+  width: 42.5%;
+}
+
+.leftTop {
+  margin: 1em 0;
+  h2 {
+    font-family: Neue-bold;
+    font-size: 1.8em;
+  }
+  p {
+    font-weight: 400;
+    margin-top: 1em;
+  }
+}
+.fileContainerL,
+.fileContainerD {
+  margin-top: 2em;
+  border: 1px dashed #52525b;
+  border-radius: 0px 8px;
+  padding: 4em;
+  width: 100%;
+  max-width: 494px;
+  height: 62vh;
+  max-height: 450px;
+  @include flexRegular(column, center);
+  font-family: Neue-bold;
+  text-align: center;
+  h3 {
+    margin: 3em 0 0.5em 0;
+  }
+  img {
+    cursor: pointer;
+  }
+}
+.fileContainerL {
+  background: #f4f4f5;
+  p {
+    color: #4d55a6;
+  }
+}
+.fileContainerD {
+  background: #18181b;
+  p {
+    color: #ffcc00;
+  }
+}
+
+.right {
+  margin-left: 15%;
+  //background: cornsilk;
+  overflow-y: scroll;
+  overflow-x: visible;
+  // Hide scrollbar //
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  //
+
+  height: 95vh;
+}
+.fieldBx {
+  margin-bottom: 1em;
+  p {
+    margin-bottom: 0.4em;
+  }
+}

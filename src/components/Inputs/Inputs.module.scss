@@ -1,0 +1,44 @@
+@import '../../variables';
+@import '../../mixins';
+
+.inputBx {
+  input,
+  select {
+    width: 100%;
+    max-width: 450px;
+    height: 48px;
+    border: 2px solid #a1a1aa;
+    border-radius: 4px;
+    outline: none;
+    padding: 0.2em 0.2em 0.2em 1em;
+    transition: 0.2s ease-in;
+  }
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+  .selectDark {
+    background-image: url('./assets/select2.svg');
+    background-repeat: no-repeat;
+    background-position: right 18px top 20px;
+  }
+  .selectLight {
+    background-image: url('./assets/select.svg');
+    background-repeat: no-repeat;
+    background-position: right 18px top 20px;
+  }
+}
+.textBox {
+  textarea {
+    @include flexRegular(column, center);
+    outline: none;
+    width: 100%;
+    max-width: 450px;
+    height: 105px;
+    border: 2px solid #a1a1aa;
+    padding-left: 1em;
+    padding-top: 30px;
+    transition: 0.2s ease-in;
+    font-family: Raleway;
+  }
+}

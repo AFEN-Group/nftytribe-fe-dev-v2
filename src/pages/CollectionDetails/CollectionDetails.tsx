@@ -16,7 +16,7 @@ import ItemCard from '../../components/Card/ItemCard'
 import Container from '../../components/Container/Container'
 
 const CollectionDetails = () => {
-  const [view, setView] = useState('items')
+  //const [view, setView] = useState('items')
   const [tab, setTab] = useState('all')
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark

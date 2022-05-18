@@ -1,7 +1,7 @@
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { gsap, Expo } from 'gsap'
-import { ThemeContext } from '../../context/ThemeContext'
+//import { ThemeContext } from '../../context/ThemeContext'
 import style from './Create.module.scss'
 import Header from '../../components/Header/Header'
 import Flow from './assets/fl.png'
@@ -12,8 +12,8 @@ import Container from '../../components/Container/Container'
 
 const CreateItemOptions = () => {
   const [chain, setChain] = useState('')
-  const [themeState] = useContext<any>(ThemeContext)
-  const dark = themeState.dark
+  // const [themeState] = useContext<any>(ThemeContext)
+  // const dark = themeState.dark
   useEffect(() => {
     const heroTitle = document.getElementById('heroTitle')
     const heroTitle2 = document.getElementById('heroTitle2')
