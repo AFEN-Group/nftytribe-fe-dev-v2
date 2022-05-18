@@ -1,4 +1,4 @@
-import Container from '../../components/Container/Container1'
+import Container from '../../components/Container/ContainerG'
 import Header from '../../components/Header/Header'
 import FAQs from './components/FAQs'
 import Hero from './components/Hero'

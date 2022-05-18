@@ -6,83 +6,31 @@
   background: $darkBg;
   color: #fff;
 }
-.grayTheme {
-  transition: 0.3s ease-in;
-  //background: #515151;
-  background: #3f3f46;
-
-  color: #fff;
+.darkGradient {
+  background: $darkGradient;
+  color: $darkTxt;
 }
 .lightTheme {
   transition: 0.3s ease-in;
-  background: pink;
+  background: #fff;
   color: #222222;
 }
-.darkTxt {
-  color: #222222 !important;
+.lightGradient {
+  background: $mainGradient;
+  color: $darkTxt;
 }
-.lightTxt {
-  color: #fff !important;
-}
-.darkLink {
-  color: #222222 !important;
-  transition: 0.3s ease-in;
-  &:hover {
-    color: $blueHover !important;
-    transform: scale(1.09);
-  }
-}
-.lightLink {
-  color: #fff !important;
-  transition: 0.3s ease-in;
-  &:hover {
-    color: $yellowMain !important;
-    transform: scale(1.09);
-  }
-}
-.lightBorder {
-  border: 1px solid #ffffff75;
+.gradient3 {
+  background: $gradient3;
 }
 .darkBorder {
-  border: 1px solid #15151578;
+  border: 1px solid #000000;
 }
-.lightBorder2 {
-  border: 5px solid #ffffff86;
-}
-.darkBorder2 {
-  border: 5px solid #1515158e;
-}
-.lightDashed {
-  border: 1px dashed #ffffff;
-}
-.darkDashed {
-  border: 1px dashed #494343;
-}
-.lBLight {
-  background: #fff;
-}
-.lBDark {
-  background: #3f3f3f;
-  //background: linear-gradient(94.63deg, #003849 0%, rgba(50, 0, 73, 0.57) 100%);
-}
-.lBdark2 {
-  transition: 0.3s ease-in;
-  color: #fff;
-  background: #3f3f46;
-}
-.transparent {
-  background: transparent;
-  color: #fff;
-}
-.blueMain {
-  color: #000000;
-}
-.blueLight {
-  color: rgba(0, 0, 255, 0.601);
+.lightBorder {
+  border: 1px solid #ffffff;
 }
 .blueTxt {
   color: #4d55a6;
 }
-.yellowMain {
-  color: #ffcc00;
+.yellowTxt {
+  color: #f3bb1c;
 }

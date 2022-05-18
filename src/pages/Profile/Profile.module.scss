@@ -1,0 +1,82 @@
+@import '../../variables';
+@import '../../mixins';
+
+.coverBx {
+  img {
+    width: 100%;
+  }
+}
+.content {
+  position: relative;
+  width: 95%;
+  max-width: 1300px;
+  margin: auto;
+}
+.avatar {
+  position: relative;
+  //background: pink;
+  @include flexRegular(row, center);
+  img {
+    position: absolute;
+    top: -5em;
+  }
+}
+.title {
+  @include flexRegular(row, center);
+  margin-top: 3em;
+  h1 {
+    // font-family: Neue-bold;
+    font-size: 1.5em;
+    font-weight: 700;
+  }
+  img {
+    margin-left: 1em;
+    cursor: pointer;
+  }
+}
+.filters {
+  margin: 4em auto 2em auto;
+  width: 75%;
+  @include flexRegular(row, space-between);
+}
+.filterItemA,
+.filterItem {
+  cursor: pointer;
+  border: 1px solid #000000;
+  border-radius: 0px 6px;
+  padding: 0.5em 2em;
+}
+.filterItemA {
+  background: radial-gradient(
+    72.94% 98.64% at 75.16% 76.53%,
+    #ebedff 0%,
+    #fff2e3 78.65%,
+    #fefdf8 100%
+  );
+}
+.items {
+  //background: pink;
+  margin: 3em 0;
+  padding-bottom: 5em;
+  @include flexRegular(column, center);
+}
+.noResults {
+  h2 {
+    font-family: Neue-bold;
+    margin-bottom: 1em;
+  }
+  .explore {
+    cursor: pointer;
+    @include flexRegular(row, center);
+    transition: 0.2s ease-in;
+    img {
+      margin-left: 1em;
+      transition: 0.2s ease-in;
+    }
+    // &:hover {
+    //   img {
+    //     margin-left: 2em;
+    //   }
+    // }
+  }
+}

@@ -37,19 +37,20 @@
     @include flexRegular(row, space-between);
   }
   .exploreCat,
-  .exploreCatActive {
+  .darkActive,
+  .lightActive {
     cursor: pointer;
-    border: 1px solid #000000;
+    // border: 1px solid #000000;
+    border: 1px solid gray;
     border-radius: 0px 6px;
     padding: 0.5em 2em;
   }
-  .exploreCatActive {
-    background: radial-gradient(
-      72.94% 98.64% at 75.16% 76.53%,
-      #ebedff 0%,
-      #fff2e3 78.65%,
-      #fefdf8 100%
-    );
+  .darkActive {
+    background: $darkGradient;
+    color: $darkTxt;
+  }
+  .lightActive {
+    background: $mainGradient;
   }
 }
 .body {
@@ -64,16 +65,8 @@
     //width: 315px;
     //height: 90vh;
     padding: 2em 1em;
-    background: radial-gradient(
-      72.94% 98.64% at 75.16% 76.53%,
-      #ebedff 0%,
-      #fff2e3 78.65%,
-      #fefdf8 100%
-    );
     border: 1px solid #4d55a6;
     border-radius: 0px 8px;
-    //position: relative;
-    //position: fixed;
     //top: 0;
     transition: 0.4s ease-in;
   }

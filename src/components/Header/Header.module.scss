@@ -11,7 +11,7 @@
   width: 95%;
   max-width: 1500px;
   margin: auto;
-  background: #ffffff;
+  //background: #ffffff;
   //background: cornsilk;
   border: 1px solid #52525b;
   box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.14);
@@ -32,6 +32,9 @@
   .logoBox {
     width: 35%;
     @include flexRegular(row, flex-start);
+    img {
+      height: 96px;
+    }
     //background: cornsilk;
     //border: 1px solid black;
   }
@@ -53,12 +56,8 @@
     @include flexRegular(row, flex-end);
     .btn {
       @include flexRegular(row, center);
-      background: radial-gradient(
-        72.94% 98.64% at 75.16% 76.53%,
-        #ebedff 0%,
-        #fff2e3 78.65%,
-        #fefdf8 100%
-      );
+      background: $mainGradient;
+      color: #27272a;
       cursor: pointer;
       border: 1.4px solid #52525b;
       border-radius: 0px 6px;
@@ -82,6 +81,9 @@
   .logoBox {
     width: 25%;
     @include flexRegular(row, flex-start);
+    img {
+      height: 96px;
+    }
     //background: cornsilk;
     //border: 1px solid black;
   }
@@ -104,6 +106,8 @@
         height: 48px;
         padding-left: 0.5em;
         outline: none;
+        background: none;
+        color: #6b737a;
       }
       img {
         position: absolute;
@@ -138,8 +142,9 @@
   max-width: 250px;
   position: absolute;
   padding: 2em 2em 1em 2em;
-  background: #ffffff;
-  border: 0.5px solid #000000;
+  //background: #ffffff;
+  //border: 0.5px solid #000000;
+  border: 0.5px solid #52525b;
   border-radius: 0px 8px;
 }
 .dropTop {
@@ -155,18 +160,18 @@
   border: 0.4px solid #000000;
   border-radius: 0px 12px;
   padding: 1em;
+  background: #fff;
+  color: $darkTxt;
   img {
     margin-left: 0.5em;
   }
 }
 .dropBtn1 {
-  background: radial-gradient(
-    72.94% 98.64% at 75.16% 76.53%,
-    #ebedff 0%,
-    #fff2e3 78.65%,
-    #fefdf8 100%
-  );
   margin-right: 1em;
+}
+.dropA {
+  background: $mainGradient !important;
+  color: $darkTxt;
 }
 .dropBody {
   margin: 2em 0;

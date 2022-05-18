@@ -1,10 +1,19 @@
+import { useContext } from 'react'
 import style from '../Home.module.scss'
 import nArrow from '../assets/arrow-right.svg'
+import { ThemeContext } from '../../../context/ThemeContext'
 
 const Marketplace = () => {
+  const [themeState] = useContext<any>(ThemeContext)
+  const dark = themeState.dark
   return (
     <>
-      <div className={style.mk}>
+      <div
+        //className={style.mk}
+        className={`${style.mk} ${
+          dark === 'true' ? 'darkTheme' : 'lightTheme'
+        }`}
+      >
         <div className={style.mkContent}>
           <div className={style.mkLeft}>
             <div className={style.mkLeftContent}>

@@ -1,8 +1,15 @@
-.container {
-  background: radial-gradient(
-    72.94% 98.64% at 75.16% 76.53%,
-    #ebedff 0%,
-    #fff2e3 78.65%,
-    #fefdf8 100%
-  );
+@import '../../variables';
+@import '../../mixins';
+
+.cntent {
+  width: 90%;
+  margin: auto;
+  max-width: 1300px;
+  position: relative;
+}
+.containerG {
+  background: $mainGradient;
+}
+.containerD {
+  background: $gradient4;
 }

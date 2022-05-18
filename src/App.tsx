@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import './App.scss'
+import './theme.scss'
 import 'animate.css'
 import Home from './pages/Home/Home'
 import Explore from './pages/Explore/Explore'
@@ -10,6 +11,7 @@ import CollectionDetails from './pages/CollectionDetails/CollectionDetails'
 import CollectionDashboard from './pages/CollectionDashboard/CollectionDashboard'
 import CreateItemOptions from './pages/Create/CreateItemOptions'
 import CreateItems from './pages/Create/CreateItems'
+import Profile from './pages/Profile/Profile'
 
 function App() {
   return (
@@ -38,9 +40,10 @@ function App() {
               element={<CreateItemOptions />}
             ></Route>
             <Route
-              path="/createItem/:itemType"
+              path="/createItem/:chain/:itemType"
               element={<CreateItems />}
             ></Route>
+            <Route path="/profile" element={<Profile />}></Route>
           </Routes>
         </Router>
       </div>

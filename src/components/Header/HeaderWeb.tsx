@@ -1,11 +1,15 @@
 import { useEffect, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { UserContext } from '../../context/UserContext'
+import { ThemeContext } from '../../context/ThemeContext'
 import style from './Header.module.scss'
 import Logo from './assets/logo.svg'
+import Logo2 from './assets/logo-light.svg'
 import Search from './assets/search.svg'
 import User from './assets/user.svg'
+import User2 from './assets/User2.svg'
 import Wallet from './assets/wallet.svg'
+import Wallet2 from './assets/wallet2.svg'
 import Light from './assets/light.svg'
 import Dark from './assets/dark.svg'
 import Profile from './assets/profile.svg'
@@ -22,6 +26,22 @@ const HeaderWeb = (props: any) => {
   const [showConnect, setShowConnect] = useState(false)
   const [userState] = useContext<any>(UserContext)
   const currentAccount = userState.userWallet
+  const [themeState, setThemeState] = useContext<any>(ThemeContext)
+  const dark = themeState.dark
+  // console.log(dark)
+
+  const handleTheme = () => {
+    // change theme
+    if (themeState.dark === 'false') {
+      setThemeState({
+        dark: 'true',
+      })
+    } else {
+      setThemeState({
+        dark: 'false',
+      })
+    }
+  }
 
   // Hide nav on scroll up and show on scroll down
   // useEffect(() => {
@@ -60,21 +80,29 @@ const HeaderWeb = (props: any) => {
 
   return (
     <>
-      <div className={style.section}>
+      <div
+        className={style.section}
+        // className={`${style.section} ${
+        //   dark === 'true' ? 'darkTheme' : 'lightTheme'
+        // }`}
+      >
         <ConnectWallet
           handleModal={handleModal}
           showConnect={showConnect}
           //handleClose={handleClose}
         />
         <div
-          className={style.container}
+          //className={style.container}
+          className={`${style.container} ${
+            dark === 'true' ? 'darkTheme' : 'lightTheme'
+          }`}
           id="container"
           onMouseLeave={() => setShowDropDown('None')}
         >
           {!currentAccount ? (
             <div className={style.content}>
               <Link to="/" className={style.logoBox}>
-                <img src={Logo} alt="logo" />
+                <img src={dark === 'true' ? Logo2 : Logo} alt="logo" />
               </Link>
 
               <div className={style.navBox}>
@@ -111,7 +139,7 @@ const HeaderWeb = (props: any) => {
                 className={style.logoBox}
                 onMouseOver={() => setShowDropDown('None')}
               >
-                <img src={Logo} alt="logo" />
+                <img src={dark === 'true' ? Logo2 : Logo} alt="logo" />
               </Link>
               <div
                 className={style.navBox}
@@ -139,12 +167,12 @@ const HeaderWeb = (props: any) => {
               </div>
               <div className={style.buttonsBox}>
                 <img
-                  src={User}
+                  src={dark === 'true' ? User2 : User}
                   alt="user"
                   onMouseOver={() => setShowDropDown('Profile')}
                 />
                 <img
-                  src={Wallet}
+                  src={dark === 'true' ? Wallet2 : Wallet}
                   alt="wallet"
                   onClick={() => setShowConnect(!showConnect)}
                   onMouseOver={() => setShowDropDown('None')}
@@ -153,22 +181,35 @@ const HeaderWeb = (props: any) => {
               </div>
               {showDropDown === 'Profile' && (
                 <div
-                  className={`animate__animated animate__fadeIn animate__faster  ${style.dropDown}`}
+                  className={`animate__animated animate__fadeIn animate__faster  ${
+                    style.dropDown
+                  } ${dark === 'true' ? 'darkTheme' : 'lightTheme'}`}
                   onMouseLeave={() => setShowDropDown('None')}
                 >
                   <div className={style.dropContent}>
                     <div className={style.dropTop}>
-                      <div className={style.dropBtn1}>
+                      <div
+                        //className={style.dropBtn1}
+                        className={`${style.dropBtn1} ${
+                          dark !== 'true' ? style.dropA : ''
+                        }`}
+                        onClick={handleTheme}
+                      >
                         <p>Light</p>
                         <img src={Light} alt="light" />
                       </div>
-                      <div className={style.dropBtn2}>
+                      <div
+                        className={`${style.dropBtn2} ${
+                          dark === 'true' ? style.dropA : ''
+                        }`}
+                        onClick={handleTheme}
+                      >
                         <p>Dark</p>
                         <img src={Dark} alt="dark" />
                       </div>
                     </div>
                     <div className={style.dropBody}>
-                      <Link to="" className={style.dropItem}>
+                      <Link to="/profile" className={style.dropItem}>
                         <img src={Profile} alt="profile" />
                         <p>Profile</p>
                       </Link>

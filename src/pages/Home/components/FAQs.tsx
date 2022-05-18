@@ -1,18 +1,28 @@
+import { useContext } from 'react'
 import style from '../Home.module.scss'
 import Up from '../assets/up.svg'
 import Home from '../assets/home.svg'
 import Pie from '../assets/pie.svg'
+import { ThemeContext } from '../../../context/ThemeContext'
 
 const FAQs = () => {
+  const [themeState] = useContext<any>(ThemeContext)
+  const dark = themeState.dark
   return (
-    <div className={style.faq}>
+    <div
+      className={`${style.faq} ${dark === 'true' ? 'darkTheme' : 'lightTheme'}`}
+    >
       <div className={style.faqContent}>
         <div className={style.faqTop}>
           <h1>Why NftyTrybe?</h1>
         </div>
         <div className={style.faqBody}>
           <div className={style.faqBoxes}>
-            <div className={style.faqBox}>
+            <div
+              className={`${style.faqBox} ${
+                dark === 'true' ? 'darkGradient' : 'lightGradient'
+              }`}
+            >
               <div className={style.faqImg}>
                 <img src={Up} alt="up" />
               </div>
@@ -26,7 +36,11 @@ const FAQs = () => {
               </div>
               <button>Learn more</button>
             </div>
-            <div className={style.faqBoxC}>
+            <div
+              className={`${style.faqBoxC} ${
+                dark === 'true' ? 'darkGradient' : 'lightGradient'
+              }`}
+            >
               <div className={style.faqImg}>
                 <img src={Home} alt="home" />
               </div>
@@ -40,7 +54,11 @@ const FAQs = () => {
               </div>
               <button>Learn more</button>
             </div>
-            <div className={style.faqBox}>
+            <div
+              className={`${style.faqBox} ${
+                dark === 'true' ? 'darkGradient' : 'lightGradient'
+              }`}
+            >
               <div className={style.faqImg}>
                 <img src={Pie} alt="pie" />
               </div>
