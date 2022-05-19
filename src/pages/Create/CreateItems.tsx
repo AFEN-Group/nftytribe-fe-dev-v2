@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { useParams } from 'react-router'
 import { ThemeContext } from '../../context/ThemeContext'
 import Container from '../../components/Container/Container'
@@ -18,6 +18,10 @@ const CreateItems = () => {
   const itemType = useParams().itemType
   const [priceType, setPriceType] = useState('fixed')
   const [showAdvanced, setShowAdvanced] = useState(false)
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   const royalties = [
     { value: '0', text: '0%' },
     { value: '10', text: '10%' },

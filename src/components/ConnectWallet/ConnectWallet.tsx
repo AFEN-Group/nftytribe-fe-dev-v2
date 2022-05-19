@@ -51,7 +51,7 @@ const ConnectWallet = (props: any) => {
     let box: any = document.getElementById('box')
     let overlay: any = document.getElementById('overlay')
     let icon: any = document.getElementById('showIcon')
-    //let show2: any = document.getElementById('show2')
+    let show2: any = document.getElementById('show2')
     let close: any = document.getElementById('close')
     if (document.getElementById('showBtn')) {
       let btn: any = document.getElementById('showBtn')
@@ -63,6 +63,12 @@ const ConnectWallet = (props: any) => {
     icon.onclick = function () {
       t1.reversed(!t1.reversed())
       overlay.classList.toggle(style.overlay)
+    }
+    if (!currentAccount) {
+      show2.onclick = function () {
+        t1.reversed(!t1.reversed())
+        overlay.classList.toggle(style.overlay)
+      }
     }
     t1.to(box, 0.001, {
       right: 0,
@@ -80,7 +86,7 @@ const ConnectWallet = (props: any) => {
       overlay.classList.toggle(style.overlay)
     }
     //}
-  }, [])
+  }, [currentAccount])
   const handleSignOut = async () => {
     disableEthereum()
     props.handleModal()

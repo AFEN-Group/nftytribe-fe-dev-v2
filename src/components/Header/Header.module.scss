@@ -30,7 +30,7 @@
 .content {
   @include flexRegular(row, flex-start);
   .logoBox {
-    width: 35%;
+    width: 33%;
     @include flexRegular(row, flex-start);
     img {
       height: 96px;
@@ -39,10 +39,11 @@
     //border: 1px solid black;
   }
   .navBox {
-    width: 27%;
+    width: 29%;
     @include flexRegular(row, space-between);
     p {
       transition: 0.2s ease-in-out;
+      cursor: pointer;
       &:hover {
         color: #f3bb1c;
         transform: scale(1.08);
@@ -52,11 +53,11 @@
   .buttonsBox {
     //background: cornsilk;
     //border: 1px solid black;
-    width: 35%;
+    width: 40%;
     @include flexRegular(row, flex-end);
     .btn {
       @include flexRegular(row, center);
-      background: $mainGradient;
+      //background: $mainGradient;
       color: #27272a;
       cursor: pointer;
       border: 1.4px solid #52525b;
@@ -67,9 +68,14 @@
       margin: auto;
       font-weight: 600;
       transition: 0.3s ease-in-out;
+
       &:hover {
         transform: scale(1.11);
       }
+    }
+    img {
+      margin-left: 2em;
+      cursor: pointer;
     }
   }
   transition: 0.3s ease-in;
@@ -89,7 +95,7 @@
   }
   .navBox {
     //background: rgba(135, 207, 235, 0.505);
-    width: 59%;
+    width: 53%;
     @include flexRegular(row, space-between);
     .navBoxItems {
       @include flexRegular(row, space-between);
@@ -125,11 +131,14 @@
     }
   }
   .buttonsBox {
-    width: 16%;
+    width: 20%;
+    //background: pink;
     @include flexRegular(row, flex-end);
     img {
       margin-left: 2em;
       cursor: pointer;
+      width: 30px;
+      height: 30px;
     }
   }
   transition: 0.3s ease-in;
@@ -174,7 +183,7 @@
   color: $darkTxt;
 }
 .dropBody {
-  margin: 2em 0;
+  //margin: 2em 0;
   .dropItem {
     @include flexRegular(row, flex-start);
     margin-bottom: 1.5em;

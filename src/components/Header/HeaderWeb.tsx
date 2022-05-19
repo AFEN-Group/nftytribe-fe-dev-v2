@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 //import { UserContext } from '../../context/UserContext'
 import { ThemeContext } from '../../context/ThemeContext'
 import style from './Header.module.scss'
@@ -10,13 +10,15 @@ import User from './assets/user.svg'
 import User2 from './assets/User2.svg'
 import Wallet from './assets/wallet.svg'
 import Wallet2 from './assets/wallet2.svg'
-import Light from './assets/light.svg'
-import Dark from './assets/dark.svg'
+// import Light from './assets/light.svg'
+// import Dark from './assets/dark.svg'
 import Profile from './assets/profile.svg'
 import Settings from './assets/settings.svg'
 import Language from './assets/lang.svg'
 import Collection from './assets/collections.svg'
 import Notification from './assets/notifications.svg'
+import Moon from './assets/moon.svg'
+import Sun from './assets/sun.svg'
 //
 import ConnectWallet from '../ConnectWallet/ConnectWallet'
 
@@ -29,6 +31,7 @@ const HeaderWeb = (props: any) => {
   const currentAccount = localStorage.getItem('currentAccount')
   const [themeState, setThemeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
+  const navigate = useNavigate()
   // console.log(dark)
 
   const handleTheme = () => {
@@ -41,6 +44,13 @@ const HeaderWeb = (props: any) => {
       setThemeState({
         dark: 'false',
       })
+    }
+  }
+  const handleCreate = () => {
+    if (currentAccount) {
+      navigate('/createOptions')
+    } else {
+      //setShowModal(true)
     }
   }
 
@@ -70,7 +80,6 @@ const HeaderWeb = (props: any) => {
         header.classList.add(style.containerScroll)
       } else {
         header.classList.remove(style.containerScroll)
-        //header.classList.add('navbar-container')
       }
     }
   }, [])
@@ -107,13 +116,15 @@ const HeaderWeb = (props: any) => {
               </Link>
 
               <div className={style.navBox}>
-                <Link to="/">
+                {/* <Link to="/">
                   <p>Home</p>
-                </Link>
+                </Link> */}
                 <Link to="/about">
                   <p>About us</p>
                 </Link>
-
+                <div id="show2" onClick={handleCreate}>
+                  <p>Create</p>
+                </div>
                 <Link to="/explore">
                   <p>Explore</p>
                 </Link>
@@ -124,12 +135,17 @@ const HeaderWeb = (props: any) => {
               <div className={style.buttonsBox}>
                 <div className={style.buttons}>
                   <div
-                    className={style.btn}
+                    className={`${style.btn} ${
+                      dark === 'true' ? 'darkGradient' : 'lightGradient'
+                    }`}
                     onClick={() => setShowConnect(!showConnect)}
                     id="showIcon"
                   >
                     Connect wallet
                   </div>
+                </div>
+                <div className={style.themeImg} onClick={handleTheme}>
+                  <img src={dark === 'true' ? Sun : Moon} alt="change theme" />
                 </div>
               </div>
             </div>
@@ -179,6 +195,9 @@ const HeaderWeb = (props: any) => {
                   onMouseOver={() => setShowDropDown('None')}
                   id="showIcon"
                 />
+                <div className={style.themeImg} onClick={handleTheme}>
+                  <img src={dark === 'true' ? Sun : Moon} alt="change theme" />
+                </div>
               </div>
               {showDropDown === 'Profile' && (
                 <div
@@ -188,7 +207,7 @@ const HeaderWeb = (props: any) => {
                   onMouseLeave={() => setShowDropDown('None')}
                 >
                   <div className={style.dropContent}>
-                    <div className={style.dropTop}>
+                    {/* <div className={style.dropTop}>
                       <div
                         //className={style.dropBtn1}
                         className={`${style.dropBtn1} ${
@@ -208,7 +227,7 @@ const HeaderWeb = (props: any) => {
                         <p>Dark</p>
                         <img src={Dark} alt="dark" />
                       </div>
-                    </div>
+                    </div> */}
                     <div className={style.dropBody}>
                       <Link to="/profile" className={style.dropItem}>
                         <img src={Profile} alt="profile" />

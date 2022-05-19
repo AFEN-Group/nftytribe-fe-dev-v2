@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { ThemeContext } from '../../context/ThemeContext'
 import Header from '../../components/Header/Header'
 import Hero from './components/Hero'
@@ -18,6 +18,10 @@ import logo5 from './assets/logo5.svg'
 const About = () => {
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   return (
     <>
       <Header />
