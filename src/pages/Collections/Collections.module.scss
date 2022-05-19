@@ -40,7 +40,7 @@
   //background: cornsilk;
   width: 70%;
   //max-width: ;
-  margin: auto;
+  margin: 1em auto 3em auto;
   @include flexRegular(row, space-between);
   .box {
     @include flexRegular(column, center);
@@ -54,23 +54,16 @@
     border-radius: 16px;
     font-family: Neue-bold;
     font-size: 1.2em;
+
     &:hover {
-      background: radial-gradient(
-        72.94% 98.64% at 75.16% 76.53%,
-        #ebedff 0%,
-        #fff2e3 78.65%,
-        #fefdf8 100%
-      );
+      background: $mainGradient;
       transform: scale(1.03);
+      color: #000;
     }
     &:focus {
-      background: radial-gradient(
-        72.94% 98.64% at 75.16% 76.53%,
-        #ebedff 0%,
-        #fff2e3 78.65%,
-        #fefdf8 100%
-      );
+      background: $mainGradient;
       transform: scale(1.03);
+      color: #000;
     }
   }
 }

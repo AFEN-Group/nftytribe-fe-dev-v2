@@ -184,3 +184,152 @@
     margin-bottom: 0.4em;
   }
 }
+.smBtns {
+  @include flexRegular(row, flex-start);
+  margin-bottom: 2em;
+  .smBtn {
+    cursor: pointer;
+    margin-right: 2em;
+    border: 1px solid #a1a1aa;
+    border-radius: 0px 6px;
+    padding: 0.7em;
+    //width: 92px;
+    //height: 30px;
+    white-space: nowrap;
+    transition: 0.2s ease-in;
+  }
+  .smBtnA {
+    border: 1px solid #71717a !important;
+    color: #000;
+    background: $mainGradient;
+  }
+}
+
+.fieldBx2 {
+  margin: 2em 0;
+  @include flexRegular(row, space-between);
+  width: 100%;
+  max-width: 450px;
+  position: relative;
+  //background: #bcc;
+  p {
+    font-weight: 700;
+  }
+}
+.toggle {
+  // width: 43vw;
+  // max-width: 569px;
+  @include flexRegular(row, space-between);
+  align-items: center;
+  //background: pink;
+  p {
+    @include flexRegular(row, flex-start);
+    color: #939292;
+  }
+}
+/* Toggle Btn */
+.switchToggle {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+  margin-top: -45px;
+}
+.switchToggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.sliderToggle {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #b9bddf;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+.sliderToggle:before {
+  position: absolute;
+  content: '';
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+.switchToggle input:checked + .sliderToggle {
+  /* background-color: #03a439ee; */
+  background-color: #4d55a6;
+}
+.switchToggle input:focus + .sliderToggle {
+  box-shadow: 0 0 1px $blueMain;
+}
+.switchToggle input:checked + .sliderToggle:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+/* Rounded sliders */
+.sliderToggle.round {
+  border-radius: 34px;
+}
+.sliderToggle.round:before {
+  border-radius: 50%;
+}
+.toggleCheck {
+  cursor: pointer;
+  position: absolute;
+  right: 2.5em;
+  //top: 1em;
+  z-index: 1;
+}
+/// Toggle btn ends
+.advancedBx {
+  width: 100%;
+  @include flexRegular(row, space-between);
+  max-width: 450px;
+  height: 48px;
+  border: 2px solid #a1a1aa;
+  border-radius: 4px;
+  padding: 0.2em 1em;
+  transition: 0.2s ease-in;
+  cursor: pointer;
+  transition: 0.3s ease-in;
+}
+.advancedBxA {
+  width: 100%;
+  max-width: 450px;
+  //height: 48px;
+  padding: 2em 0.5em;
+  border: 1px solid #7177b8;
+  border-radius: 0px 14px;
+  padding: 0.2em 1em;
+  transition: 0.2s ease-in;
+  cursor: pointer;
+  .aBxTop {
+    @include flexRegular(row, space-between);
+    margin: 2em 0;
+    cursor: pointer;
+    p {
+      color: #4d55a6;
+    }
+    transition: 0.3s ease-in;
+  }
+}
+.submitBx {
+  margin: 2em 0 1em 0;
+  button {
+    width: 100%;
+    max-width: 450px;
+    height: 48px;
+    outline: none;
+    border: 1px solid #52525b;
+    border-radius: 0px 14px;
+    font-family: 'Raleway';
+  }
+}

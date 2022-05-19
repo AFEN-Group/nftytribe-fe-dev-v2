@@ -108,12 +108,12 @@
       max-width: 415px;
       @include flexRegular(row, space-between);
       align-items: flex-start;
-      background: radial-gradient(
-        72.94% 98.64% at 75.16% 76.53%,
-        #ebedff 0%,
-        #fff2e3 78.65%,
-        #fefdf8 100%
-      );
+      // background: radial-gradient(
+      //   72.94% 98.64% at 75.16% 76.53%,
+      //   #ebedff 0%,
+      //   #fff2e3 78.65%,
+      //   #fefdf8 100%
+      // );
       border: 1px solid #52525b;
       border-radius: 0px 12px;
       padding: 1em;
@@ -176,6 +176,7 @@
       //border: 1px solid #52525b;
       border-radius: 0px 10px;
       border: 1.4px solid #52525b;
+      //border: 1px solid #f4f4f5;
       // border-radius: 0px 6px;
       font-weight: 600;
       font-size: 1em;
@@ -188,14 +189,6 @@
     .regBtn {
       margin-right: 3em;
       background: none;
-    }
-    .gradBtn {
-      background: radial-gradient(
-        72.94% 98.64% at 75.16% 76.53%,
-        #ebedff 0%,
-        #fff2e3 78.65%,
-        #fefdf8 100%
-      );
     }
   }
   .offers {

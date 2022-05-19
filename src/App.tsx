@@ -4,6 +4,7 @@ import './App.scss'
 import './theme.scss'
 import 'animate.css'
 import Home from './pages/Home/Home'
+import About from './pages/About/About'
 import Explore from './pages/Explore/Explore'
 import ExploreSingle from './pages/Explore/ExploreSingle/ExploreSingle'
 import Collections from './pages/Collections/MyCollections'
@@ -44,6 +45,7 @@ function App() {
               element={<CreateItems />}
             ></Route>
             <Route path="/profile" element={<Profile />}></Route>
+            <Route path="/about" element={<About />}></Route>
           </Routes>
         </Router>
       </div>

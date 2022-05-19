@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { ThemeContext } from '../../../context/ThemeContext'
 import style from './ExploreSingle.module.scss'
 import Back from './assets/arrow.svg'
 import ItemImg from './assets/item.svg'
@@ -14,6 +15,8 @@ const ExploreSingle = () => {
   const navigate = useNavigate()
   //const [priceType, setPriceType] = useState('auction')
   const [tab, setTab] = useState('art')
+  const [themeState] = useContext<any>(ThemeContext)
+  const dark = themeState.dark
   return (
     <>
       <Header />
@@ -99,7 +102,12 @@ const ExploreSingle = () => {
                       </p>
                     </div>
                     <div className={style.prices}>
-                      <div className={style.bidPrices}>
+                      <div
+                        //className={style.bidPrices}
+                        className={`${style.bidPrices} ${
+                          dark === 'true' ? 'darkGradient' : 'lightGradient'
+                        } `}
+                      >
                         <div className={style.bids}>
                           <div className={style.bidBx}>
                             <div className={style.bidBlue}>Current bid</div>
@@ -120,8 +128,20 @@ const ExploreSingle = () => {
                   </div> */}
                     </div>
                     <div className={style.Btns}>
-                      <button className={style.regBtn}>Buy</button>
-                      <button className={style.gradBtn}>Bid</button>
+                      <button
+                        className={`${style.regBtn} ${
+                          dark === 'true' ? 'lightBorder' : 'darkBorder'
+                        } ${dark === 'true' ? 'lightTxt' : 'darkTxt'}`}
+                      >
+                        Buy
+                      </button>
+                      <button
+                        className={`${style.gradBtn} ${
+                          dark === 'true' ? 'darkGradient' : 'lightGradient'
+                        } `}
+                      >
+                        Bid
+                      </button>
                     </div>
                   </div>
                 )}

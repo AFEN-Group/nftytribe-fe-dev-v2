@@ -1,0 +1,318 @@
+@import '../../variables';
+@import '../../mixins';
+
+// ----- Hero
+.hero {
+  //background: pink;
+  padding: 12em 0 2em 0;
+  width: 90%;
+  max-width: 1300px;
+  margin: auto;
+}
+.heroTopContent {
+  margin-top: 0.3em;
+  @include flexRegular(row, space-between);
+  align-items: flex-start;
+  .heroTopLeft,
+  .heroTopRight {
+    width: 50%;
+  }
+  .leftContent {
+    //background: pink;
+    width: 95%;
+    h1 {
+      margin: 0.3em 0 0.1em 0;
+      font-size: 3em;
+      font-family: Neue-bold;
+      line-height: 75px;
+      overflow: hidden;
+      span {
+        display: inline-block;
+        transform: translateY(100%);
+      }
+      //   width: 70%;
+    }
+  }
+  .leftTop {
+    @include flexRegular(row, center);
+    background: $mainGradient;
+    color: $darkTxt;
+    border: 1.4px solid #52525b;
+    border-radius: 0px 10px;
+    padding: 1em;
+    width: fit-content;
+    h2 {
+      font-size: 43.5px;
+      font-family: Neue-bold;
+      white-space: nowrap;
+    }
+  }
+  .leftBtm {
+    p {
+      //color: #71717a;
+      line-height: 25px;
+      overflow: hidden;
+      span {
+        display: inline-block;
+        transform: translateY(100%);
+      }
+    }
+    .leftBtns {
+      margin-top: 3em;
+      @include flexRegular(row, flex-start);
+      button {
+        background: $mainGradient;
+        border: 1.4px solid #52525b;
+        border-radius: 0px 6px;
+        font-weight: 600;
+        font-size: 1em;
+        padding: 1em;
+        transition: 0.3s ease-in-out;
+        &:hover {
+          transform: scale(1.11);
+        }
+      }
+      button:nth-child(1) {
+        margin-right: 2.5em;
+      }
+      .readMore {
+        cursor: pointer;
+        @include flexRegular(row, center);
+        font-weight: 600;
+        font-size: 1em;
+        padding: 1em;
+        transition: 0.3s ease-in-out;
+        &:hover {
+          transform: scale(1.11);
+        }
+        img {
+          margin-left: 1em;
+        }
+      }
+    }
+  }
+}
+.heroTopRight {
+  @include flexRegular(row, flex-end);
+  align-items: flex-end;
+  justify-content: flex-end;
+  position: relative;
+  //background: pink;
+  .heroImg {
+    @include flexRegular(row, flex-end);
+    img {
+      width: 90%;
+    }
+  }
+}
+.dotBox1,
+.dotBox2 {
+  position: absolute;
+  z-index: 1;
+}
+.dotBox1 {
+  left: 1em;
+  top: 3em;
+}
+.dotBox2 {
+  right: -2em;
+  bottom: 3em;
+}
+
+// --- Section 2
+.sectionTwo {
+  padding: 4em 0;
+  width: 90%;
+  margin: auto;
+  max-width: 1300px;
+  //background: pink;
+  text-align: center;
+  h1 {
+    font-size: 2.2em;
+  }
+}
+.sTwoVid {
+  margin: 2em auto;
+  @include flexRegular(row, center);
+  img {
+    width: 90%;
+  }
+}
+// ----- Info
+.faq {
+  padding: 0 0 9em 0;
+}
+.faqTop {
+  h1 {
+    font-family: Neue-bold;
+  }
+}
+.faqContent {
+  width: 85%;
+  max-width: 1300px;
+  margin: auto;
+}
+.faqTop {
+  margin-bottom: 3em;
+  p {
+    width: 50%;
+    margin: 1em 0;
+    line-height: 25px;
+  }
+}
+.faqBoxes {
+  @include flexRegular(row, flex-start);
+  align-items: flex-start;
+}
+.faqBox,
+.faqBoxC {
+  width: 30%;
+  height: 460px;
+  max-width: 375px;
+  border: 1px solid #a1a1aa;
+  box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.2);
+  border-radius: 0px 12px;
+  padding: 3em 2em;
+  button {
+    margin: 2em 0;
+    width: 15vw;
+    max-width: 200px;
+    background: $mainGradient;
+    border: 1px solid #52525b;
+    border-radius: 0px 6px;
+    font-weight: 600;
+    font-size: 1em;
+    padding: 1em;
+    transition: 0.3s ease-in-out;
+    &:hover {
+      transform: scale(1.11);
+    }
+  }
+}
+.faqBoxC {
+  margin: 0 3em;
+}
+.faqText {
+  h2 {
+    font-family: Neue-bold;
+    font-size: 1.2em;
+    margin-bottom: 1em;
+    white-space: nowrap;
+    color: $darkTxt;
+  }
+  p {
+    line-height: 22.5px;
+    font-size: 0.95em;
+    color: #52525b;
+    font-weight: 300;
+  }
+}
+
+// Section 4
+.sectionFour {
+  padding: 3em 0;
+  width: 90%;
+  margin: auto;
+  max-width: 1300px;
+  //background: pink;
+  text-align: center;
+  h1 {
+    font-size: 2.2em;
+    text-align: center;
+    font-family: Neue-bold;
+  }
+  .angels {
+    margin: 4em auto;
+    width: 90%;
+    //background: pink;
+    //margin: auto;
+    @include flexRegular(row, center);
+    .angel {
+      margin-right: 3em;
+    }
+  }
+}
+
+//Section Five
+// .sectionFive {
+//   padding: 3em 0;
+//   width: 90%;
+//   margin: auto;
+//   max-width: 1300px;
+//   //background: pink;
+//   text-align: center;
+//   h1 {
+//     font-size: 2.2em;
+//     font-family: Neue-bold;
+//   }
+// }
+// ----- Team
+.trending {
+  padding: 4em 0 11em 0;
+}
+.trTop {
+  h1 {
+    font-family: Neue-bold;
+    text-align: center;
+    font-size: 2.2em;
+  }
+  margin-bottom: 4em;
+}
+.trBody {
+  width: 100vw;
+  // background: lavender;
+
+  overflow: hidden;
+  position: relative;
+}
+.trSlides1 {
+  margin-top: 1em;
+  animation: scrolling3 10s linear infinite;
+  @include flexRegular(row, flex-start);
+  cursor: pointer;
+  //height: 100%;
+  &:hover {
+    animation-play-state: paused;
+  }
+}
+
+.trSlides2 {
+  margin-top: 6em;
+  animation: scrolling3 15s reverse infinite;
+  //animation-direction: alternate;
+  @include flexRegular(row, flex-start);
+  cursor: pointer;
+  height: 100%;
+  &:hover {
+    animation-play-state: paused;
+  }
+  //background: pink;
+}
+
+@keyframes scrolling3 {
+  0% {
+    transform: translateX(0vw);
+  }
+  100% {
+    transform: translateX(-150vw);
+  }
+}
+@keyframes scrolling4 {
+  0% {
+    transform: translateX(0vw);
+  }
+  100% {
+    transform: translateX(calc(1 * (150vw)));
+  }
+}
+.trSlide {
+  @include flexRegular(row, center);
+  width: 26vw;
+  flex-shrink: 0;
+  margin-left: 4vw;
+  //background: pink;
+}
+
+.trSlidesp {
+  width: 15vw;
+}

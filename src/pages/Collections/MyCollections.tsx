@@ -3,6 +3,7 @@ import { gsap, Expo } from 'gsap'
 import Header from '../../components/Header/Header'
 import style from './Collections.module.scss'
 import Import from './Import'
+import Container from '../../components/Container/Container'
 
 const MyCollections = () => {
   const [showImport, setShowImport] = useState(false)
@@ -30,32 +31,33 @@ const MyCollections = () => {
     <>
       <Header />
       {showImport && <Import closeImport={closeImport} />}
-
-      <div className={style.container}>
-        <div className={style.content}>
-          <div className={style.top}>
-            <h1>
-              <span id="heroTitle">My Collections</span>{' '}
-            </h1>
-            <p>
-              <span id="heroText">
-                Create, curate, and manage collections of unique NFTs to share
-                and sell.
-              </span>
-            </p>
-          </div>
-          <div className={style.body}>
-            <div
-              className={`${style.boxes} animate__animated animate__fadeInUp animate__delay-1s`}
-            >
-              <div className={style.box}>Create Collection</div>
-              <div className={style.box} onClick={() => setShowImport(true)}>
-                Import Collection
+      <Container>
+        <div className={style.container}>
+          <div className={style.content}>
+            <div className={style.top}>
+              <h1>
+                <span id="heroTitle">My Collections</span>{' '}
+              </h1>
+              <p>
+                <span id="heroText">
+                  Create, curate, and manage collections of unique NFTs to share
+                  and sell.
+                </span>
+              </p>
+            </div>
+            <div className={style.body}>
+              <div
+                className={`${style.boxes} animate__animated animate__fadeInUp animate__delay-1s`}
+              >
+                <div className={style.box}>Create Collection</div>
+                <div className={style.box} onClick={() => setShowImport(true)}>
+                  Import Collection
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </>
   )
 }
