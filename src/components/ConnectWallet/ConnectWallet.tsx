@@ -1,6 +1,9 @@
 import { useEffect, useState, useContext } from 'react'
 import { gsap, Power3 } from 'gsap'
-import { UserContext } from '../../context/UserContext'
+//import { UserContext } from '../../context/UserContext'
+import { ThemeContext } from '../../context/ThemeContext'
+import WalletContext from '../../context/WalletContext'
+import { shortenAddress } from '../../utils/formatting'
 import style from './ConnectWallet.module.scss'
 
 import Cancel from './assets/x.svg'
@@ -24,15 +27,18 @@ const ConnectWallet = (props: any) => {
     value1: '',
     value2: '',
   })
-  const [userState, setUserState] = useContext<any>(UserContext)
-  const currentAccount = userState.userWallet
+  //const [userState, setUserState] = useContext<any>(UserContext)
+  //const currentAccount = userState.userWallet
   //console.log(currentAccount)
+  const { connectToMetaMask, disableEthereum } = useContext<any>(WalletContext)
+  const [themeState] = useContext<any>(ThemeContext)
+  const dark = themeState.dark
   // current view
   const [view, setView] = useState('wallet')
   //swap states
   const [afenSwap, setAfenSwap] = useState(true)
   //const [currentAccount, setCurrentAccount] = useState('')
-  const dark: any = 'false'
+  const currentAccount = localStorage.getItem('currentAccount')
   const numberInputHandler = async (event: any) => {
     const valueFiltered = event.target.value.replace(/\D/g, '')
     setUserInput({
@@ -75,30 +81,39 @@ const ConnectWallet = (props: any) => {
     }
     //}
   }, [])
-
   const handleSignOut = async () => {
-    //disableEthereum()
-    // setCurrentAccount('')
-    //localStorage.setItem('currentAccount', '')
-    setUserState({
-      ...userState,
-      userWallet: '',
-    })
+    disableEthereum()
     props.handleModal()
-    window.location.reload()
   }
   const handleSignIn = async () => {
-    // setCurrentAccount('0x3bc4aa..')
-    // localStorage.setItem('currentAccount', '0x3bc4aa..')
-    // connectToMetaMask()
-    //props.handleModal()
-    setUserState({
-      ...userState,
-      userWallet: '0x3bc4aa..',
-    })
     props.handleModal()
-    window.location.reload()
+    connectToMetaMask()
+    props.handleModal()
   }
+
+  // const handleSignOut = async () => {
+  //   //disableEthereum()
+  //   // setCurrentAccount('')
+  //   //localStorage.setItem('currentAccount', '')
+  //   setUserState({
+  //     ...userState,
+  //     userWallet: '',
+  //   })
+  //   props.handleModal()
+  //   window.location.reload()
+  // }
+  // const handleSignIn = async () => {
+  //   // setCurrentAccount('0x3bc4aa..')
+  //   // localStorage.setItem('currentAccount', '0x3bc4aa..')
+  //   // connectToMetaMask()
+  //   //props.handleModal()
+  //   setUserState({
+  //     ...userState,
+  //     userWallet: '0x3bc4aa..',
+  //   })
+  //   props.handleModal()
+  //   window.location.reload()
+  // }
 
   return (
     <>
@@ -106,10 +121,10 @@ const ConnectWallet = (props: any) => {
         <div className={style.content}>
           <div onClick={props.handleModal} id="overlay"></div>
           <div
-            className={style.box}
-            // className={`${style.box} ${
-            //   dark === 'true' ? 'lBdark2' : 'lightTheme'
-            // }`}
+            //className={style.box}
+            className={`${style.box} ${
+              dark === 'true' ? 'lBdark2' : 'lightTheme'
+            }`}
             id="box"
           >
             {currentAccount ? (
@@ -117,8 +132,8 @@ const ConnectWallet = (props: any) => {
                 <div className={style.topLeft}>
                   <img src={dark === 'true' ? User2 : User} alt="user" />{' '}
                   <p className={style.addy}>
-                    {/* {shortenAddress(currentAccount)} */}
-                    {currentAccount}
+                    {shortenAddress(currentAccount)}
+
                     <br />
                     <span>
                       {/* <Link
@@ -169,8 +184,8 @@ const ConnectWallet = (props: any) => {
                         <div className={style.awleft}>
                           <img src={Metamask} alt="wallet" />
                           <div className={style.awInfo}>
-                            {/* <h3>{shortenAddress(currentAccount)}</h3> */}
-                            <h3>{currentAccount}</h3>
+                            <h3>{shortenAddress(currentAccount)}</h3>
+
                             <p>Ethereum</p>
                           </div>
                         </div>
@@ -186,8 +201,8 @@ const ConnectWallet = (props: any) => {
                         <div className={style.awleft}>
                           <img src={Wc} alt="wallet" />
                           <div className={style.awInfo}>
-                            {/* <h3>{shortenAddress(currentAccount)}</h3> */}
-                            <h3>{currentAccount}</h3>
+                            <h3>{shortenAddress(currentAccount)}</h3>
+
                             <p>Polygon</p>
                           </div>
                         </div>
@@ -359,11 +374,7 @@ const ConnectWallet = (props: any) => {
                 </div>
 
                 <div className={style.wallets}>
-                  <div
-                    className={style.wallet}
-                    //onClick={() => setCurrentAccount('0x3bc4aa..')}
-                    onClick={handleSignIn}
-                  >
+                  <div className={style.wallet} onClick={handleSignIn}>
                     <img src={Metamask} alt="metamask" />
                     <p>Metamask</p>
                   </div>

@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-
+import WalletContext from './context/WalletContext'
+import UserConnect from './web3-Service/UserConnect'
 import './App.scss'
 import './theme.scss'
 import 'animate.css'
@@ -15,44 +16,47 @@ import CreateItems from './pages/Create/CreateItems'
 import Profile from './pages/Profile/Profile'
 
 function App() {
+  const data: any = UserConnect()
   return (
-    <>
-      <div className="app">
-        <Router>
-          <Routes>
-            <Route path="/" element={<Home />}></Route>
-            <Route path="/explore" element={<Explore />}></Route>
-            <Route
-              path="/explore/:collectionAddress/:id"
-              element={<ExploreSingle />}
-            ></Route>
-            <Route path="/collections" element={<Collections />}></Route>
+    <WalletContext.Provider value={data}>
+      <>
+        <div className="app">
+          <Router>
+            <Routes>
+              <Route path="/" element={<Home />}></Route>
+              <Route path="/explore" element={<Explore />}></Route>
+              <Route
+                path="/explore/:collectionAddress/:id"
+                element={<ExploreSingle />}
+              ></Route>
+              <Route path="/collections" element={<Collections />}></Route>
 
-            <Route
-              path="/collectionDetails/:id"
-              element={<CollectionDetails />}
-            ></Route>
-            <Route
-              path="/collectionDashboard"
-              element={<CollectionDashboard />}
-            ></Route>
-            <Route
-              path="/createOptions"
-              element={<CreateItemOptions />}
-            ></Route>
-            <Route
-              path="/createItem/:chain/:itemType"
-              element={<CreateItems />}
-            ></Route>
-            <Route path="/profile" element={<Profile />}></Route>
-            <Route path="/about" element={<About />}></Route>
-          </Routes>
-        </Router>
-      </div>
-      <div className="app_info">
-        <p>Mobile version still in progress, please view on larger device.</p>
-      </div>
-    </>
+              <Route
+                path="/collectionDetails/:collectionId"
+                element={<CollectionDetails />}
+              ></Route>
+              <Route
+                path="/collectionDashboard"
+                element={<CollectionDashboard />}
+              ></Route>
+              <Route
+                path="/createOptions"
+                element={<CreateItemOptions />}
+              ></Route>
+              <Route
+                path="/createItem/:chain/:itemType"
+                element={<CreateItems />}
+              ></Route>
+              <Route path="/profile" element={<Profile />}></Route>
+              <Route path="/about" element={<About />}></Route>
+            </Routes>
+          </Router>
+        </div>
+        <div className="app_info">
+          <p>Mobile version still in progress, please view on larger device.</p>
+        </div>
+      </>
+    </WalletContext.Provider>
   )
 }
 

@@ -15,10 +15,14 @@
 .avatar {
   position: relative;
   background: pink;
+  width: 100%;
   @include flexRegular(row, center);
   img {
     position: absolute;
     top: -5em;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
   }
 }
 .collInfo {
@@ -193,5 +197,23 @@
     //width: 285px;
     //background: pink;
     //margin-right: 2em;
+  }
+}
+.noResults {
+  @include flexRegular(column, center);
+  //background: pink;
+  width: 100%;
+  h2 {
+    font-family: Neue-bold;
+    margin-bottom: 1em;
+  }
+  .exploreM {
+    cursor: pointer;
+    @include flexRegular(row, center);
+    transition: 0.2s ease-in;
+    img {
+      margin-left: 1em;
+      transition: 0.2s ease-in;
+    }
   }
 }

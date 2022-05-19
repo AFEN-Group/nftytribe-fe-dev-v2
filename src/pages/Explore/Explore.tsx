@@ -1,11 +1,15 @@
 import { useEffect, useState, useContext } from 'react'
+import { Link } from 'react-router-dom'
 import { gsap, Expo } from 'gsap'
 import { ThemeContext } from '../../context/ThemeContext'
+import { publicRequest } from '../../utils/requestMethods'
 
 import Header from '../../components/Header/Header'
 import style from './Explore.module.scss'
 import Filter from './assets/Filter.svg'
 import Arrow1 from './assets/arrowdown.svg'
+import Sad from './assets/sad.svg'
+import Arrow from './assets/arrow.svg'
 import ItemCard from '../../components/Card/ItemCard'
 import Container from '../../components/Container/Container'
 //import Arrow2 from './assets/arrowright.svg'
@@ -13,7 +17,25 @@ import Container from '../../components/Container/Container'
 const Explore = () => {
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
+  const [tab, setTab] = useState('all')
+  const [data, setData] = useState([])
+  //const [isLoading, setIsLoading] = useState(true)
+  const getExploreCollectibles = async () => {
+    try {
+      const explore = await publicRequest.get(`/collectibles/explore`)
+      const exploreData = explore.data
+      console.log(exploreData)
+      setData(exploreData?.data?.collectibles)
+      //setTotalCount(exploreData?.data?.total_count)
+      //setIsLoading(false)
+    } catch (error) {
+      //setIsLoading(false)
+    }
+  }
+  console.log(data)
   useEffect(() => {
+    window.scrollTo(0, 0)
+    getExploreCollectibles()
     const heroTitle = document.getElementById('heroTitle')
     const heroText = document.getElementById('heroText')
     const tl = gsap.timeline()
@@ -29,7 +51,7 @@ const Explore = () => {
       ease: Expo.easeInOut,
     })
   }, [])
-  const [tab, setTab] = useState('all')
+
   return (
     <>
       <Header />
@@ -158,35 +180,30 @@ const Explore = () => {
                 </div>
               </div>
               <div className={style.itemsContainer}>
-                <div className={style.itemsContent}>
-                  <div className={style.itemBx}>
-                    <ItemCard />
+                {data?.length >= 1 ? (
+                  <div className={style.itemsContent}>
+                    {data?.map((nft: any, i: any) => {
+                      return (
+                        nft?._id && (
+                          <div className={style.itemBx} key={nft._id}>
+                            <ItemCard nftData={nft} />
+                          </div>
+                        )
+                      )
+                    })}
                   </div>
-                  <div className={style.itemBx}>
-                    <ItemCard />
+                ) : (
+                  <div className={style.noContent}>
+                    <div className={style.noResults}>
+                      <img src={Sad} alt="sad" />
+                      <h2>No items found</h2>
+                      <Link to="/explore" className={style.exploreM}>
+                        <p>Explore marketplace</p>
+                        <img src={Arrow} alt="arrow" />
+                      </Link>
+                    </div>
                   </div>
-                  <div className={style.itemBx}>
-                    <ItemCard />
-                  </div>
-                  <div className={style.itemBx}>
-                    <ItemCard />
-                  </div>
-                  <div className={style.itemBx}>
-                    <ItemCard />
-                  </div>
-                  <div className={style.itemBx}>
-                    <ItemCard />
-                  </div>
-                  <div className={style.itemBx}>
-                    <ItemCard />
-                  </div>
-                  <div className={style.itemBx}>
-                    <ItemCard />
-                  </div>
-                  <div className={style.itemBx}>
-                    <ItemCard />
-                  </div>
-                </div>
+                )}
               </div>
             </div>
           </div>

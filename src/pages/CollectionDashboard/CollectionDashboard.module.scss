@@ -67,7 +67,8 @@
     @include flexRegular(row, flex-end);
   }
 }
-.tableItem {
+.tableItem,
+.tableItemD {
   @include gridRegular(1em);
   cursor: pointer;
   border-top: 1px solid #71717a;
@@ -75,16 +76,7 @@
   grid-template-columns: 2.3fr 0.7fr 0.7fr 0.7fr 0.7fr 0.7fr 0.7fr;
   padding: 1.5em 0;
   transition: 0.25s ease-in;
-  &:hover {
-    padding: 1.5em 0.5em;
-    transform: scale(1.03);
-    background: radial-gradient(
-      72.94% 98.64% at 75.16% 76.53%,
-      #ebedff 0%,
-      #fff2e3 78.65%,
-      #fefdf8 100%
-    );
-  }
+
   .collectionInfo {
     @include flexRegular(row, flex-start);
     img {
@@ -101,6 +93,21 @@
     span {
       color: #3cc13b;
     }
+  }
+}
+.tableItem {
+  &:hover {
+    padding: 1.5em 0.5em;
+    transform: scale(1.03);
+    background: $mainGradient;
+  }
+}
+.tableItemD {
+  &:hover {
+    color: black;
+    padding: 1.5em 0.5em;
+    transform: scale(1.03);
+    background: $darkGradient;
   }
 }
 .line1 {

@@ -1,6 +1,6 @@
 //import React from 'react'
 import style from '../Home.module.scss'
-import Card from '../../../components/Card/ItemCard'
+import Card from '../../../components/Card/ItemCardDefault'
 
 const Trending = () => {
   return (

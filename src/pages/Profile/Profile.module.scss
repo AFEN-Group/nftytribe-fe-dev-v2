@@ -65,6 +65,25 @@
   padding-bottom: 5em;
   @include flexRegular(column, center);
 }
+.itemContent {
+  @include gridRegular(1em);
+  grid-template-columns: 2fr 2fr 2fr;
+  align-items: flex-start;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  overflow-y: scroll;
+  overflow-x: visible;
+  height: 90vh;
+}
+.noContent {
+  @include flexRegular(column, center);
+}
+.itemBx {
+  margin-left: 0em;
+}
 .noResults {
   h2 {
     font-family: Neue-bold;

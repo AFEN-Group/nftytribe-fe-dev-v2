@@ -17,6 +17,7 @@ const ExploreSingle = () => {
   const [tab, setTab] = useState('art')
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
+
   return (
     <>
       <Header />

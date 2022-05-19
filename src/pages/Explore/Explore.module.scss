@@ -105,8 +105,10 @@
   margin-left: 1em;
   .itemsContent {
     // @include flexRegular(row, flex-start);
+    //background: pink;
     @include gridRegular(1em);
     grid-template-columns: 2fr 2fr 2fr;
+    align-items: flex-start;
     &::-webkit-scrollbar {
       display: none;
     }
@@ -116,11 +118,32 @@
     overflow-x: visible;
     height: 90vh;
   }
+  .noContent {
+    @include flexRegular(column, center);
+  }
   .itemBx {
     margin-left: 0em;
     //width: 100%;
     //width: 285px;
     //background: pink;
     //margin-right: 2em;
+  }
+}
+.noResults {
+  @include flexRegular(column, center);
+  //background: pink;
+  width: 100%;
+  h2 {
+    font-family: Neue-bold;
+    margin-bottom: 1em;
+  }
+  .exploreM {
+    cursor: pointer;
+    @include flexRegular(row, center);
+    transition: 0.2s ease-in;
+    img {
+      margin-left: 1em;
+      transition: 0.2s ease-in;
+    }
   }
 }

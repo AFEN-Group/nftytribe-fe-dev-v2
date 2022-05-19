@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
+import { Link } from 'react-router-dom'
 import { ThemeContext } from '../../context/ThemeContext'
 import style from './Profile.module.scss'
 import Header from '../../components/Header/Header'
@@ -8,14 +9,34 @@ import Edit from './assets/edit.svg'
 import Sad from './assets/sad.svg'
 import Arrow from './assets/arrow.svg'
 import Container from '../../components/Container/Container'
+import { publicRequest } from '../../utils/requestMethods'
+import ItemCard from '../../components/Card/ItemCard'
 
 const Profile = () => {
   const [tab, setTab] = useState('all')
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
+  const [collectibles, setCollectibles] = useState<any>()
+  const currentAddress = localStorage.getItem('currentAccount')
+  //const [currentPage, setCurrentPage] = useState(1)
+
   useEffect(() => {
     window.scrollTo(0, 0)
-  }, [])
+    const fetchUserNfts = async () => {
+      try {
+        const result = await publicRequest.get(
+          `/user/get-collectibles?wallet_address=${currentAddress}&collected=true&page=1&size=10`,
+        )
+        console.log(result)
+        setCollectibles(result.data.data.collectibles)
+        //setTotalPages(Math.round(result.data.data.total_count / 10))
+        //setIsLoading(false)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchUserNfts()
+  }, [currentAddress])
   return (
     <>
       <Header />
@@ -125,16 +146,40 @@ const Profile = () => {
             //className={style.items}
             className={`${style.items} animate__animated animate__fadeInUp animate__delay-2s `}
           >
-            <div className={style.itemContent}>
+            {collectibles?.length >= 1 ? (
+              <div className={style.itemsContent}>
+                {collectibles?.map((nft: any, i: any) => {
+                  return (
+                    nft?._id && (
+                      <div className={style.itemBx} key={nft._id}>
+                        <ItemCard nftData={nft} />
+                      </div>
+                    )
+                  )
+                })}
+              </div>
+            ) : (
+              <div className={style.noContent}>
+                <div className={style.noResults}>
+                  <img src={Sad} alt="sad" />
+                  <h2>No items found</h2>
+                  <Link to="/explore" className={style.explore}>
+                    <p>Explore marketplace</p>
+                    <img src={Arrow} alt="arrow" />
+                  </Link>
+                </div>
+              </div>
+            )}
+            {/* <div className={style.itemContent}>
               <div className={style.noResults}>
                 <img src={Sad} alt="sad" />
                 <h2>No items found</h2>
-                <div className={style.explore}>
+                <Link to="/explore" className={style.explore}>
                   <p>Explore marketplace</p>
                   <img src={Arrow} alt="arrow" />
-                </div>
+                </Link>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </Container>

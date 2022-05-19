@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { UserContext } from '../../context/UserContext'
+//import { UserContext } from '../../context/UserContext'
 import { ThemeContext } from '../../context/ThemeContext'
 import style from './Header.module.scss'
 import Logo from './assets/logo.svg'
@@ -24,8 +24,9 @@ const HeaderWeb = (props: any) => {
   //const [isConnected, setIsConnected] = useState(false)
   const [showDropDown, setShowDropDown] = useState('None')
   const [showConnect, setShowConnect] = useState(false)
-  const [userState] = useContext<any>(UserContext)
-  const currentAccount = userState.userWallet
+  //const [userState] = useContext<any>(UserContext)
+  //const currentAccount = userState.userWallet
+  const currentAccount = localStorage.getItem('currentAccount')
   const [themeState, setThemeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
   // console.log(dark)

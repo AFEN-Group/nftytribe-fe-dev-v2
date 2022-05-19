@@ -5,7 +5,7 @@ import { ThemeContext } from '../../../context/ThemeContext'
 
 import style from '../Home.module.scss'
 
-import ItemCard from '../../../components/Card/ItemCard'
+import ItemCard from '../../../components/Card/ItemCardDefault'
 
 import dot1 from '../assets/yellowdot.svg'
 import dot2 from '../assets/bluedot.svg'
