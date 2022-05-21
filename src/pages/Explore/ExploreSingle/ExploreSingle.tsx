@@ -347,7 +347,14 @@ const ExploreSingle = () => {
                       </div> */}
                       <div className={style.fixedPrices}>
                         <div className={style.priceGreen}>Fixed sale</div>
-                        <p>{nft?.amount} BNB</p>
+                        {/* <p>{nft?.amount} BNB</p> */}
+                        {nftDetails && (
+                          <p>
+                            {Web3.utils.fromWei(nftDetails?.price, 'ether') ||
+                              ''}{' '}
+                            ETH
+                          </p>
+                        )}
                       </div>
                     </div>
                     <div className={style.Btns}>
