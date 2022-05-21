@@ -17,7 +17,7 @@ const TextInput = (props: any) => {
         name={props.inputName}
         placeholder={props.holder}
         value={props.value}
-        //onChange={props.inputHandler}
+        onChange={props.inputHandler}
         autoComplete="off"
         maxLength={props.max}
       />

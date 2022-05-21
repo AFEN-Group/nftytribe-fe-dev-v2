@@ -17,7 +17,7 @@ const CreateItemOptions = () => {
   useEffect(() => {
     const heroTitle = document.getElementById('heroTitle')
     const heroTitle2 = document.getElementById('heroTitle2')
-    const heroText = document.getElementById('heroText')
+    //const heroText = document.getElementById('heroText')
     const tl = gsap.timeline()
     tl.to(heroTitle, {
       y: 0,
@@ -29,12 +29,12 @@ const CreateItemOptions = () => {
       duration: 1.5,
       ease: Expo.easeInOut,
     })
-    tl.to(heroText, {
-      y: 0,
-      duration: 1.5,
-      delay: -1,
-      ease: Expo.easeInOut,
-    })
+    // tl.to(heroText, {
+    //   y: 0,
+    //   duration: 1.5,
+    //   delay: -1,
+    //   ease: Expo.easeInOut,
+    // })
   }, [])
   console.log(chain)
   return (

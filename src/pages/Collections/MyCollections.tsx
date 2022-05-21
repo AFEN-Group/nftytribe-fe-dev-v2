@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { gsap, Expo } from 'gsap'
+import { Link } from 'react-router-dom'
 import Header from '../../components/Header/Header'
 import style from './Collections.module.scss'
 import Import from './Import'
@@ -49,7 +50,9 @@ const MyCollections = () => {
               <div
                 className={`${style.boxes} animate__animated animate__fadeInUp animate__delay-1s`}
               >
-                <div className={style.box}>Create Collection</div>
+                <Link to="/createcollection" className={style.box}>
+                  Create Collection
+                </Link>
                 <div className={style.box} onClick={() => setShowImport(true)}>
                   Import Collection
                 </div>

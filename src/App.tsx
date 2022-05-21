@@ -13,7 +13,9 @@ import CollectionDetails from './pages/CollectionDetails/CollectionDetails'
 import CollectionDashboard from './pages/CollectionDashboard/CollectionDashboard'
 import CreateItemOptions from './pages/Create/CreateItemOptions'
 import CreateItems from './pages/Create/CreateItems'
+import CreateCollection from './pages/Create/CreateCollection'
 import Profile from './pages/Profile/Profile'
+import Footer from './components/Footer/Footer'
 
 function App() {
   const data: any = UserConnect()
@@ -47,9 +49,14 @@ function App() {
                 path="/createItem/:chain/:itemType"
                 element={<CreateItems />}
               ></Route>
+              <Route
+                path="/createcollection"
+                element={<CreateCollection />}
+              ></Route>
               <Route path="/profile" element={<Profile />}></Route>
               <Route path="/about" element={<About />}></Route>
             </Routes>
+            <Footer />
           </Router>
         </div>
         <div className="app_info">

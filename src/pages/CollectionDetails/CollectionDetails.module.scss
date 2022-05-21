@@ -140,6 +140,8 @@
   .sideBar {
     width: 24%;
     min-width: 280px;
+    height: 100vh;
+    // min-height: 100vh;
     //width: 315px;
     //height: 90vh;
     padding: 2em 1em;
@@ -189,7 +191,7 @@
     scrollbar-width: none; /* Firefox */
     overflow-y: scroll;
     overflow-x: visible;
-    height: 90vh;
+    height: 97vh;
   }
   .itemBx {
     margin-left: 0em;
