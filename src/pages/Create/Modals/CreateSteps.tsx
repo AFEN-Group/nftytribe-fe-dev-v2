@@ -1,16 +1,16 @@
-import { useState, useContext } from 'react'
-import { ThemeContext } from '../../../context/ThemeContext'
+//import { useState, useContext } from 'react'
+//import { ThemeContext } from '../../../context/ThemeContext'
 //import useState from 'react-usestateref'
 import { Link } from 'react-router-dom'
 import style from '../Create.module.scss'
 import Close from '../assets/close.svg'
-//import Happy from '../assets/happy.svg'
+import Happy from '../assets/happy.svg'
 import { CircularProgress } from '@material-ui/core'
 
 const CreateSteps = (props: any) => {
   //const [err, setErr] = useState(0)
-  const [themeState] = useContext<any>(ThemeContext)
-  const dark = themeState.dark
+  //const [themeState] = useContext<any>(ThemeContext)
+  //const dark = themeState.dark
   return (
     <div className={style.cm}>
       <div className={style.cmContent}>
@@ -96,7 +96,7 @@ const CreateSteps = (props: any) => {
           )}
           {props.step === 4 && (
             <div
-              className={`${style.modalSm} animate__animated animate__zoomInUp `}
+              className={`${style.modal} animate__animated animate__zoomInUp `}
             >
               <div className={style.modalTop2}>
                 <h1>Item Created!</h1>
@@ -104,9 +104,9 @@ const CreateSteps = (props: any) => {
                 <img src={Close} alt="close" onClick={props.handleClose} />
               </div>
               <div className={style.modalBody2}>
-                {/* <div className={style.successImg}>
-                    <img src={Happy} alt="success" />
-                  </div> */}
+                <div className={style.successImg}>
+                  <img src={Happy} alt="success" />
+                </div>
               </div>
               <div className={style.modalBtnSingle2}>
                 <Link to="/explore">

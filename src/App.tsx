@@ -1,9 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { useEffect } from 'react'
 import WalletContext from './context/WalletContext'
 import UserConnect from './web3-Service/UserConnect'
 import './App.scss'
 import './theme.scss'
+import 'aos/dist/aos.css'
 import 'animate.css'
+//import AOS from 'aos'
+
 import Home from './pages/Home/Home'
 import About from './pages/About/About'
 import Explore from './pages/Explore/Explore'
@@ -16,9 +20,14 @@ import CreateItems from './pages/Create/CreateItems'
 import CreateCollection from './pages/Create/CreateCollection'
 import Profile from './pages/Profile/Profile'
 import Footer from './components/Footer/Footer'
+import LaunchPartners from './pages/LaunchPartners/LaunchPartners'
 
 function App() {
+  const AOS = require('aos')
   const data: any = UserConnect()
+  useEffect(() => {
+    AOS.init()
+  }, [AOS])
   return (
     <WalletContext.Provider value={data}>
       <>
@@ -55,6 +64,10 @@ function App() {
               ></Route>
               <Route path="/profile" element={<Profile />}></Route>
               <Route path="/about" element={<About />}></Route>
+              <Route
+                path="/launchpartners"
+                element={<LaunchPartners />}
+              ></Route>
             </Routes>
             <Footer />
           </Router>

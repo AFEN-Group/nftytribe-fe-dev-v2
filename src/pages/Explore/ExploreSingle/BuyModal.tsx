@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ThemeContext } from '../../../context/ThemeContext'
+//import { ThemeContext } from '../../../context/ThemeContext'
 //import useState from 'react-usestateref'
 import { Link } from 'react-router-dom'
 import style from './ExploreSingle.module.scss'
@@ -17,6 +17,7 @@ declare const window: any
 const BuyModal = (props: any) => {
   //const [err, setErr] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
+  // eslint-disable-next-line
   const [userWallet, setUserWallet] = useState<any>(
     localStorage.getItem('currentAccount'),
   )
@@ -38,7 +39,7 @@ const BuyModal = (props: any) => {
     const contract_address = '0xb6b043610655a356A433aBc0c6BAE46e0AA5C230' //process.env.REACT_APP_MARKETPLACE_CONTRACT
 
     // contract function
-    const marketplace_address = process.env.REACT_APP_MARKETPLACE_CONTRACT
+    //const marketplace_address = process.env.REACT_APP_MARKETPLACE_CONTRACT
     let marketPlaceContract
     let erc721Contract
     let web3: any
@@ -143,7 +144,7 @@ const BuyModal = (props: any) => {
           )
 
           const data = await buy.json()
-
+          console.log(data)
           setIsLoading(false)
           setCompleted(true)
         } catch (error) {
@@ -153,10 +154,6 @@ const BuyModal = (props: any) => {
       } else {
         console.log('hello', props.nft, props.nftDetails)
         try {
-          // const approve = await erc721Contract.methods
-          //   .approve(broker_address, parseInt(props.nft.token_id))
-          //   .send({ from: userWallet })
-          // console.log(approve)
           const itemDetail = await marketPlaceContract.methods
             .auctions(
               props.nftDetails.collection_address,
