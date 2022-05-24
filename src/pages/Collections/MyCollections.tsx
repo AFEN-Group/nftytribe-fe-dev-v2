@@ -9,6 +9,8 @@ import Container from '../../components/Container/Container'
 const MyCollections = () => {
   const [showImport, setShowImport] = useState(false)
   useEffect(() => {
+    window.scrollTo(0, 0)
+
     const heroTitle = document.getElementById('heroTitle')
     const heroText = document.getElementById('heroText')
     const tl = gsap.timeline()

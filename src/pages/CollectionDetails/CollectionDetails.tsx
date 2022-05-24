@@ -71,8 +71,8 @@ const CollectionDetails = () => {
                   <img src={Edit} alt="edit" />
                 </div>
                 <p>
-                  An exoscentric collection which matches the vibance of colors
-                  and its meaning in the general well being of the word
+                  Welcome to the home of {collection?.title}. Discover items in
+                  this collection.
                   {}
                 </p>
                 <div className={style.infoBoxes}>
@@ -91,7 +91,7 @@ const CollectionDetails = () => {
                         dark === 'true' ? 'darkGradient' : ''
                       } `}
                     >
-                      <h3>11</h3>
+                      <h3>4</h3>
                       <p>Owners</p>
                     </div>
                   </div>
@@ -102,9 +102,7 @@ const CollectionDetails = () => {
                         dark === 'true' ? 'darkGradient' : ''
                       } `}
                     >
-                      <h3>
-                        0.1<span>BNB</span>{' '}
-                      </h3>
+                      <h3>---</h3>
                       <p>Floor price</p>
                     </div>
                     <div
@@ -113,8 +111,8 @@ const CollectionDetails = () => {
                         dark === 'true' ? 'darkGradient' : ''
                       } `}
                     >
-                      <h3>111</h3>
-                      <p>Vol rraded</p>
+                      <h3>0.00</h3>
+                      <p>Vol traded</p>
                     </div>
                   </div>
                 </div>
