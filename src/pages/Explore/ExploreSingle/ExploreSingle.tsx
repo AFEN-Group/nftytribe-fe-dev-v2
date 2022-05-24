@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ThemeContext } from '../../../context/ThemeContext'
+import ContractContext from '../../../context/ContractContext'
 import { publicRequest } from '../../../utils/requestMethods'
 import axios from 'axios'
 import style from './ExploreSingle.module.scss'
@@ -18,7 +19,7 @@ import Eye2 from './assets/eye2.svg'
 import Container from '../../../components/Container/Container'
 
 import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
-//import marketPlaceAbi from '../../../smart_contracts/erc721Market.json'
+import marketPlaceAbi from '../../../smart_contracts/erc721Market.json'
 import Web3 from 'web3'
 // import { shortenAddress } from '../../../utils/formatting'
 
@@ -35,13 +36,17 @@ const ExploreSingle = () => {
   //const [priceType, setPriceType] = useState('auction')
   const [tab, setTab] = useState('art')
   const [isLoading, setIsLoading] = useState(true)
-  //const [isLoaded, setIsLoaded] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false)
   const [nft, setNft] = useState<any>()
   const [nftDetails, setNftDetails] = useState<any>()
-  //const [nftPrice, setNftPrice] = useState<any>()
+  const [nftPrice, setNftPrice] = useState<any>()
   const [showBuy, setShowBuy] = useState(false)
+  const [collectedNft, setCollectedNft] = useState(false)
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
+  const { handleAuctionBid, checkIfBIdTimePasses, collectNft } = useContext(
+    ContractContext,
+  )
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -51,9 +56,10 @@ const ExploreSingle = () => {
           const details = await publicRequest.get(
             `/collectibles/${collectionAddress}/${id}?lazy_mint=true`,
           )
-          console.log(details)
+          //console.log(details)
           const nft = details
-          setNftDetails(nft.data._doc)
+          setNftDetails(nft.data.data._doc)
+          console.log('show img>>', nft.data.data._doc)
           //setNftPrice(nft.data._doc.price)
           setIsLoading(false)
           //setIsLoaded(true)
@@ -62,16 +68,16 @@ const ExploreSingle = () => {
           setIsLoading(false)
         }
       } else {
-        //const contract_address = '0xa58f3a74541Aca24393cA0D00d4BBa491B6b9777'
+        const contract_address = '0xa58f3a74541Aca24393cA0D00d4BBa491B6b9777'
         let erc721Contract
-        //let marketPlaceContract
+        let marketPlaceContract
         if (window.ethereum) {
           let web3: any = new Web3(window.ethereum)
           erc721Contract = new web3.eth.Contract(erc721Abi, collectionAddress)
-          // marketPlaceContract = new web3.eth.Contract(
-          //   marketPlaceAbi,
-          //   contract_address,
-          // )
+          marketPlaceContract = new web3.eth.Contract(
+            marketPlaceAbi,
+            contract_address,
+          )
         } else {
           alert('connect to meta mask wallet')
         }
@@ -87,7 +93,7 @@ const ExploreSingle = () => {
         })
 
         const nft = data
-
+        console.log('nft???????', nft)
         if (nft.metadata) {
           nft.metadata = JSON.parse(nft.metadata)
         } else {
@@ -111,7 +117,7 @@ const ExploreSingle = () => {
               },
             })
             nft.metadata = data
-            console.log(data)
+            //console.log(data)
           } catch (err) {}
         }
 
@@ -120,31 +126,51 @@ const ExploreSingle = () => {
         setNft(nft)
         console.log(nft)
 
-        // const getPrices = await marketPlaceContract.methods
-        //   .auctions(collectionAddress, id)
-        //   .call()
-        //console.log('pricee >>', getPrices.buyPrice)
-        //setNftPrice(getPrices.buyPrice)
+        const getPrices = await marketPlaceContract.methods
+          .auctions(collectionAddress, id)
+          .call()
+        console.log('pricee >>', getPrices.buyPrice)
+        setNftPrice(getPrices.buyPrice)
         setIsLoading(false)
       }
     }
+
     getTokenDetails()
+
+    // const getNftDetails = async () => {
+    //   try {
+    //     const details = await publicRequest.get(
+    //       `/collectibles/${collectionAddress}/${id}`,
+    //     )
+    //     // console.log('check>>>', details.data)
+    //     setNftDetails(details?.data?.data?._doc)
+
+    //     setIsLoading(false)
+    //     //setIsLoaded(true)
+    //   } catch (error) {
+    //     setIsLoading(false)
+    //   }
+    // }
 
     const getNftDetails = async () => {
       try {
         const details = await publicRequest.get(
           `/collectibles/${collectionAddress}/${id}`,
         )
-        // console.log('check>>>', details.data)
+        console.log('check>>>', details.data)
         setNftDetails(details?.data?.data?._doc)
-
+        const ifToBeCollected = await checkIfBIdTimePasses(
+          id,
+          collectionAddress,
+        )
+        setCollectedNft(ifToBeCollected)
         setIsLoading(false)
-        //setIsLoaded(true)
+        setIsLoaded(true)
       } catch (error) {
         setIsLoading(false)
       }
     }
-    //contract call on auctions to get price
+
     getNftDetails()
   }, [collectionAddress, id, lazy_mint])
 
@@ -160,14 +186,53 @@ const ExploreSingle = () => {
     return url
   }
 
-  const handleSubmit = () => {
+  // const handleSubmit = () => {
+  //   const wallet_address = localStorage.getItem('currentAccount')
+  //   if (wallet_address) {
+  //     setShowBuy(true)
+  //   } else {
+  //     //setShowConnect(true)
+  //     alert("Please connect wallet")
+  //   }
+  // }
+
+  const handleSubmit = async () => {
     const wallet_address = localStorage.getItem('currentAccount')
+    console.log(nftDetails?.marketplace_type)
     if (wallet_address) {
+      if (nftDetails?.marketplace_type === 2) {
+        console.log('hemlo')
+        const result = await handleAuctionBid(
+          nftDetails?.token_id,
+          wallet_address,
+          nftDetails?.collection_address,
+          '10000000000000000000',
+        )
+        if (result) {
+          console.log(result)
+          return
+        }
+      }
       setShowBuy(true)
     } else {
       //setShowConnect(true)
+      alert('Please connect wallet')
     }
   }
+
+  // const handleCollect = async (e: any) => {
+  //   e.preventDefault()
+  //   const wallet_address = localStorage.getItem('currentAccount')
+  //   const result = await collectNft(
+  //     wallet_address,
+  //     nftDetails?.token_id,
+  //     nftDetails?.collection_address,
+  //   )
+  //   if (result.data) {
+  //     console.log(result)
+  //     return
+  //   }
+  // }
 
   const handleClose = () => {
     //setShowConnect(false)
@@ -198,7 +263,7 @@ const ExploreSingle = () => {
               </div>
               <div className={style.titleBx}>
                 <h2>{nft?.metadata?.name || nftDetails?.title}</h2>
-                <p>from the {nft?.name} collection.</p>
+                <p>from the {nft?.name || 'Afen'} collection.</p>
               </div>
             </div>
             <div className={style.body}>
@@ -222,9 +287,6 @@ const ExploreSingle = () => {
                         <img src={ItemImg} alt="itemImg" />
                       )
                     ) : (
-                      // <div className={style.loaderBx}>
-                      //   <CircularProgress color="inherit" size="65px" />
-                      // </div>
                       <div className={style.loaderBx}>
                         <Loader />
                       </div>
@@ -311,13 +373,7 @@ const ExploreSingle = () => {
                   >
                     <div className={style.description}>
                       <h2>Description</h2>
-                      {/* <p>
-                        This is a one in a kind bot, yours truly Afen bot
-                        special NFT. Blockchain has the potential to adequately
-                        transform African society. Offering insurmountable
-                        opportunities to those leveraging it to build a new
-                        structure in diverse sectors.{' '}
-                      </p> */}
+
                       <p>
                         {nft?.metadata?.description ||
                           nftDetails?.description ||

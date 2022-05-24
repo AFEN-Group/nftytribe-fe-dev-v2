@@ -143,7 +143,7 @@ const Import = (props: any) => {
                 <h1>Congratulations</h1>
                 <p>
                   You have successfully imported your collection, you can now
-                  view the collection on your profile
+                  view the collection
                 </p>
                 <img src={Close} alt="close" onClick={props.closeImport} />
               </div>
@@ -152,8 +152,8 @@ const Import = (props: any) => {
                   <img src={Happy} alt="success" />
                 </div>
               </div>
-              <Link to="/profile" className={style.modalBtnSingle}>
-                <button>View Profile</button>
+              <Link to="/" className={style.modalBtnSingle}>
+                <button>View </button>
               </Link>
             </div>
           )}

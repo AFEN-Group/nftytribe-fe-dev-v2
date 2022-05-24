@@ -1,6 +1,9 @@
 @import '../../variables';
 @import '../../mixins';
 
+.container {
+  padding: 0 0 2em 0;
+}
 .coverBx {
   img {
     width: 100%;
@@ -65,7 +68,8 @@
   padding-bottom: 5em;
   @include flexRegular(column, center);
 }
-.itemContent {
+
+.itemsContent {
   @include gridRegular(1em);
   grid-template-columns: 2fr 2fr 2fr;
   align-items: flex-start;
@@ -76,7 +80,8 @@
   scrollbar-width: none; /* Firefox */
   overflow-y: scroll;
   overflow-x: visible;
-  height: 90vh;
+  //height: 100vh;
+  //background: pink;
 }
 .noContent {
   @include flexRegular(column, center);
@@ -102,5 +107,47 @@
     //     margin-left: 2em;
     //   }
     // }
+  }
+}
+
+.picBtn {
+  margin-top: 2em;
+  @include flexRegular(row, center);
+  button {
+    @include flexRegular(row, center);
+    // width: 80px;
+    padding: 1em;
+    height: 24px;
+    background: #4d55a6;
+    border: 0.5px solid #ffffff;
+    border-radius: 0px 4px;
+    color: #fff;
+    outline: none;
+  }
+}
+.editBx {
+  //background: pink;
+  @include flexRegular(column, center);
+  width: 65%;
+  margin: 2em auto;
+}
+.inputField {
+  margin: 1.5em 0;
+  width: 100%;
+  //background: lavender;
+}
+.editBtn {
+  margin-top: 2em;
+  button {
+    @include flexRegular(row, center);
+    width: 395px;
+    height: 50px;
+    padding: 1em;
+
+    background: #4d55a6;
+    border: 0.5px solid #ffffff;
+    border-radius: 0px 4px;
+    color: #fff;
+    outline: none;
   }
 }

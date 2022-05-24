@@ -16,7 +16,7 @@ import user1 from './assets/user1.svg'
 import user2 from './assets/user2.svg'
 import user3 from './assets/user3.svg'
 import user4 from './assets/user4.svg'
-import TextInput from '../../components/Inputs/TextInput'
+//import TextInput from '../../components/Inputs/TextInput'
 import Offer from './components/Offer'
 
 const LaunchPartners = () => {
@@ -190,11 +190,24 @@ const LaunchPartners = () => {
               </div>
             </div>
             <div data-aos="fade-up" className={style.meet}>
+              <div className={style.formBx}>
+                <iframe
+                  title="form"
+                  src="https://docs.google.com/forms/d/e/1FAIpQLSfWeHMogrk6ZWWWEjik1slhZRYvjrHMrE2en1U7CuB3VW_1Gw/viewform?embedded=true"
+                  width="100%"
+                  height="800"
+                  frameBorder="0"
+                >
+                  Loading…
+                </iframe>
+              </div>
+            </div>
+            {/* <div data-aos="fade-up" className={style.meet}>
               <h1>Interested in launching your collection?</h1>
               <h3>Let's meet you!</h3>
               <div className={style.formBx}>
-                <form>
-                  <div className={style.inputField}>
+                <form> */}
+            {/* <div className={style.inputField}>
                     <p>Creator name</p>
                     <TextInput />
                   </div>
@@ -217,14 +230,13 @@ const LaunchPartners = () => {
                   <div className={style.inputField}>
                     <p>Creator name</p>
                     <TextInput />
-                  </div>
-
-                  <div className={style.formBtn}>
+                  </div> */}
+            {/* <div className={style.formBtn}>
                     <button>Submit</button>
                   </div>
                 </form>
               </div>
-            </div>
+            </div> */}
             <div data-aos="fade-up">
               {' '}
               <Offer />

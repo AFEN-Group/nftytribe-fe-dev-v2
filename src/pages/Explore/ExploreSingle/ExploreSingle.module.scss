@@ -129,17 +129,18 @@
       padding: 1em;
     }
     .fixedPrices {
-      width: 37%;
-      max-width: 240px;
+      width: 48%;
+      max-width: 440px;
       background: #e0f5e0;
       @include flexRegular(row, space-between);
-      padding: 1.2em;
+      padding: 1.2em 1em;
       border: 1px solid #52525b;
       border-radius: 0px 12px;
       p {
         color: #3cc13b;
         margin-left: 1em;
         font-weight: 700;
+        //white-space: nowrap;
       }
     }
     .bids {

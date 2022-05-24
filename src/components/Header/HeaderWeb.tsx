@@ -245,7 +245,7 @@ const HeaderWeb = (props: any) => {
                         <img src={Notification} alt="notification" />
                         <p>Notifications</p>
                       </Link>
-                      <Link to="/settings" className={style.dropItem}>
+                      <Link to="/editProfile" className={style.dropItem}>
                         <img src={Settings} alt="settings" />
                         <p>Settings</p>
                       </Link>

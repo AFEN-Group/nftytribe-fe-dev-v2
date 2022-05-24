@@ -7,6 +7,7 @@ import user from './assets/user.svg'
 import arrow from './assets/icon.svg'
 import style from './Card.module.scss'
 import Logo from './assets/logo.svg'
+import Web3 from 'web3'
 
 const ItemCard = (data: any) => {
   const [showFull, setShowFull] = useState(false)
@@ -37,7 +38,7 @@ const ItemCard = (data: any) => {
           //to={`/explore/22/22`}
           to={
             data?.nftData?.is_lazy_mint
-              ? `/explore`
+              ? `/explore/${data?.nftData?.collection_address}/${data?.nftData?.signature}?lazy_mint=true`
               : `/explore/${data?.nftData?.collection_address}/${data?.nftData?.token_id}`
           }
         >
@@ -114,8 +115,13 @@ const ItemCard = (data: any) => {
               <div className={style.aBcontent}>
                 <div className={style.aleft}>
                   <img src={Logo} alt="logo" />
-                  {/* <p> {data?.nftData?.price.substr(0, 6)} Afen</p> */}
-                  <p>2800 Afen</p>
+
+                  <p>
+                    {' '}
+                    {Web3.utils.fromWei(data?.nftData?.price, 'ether') ||
+                      ''}{' '}
+                  </p>
+                  {/* <p>2800 Afen</p> */}
                 </div>
                 <div className={style.aright}>
                   <p>2800 USDT</p>

@@ -8,9 +8,9 @@ import TopProjects from './components/TopProjects'
 import Trending from './components/Trending'
 
 const Home = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+  // useEffect(() => {
+  //   window.scrollTo(0, 0)
+  // }, [])
 
   return (
     <>

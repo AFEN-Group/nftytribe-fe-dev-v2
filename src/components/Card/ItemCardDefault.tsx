@@ -12,7 +12,7 @@ const ItemCardDefault = () => {
       <div className={style.card}>
         <div className={style.cardContent}>
           <div className={style.cardImgBx}>
-            <div className={style.cardImg}>
+            <div className={style.cardImg2}>
               <img src={koala} alt="item" />
             </div>
             <div className={style.cardTop}>

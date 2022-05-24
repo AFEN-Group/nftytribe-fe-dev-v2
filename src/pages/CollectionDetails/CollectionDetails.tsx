@@ -73,6 +73,7 @@ const CollectionDetails = () => {
                 <p>
                   An exoscentric collection which matches the vibance of colors
                   and its meaning in the general well being of the word
+                  {}
                 </p>
                 <div className={style.infoBoxes}>
                   <div className={style.boxRow}>
