@@ -15,6 +15,8 @@ const CreateItemOptions = () => {
   // const [themeState] = useContext<any>(ThemeContext)
   // const dark = themeState.dark
   useEffect(() => {
+    window.scrollTo(0, 0)
+
     const heroTitle = document.getElementById('heroTitle')
     const heroTitle2 = document.getElementById('heroTitle2')
     //const heroText = document.getElementById('heroText')

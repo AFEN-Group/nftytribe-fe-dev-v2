@@ -2,6 +2,7 @@ import { useContext, useEffect } from 'react'
 import useState from 'react-usestateref'
 import { useParams } from 'react-router'
 import { ThemeContext } from '../../context/ThemeContext'
+import ContractContext from '../../context/ContractContext'
 import { Link } from 'react-router-dom'
 import { Cancel } from '@material-ui/icons'
 import { CircularProgress } from '@material-ui/core'
@@ -31,11 +32,12 @@ import CreateSteps from './Modals/CreateSteps'
 declare const window: any
 
 const erc721Mintable_address = '0x236DdF1f75c0bA5Eb29a8776Ec1820E5dC41a59a'
-const erc721Marketplace_address = '0xb6b043610655a356A433aBc0c6BAE46e0AA5C230'
+const erc721Marketplace_address = '0xD5582083916dc813f974ce4CA3F27E6977e161cF'
 
 const CreateItems = () => {
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
+  const { handlePutOnSale } = useContext(ContractContext)
   const itemType = useParams().itemType
   const [priceType, setPriceType] = useState('fixed')
   const [showAdvanced, setShowAdvanced] = useState(false)
@@ -309,7 +311,7 @@ const CreateItems = () => {
 
             let mint
             if (data.is_lazy_mint) {
-              console.log(data.is_lazy_mint)
+              //console.log(data.is_lazy_mint)
               let message = ethers.utils.solidityPack(
                 ['address', 'uint96', 'uint256', 'string', 'uint256'],
                 [
@@ -362,13 +364,13 @@ const CreateItems = () => {
                 userInput.collection_address.toLowerCase() ===
                 erc721Mintable_address.toLowerCase()
               ) {
-                console.log('hello collection')
+                //console.log('hello collection')
                 mint = await erc721Contract.methods
                   .mint(response.data.file, 0)
                   .send({ from: wallet_address, value: mintingCharge })
                 console.log(mint, 'befor')
                 returnvalues = mint.events.Transfer.returnValues
-                console.log(mint, 'hello here0')
+                //console.log(mint, 'hello here0')
               } else {
                 erc721collectionContract = new web3.eth.Contract(
                   erc721CollectionAbi,
@@ -488,7 +490,7 @@ const CreateItems = () => {
               )
               marketplace_contract = new web3.eth.Contract(
                 erc721MarketplaceAbi,
-                erc721Marketplace_address,
+                '0xD5582083916dc813f974ce4CA3F27E6977e161cF',
               )
             } else {
               alert('connect to meta mask wallet')
@@ -512,35 +514,44 @@ const CreateItems = () => {
             let updatableData
             if (data.on_sale) {
               console.log(parseInt(returnValues.token_id), 'hello')
-              // const approve = await erc721Contract.methods
-              //   .approve(broker_address, parseInt(returnValues.tokenId))
-              //   .send({ from: wallet_address })
-              console.log(
-                parseInt(returnValues.tokenId),
-                web3.utils.toWei(data.price, 'ether'),
-                parseInt(data.market_type),
-                2,
-                web3.utils.toWei(data.price.toString(), 'ether'),
-                userInput.collection_address,
-                '0x0000000000000000000000000000000000000000',
-                'else',
-              )
+
+              if (data.market_type === '2') {
+                data.starting_time =
+                  new Date(data.starting_time).getTime() / 1000
+                data.ending_time = new Date(data.ending_time).getTime() / 1000
+              }
               const putOnSale = await marketplace_contract.methods
                 .putOnSale(
                   parseInt(returnValues.tokenId),
                   web3.utils.toWei(data.price, 'ether'),
                   parseInt(data.market_type),
-                  web3.utils.toWei(data.price.toString(), 'ether'),
-                  2,
+                  parseInt(data.starting_time),
+                  parseInt(data.ending_time),
                   userInput.collection_address || erc721Mintable_address,
                   '0x0000000000000000000000000000000000000000',
                 )
                 .send({ from: wallet_address })
 
-              console.log(putOnSale, putOnSale.events, 'sale')
+              // const putOnSale = await handlePutOnSale(
+              //   returnValues.tokenId,
+              //   wallet_address,
+              //   userInput.collection_address,
+              //   web3.utils.toWei(data.price, 'ether'),
+              //   parseInt(data.starting_time),
+              //   parseInt(data.ending_time),
+              //   parseInt(data.market_type),
+              // )
+              // if (putOnSale?.error) {
+              //   console.log(err)
+              //   setMsg({ ...msg, eMsg: err, sMsg: '' })
+              //   setIsLoading(false)
+              //   return
+              // }
 
-              const expiration_time =
-                new Date().getTime() + 2 * 24 * 3600 * 1000
+              //console.log(putOnSale, putOnSale.events, 'sale')
+
+              // const expiration_time =
+              //   new Date(data.ending_time).getTime() + 2 * 24 * 3600 * 1000 // * 1000
 
               updatableData = {
                 token_id: returnValues.tokenId,
@@ -552,14 +563,16 @@ const CreateItems = () => {
                 type: 'putOnSale',
                 chain_id: 'rinkeby',
                 order_type: data.market_type,
+
                 on_sale: true,
+                marketplace_type: data.market_type,
                 order_detail: {
                   starting_price: web3.utils.toWei(
                     data.price.toString(),
                     'ether',
                   ),
-                  start_time: new Date().toISOString(),
-                  expiration_time: new Date(expiration_time),
+                  start_time: data.starting_time,
+                  expiration_time: data.ending_time,
                 },
                 price: web3.utils.toWei(data.price, 'ether'),
               }
@@ -717,9 +730,6 @@ const CreateItems = () => {
               <div className={style.fieldBx}>
                 <div className={style.smBtns}>
                   <div
-                    // className={`${style.smBtn} ${
-                    //   userInput.market_type === '1' ? style.smBtnA : ''
-                    // } `}
                     className={
                       userInput.market_type === '1' && dark === 'true'
                         ? style.sAdark
@@ -763,6 +773,29 @@ const CreateItems = () => {
                   </div>
                 </div>
               </div>
+              {userInput.market_type === '2' && (
+                <>
+                  <div className={style.fieldBx}>
+                    <p>Start Date</p>
+                    <TextInput
+                      type="datetime-local"
+                      inputName="starting_time"
+                      //value={userInput.price}
+                      inputHandler={inputHandler}
+                      //step="1"
+                    />
+                  </div>
+                  <div className={style.fieldBx}>
+                    <p>End Date</p>
+                    <TextInput
+                      type="datetime-local"
+                      inputName="ending_time"
+                      //value={userInput.price}
+                      inputHandler={inputHandler}
+                    />
+                  </div>
+                </>
+              )}
               <div className={style.cfieldBx}>
                 <Link
                   to="/createcollection"

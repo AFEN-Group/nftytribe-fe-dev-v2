@@ -320,7 +320,7 @@ const BuyModal = (props: any) => {
                   <strong> {' ' + props.nftDetails?.title} </strong>, you can
                   now view on your profile
                 </p>
-                <img src={Close} alt="close" onClick={props.closeModal} />
+                <img src={Close} alt="close" onClick={props.handleClose} />
               </div>
               <div className={style.modalBody2}>
                 <div className={style.successImg}>

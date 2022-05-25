@@ -4,6 +4,7 @@ import Container from '../../components/Container/Container'
 import style from './LP.module.scss'
 import Logobg from './assets/logo-bg.svg'
 import Logosm from './assets/logo-sm.svg'
+import ComingS from './assets/comings.svg'
 import Coming from './assets/coming.svg'
 import { motion } from 'framer-motion'
 import Rocket from './assets/rocket.svg'
@@ -142,7 +143,7 @@ const LaunchPartners = () => {
                     },
                   }}
                   className={style.coming1}
-                  src={Coming}
+                  src={ComingS}
                   alt="coming"
                 />
                 <img className={style.rocket} src={Rocket} alt="coming" />
@@ -150,7 +151,7 @@ const LaunchPartners = () => {
             </motion.div>
             <div data-aos="fade-up" className={style.first}>
               <div className={style.fLeft}>
-                <h1>Join the tribe that puts you first</h1>
+                <h1>Hello! amazing NFT creator</h1>
                 <p>
                   Become our launch partner and become the first to experience
                   nifty tribe and all our new features{' '}
@@ -159,16 +160,16 @@ const LaunchPartners = () => {
               <div className={style.fRight}>
                 <div className={style.fBoxes}>
                   <div className={style.fBx}>
-                    <h3>Import collection 1st</h3>
+                    <h3>Import collection </h3>
                     <p>
-                      Get to import your NFT collection before everyone else
+                      Get to import your NFT collection before everyone else.
                     </p>
                   </div>
                   <div className={style.fBx}>
                     <h3>Early access</h3>
                     <p>
-                      Be amogts the first users to experience the platforms cool
-                      ux.
+                      Be amongst the first users to experience the platforms
+                      cool ux.
                     </p>
                   </div>
                   <div className={style.fBx}>
@@ -181,14 +182,7 @@ const LaunchPartners = () => {
                 </div>
               </div>
             </div>
-            <div data-aos="fade-up" className={style.built}>
-              <h1>Built on</h1>
-              <div className={style.builtIcons}>
-                <img src={icon1} alt="icon1" />
-                <img src={icon2} alt="icon2" />
-                <img src={icon3} alt="icon3" />
-              </div>
-            </div>
+
             <div data-aos="fade-up" className={style.meet}>
               <div className={style.formBx}>
                 <iframe
@@ -200,6 +194,14 @@ const LaunchPartners = () => {
                 >
                   Loading…
                 </iframe>
+              </div>
+            </div>
+            <div data-aos="fade-up" className={style.built}>
+              <h1>Built on</h1>
+              <div className={style.builtIcons}>
+                <img src={icon1} alt="icon1" />
+                <img src={icon2} alt="icon2" />
+                <img src={icon3} alt="icon3" />
               </div>
             </div>
             {/* <div data-aos="fade-up" className={style.meet}>
@@ -250,7 +252,10 @@ const LaunchPartners = () => {
                   </div>
                   <div className={style.pInfo}>
                     <h2>@Aramide</h2>
-                    <p>Independent NFT Artist on Opensea</p>
+                    <p>
+                      Independent NFT creators with collections on platforms
+                      like Opensea
+                    </p>
                   </div>
                 </div>
                 <div className={style.pBox}>
@@ -259,7 +264,10 @@ const LaunchPartners = () => {
                   </div>
                   <div className={style.pInfo}>
                     <h2>@Zenga</h2>
-                    <p>New NFT Artist on Opensea</p>
+                    <p>
+                      Listed NFT collections on secondary marketplaces using
+                      Opensea standard
+                    </p>
                   </div>
                 </div>
                 <div className={style.pBox}>
@@ -268,7 +276,10 @@ const LaunchPartners = () => {
                   </div>
                   <div className={style.pInfo}>
                     <h2>@Top bunnies</h2>
-                    <p>Project listed on secondary marketplace</p>
+                    <p>
+                      First time NFT creators (New to NFTs as an artist? We got
+                      you 😉)
+                    </p>
                   </div>
                 </div>
                 <div className={style.pBox}>
@@ -277,7 +288,7 @@ const LaunchPartners = () => {
                   </div>
                   <div className={style.pInfo}>
                     <h2>@Avamnte </h2>
-                    <p>Project yet to open presale</p>
+                    <p>NFT collections yet to conduct presale</p>
                   </div>
                 </div>
               </div>

@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.d2a0c34c.css",
-    "main.js": "/static/js/main.9925f958.js",
+    "main.css": "/static/css/main.519a0d91.css",
+    "main.js": "/static/js/main.1617fca6.js",
     "static/media/vidImg.svg": "/static/media/vidImg.42742b2d8e8ef6a3e80eb2d5ebf7718e.svg",
     "static/media/cover.svg": "/static/media/cover.4b658d096da040ad016f0a8a3f0f14bd.svg",
     "static/media/rocket.svg": "/static/media/rocket.6d5be3d0e4181db8d24413ad641f2eb8.svg",
@@ -38,6 +38,7 @@
     "static/media/metamask.svg": "/static/media/metamask.5c14baddf50a316ea18243765780d5c4.svg",
     "static/media/binance.svg": "/static/media/binance.05a4581b44efe048471dcc3b54d5de2e.svg",
     "static/media/bnb.svg": "/static/media/bnb.f5b63abd3c33fffbe1d80e11eaaeaece.svg",
+    "static/media/comings.svg": "/static/media/comings.a0b38b2ceadeb06fd45e52a353ac5d03.svg",
     "static/media/wc.svg": "/static/media/wc.bd39c30fc5960b74cde3f824b4a9ff4f.svg",
     "static/media/logo5.svg": "/static/media/logo5.e9114b31dbfbe0ff9f4997b6798dd620.svg",
     "static/media/coinbase.svg": "/static/media/coinbase.f9a02dd361b150c85c798729b4096ff2.svg",
@@ -111,11 +112,11 @@
     "static/media/yellowdot.svg": "/static/media/yellowdot.6bdec628e892f78008985db11f1d85a8.svg",
     "static/media/arrow1.svg": "/static/media/arrow1.813276646acd4310374010b2c678a68f.svg",
     "static/media/arrowdown.svg": "/static/media/arrowdown.4224e64d722ee3f005f47d0bf9b46414.svg",
-    "main.d2a0c34c.css.map": "/static/css/main.d2a0c34c.css.map",
-    "main.9925f958.js.map": "/static/js/main.9925f958.js.map"
+    "main.519a0d91.css.map": "/static/css/main.519a0d91.css.map",
+    "main.1617fca6.js.map": "/static/js/main.1617fca6.js.map"
   },
   "entrypoints": [
-    "static/css/main.d2a0c34c.css",
-    "static/js/main.9925f958.js"
+    "static/css/main.519a0d91.css",
+    "static/js/main.1617fca6.js"
   ]
 }

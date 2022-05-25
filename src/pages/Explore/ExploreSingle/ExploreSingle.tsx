@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { ThemeContext } from '../../../context/ThemeContext'
 import ContractContext from '../../../context/ContractContext'
 import { publicRequest } from '../../../utils/requestMethods'
+import { format } from 'timeago.js'
 import axios from 'axios'
 import style from './ExploreSingle.module.scss'
 import Back from './assets/arrow.svg'
@@ -25,6 +26,7 @@ import Web3 from 'web3'
 
 import Loader from '../../../components/Loader/Loader'
 import BuyModal from './BuyModal'
+import BidModal from './BidModal'
 declare const window: any
 
 const ExploreSingle = () => {
@@ -39,9 +41,12 @@ const ExploreSingle = () => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [nft, setNft] = useState<any>()
   const [nftDetails, setNftDetails] = useState<any>()
-  const [nftPrice, setNftPrice] = useState<any>()
+  const [auctionData, setAuctionData] = useState<any>()
   const [showBuy, setShowBuy] = useState(false)
+  const [showBid, setShowBid] = useState(false)
   const [collectedNft, setCollectedNft] = useState(false)
+  const [endDate, setEndDate] = useState<any>()
+  const [walletAddress, setWalletAddress] = useState('')
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
   const { handleAuctionBid, checkIfBIdTimePasses, collectNft } = useContext(
@@ -50,6 +55,11 @@ const ExploreSingle = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0)
+    const wallet_address = localStorage.getItem('currentAccount')
+    console.log(wallet_address)
+    if (wallet_address) {
+      setWalletAddress(wallet_address)
+    }
     const getTokenDetails = async () => {
       if (lazy_mint) {
         try {
@@ -62,13 +72,13 @@ const ExploreSingle = () => {
           console.log('show img>>', nft.data.data._doc)
           //setNftPrice(nft.data._doc.price)
           setIsLoading(false)
-          //setIsLoaded(true)
+          setIsLoaded(true)
         } catch (error) {
           console.log(error)
           setIsLoading(false)
         }
       } else {
-        const contract_address = '0xa58f3a74541Aca24393cA0D00d4BBa491B6b9777'
+        const contract_address = '0xd5582083916dc813f974ce4ca3f27e6977e161cf'
         let erc721Contract
         let marketPlaceContract
         if (window.ethereum) {
@@ -93,7 +103,7 @@ const ExploreSingle = () => {
         })
 
         const nft = data
-        console.log('nft???????', nft)
+        console.log('nft>>', nft)
         if (nft.metadata) {
           nft.metadata = JSON.parse(nft.metadata)
         } else {
@@ -126,31 +136,30 @@ const ExploreSingle = () => {
         setNft(nft)
         console.log(nft)
 
-        const getPrices = await marketPlaceContract.methods
+        const auctionInfo = await marketPlaceContract.methods
           .auctions(collectionAddress, id)
           .call()
-        console.log('pricee >>', getPrices.buyPrice)
-        setNftPrice(getPrices.buyPrice)
+        console.log('auction Info', auctionInfo)
+        setAuctionData(auctionInfo)
         setIsLoading(false)
+        setIsLoaded(true)
+
+        const timestamp = auctionInfo.closingTime
+        const date = new Date(timestamp * 1000)
+        const datevalues = [
+          date.getFullYear(),
+          date.getMonth() + 1,
+          date.getDate(),
+          date.getHours(),
+          date.getMinutes(),
+          date.getSeconds(),
+        ]
+        setEndDate(datevalues)
+        console.log('>>', datevalues)
+        //alert(datevalues) //=>
       }
     }
-
     getTokenDetails()
-
-    // const getNftDetails = async () => {
-    //   try {
-    //     const details = await publicRequest.get(
-    //       `/collectibles/${collectionAddress}/${id}`,
-    //     )
-    //     // console.log('check>>>', details.data)
-    //     setNftDetails(details?.data?.data?._doc)
-
-    //     setIsLoading(false)
-    //     //setIsLoaded(true)
-    //   } catch (error) {
-    //     setIsLoading(false)
-    //   }
-    // }
 
     const getNftDetails = async () => {
       try {
@@ -186,57 +195,39 @@ const ExploreSingle = () => {
     return url
   }
 
-  // const handleSubmit = () => {
-  //   const wallet_address = localStorage.getItem('currentAccount')
-  //   if (wallet_address) {
-  //     setShowBuy(true)
-  //   } else {
-  //     //setShowConnect(true)
-  //     alert("Please connect wallet")
-  //   }
-  // }
-
   const handleSubmit = async () => {
     const wallet_address = localStorage.getItem('currentAccount')
     console.log(nftDetails?.marketplace_type)
     if (wallet_address) {
       if (nftDetails?.marketplace_type === 2) {
-        console.log('hemlo')
-        const result = await handleAuctionBid(
-          nftDetails?.token_id,
-          wallet_address,
-          nftDetails?.collection_address,
-          '10000000000000000000',
-        )
-        if (result) {
-          console.log(result)
-          return
-        }
+        setShowBid(true)
+      } else {
+        setShowBuy(true)
       }
-      setShowBuy(true)
     } else {
       //setShowConnect(true)
       alert('Please connect wallet')
     }
   }
 
-  // const handleCollect = async (e: any) => {
-  //   e.preventDefault()
-  //   const wallet_address = localStorage.getItem('currentAccount')
-  //   const result = await collectNft(
-  //     wallet_address,
-  //     nftDetails?.token_id,
-  //     nftDetails?.collection_address,
-  //   )
-  //   if (result.data) {
-  //     console.log(result)
-  //     return
-  //   }
-  // }
+  const handleCollect = async (e: any) => {
+    e.preventDefault()
+    const wallet_address = localStorage.getItem('currentAccount')
+    const result = await collectNft(
+      wallet_address,
+      nftDetails?.token_id,
+      nftDetails?.collection_address,
+    )
+    if (result.data) {
+      console.log(result)
+      return
+    }
+  }
 
   const handleClose = () => {
     //setShowConnect(false)
     setShowBuy(false)
+    setShowBid(false)
   }
 
   return (
@@ -250,6 +241,9 @@ const ExploreSingle = () => {
           //nftPrice={nftPrice}
           //saleType={saleType}
         />
+      )}
+      {showBid && (
+        <BidModal handleClose={handleClose} nft={nft} nftDetails={nftDetails} />
       )}
       <Container>
         <div
@@ -381,58 +375,116 @@ const ExploreSingle = () => {
                       </p>
                     </div>
                     <div className={style.prices}>
-                      {/* <div
-                        //className={style.bidPrices}
-                        className={`${style.bidPrices} ${
-                          dark === 'true' ? 'darkGradient' : 'lightGradient'
-                        } `}
-                      >
-                        <div className={style.bids}>
-                          <div className={style.bidBx}>
-                            <div className={style.bidBlue}>Current bid</div>
-                            <p>2800 BNB</p>
+                      {nftDetails?.marketplace_type === 2 ? (
+                        auctionData && (
+                          <div
+                            //className={style.bidPrices}
+                            className={`${style.bidPrices} ${
+                              dark === 'true' ? 'darkGradient' : 'lightGradient'
+                            } `}
+                          >
+                            <div className={style.bids}>
+                              <div className={style.bidBx}>
+                                <div className={style.bidBlue}>Current bid</div>
+                                {/* <p>2800 BNB</p> */}
+                                <p>
+                                  {Web3.utils.fromWei(
+                                    auctionData?.currentBid,
+                                    'ether',
+                                  ) || ''}{' '}
+                                  ETH
+                                  {/* {auctionData?.currentBid} */}
+                                </p>
+                              </div>
+                              <div className={style.bidBx2}>
+                                <div className={style.bidBlue}>
+                                  Starting price
+                                </div>
+                                <p>
+                                  {Web3.utils.fromWei(
+                                    auctionData?.startingPrice,
+                                    'ether',
+                                  ) || ''}{' '}
+                                  ETH
+                                  {/* {auctionData?.currentBid} */}
+                                </p>
+                              </div>
+                            </div>
+                            <div className={style.time}>
+                              {/* <p>2d 13h 23m 19s</p> */}
+                              <p>
+                                {endDate[2] +
+                                  ' ' +
+                                  endDate[1] +
+                                  ' ' +
+                                  endDate[0]}
+                              </p>
+                              <p>
+                                {endDate[3] +
+                                  ' . ' +
+                                  endDate[4] +
+                                  ' . ' +
+                                  endDate[5] +
+                                  '0'}
+                              </p>
+                              {/* <p>{format(auctionData?.closingTime)}</p> */}
+                            </div>
                           </div>
-                          <div className={style.bidBx2}>
-                            <div className={style.bidBlue}>Highest bid</div>
-                            <p>2800 BNB</p>
-                          </div>
+                        )
+                      ) : (
+                        <div className={style.fixedPrices}>
+                          <div className={style.priceGreen}>Fixed sale</div>
+                          {/* <p>{nft?.amount} BNB</p> */}
+                          {nftDetails?.price ? (
+                            <p>
+                              {Web3.utils.fromWei(nftDetails?.price, 'ether') ||
+                                ''}{' '}
+                              ETH
+                            </p>
+                          ) : (
+                            <p>0.01 ETH</p>
+                          )}
                         </div>
-                        <div className={style.time}>
-                          <p>2d 13h 23m 19s</p>
-                        </div>
-                      </div> */}
-                      <div className={style.fixedPrices}>
-                        <div className={style.priceGreen}>Fixed sale</div>
-                        {/* <p>{nft?.amount} BNB</p> */}
-                        {nftDetails?.price ? (
-                          <p>
-                            {Web3.utils.fromWei(nftDetails?.price, 'ether') ||
-                              ''}{' '}
-                            ETH
-                          </p>
-                        ) : (
-                          <p>0.01 ETH</p>
-                        )}
-                      </div>
+                      )}
                     </div>
                     <div className={style.Btns}>
-                      <button
-                        className={`${
-                          nftDetails?.on_sale ? style.regBtn : style.regBtn2
-                        } ${dark === 'true' ? 'lightBorder' : 'darkBorder'} ${
-                          dark === 'true' ? 'lightTxt' : 'darkTxt'
-                        }`}
-                        onClick={handleSubmit}
-                      >
-                        {!nftDetails?.on_sale ? 'Not On Sale' : 'Buy'}
-                      </button>
-                      {/* <button
-                        className={`${style.gradBtn} ${
-                          dark === 'true' ? 'darkGradient' : 'lightGradient'
-                        } `}
-                      >
-                        Bid
-                      </button> */}
+                      {nftDetails?.marketplace_type === 2 ? (
+                        <>
+                          <button
+                            disabled={!isLoaded}
+                            className={`${style.gradBtn} ${
+                              dark === 'true' ? 'darkGradient' : 'lightGradient'
+                            } `}
+                            onClick={handleSubmit}
+                          >
+                            Bid
+                          </button>
+                          {collectNft &&
+                            nftDetails?.wallet_address.toLowerCase() ===
+                              walletAddress?.toLowerCase() && (
+                              <button
+                                style={{ marginLeft: '50px' }}
+                                className={style.regBtn}
+                                disabled={!isLoaded}
+                                onClick={handleCollect}
+                              >
+                                Collect Nft
+                              </button>
+                            )}
+                        </>
+                      ) : (
+                        <button
+                          disabled={!isLoaded}
+                          className={`${
+                            nftDetails?.on_sale ? style.regBtn : style.regBtn2
+                          } ${dark === 'true' ? 'lightBorder' : 'darkBorder'} ${
+                            dark === 'true' ? 'lightTxt' : 'darkTxt'
+                          }`}
+                          onClick={handleSubmit}
+                        >
+                          {!nftDetails?.on_sale ? 'Not On Sale' : 'Buy'}
+                        </button>
+                      )}
                     </div>
                   </div>
                 )}

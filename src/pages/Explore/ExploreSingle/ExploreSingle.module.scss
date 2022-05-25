@@ -144,7 +144,9 @@
       }
     }
     .bids {
-      @include flexRegular(column, space-between);
+      @include flexRegular(column, flex-start);
+      align-items: flex-start;
+      //background: pink;
     }
     .time {
       p {
@@ -158,6 +160,7 @@
       p {
         margin-left: 1em;
         font-weight: 600;
+        white-space: nowrap;
       }
     }
     .bidBx2 {
@@ -169,6 +172,7 @@
       padding: 0.5em;
       font-size: 0.75em;
       color: #fff;
+      width: 90px;
     }
     .priceGreen {
       background: #3cc13b;
@@ -253,9 +257,9 @@
 }
 
 .modal,
-.modalSm {
+.modalSm,
+.modalB {
   position: fixed;
-
   margin: auto;
   width: 50vw;
   min-width: 450px;
@@ -279,9 +283,15 @@
 .modalSm {
   top: 23vh;
 }
+.modalB {
+  top: 15vh;
+}
 @media (max-height: 700px) {
   .modal {
     top: 10vh;
+  }
+  .modalB {
+    top: 7vh;
   }
 }
 .modalTop,
@@ -438,4 +448,11 @@
   border-radius: 4px;
   color: #fff;
   padding: 0.4em;
+}
+.fieldBx {
+  input {
+    background: #fff;
+    color: black;
+  }
+  margin-bottom: 1em;
 }
