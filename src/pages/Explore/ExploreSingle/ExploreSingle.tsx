@@ -3,7 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { ThemeContext } from '../../../context/ThemeContext'
 import ContractContext from '../../../context/ContractContext'
 import { publicRequest } from '../../../utils/requestMethods'
-import { format } from 'timeago.js'
+//import { format } from 'timeago.js'
+import { CircularProgress } from '@material-ui/core'
 import axios from 'axios'
 import style from './ExploreSingle.module.scss'
 import Back from './assets/arrow.svg'
@@ -47,6 +48,7 @@ const ExploreSingle = () => {
   const [collectedNft, setCollectedNft] = useState(false)
   const [endDate, setEndDate] = useState<any>()
   const [walletAddress, setWalletAddress] = useState('')
+  const [itemCollected, setItemCollected] = useState(false)
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
   const { handleAuctionBid, checkIfBIdTimePasses, collectNft } = useContext(
@@ -173,6 +175,7 @@ const ExploreSingle = () => {
           collectionAddress,
         )
         setCollectedNft(ifToBeCollected)
+        console.log('available?>>', ifToBeCollected)
         setIsLoading(false)
         setIsLoaded(true)
       } catch (error) {
@@ -196,22 +199,27 @@ const ExploreSingle = () => {
   }
 
   const handleSubmit = async () => {
-    const wallet_address = localStorage.getItem('currentAccount')
-    console.log(nftDetails?.marketplace_type)
-    if (wallet_address) {
-      if (nftDetails?.marketplace_type === 2) {
-        setShowBid(true)
+    if (nftDetails?.on_sale) {
+      const wallet_address = localStorage.getItem('currentAccount')
+      console.log(nftDetails?.marketplace_type)
+      if (wallet_address) {
+        if (nftDetails?.marketplace_type === 2) {
+          setShowBid(true)
+        } else {
+          setShowBuy(true)
+        }
       } else {
-        setShowBuy(true)
+        //setShowConnect(true)
+        alert('Please connect wallet')
       }
     } else {
-      //setShowConnect(true)
-      alert('Please connect wallet')
+      console.log('not available')
     }
   }
 
   const handleCollect = async (e: any) => {
     e.preventDefault()
+    setIsLoading(true)
     const wallet_address = localStorage.getItem('currentAccount')
     const result = await collectNft(
       wallet_address,
@@ -220,6 +228,10 @@ const ExploreSingle = () => {
     )
     if (result.data) {
       console.log(result)
+      setIsLoading(false)
+      setItemCollected(true)
+      setShowBid(true)
+
       return
     }
   }
@@ -243,7 +255,12 @@ const ExploreSingle = () => {
         />
       )}
       {showBid && (
-        <BidModal handleClose={handleClose} nft={nft} nftDetails={nftDetails} />
+        <BidModal
+          handleClose={handleClose}
+          nft={nft}
+          nftDetails={nftDetails}
+          itemCollected={itemCollected}
+        />
       )}
       <Container>
         <div
@@ -410,25 +427,31 @@ const ExploreSingle = () => {
                                 </p>
                               </div>
                             </div>
-                            <div className={style.time}>
-                              {/* <p>2d 13h 23m 19s</p> */}
-                              <p>
-                                {endDate[2] +
-                                  ' ' +
-                                  endDate[1] +
-                                  ' ' +
-                                  endDate[0]}
-                              </p>
-                              <p>
-                                {endDate[3] +
-                                  ' . ' +
-                                  endDate[4] +
-                                  ' . ' +
-                                  endDate[5] +
-                                  '0'}
-                              </p>
-                              {/* <p>{format(auctionData?.closingTime)}</p> */}
-                            </div>
+                            {auctionData?.startingPrice !== '0' ? (
+                              <div className={style.time}>
+                                {/* <p>2d 13h 23m 19s</p> */}
+                                <p>
+                                  {endDate[2] +
+                                    ' ' +
+                                    endDate[1] +
+                                    ' ' +
+                                    endDate[0]}
+                                </p>
+                                <p>
+                                  {endDate[3] +
+                                    ' . ' +
+                                    endDate[4] +
+                                    ' . ' +
+                                    endDate[5] +
+                                    '0'}
+                                </p>
+                                {/* <p>{format(auctionData?.closingTime)}</p> */}
+                              </div>
+                            ) : (
+                              <div className={style.time}>
+                                <p>Bid ended</p>
+                              </div>
+                            )}
                           </div>
                         )
                       ) : (
@@ -449,6 +472,9 @@ const ExploreSingle = () => {
                     </div>
                     <div className={style.Btns}>
                       {nftDetails?.marketplace_type === 2 ? (
+                        //&& collectedNft
+                        // &&
+                        //auctionData?.startingPrice !== '0'
                         <>
                           <button
                             disabled={!isLoaded}
@@ -468,13 +494,23 @@ const ExploreSingle = () => {
                                 disabled={!isLoaded}
                                 onClick={handleCollect}
                               >
-                                Collect Nft
+                                {!isLoading ? (
+                                  ' Collect Nft'
+                                ) : (
+                                  <CircularProgress
+                                    color="inherit"
+                                    size="20px"
+                                  />
+                                )}
                               </button>
                             )}
                         </>
                       ) : (
                         <button
-                          disabled={!isLoaded}
+                          disabled={
+                            !isLoaded
+                            //|| auctionData?.startingPrice === '0'
+                          }
                           className={`${
                             nftDetails?.on_sale ? style.regBtn : style.regBtn2
                           } ${dark === 'true' ? 'lightBorder' : 'darkBorder'} ${
@@ -482,7 +518,11 @@ const ExploreSingle = () => {
                           }`}
                           onClick={handleSubmit}
                         >
-                          {!nftDetails?.on_sale ? 'Not On Sale' : 'Buy'}
+                          {!nftDetails?.on_sale
+                            ? //||
+                              //auctionData?.startingPrice === '0'
+                              'Not On Sale'
+                            : 'Buy'}
                         </button>
                       )}
                     </div>

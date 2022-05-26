@@ -108,7 +108,11 @@ const ItemCard = (data: any) => {
                 }
                 className={style.buyBtn}
               >
-                <button>Buy</button>
+                {data?.nftData?.marketplace_type === 2 ? (
+                  <button>Bid</button>
+                ) : (
+                  <button>Buy</button>
+                )}
               </Link>
             </div>
             <div className={style.actionBx}>

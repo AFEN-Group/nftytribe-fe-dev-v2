@@ -116,7 +116,7 @@ const BidModal = (props: any) => {
           props.nftDetails?.token_id,
           wallet_address,
           props.nftDetails?.collection_address,
-          parseInt(userInput.bid),
+          userInput.bid,
         )
         if (result) {
           console.log(result)
@@ -142,7 +142,7 @@ const BidModal = (props: any) => {
           className={`${style.overlay} animate__animated animate__fadeIn `}
         ></div>
         <div className={style.modalContainer}>
-          {!completed && (
+          {!completed && !props.itemCollected && (
             <div
               className={`${style.modalB} animate__animated animate__zoomInUp `}
             >
@@ -240,6 +240,28 @@ const BidModal = (props: any) => {
                   Your bid for{' '}
                   <strong> {' ' + props.nftDetails?.title} </strong>
                   has been successfully placed
+                </p>
+                <img src={Close} alt="close" onClick={props.handleClose} />
+              </div>
+              <div className={style.modalBody2}>
+                <div className={style.successImg}>
+                  <img src={Happy} alt="success" />
+                </div>
+              </div>
+              <Link to="/explore" className={style.modalBtnSingle}>
+                <button>Back to explore</button>
+              </Link>
+            </div>
+          )}
+          {props.itemCollected && (
+            <div
+              className={`${style.modal} animate__animated animate__zoomInUp `}
+            >
+              <div className={style.modalTop}>
+                <h1>Congratulations</h1>
+                <p className={style.mText}>
+                  You have successfully collected{' '}
+                  <strong> {' ' + props.nftDetails?.title} </strong>
                 </p>
                 <img src={Close} alt="close" onClick={props.handleClose} />
               </div>
