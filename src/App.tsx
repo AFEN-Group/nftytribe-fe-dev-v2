@@ -71,19 +71,26 @@ function App() {
                 <Route path="/profile" element={<Profile />}></Route>
                 <Route path="/editProfile" element={<EditProfile />}></Route>
                 <Route path="/about" element={<About />}></Route>
-                <Route
-                  path="/launchpartners"
-                  element={<LaunchPartners />}
-                ></Route>
+
                 <Route path="/rewards" element={<Rewards />}></Route>
               </Routes>
               <Footer />
             </Router>
           </div>
-          <div className="app_info">
+          {/* <div className="app_info">
             <p>
               Mobile version still in progress, please view on larger device.
             </p>
+          </div> */}
+          <div>
+            <Router>
+              <Routes>
+                <Route
+                  path="/launchpartners"
+                  element={<LaunchPartners />}
+                ></Route>
+              </Routes>
+            </Router>
           </div>
         </>
       </WalletContext.Provider>
