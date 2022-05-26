@@ -118,8 +118,8 @@ const useContractMethods = () => {
         parseInt(Bid.currentBid, 10) + parseInt(Bid.currentBid, 10) * 0.0001
 
       const bid = await erc721MarketplaceContract.methods
-        .bid(token_id, collection_address, amount) // nextBidAmount changed to amount here
-        .send({ from: wallet_address, value: amount })
+        .bid(token_id, collection_address, Web3.utils.toWei(amount,"ether")) // nextBidAmount changed to amount here
+        .send({ from: wallet_address, value: Web3.utils.toWei(amount,"ether") })
 
       return bid
     } catch (error) {
