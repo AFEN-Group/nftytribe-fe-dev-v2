@@ -427,7 +427,8 @@ const ExploreSingle = () => {
                                 </p>
                               </div>
                             </div>
-                            {auctionData?.startingPrice !== '0' ? (
+                            {auctionData?.startingPrice !== '0' ||
+                            collectedNft ? (
                               <div className={style.time}>
                                 {/* <p>2d 13h 23m 19s</p> */}
                                 <p>
@@ -477,7 +478,7 @@ const ExploreSingle = () => {
                         //auctionData?.startingPrice !== '0'
                         <>
                           <button
-                            disabled={!isLoaded}
+                            disabled={!isLoaded || !collectedNft}
                             className={`${style.gradBtn} ${
                               dark === 'true' ? 'darkGradient' : 'lightGradient'
                             } `}
