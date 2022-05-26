@@ -1,25 +1,22 @@
 import { useState, useEffect, useContext } from 'react'
-//import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { ThemeContext } from '../../context/ThemeContext'
 import style from './Profile.module.scss'
 import Header from '../../components/Header/Header'
 import Cover from './assets/cover.svg'
 import Avatar from './assets/avatar.svg'
-import Edit from './assets/edit.svg'
+// import Edit from './assets/edit.svg'
 // import Sad from './assets/sad.svg'
 // import Arrow from './assets/arrow.svg'
+import Arrow2 from './assets/arrowLeft.svg'
 import Container from '../../components/Container/Container'
 import TextInput from '../../components/Inputs/TextInput'
-// import { publicRequest } from '../../utils/requestMethods'
-// import ItemCard from '../../components/Card/ItemCard'
+import TextArea from '../../components/Inputs/TextArea'
 
 const EditProfile = () => {
-  //const [tab, setTab] = useState('all')
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
-  //const [collectibles, setCollectibles] = useState<any>()
   const currentAddress = localStorage.getItem('currentAccount')
-  //const [currentPage, setCurrentPage] = useState(1)
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -30,9 +27,19 @@ const EditProfile = () => {
       <Container>
         <div className={style.container}>
           <div
-            className={`${style.coverBx} animate__animated animate__fadeInDown `}
+            className={`${style.coverBx2} animate__animated animate__fadeInDown `}
           >
-            <img src={Cover} alt="cover" />
+            <img className={style.cover} src={Cover} alt="cover" />
+            <div className={style.coverBtns}>
+              <Link to="/profile">
+                {' '}
+                <img src={Arrow2} className={style.arrow} />
+              </Link>
+
+              <button className={dark === 'true' ? style.bl : style.bd}>
+                Edit cover photo
+              </button>
+            </div>
           </div>
           <div
             className={`${style.content} animate__animated animate__fadeInUp animate__delay-1s `}
@@ -54,7 +61,28 @@ const EditProfile = () => {
               <form>
                 <div className={style.inputField}>
                   <p>Username</p>
-                  <TextInput />
+                  <TextInput holder="Enter username" />
+                </div>
+                <div className={style.inputField}>
+                  <p>Email address</p>
+                  <TextInput holder="Enter email e.g youremail@example.com" />
+                </div>
+                <div className={style.inputField}>
+                  <p>Bio</p>
+                  <TextArea holder="Tell the world about yourself! It starts here" />
+                </div>
+                <div className={style.inputField}>
+                  <p>Twitter link</p>
+                  <TextInput holder=" http://twitter.com/your username" />
+                </div>
+                <div className={style.inputField}>
+                  <p>Website URL</p>
+                  <TextInput holder="Enter your website url e.g http://www.xyz.io" />
+                </div>
+                <div className={style.inputField}>
+                  <p>Website URL</p>
+                  <h4>To get verified and a blue tick</h4>
+                  <button>Verify</button>
                 </div>
                 <div className={style.editBtn}>
                   <button>Update Profile</button>

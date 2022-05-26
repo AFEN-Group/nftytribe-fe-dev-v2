@@ -9,6 +9,42 @@
     width: 100%;
   }
 }
+.coverBx2 {
+  position: relative;
+  .cover {
+    width: 100%;
+  }
+}
+.coverBtns {
+  position: absolute;
+  //background: pink;
+  @include flexRegular(column, flex-start);
+  align-items: flex-start;
+  width: 10%;
+  top: 2em;
+  left: 5%;
+  height: 100%;
+  .arrow {
+    margin-top: 8em;
+  }
+  button {
+    margin-top: 6em;
+    color: #fff;
+    background: none;
+    width: 190px;
+    height: 44px;
+    border-radius: 0px 6px;
+    outline: none;
+    border: 1px solid #fff;
+  }
+  .bl {
+    border: 1px solid #fff;
+  }
+  .bd {
+    border: 1px solid $darkGradient;
+  }
+}
+
 .content {
   position: relative;
   width: 95%;
@@ -111,30 +147,51 @@
 }
 
 .picBtn {
-  margin-top: 2em;
+  margin-top: 3em;
   @include flexRegular(row, center);
   button {
     @include flexRegular(row, center);
-    // width: 80px;
+    width: 100px;
     padding: 1em;
-    height: 24px;
+    height: 34px;
     background: #4d55a6;
-    border: 0.5px solid #ffffff;
+    border: 0;
     border-radius: 0px 4px;
     color: #fff;
     outline: none;
+    font-size: 0.7em;
   }
 }
 .editBx {
   //background: pink;
   @include flexRegular(column, center);
   width: 65%;
-  margin: 2em auto;
+  margin: 4.5em auto 2em auto;
+  h2 {
+    font-family: 'Neue-bold';
+  }
 }
 .inputField {
   margin: 1.5em 0;
   width: 100%;
   //background: lavender;
+  p {
+    margin-bottom: 0.5em;
+  }
+  h4 {
+    font-size: 0.85em;
+    color: #a1a1aa;
+    font-weight: 200;
+    margin: 0.5em 0;
+  }
+  button {
+    margin-top: 1em;
+    border: 1.4px solid #3f3f46;
+    background: $mainGradient;
+    width: 120px;
+    height: 44px;
+    border-radius: 0px 10px;
+  }
 }
 .editBtn {
   margin-top: 2em;
@@ -143,10 +200,10 @@
     width: 395px;
     height: 50px;
     padding: 1em;
-
     background: #4d55a6;
-    border: 0.5px solid #ffffff;
-    border-radius: 0px 4px;
+    //border: 0.5px solid #ffffff;
+    border-radius: 0px 14px;
+    border: 0;
     color: #fff;
     outline: none;
   }

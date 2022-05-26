@@ -56,7 +56,9 @@ const Profile = () => {
               </div>
               <div className={style.title}>
                 <h1>Michael Carson</h1>
-                <img src={Edit} alt="edit" />
+                <Link to="/editProfile">
+                  <img src={Edit} alt="edit" />
+                </Link>
               </div>
             </div>
           </div>
