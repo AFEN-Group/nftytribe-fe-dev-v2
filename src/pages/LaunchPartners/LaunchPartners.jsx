@@ -5,9 +5,11 @@ import style from './LP.module.scss'
 import Logobg from './assets/logo-bg.svg'
 import Logosm from './assets/logo-sm.svg'
 import ComingS from './assets/comings.svg'
+import ComingS2 from './assets/comings2.svg'
 import Coming from './assets/coming.svg'
 import { motion } from 'framer-motion'
 import Rocket from './assets/rocket.svg'
+import Rocket2 from './assets/rocket2.svg'
 import dot1 from './assets/dot1.svg'
 import dot2 from './assets/dot2.svg'
 import icon1 from './assets/icon1.svg'
@@ -146,7 +148,46 @@ const LaunchPartners = () => {
                 src={ComingS}
                 alt="coming"
               />
+              <motion.img
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  hidden: {
+                    //rotate: 15,
+                    //scale: 2,
+                  },
+                  visible: {
+                    scale: 1,
+                    rotate: [
+                      0,
+                      2.5,
+                      -1.2,
+                      2.5,
+                      -1.2,
+                      2.5,
+                      -1.2,
+                      2.5,
+                      -1.2,
+                      2.5,
+                      -1.2,
+                      2.5,
+                      -1.2,
+                      0,
+                    ],
+                    transition: {
+                      repeat: Infinity,
+                      type: 'spring',
+                      delay: 0.2,
+                      duration: 9,
+                    },
+                  },
+                }}
+                className={style.coming1sm}
+                src={ComingS2}
+                alt="coming"
+              />
               <img className={style.rocket} src={Rocket} alt="coming" />
+              <img className={style.rocket2} src={Rocket2} alt="coming" />
             </motion.div>
           </motion.div>
           <div data-aos="fade-up" className={style.first}>
