@@ -8,6 +8,7 @@ import Cover from './assets/cover.svg'
 import Avatar from './assets/user3.svg'
 import Av2 from './assets/user5.svg'
 import Edit from './assets/edit.svg'
+import Edit2 from './assets/edit2.svg'
 import Sad from './assets/sad.svg'
 import Arrow from './assets/arrow.svg'
 import Container from '../../components/Container/Container'
@@ -93,7 +94,7 @@ const Profile = () => {
                 {!user && <h1>User</h1>}
                 {user && (
                   <Link to="/editProfile">
-                    <img src={Edit} alt="edit" />
+                    <img src={dark === 'true' ? Edit2 : Edit} alt="edit" />
                   </Link>
                 )}
               </div>

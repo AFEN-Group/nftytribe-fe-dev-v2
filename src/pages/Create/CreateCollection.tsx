@@ -32,7 +32,10 @@ const CreateCollection = () => {
     symbol: '',
     url: '',
   })
-  const [imageFile, setImageFile] = useState<any>()
+  const [imageFile, setImageFile] = useState<any>({
+    file: '',
+    location: '',
+  })
   const inputHandler = async (event: any) => {
     setUserInput({
       ...userInput,
@@ -47,15 +50,60 @@ const CreateCollection = () => {
   const [showModal, setShowModal] = useState(false)
   const [created, setCreated] = useState(false)
   const [newColllection, setNewCollection] = useState('')
+
   const selectMedia = async (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
-      setImageFile(e.target.files[0])
+      setImageFile({
+        ...imageFile,
+        file: e.target.files[0],
+      })
+      var form_data = new FormData()
+      form_data.append('upload', e.target.files[0])
+      try {
+        const resp = await fetch(
+          'https://dev.api.nftytribe.io/api/collectibles/upload-image',
+          {
+            method: 'POST',
+            body: form_data,
+          },
+        )
+        const data = await resp.json()
+        setImageFile({
+          ...imageFile,
+          file: e.target.files[0],
+          location: data.location,
+        })
+        console.log('image>>>', data)
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     setIsLoading(true)
+    // if (imageFile.file) {
+    //   const img_data = new FormData()
+    //   img_data.append('upload', imageFile.file)
+    //   try {
+    //     const resp = await fetch(
+    //       'https://dev.api.nftytribe.io/api/collectibles/upload-image',
+    //       {
+    //         method: 'POST',
+    //         body: img_data,
+    //       },
+    //     )
+    //     const data = await resp.json()
+    //     setImageFile({
+    //       ...imageFile,
+    //       location: data.location,
+    //     })
+    //     console.log('image>>>', data)
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // }
     const wallet_address = localStorage.getItem('currentAccount')
     const chain = 'rinkeby'
     const contract_address = '0x4a6Bf413Bb8953dCDAdcFf03077712c48Bb05086'
@@ -98,8 +146,8 @@ const CreateCollection = () => {
           title: userInput.name,
           about: userInput.description,
           symbol: userInput.symbol,
-          cover_image: '',
-          background_image: imageFile.name || '',
+          cover_image: imageFile.location,
+          background_image: imageFile.location,
           transactionHash,
         }
         const newCollectionReq = await publicRequest.post(
@@ -152,7 +200,7 @@ const CreateCollection = () => {
             <div className={style.left}>
               <div className={style.leftTop}>
                 <h2>Create collection</h2>
-                <p>Create a collection on the nfty trybe arketplace today.</p>
+                <p>Create a collection on the nfty trybe marketplace today.</p>
               </div>
               <div className={style.leftBody}>
                 <div
@@ -162,7 +210,7 @@ const CreateCollection = () => {
                       : style.fileContainerL
                   }`}
                 >
-                  {!imageFile && (
+                  {!imageFile.file && (
                     <div className={style.fileTxt}>
                       <img src={icon} alt="upload" />
                       <h3>Choose file</h3>
@@ -171,13 +219,21 @@ const CreateCollection = () => {
                   )}
 
                   <input type="file" name="img" onChange={selectMedia} />
-                  {imageFile && (
+                  {imageFile.file && (
                     <div className={style.fileBx}>
                       {/* <img src={guy} alt="guy" /> */}
-                      <img src={URL.createObjectURL(imageFile)} alt="nft" />
+                      <img
+                        src={URL.createObjectURL(imageFile.file)}
+                        alt="nft"
+                      />
                       <Cancel
                         className={style.cancel}
-                        onClick={() => setImageFile(null)}
+                        onClick={() =>
+                          setImageFile({
+                            file: null,
+                            location: '',
+                          })
+                        }
                       />
                     </div>
                   )}

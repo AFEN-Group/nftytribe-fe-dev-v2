@@ -389,22 +389,22 @@ const ExploreSingle = () => {
                     >
                       <p>The Art</p>
                     </div>
-                    <div
+                    {/* <div
                       className={
                         tab === 'activity' ? style.navItemActive : style.navItem
                       }
                       onClick={() => setTab('activity')}
                     >
                       <p>The Activity</p>
-                    </div>
-                    <div
+                    </div> */}
+                    {/* <div
                       className={
                         tab === 'offers' ? style.navItemActive : style.navItem
                       }
                       onClick={() => setTab('offers')}
                     >
                       <p>Offers</p>
-                    </div>
+                    </div> */}
                   </div>
                   <div className={style.rightIcons}>
                     <img src={dark === 'true' ? Share2 : Share} alt="share" />

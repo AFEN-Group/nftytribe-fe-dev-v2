@@ -4,6 +4,7 @@
 .container {
   padding: 0 0 2em 0;
 }
+
 .coverBx {
   img {
     width: 100%;
@@ -132,7 +133,9 @@
 }
 
 .itemsContent {
-  @include gridRegular(1em);
+  width: 85%;
+  margin: auto;
+  @include gridRegular(1.5em);
   grid-template-columns: 2fr 2fr 2fr;
   align-items: flex-start;
   &::-webkit-scrollbar {

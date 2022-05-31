@@ -26,11 +26,11 @@ const EditProfile = () => {
   const user = authState.user
   //console.log(user)
   const [userInput, setUserInput] = useState<any>({
-    name: user.name || '',
-    email: user.email || '',
-    bio: user.bio || '',
-    twitterLink: user.twitter_username || '',
-    website: user.custom_url || '',
+    name: user?.name || '',
+    email: user?.email || '',
+    bio: user?.bio || '',
+    twitterLink: user?.twitter_username || '',
+    website: user?.custom_url || '',
   })
   const [imageFile, setImageFile] = useState<any>({
     file: '',
@@ -66,26 +66,27 @@ const EditProfile = () => {
         ...imageFile,
         file: e.target.files[0],
       })
-      // var form_data = new FormData()
-      // form_data.append('upload', e.target.files[0])
-      // try {
-      //   const resp = await fetch(
-      //     'https://dev.api.nftytribe.io/api/collectibles/upload-image',
-      //     {
-      //       method: 'POST',
-      //       body: form_data,
-      //     },
-      //   )
-      //   const data = await resp.json()
-      //   //setImageLocation(data.location)
-      //   setImageFile({
-      //     ...imageFile,
-      //     location: data.location,
-      //   })
-      //   console.log(data)
-      // } catch (error) {
-      //   console.log(error)
-      // }
+      var form_data = new FormData()
+      form_data.append('upload', e.target.files[0])
+      try {
+        const resp = await fetch(
+          'https://dev.api.nftytribe.io/api/collectibles/upload-image',
+          {
+            method: 'POST',
+            body: form_data,
+          },
+        )
+        const data = await resp.json()
+        //setImageLocation(data.location)
+        setImageFile({
+          ...imageFile,
+          file: e.target.files[0],
+          location: data.location,
+        })
+        console.log(data)
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
@@ -117,28 +118,28 @@ const EditProfile = () => {
           console.log(error)
         }
       }
-      if (imageFile.file) {
-        const img_data = new FormData()
-        img_data.append('upload', imageFile.file)
-        try {
-          const resp = await fetch(
-            'https://dev.api.nftytribe.io/api/collectibles/upload-image',
-            {
-              method: 'POST',
-              body: img_data,
-            },
-          )
-          const data = await resp.json()
-          //setImageLocation(data.location)
-          setImageFile({
-            ...imageFile,
-            location: data.location,
-          })
-          console.log('image>>>', data)
-        } catch (error) {
-          console.log(error)
-        }
-      }
+      // if (imageFile.file) {
+      //   const img_data = new FormData()
+      //   img_data.append('upload', imageFile.file)
+      //   try {
+      //     const resp = await fetch(
+      //       'https://dev.api.nftytribe.io/api/collectibles/upload-image',
+      //       {
+      //         method: 'POST',
+      //         body: img_data,
+      //       },
+      //     )
+      //     const data = await resp.json()
+      //     //setImageLocation(data.location)
+      //     setImageFile({
+      //       ...imageFile,
+      //       location: data.location,
+      //     })
+      //     console.log('image>>>', data)
+      //   } catch (error) {
+      //     console.log(error)
+      //   }
+      // }
       console.log('show location>>', imageFile.location)
       console.log('show userInput', userInput)
       const data = userInput
@@ -229,18 +230,18 @@ const EditProfile = () => {
             className={`${style.content} animate__animated animate__fadeInUp animate__delay-1s `}
           >
             <div className={style.profileInfo}>
-              {!imageFile.file && user?.image === '' && (
+              {!imageFile.file && !user?.image && (
                 <div className={style.avatar}>
                   <img src={dark === 'true' ? Avatar : Av2} alt="avatar" />
                 </div>
               )}
-              {!imageFile.file && user?.image !== '' && (
+              {/* {!imageFile.file && !user?.image && (
                 <div className={style.avatar}>
                   <img src={user?.image} alt="avatar" />
                 </div>
-              )}
+              )} */}
 
-              {imageFile.file && (
+              {imageFile?.file && (
                 <div className={style.avatar}>
                   <img src={URL.createObjectURL(imageFile.file)} alt="avatar" />
                 </div>

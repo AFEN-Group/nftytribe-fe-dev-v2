@@ -91,7 +91,7 @@ const CollectionDetails = () => {
                         dark === 'true' ? 'darkGradient' : ''
                       } `}
                     >
-                      <h3>4</h3>
+                      <h3>0</h3>
                       <p>Owners</p>
                     </div>
                   </div>
