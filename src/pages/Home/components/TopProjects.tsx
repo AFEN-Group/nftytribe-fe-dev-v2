@@ -63,12 +63,12 @@ const TopProjects = () => {
               <div>
                 <p>Volume</p>
               </div>
-              <div>
+              {/* <div>
                 <p>24hr %</p>
               </div>
               <div>
                 <p>7d %</p>
-              </div>
+              </div> */}
               <div>
                 <p>Floor price</p>
               </div>
@@ -139,12 +139,12 @@ const TopProjects = () => {
                               className={style.user}
                             />
                             <p>{collection?.title || 'Untitled'}</p>
-                            <img src={arrow2} alt="arrow-up" />
+                            {/* <img src={arrow2} alt="arrow-up" /> */}
                           </div>
                           <div className={style.itemAlign}>
                             <p>61,555</p>
                           </div>
-                          <div className={style.itemAlign}>
+                          {/* <div className={style.itemAlign}>
                             <p>
                               <span>+70%</span>
                             </p>
@@ -153,7 +153,7 @@ const TopProjects = () => {
                             <p>
                               <span>+800%</span>
                             </p>
-                          </div>
+                          </div> */}
                           <div className={style.itemAlign}>
                             <p>1 ETH</p>
                           </div>

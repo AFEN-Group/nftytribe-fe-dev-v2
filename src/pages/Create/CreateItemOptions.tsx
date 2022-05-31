@@ -58,26 +58,29 @@ const CreateItemOptions = () => {
                 className={`${style.cOptBody} animate__animated animate__fadeInUp animate__delay-1s`}
               >
                 <div className={style.optBoxes}>
-                  <div
+                  {/* <div
                     className={style.optBox}
                     onClick={() => setChain('flow')}
                   >
                     <img src={Flow} alt="flow" />
                     <p>Flow</p>
-                  </div>
-                  <div className={style.optBox} onClick={() => setChain('eth')}>
+                  </div> */}
+                  <div
+                    className={style.optBox2}
+                    onClick={() => setChain('eth')}
+                  >
                     <img src={Eth} alt="eth" />
                     <p>Ethereum</p>
                   </div>
-                  <div
+                  {/* <div
                     className={style.optBox}
                     onClick={() => setChain('polygon')}
                   >
                     <img src={Polygon} alt="polygon" />
                     <p className={style.mg1}>Polygon</p>
-                  </div>
+                  </div> */}
                   <div
-                    className={style.optBox}
+                    className={style.optBox2}
                     onClick={() => setChain('binance')}
                   >
                     <img src={Binance} alt="binance" />

@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { shortenAddress } from '../../utils/formatting'
 import koala from './assets/kl.png'
 import dots from './assets/dots.svg'
 import like from './assets/like.svg'
-import user from './assets/user.svg'
+import user from './assets/user3.svg'
 import arrow from './assets/icon.svg'
 import style from './Card.module.scss'
 import Logo from './assets/logo.svg'
+import eth from './assets/eth.svg'
 import Web3 from 'web3'
 
 const ItemCard = (data: any) => {
@@ -76,7 +78,9 @@ const ItemCard = (data: any) => {
           >
             <div className={style.userInfo} onClick={() => setShowFull(true)}>
               <img src={user} alt="user" />
-              <p>Michael Carson</p>
+              {data.nftData && (
+                <p>{shortenAddress(data?.nftData?.wallet_address)}</p>
+              )}
               <img src={arrow} alt="arrow" />
             </div>
             <div className={style.itemInfo}>
@@ -96,7 +100,9 @@ const ItemCard = (data: any) => {
                 <h3>{data?.nftData?.title}</h3>
                 <div className={style.userBx}>
                   <img src={user} alt="user" />
-                  <p>Michael Carson</p>
+                  {data.nftData && (
+                    <p>{shortenAddress(data?.nftData?.wallet_address)}</p>
+                  )}
                 </div>
               </div>
               <Link
@@ -118,7 +124,7 @@ const ItemCard = (data: any) => {
             <div className={style.actionBx}>
               <div className={style.aBcontent}>
                 <div className={style.aleft}>
-                  <img src={Logo} alt="logo" />
+                  <img src={eth} alt="eth" />
 
                   <p>
                     {' '}
@@ -128,7 +134,7 @@ const ItemCard = (data: any) => {
                   {/* <p>2800 Afen</p> */}
                 </div>
                 <div className={style.aright}>
-                  <p>2800 USDT</p>
+                  <p>$2800 </p>
                 </div>
               </div>
               <div className={style.aleft}></div>

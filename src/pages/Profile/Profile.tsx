@@ -1,33 +1,50 @@
 import { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { ThemeContext } from '../../context/ThemeContext'
+import { AuthContext } from '../../context/AuthContext'
 import style from './Profile.module.scss'
 import Header from '../../components/Header/Header'
 import Cover from './assets/cover.svg'
-import Avatar from './assets/avatar.svg'
+import Avatar from './assets/user3.svg'
+import Av2 from './assets/user5.svg'
 import Edit from './assets/edit.svg'
 import Sad from './assets/sad.svg'
 import Arrow from './assets/arrow.svg'
 import Container from '../../components/Container/Container'
 import { publicRequest } from '../../utils/requestMethods'
 import ItemCard from '../../components/Card/ItemCard'
+import { shortenAddress } from '../../utils/formatting'
 
 const Profile = () => {
   const [tab, setTab] = useState('all')
   const [themeState] = useContext<any>(ThemeContext)
+  const [authState] = useContext<any>(AuthContext)
   const dark = themeState.dark
+  const user = authState.user
+  console.log(user)
   const [collectibles, setCollectibles] = useState<any>()
   const currentAddress = localStorage.getItem('currentAccount')
+  const [res, setRes] = useState<any>()
   //const [currentPage, setCurrentPage] = useState(1)
+  //console.log('auth>>', authState)
 
   useEffect(() => {
     window.scrollTo(0, 0)
+    const getUser = async () => {
+      try {
+        const result = await publicRequest.get(`/user/${currentAddress}`)
+        console.log('user>>>', result)
+        setRes(result.data.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
     const fetchUserNfts = async () => {
       try {
         const result = await publicRequest.get(
           `/user/get-collectibles?wallet_address=${currentAddress}&collected=true&page=1&size=10`,
         )
-        console.log(result)
+        //console.log(result)
         setCollectibles(result.data.data.collectibles)
         //setTotalPages(Math.round(result.data.data.total_count / 10))
         //setIsLoading(false)
@@ -35,6 +52,7 @@ const Profile = () => {
         console.log(error)
       }
     }
+    getUser()
     fetchUserNfts()
   }, [currentAddress])
   return (
@@ -45,20 +63,39 @@ const Profile = () => {
           <div
             className={`${style.coverBx} animate__animated animate__fadeInDown `}
           >
-            <img src={Cover} alt="cover" />
+            <img
+              className={style.cover}
+              //src={user?.cover_image || Cover}
+              src={res?.cover_image || Cover}
+              alt="cover"
+            />
           </div>
           <div
             className={`${style.content} animate__animated animate__fadeInUp animate__delay-1s `}
           >
             <div className={style.profileInfo}>
               <div className={style.avatar}>
-                <img src={Avatar} alt="avatar" />
+                <img
+                  // src={user?.image || dark === 'true' ? Avatar : Av2}
+                  // src={user?.image || Av2}
+                  src={res?.image || Av2}
+                  alt="avatar"
+                />
               </div>
               <div className={style.title}>
-                <h1>Michael Carson</h1>
-                <Link to="/editProfile">
-                  <img src={Edit} alt="edit" />
-                </Link>
+                {user && (
+                  <h1>
+                    {user.name ||
+                      shortenAddress(user.wallet_address) ||
+                      user.name}
+                  </h1>
+                )}
+                {!user && <h1>User</h1>}
+                {user && (
+                  <Link to="/editProfile">
+                    <img src={Edit} alt="edit" />
+                  </Link>
+                )}
               </div>
             </div>
           </div>

@@ -251,6 +251,17 @@
     animation-play-state: paused;
   }
 }
+.trSlides01 {
+  margin-top: 1em;
+  //animation: scrolling3 10s linear infinite;
+  @include flexRegular(row, space-between);
+  cursor: pointer;
+  padding: 0 2em;
+  //height: 100%;
+  // &:hover {
+  //   animation-play-state: paused;
+  // }
+}
 
 .trSlides2 {
   margin-top: 6em;
@@ -283,9 +294,11 @@
 }
 .trSlide {
   @include flexRegular(row, center);
-  width: 26vw;
+  width: 26vw; //
   flex-shrink: 0;
-  margin-left: 4vw;
+  // margin-left: 4vw;
+  //margin-left: 1vw;
+  margin-right: 2vw; //
   //background: pink;
 }
 
@@ -339,19 +352,21 @@
   font-weight: 700;
 }
 .tpTableTitles {
-  @include gridRegular(1em);
-  grid-template-columns: 2.3fr 0.7fr 0.7fr 0.7fr 0.7fr 0.7fr 0.7fr;
+  @include gridRegular(0.5em);
+  //grid-template-columns: 2.3fr 0.7fr 0.7fr 0.7fr 0.7fr 0.7fr 0.7fr;
+  grid-template-columns: 2.3fr 1fr 1fr 1fr 1fr;
   padding: 2.5em 0;
   div {
     @include flexRegular(row, flex-end);
   }
 }
 .tableItem {
-  @include gridRegular(1em);
+  @include gridRegular(0.5em);
   cursor: pointer;
   border-top: 1px solid #71717a;
   //border-bottom: 1px solid #71717a;
-  grid-template-columns: 2.3fr 0.7fr 0.7fr 0.7fr 0.7fr 0.7fr 0.7fr;
+  //grid-template-columns: 2.3fr 0.7fr 0.7fr 0.7fr 0.7fr 0.7fr 0.7fr;
+  grid-template-columns: 2.3fr 1fr 1fr 1fr 1fr;
   padding: 1.5em 0;
   transition: 0.25s ease-in;
   &:hover {

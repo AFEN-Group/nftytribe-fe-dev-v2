@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import koala from './assets/kl.png'
+//import anime from './assets/anime.gif'
 import dots from './assets/dots.svg'
 import like from './assets/like.svg'
 import user from './assets/user.svg'
@@ -12,7 +13,7 @@ const ItemCardDefault = () => {
       <div className={style.card}>
         <div className={style.cardContent}>
           <div className={style.cardImgBx}>
-            <div className={style.cardImg2}>
+            <div className={style.cardImg}>
               <img src={koala} alt="item" />
             </div>
             <div className={style.cardTop}>

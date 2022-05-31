@@ -7,12 +7,16 @@
 .coverBx {
   img {
     width: 100%;
+    max-height: 350px;
+    object-fit: cover;
   }
 }
 .coverBx2 {
   position: relative;
   .cover {
     width: 100%;
+    max-height: 350px;
+    object-fit: cover;
   }
 }
 .coverBtns {
@@ -36,12 +40,28 @@
     border-radius: 0px 6px;
     outline: none;
     border: 1px solid #fff;
+    cursor: pointer;
   }
   .bl {
     border: 1px solid #fff;
   }
   .bd {
     border: 1px solid $darkGradient;
+  }
+}
+.fileInput1 {
+  position: absolute;
+  bottom: 2.5em;
+  left: 5%;
+  //background: pink;
+  //width: 80%;
+  z-index: 2;
+  opacity: 0;
+
+  input {
+    width: 190px;
+    height: 44px;
+    cursor: pointer;
   }
 }
 
@@ -58,6 +78,10 @@
   img {
     position: absolute;
     top: -5em;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
   }
 }
 .title {
@@ -67,6 +91,8 @@
     // font-family: Neue-bold;
     font-size: 1.5em;
     font-weight: 700;
+    text-align: center;
+    //background: pink;
   }
   img {
     margin-left: 1em;
@@ -146,6 +172,11 @@
   }
 }
 
+.profileInfo {
+  //background: pink;
+  position: relative;
+}
+
 .picBtn {
   margin-top: 3em;
   @include flexRegular(row, center);
@@ -160,6 +191,20 @@
     color: #fff;
     outline: none;
     font-size: 0.7em;
+  }
+  .fileInput2 {
+    //background: lavender;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    @include flexRegular(column, center);
+    cursor: pointer;
+    input {
+      height: 36px;
+      width: 100px;
+      cursor: pointer;
+      opacity: 0;
+    }
   }
 }
 .editBx {

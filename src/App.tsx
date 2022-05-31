@@ -22,8 +22,8 @@ import CreateItems from './pages/Create/CreateItems'
 import CreateCollection from './pages/Create/CreateCollection'
 import Profile from './pages/Profile/Profile'
 import EditProfile from './pages/Profile/EditProfile'
-import Footer from './components/Footer/Footer'
-import LaunchPartners from './pages/LaunchPartners/LaunchPartners'
+//import Footer from './components/Footer/Footer'
+//import LaunchPartners from './pages/LaunchPartners/LaunchPartners'
 import Rewards from './pages/Rewards/Rewards'
 
 function App() {
@@ -76,20 +76,11 @@ function App() {
               </Routes>
             </Router>
           </div>
-          {/* <div className="app_info">
+
+          <div className="app_info">
             <p>
               Mobile version still in progress, please view on larger device.
             </p>
-          </div> */}
-          <div>
-            <Router>
-              <Routes>
-                <Route
-                  path="/launchpartners"
-                  element={<LaunchPartners />}
-                ></Route>
-              </Routes>
-            </Router>
           </div>
           {/* <Footer /> */}
         </>

@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import Container from '../../components/Container/ContainerG'
+import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header/Header'
 import FAQs from './components/FAQs'
 import Hero from './components/Hero'
@@ -22,6 +23,7 @@ const Home = () => {
       </Container>
       <Marketplace />
       <FAQs />
+      <Footer />
     </>
   )
 }

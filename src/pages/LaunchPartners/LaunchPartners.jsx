@@ -192,10 +192,10 @@ const LaunchPartners = () => {
           </motion.div>
           <div data-aos="fade-up" className={style.first}>
             <div className={style.fLeft}>
-              <h1>Hello! amazing NFT creator</h1>
+              <h1>Launch your NFTs with us!</h1>
               <p>
-                Become our launch partner and become the first to experience
-                nifty tribe and all our new features{' '}
+                Hello, amazing NFT creator! Become our launch partner and the
+                first to experience NftyTribe and all our cool features.
               </p>
             </div>
             <div className={style.fRight}>
@@ -207,8 +207,8 @@ const LaunchPartners = () => {
                 <div className={style.fBx}>
                   <h3>Early access</h3>
                   <p>
-                    Be amongst the first users to experience the platforms cool
-                    ux.
+                    Be among the first users to experience NftyTribe’s
+                    outstanding UX.
                   </p>
                 </div>
                 <div className={style.fBx}>
@@ -223,6 +223,8 @@ const LaunchPartners = () => {
           </div>
 
           <div data-aos="fade-up" className={style.meet}>
+            <h1>Be part of the tribe that puts you first</h1>
+            <h3>You and your community are super early!</h3>
             <div className={style.formBx}>
               <iframe
                 title="form"

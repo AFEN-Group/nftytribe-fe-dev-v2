@@ -9,6 +9,14 @@
   background: $mainGradient;
   //background: black;
 }
+.card2 {
+  position: relative;
+  box-shadow: 0px 2px 4px rgba(91, 91, 91, 0.24);
+  border-radius: 0px 24px;
+  padding: 0.5em;
+  background: $mainGradient;
+  //background: black;
+}
 .cardImgBx {
   position: relative;
 }
@@ -31,6 +39,17 @@
     height: 100%;
     max-width: 468px;
     //height: 320px;
+    min-height: 320px;
+  }
+}
+.cardImg3 {
+  img {
+    border-radius: 20px;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    max-width: 420px;
+    height: 420px;
     min-height: 320px;
   }
 }
@@ -79,6 +98,20 @@
   //margin: auto;
   color: #fff;
 }
+.descBox3 {
+  transition: all 0.2s ease;
+  position: absolute;
+  background: rgba(23, 18, 20, 0.207);
+  box-shadow: inset 0px 0.8px 100px rgba(216, 57, 166, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  width: 100%;
+  left: 0;
+  // left: 5%;
+  // right: 5%;
+  color: #fff;
+}
+
 .userInfo {
   @include flexRegular(row, center);
   margin: 0.4em;
@@ -86,6 +119,11 @@
   p {
     margin: 0 1em;
   }
+}
+.userImg {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
 }
 //
 .itemInfo2 {
@@ -102,6 +140,20 @@
   width: 100%;
   //margin: auto;
 }
+.itemInfo3 {
+  @include flexRegular(row, space-between);
+  color: #fff;
+  transition: all 0.2s ease;
+  position: absolute;
+  padding: 15px 10px 55px 10px;
+  bottom: -2px;
+  background: rgba(23, 18, 20, 0.586);
+  box-shadow: inset 0px 0.8px 100px rgba(216, 57, 166, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 10px;
+  //width: 60%;
+  width: 100%;
+}
 .itemTxt {
   background: grey;
   @include flexRegular(row, space-between);
@@ -115,9 +167,11 @@
   }
   .userBx {
     @include flexRegular(row, flex-start);
-
     img {
       margin-right: 7px;
+      // width: 50px;
+      // height: 50px;
+      // border-radius: 50%;
     }
     p {
       font-size: 0.86em;
@@ -137,11 +191,21 @@
     font-size: 0.7em;
   }
 }
+.buyBtnBg {
+  align-self: flex-end;
+  button {
+    @include buttonRegular($blueMain, 84px, 34px);
+    color: #fff;
+    //padding: 0.7em;
+    border-radius: 4px;
+    font-size: 0.95em;
+  }
+}
 
 .actionBx {
   background: #1b1819;
   border-radius: 12px;
-  padding: 0px 10px;
+  padding: 5px 10px;
   font-size: 0.9em;
   position: absolute;
   // z-index: 2;
@@ -154,14 +218,31 @@
     font-size: 0.9em;
   }
 }
+.actionBx2 {
+  //background: pink;
+  background: #1b1819;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-size: 0.9em;
+  position: absolute;
+  // z-index: 2;
+  width: 90%;
+  left: 5%;
+  right: 5%;
+  margin: auto;
+  bottom: -5px;
+  p {
+    font-size: 1.1em;
+  }
+}
 .aBcontent {
   @include flexRegular(row, space-between);
 }
 .aleft {
   @include flexRegular(row, flex-start);
   img {
-    width: 34px;
-    height: 34px;
+    width: 24px;
+    height: 24px;
     margin-right: 0.4em;
   }
   p {

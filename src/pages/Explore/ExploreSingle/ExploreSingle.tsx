@@ -15,9 +15,10 @@ import Share from './assets/share.svg'
 import Share2 from './assets/share2.svg'
 import Dots2 from './assets/dots2.svg'
 import Dots from './assets/dots.svg'
-import User from './assets/user.svg'
-import Eye from './assets/eye.svg'
-import Eye2 from './assets/eye2.svg'
+import User from './assets/user3.svg'
+import User2 from './assets/user4.svg'
+// import Eye from './assets/eye.svg'
+// import Eye2 from './assets/eye2.svg'
 import Container from '../../../components/Container/Container'
 
 import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
@@ -28,6 +29,7 @@ import Web3 from 'web3'
 import Loader from '../../../components/Loader/Loader'
 import BuyModal from './BuyModal'
 import BidModal from './BidModal'
+import { shortenAddress } from '../../../utils/formatting'
 declare const window: any
 
 const ExploreSingle = () => {
@@ -54,6 +56,12 @@ const ExploreSingle = () => {
   const { handleAuctionBid, checkIfBIdTimePasses, collectNft } = useContext(
     ContractContext,
   )
+  const [timeLeft, setTimeLeft] = useState<any>({
+    hours: '',
+    minutes: '',
+    seconds: '',
+  })
+  const [timeDifference, setTimeDifference] = useState<any>()
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -159,7 +167,45 @@ const ExploreSingle = () => {
         setEndDate(datevalues)
         console.log('>>', datevalues)
         //alert(datevalues) //=>
+
+        //const timeDiffCalc = (dateFuture: any, dateNow: any) => {
+        const dateFuture = auctionInfo.closingTime
+        //const dateNow: any = new Date()
+        const dateNow = auctionInfo.startingTime
+        let diffInMilliSeconds = Math.abs(dateFuture - dateNow) / 1000
+        // calculate days
+        const days = Math.floor(diffInMilliSeconds / 86400)
+        diffInMilliSeconds -= days * 86400
+        // calculate hours
+        const hours = Math.floor(diffInMilliSeconds / 3600) % 24
+        diffInMilliSeconds -= hours * 3600
+        // calculate minutes
+        const minutes = Math.floor(diffInMilliSeconds / 60) % 60
+        diffInMilliSeconds -= minutes * 60
+        // calculate minutes
+        const seconds = Math.floor(diffInMilliSeconds)
+        setTimeLeft({
+          hours,
+          minutes,
+          seconds,
+        })
+        // setMinutesLeft(minutes);
+        // setSecondsLeft(seconds);
+
+        let difference = ''
+        if (days > 0) {
+          difference += days === 1 ? `${days}d, ` : `${days}d, `
+        }
+
+        difference += hours === 0 || hours === 1 ? `${hours}h, ` : `${hours}h, `
+
+        difference +=
+          minutes === 0 || hours === 1 ? `${minutes}m` : `${minutes}m`
+        console.log('difference >>', difference)
+        setTimeDifference(difference)
       }
+
+      //return difference;
     }
     getTokenDetails()
 
@@ -367,16 +413,18 @@ const ExploreSingle = () => {
                 </div>
                 <div className={style.rightTitles}>
                   <div className={style.userBx}>
-                    <img src={User} alt="user" />
-                    <p>Michael Carson</p>
+                    <img src={dark === 'true' ? User : User2} alt="user" />
+                    {nftDetails && (
+                      <p>{shortenAddress(nftDetails?.wallet_address)}</p>
+                    )}
                   </div>
-                  <div className={style.bronze}>
+                  {/* <div className={style.bronze}>
                     <p>||| Benin Broxnze</p>
                   </div>
                   <div className={style.eyes}>
                     <img src={dark === 'true' ? Eye2 : Eye} alt="seen" />
                     <p>1215</p>
-                  </div>
+                  </div> */}
                 </div>
                 {tab === 'art' && (
                   <div
@@ -400,59 +448,66 @@ const ExploreSingle = () => {
                               dark === 'true' ? 'darkGradient' : 'lightGradient'
                             } `}
                           >
-                            <div className={style.bids}>
-                              <div className={style.bidBx}>
-                                <div className={style.bidBlue}>Current bid</div>
-                                {/* <p>2800 BNB</p> */}
-                                <p>
-                                  {Web3.utils.fromWei(
-                                    auctionData?.currentBid,
-                                    'ether',
-                                  ) || ''}{' '}
-                                  ETH
-                                  {/* {auctionData?.currentBid} */}
-                                </p>
-                              </div>
-                              <div className={style.bidBx2}>
-                                <div className={style.bidBlue}>
-                                  Starting price
+                            {collectedNft && (
+                              <div className={style.bids}>
+                                <div className={style.bidBx}>
+                                  <div className={style.bidBlue}>
+                                    Current bid
+                                  </div>
+                                  {/* <p>2800 BNB</p> */}
+                                  <p>
+                                    {Web3.utils.fromWei(
+                                      auctionData?.currentBid,
+                                      'ether',
+                                    ) || ''}{' '}
+                                    ETH
+                                    {/* {auctionData?.currentBid} */}
+                                  </p>
                                 </div>
-                                <p>
-                                  {Web3.utils.fromWei(
-                                    auctionData?.startingPrice,
-                                    'ether',
-                                  ) || ''}{' '}
-                                  ETH
-                                  {/* {auctionData?.currentBid} */}
-                                </p>
+                                <div className={style.bidBx2}>
+                                  <div className={style.bidBlue}>
+                                    Starting price
+                                  </div>
+                                  <p>
+                                    {Web3.utils.fromWei(
+                                      auctionData?.startingPrice,
+                                      'ether',
+                                    ) || ''}{' '}
+                                    ETH
+                                    {/* {auctionData?.currentBid} */}
+                                  </p>
+                                </div>
                               </div>
-                            </div>
-                            {auctionData?.startingPrice !== '0' ||
-                            collectedNft ? (
-                              <div className={style.time}>
-                                {/* <p>2d 13h 23m 19s</p> */}
-                                <p>
-                                  {endDate[2] +
+                            )}
+                            {
+                              //auctionData?.startingPrice !== '0' ||
+                              collectedNft ? (
+                                <div className={style.time}>
+                                  {/* <p>2d 13h 23m 19s</p> */}
+                                  <p>
+                                    {/* {endDate[2] +
                                     ' ' +
                                     endDate[1] +
                                     ' ' +
-                                    endDate[0]}
-                                </p>
-                                <p>
+                                    endDate[0]} */}
+                                    {timeDifference}
+                                  </p>
+                                  {/* <p>
                                   {endDate[3] +
                                     ' . ' +
                                     endDate[4] +
                                     ' . ' +
                                     endDate[5] +
                                     '0'}
-                                </p>
-                                {/* <p>{format(auctionData?.closingTime)}</p> */}
-                              </div>
-                            ) : (
-                              <div className={style.time}>
-                                <p>Bid ended</p>
-                              </div>
-                            )}
+                                </p> */}
+                                  {/* <p>{format(auctionData?.closingTime)}</p> */}
+                                </div>
+                              ) : (
+                                <div className={style.time}>
+                                  <p>Bid ended</p>
+                                </div>
+                              )
+                            }
                           </div>
                         )
                       ) : (

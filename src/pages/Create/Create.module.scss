@@ -56,14 +56,15 @@
   margin-top: 2em;
 }
 .optBoxes {
-  width: 90%;
+  //width: 90%;
+  width: 60%;
   margin: 5em auto;
   @include flexRegular(row, space-between);
   //background: pink;
 }
 .optBox {
   width: 20%;
-  max-width: 250px;
+  max-width: 240px;
 }
 .optBox2 {
   width: 45%;
@@ -225,7 +226,7 @@
 }
 .collectionFill {
   border: 1.4px solid #18181b;
-  margin-left: 2em;
+  // margin-left: 2em; // important?
   img {
     //background: pink;
     width: 60%;

@@ -1,10 +1,13 @@
 import { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { ThemeContext } from '../../context/ThemeContext'
+import { AuthContext } from '../../context/AuthContext'
+import { CircularProgress } from '@material-ui/core'
 import style from './Profile.module.scss'
 import Header from '../../components/Header/Header'
 import Cover from './assets/cover.svg'
-import Avatar from './assets/avatar.svg'
+import Avatar from './assets/user3.svg'
+import Av2 from './assets/user5.svg'
 // import Edit from './assets/edit.svg'
 // import Sad from './assets/sad.svg'
 // import Arrow from './assets/arrow.svg'
@@ -12,15 +15,178 @@ import Arrow2 from './assets/arrowLeft.svg'
 import Container from '../../components/Container/Container'
 import TextInput from '../../components/Inputs/TextInput'
 import TextArea from '../../components/Inputs/TextArea'
+import { publicRequest } from '../../utils/requestMethods'
 
 const EditProfile = () => {
+  const [isLoading, setIsLoading] = useState(false)
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
   const currentAddress = localStorage.getItem('currentAccount')
+  const [authState, setAuthState] = useContext<any>(AuthContext)
+  const user = authState.user
+  //console.log(user)
+  const [userInput, setUserInput] = useState<any>({
+    name: user.name || '',
+    email: user.email || '',
+    bio: user.bio || '',
+    twitterLink: user.twitter_username || '',
+    website: user.custom_url || '',
+  })
+  const [imageFile, setImageFile] = useState<any>({
+    file: '',
+    location: '',
+  })
+  const [coverImage, setCoverImage] = useState<any>({
+    file: '',
+    location: '',
+  })
 
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [currentAddress])
+
+  const inputHandler = (event: any) => {
+    setUserInput({
+      ...userInput,
+      [event.target.name]: event.target.value,
+    })
+  }
+  const selectMedia1 = async (e: any) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setCoverImage({
+        ...coverImage,
+        file: e.target.files[0],
+      })
+    }
+  }
+
+  const selectMedia2 = async (e: any) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setImageFile({
+        ...imageFile,
+        file: e.target.files[0],
+      })
+      // var form_data = new FormData()
+      // form_data.append('upload', e.target.files[0])
+      // try {
+      //   const resp = await fetch(
+      //     'https://dev.api.nftytribe.io/api/collectibles/upload-image',
+      //     {
+      //       method: 'POST',
+      //       body: form_data,
+      //     },
+      //   )
+      //   const data = await resp.json()
+      //   //setImageLocation(data.location)
+      //   setImageFile({
+      //     ...imageFile,
+      //     location: data.location,
+      //   })
+      //   console.log(data)
+      // } catch (error) {
+      //   console.log(error)
+      // }
+    }
+  }
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault()
+    try {
+      setIsLoading(true)
+      //
+      if (coverImage.file) {
+        //console.log("cover image >>>", coverImage.file)
+        const img_data = new FormData()
+        img_data.append('upload', coverImage.file)
+        try {
+          const resp = await fetch(
+            'https://dev.api.nftytribe.io/api/collectibles/upload-image',
+            {
+              method: 'POST',
+              body: img_data,
+            },
+          )
+          const data = await resp.json()
+          //setImageLocation(data.location)
+          setCoverImage({
+            ...coverImage,
+            location: data.location,
+          })
+          console.log('cover image>>>', data)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      if (imageFile.file) {
+        const img_data = new FormData()
+        img_data.append('upload', imageFile.file)
+        try {
+          const resp = await fetch(
+            'https://dev.api.nftytribe.io/api/collectibles/upload-image',
+            {
+              method: 'POST',
+              body: img_data,
+            },
+          )
+          const data = await resp.json()
+          //setImageLocation(data.location)
+          setImageFile({
+            ...imageFile,
+            location: data.location,
+          })
+          console.log('image>>>', data)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      console.log('show location>>', imageFile.location)
+      console.log('show userInput', userInput)
+      const data = userInput
+      data.wallet_adress = user.wallet_address
+      data.cover_image = coverImage.location
+      data.image = imageFile.location
+      data.name = userInput.name
+      data.email = userInput.email
+      data.bio = userInput.bio
+      data.twitter_username = userInput.twitterLink
+      data.bio = userInput.bio
+      data.custom_url = userInput.website
+
+      const updateUserReq = await publicRequest.post(`/user/update-user`, data)
+      console.log('result>>', updateUserReq)
+      // setAuthState({
+      //   ...authState,
+      //   user: logUserReq.data.data,
+      //   isFetching: false,
+      //   error: false,
+      // })
+      setAuthState({
+        ...authState,
+        user: {
+          ...authState.user,
+          //
+          cover_image: coverImage.location,
+          image: imageFile.location,
+          name: userInput.name,
+          email: userInput.email,
+          bio: userInput.bio,
+          twitter_username: userInput.twitterLink,
+          custom_url: userInput.website,
+        },
+        isFetching: false,
+        error: false,
+      })
+      setIsLoading(false)
+    } catch (err) {
+      console.log(err)
+      setAuthState({
+        ...authState,
+        isFetching: false,
+        error: true,
+      })
+      setIsLoading(false)
+    }
+  }
   return (
     <>
       <Header />
@@ -29,7 +195,17 @@ const EditProfile = () => {
           <div
             className={`${style.coverBx2} animate__animated animate__fadeInDown `}
           >
-            <img className={style.cover} src={Cover} alt="cover" />
+            {!coverImage.file && (
+              <img className={style.cover} src={Cover} alt="cover" />
+            )}
+            {coverImage.file && (
+              <img
+                className={style.cover}
+                src={URL.createObjectURL(coverImage.file)}
+                alt="cover"
+              />
+            )}
+
             <div className={style.coverBtns}>
               <Link to="/profile">
                 {' '}
@@ -40,16 +216,46 @@ const EditProfile = () => {
                 Edit cover photo
               </button>
             </div>
+            <div className={style.fileInput1}>
+              <input
+                type="file"
+                name="img"
+                onChange={selectMedia1}
+                //required
+              />
+            </div>
           </div>
           <div
             className={`${style.content} animate__animated animate__fadeInUp animate__delay-1s `}
           >
             <div className={style.profileInfo}>
-              <div className={style.avatar}>
-                <img src={Avatar} alt="avatar" />
-              </div>
+              {!imageFile.file && user?.image === '' && (
+                <div className={style.avatar}>
+                  <img src={dark === 'true' ? Avatar : Av2} alt="avatar" />
+                </div>
+              )}
+              {!imageFile.file && user?.image !== '' && (
+                <div className={style.avatar}>
+                  <img src={user?.image} alt="avatar" />
+                </div>
+              )}
+
+              {imageFile.file && (
+                <div className={style.avatar}>
+                  <img src={URL.createObjectURL(imageFile.file)} alt="avatar" />
+                </div>
+              )}
+
               <div className={style.picBtn}>
                 <button>Change Photo</button>
+                <div className={style.fileInput2}>
+                  <input
+                    type="file"
+                    name="img"
+                    onChange={selectMedia2}
+                    //required
+                  />
+                </div>
               </div>
               {/* <div className={style.title}>
                 <h1>Michael Carson</h1>
@@ -61,31 +267,72 @@ const EditProfile = () => {
               <form>
                 <div className={style.inputField}>
                   <p>Username</p>
-                  <TextInput holder="Enter username" />
+                  <TextInput
+                    type="text"
+                    inputName="name"
+                    holder="Enter username"
+                    inputHandler={inputHandler}
+                    value={userInput.name}
+                  />
                 </div>
                 <div className={style.inputField}>
                   <p>Email address</p>
-                  <TextInput holder="Enter email e.g youremail@example.com" />
+                  <TextInput
+                    type="email"
+                    inputName="email"
+                    holder="Enter email e.g youremail@example.com"
+                    inputHandler={inputHandler}
+                    value={userInput.email}
+                  />
                 </div>
                 <div className={style.inputField}>
                   <p>Bio</p>
-                  <TextArea holder="Tell the world about yourself! It starts here" />
+                  <TextArea
+                    inputName="bio"
+                    type="text"
+                    inputHandler={inputHandler}
+                    holder="Tell the world about yourself! It starts here"
+                    value={userInput.bio}
+                  />
                 </div>
                 <div className={style.inputField}>
                   <p>Twitter link</p>
-                  <TextInput holder=" http://twitter.com/your username" />
+                  <TextInput
+                    inputName="twitterLink"
+                    type="text"
+                    inputHandler={inputHandler}
+                    holder=" http://twitter.com/your username"
+                    value={userInput.twitterLink}
+                  />
                 </div>
                 <div className={style.inputField}>
                   <p>Website URL</p>
-                  <TextInput holder="Enter your website url e.g http://www.xyz.io" />
+
+                  <TextInput
+                    inputName="website"
+                    type="text"
+                    inputHandler={inputHandler}
+                    holder="Enter your website url e.g http://www.xyz.io"
+                    value={userInput.website}
+                  />
                 </div>
-                <div className={style.inputField}>
+                {/* <div className={style.inputField}>
                   <p>Website URL</p>
                   <h4>To get verified and a blue tick</h4>
                   <button>Verify</button>
-                </div>
+                </div> */}
                 <div className={style.editBtn}>
-                  <button>Update Profile</button>
+                  <button
+                    type="submit"
+                    onClick={handleSubmit}
+                    disabled={isLoading}
+                  >
+                    {!isLoading ? (
+                      'Update Profile'
+                    ) : (
+                      <CircularProgress color="inherit" size="20px" />
+                    )}
+                  </button>
                 </div>
               </form>
             </div>

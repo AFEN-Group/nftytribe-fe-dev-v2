@@ -1,18 +1,40 @@
-import { useEffect, useContext } from 'react'
+import { useEffect, useContext, useState } from 'react'
 import { gsap, Expo } from 'gsap'
 import { motion } from 'framer-motion'
 import { ThemeContext } from '../../../context/ThemeContext'
+import { publicRequest } from '../../../utils/requestMethods'
 
 import style from '../Home.module.scss'
 
-import ItemCard from '../../../components/Card/ItemCardDefault'
+import ItemCard from '../../../components/Card/ItemCardFeatured'
+//import ItemCard2 from '../../../components/Card/ItemCard'
 
 import dot1 from '../assets/yellowdot.svg'
 import dot2 from '../assets/bluedot.svg'
 
 const Hero = () => {
+  const [items, setItems] = useState([])
+  const [featured, setFeatured] = useState()
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
+
+  useEffect(() => {
+    const getExploreCollectibles = async () => {
+      try {
+        const explore = await publicRequest.get(`/collectibles/explore`)
+        const exploreData = explore.data
+        console.log(exploreData)
+        setItems(exploreData?.data?.collectibles)
+        setFeatured(exploreData?.data?.collectibles[0])
+        console.log(exploreData?.data?.collectibles[0])
+        //setTotalCount(exploreData?.data?.total_count)
+        //setIsLoading(false)
+      } catch (error) {
+        //setIsLoading(false)
+      }
+    }
+    getExploreCollectibles()
+  }, [])
 
   useEffect(() => {
     const heroTitle = document.getElementById('heroTitle')
@@ -150,7 +172,7 @@ const Hero = () => {
                   },
                 }}
               >
-                <ItemCard />
+                <ItemCard nftData={featured} />
               </motion.div>
             </div>
           </div>

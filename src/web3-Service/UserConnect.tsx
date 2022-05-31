@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 //import web3 from 'web3'
+import { AuthContext } from '../context/AuthContext'
+import { publicRequest } from '../utils/requestMethods'
 declare const window: any
 
 const UserConnect = () => {
@@ -9,6 +11,7 @@ const UserConnect = () => {
     account: '',
     chain: '',
   })
+  const [authState, setAuthState] = useContext<any>(AuthContext)
 
   const connectToMetaMask = async () => {
     if (window.ethereum) {
@@ -24,7 +27,34 @@ const UserConnect = () => {
           account: accounts[0],
           chain: window.ethereum.chainId,
         })
-        window.location.reload()
+
+        setAuthState({
+          ...authState,
+          isFetching: true,
+        })
+        try {
+          const user = {
+            params: {
+              wallet_address: localStorage.getItem('currentAccount'),
+            },
+          }
+          const logUserReq = await publicRequest.post(`/user/create-user`, user)
+          console.log('user>>', logUserReq.data.data)
+          setAuthState({
+            ...authState,
+            user: logUserReq.data.data,
+            isFetching: false,
+            error: false,
+          })
+          //window.location.reload()
+        } catch (err) {
+          console.log(err)
+          setAuthState({
+            ...authState,
+            isFetching: false,
+            error: true,
+          })
+        }
         //setWalletError('')
         // } else {
         //   setWalletError('Wrong Chain Selected!')
@@ -44,6 +74,7 @@ const UserConnect = () => {
         delete window.web3
         localStorage.removeItem('currentAccount')
         localStorage.removeItem('chain')
+        localStorage.removeItem('user')
         //window.location = '/'
         window.location.reload()
         resolve(true)
@@ -59,6 +90,7 @@ const UserConnect = () => {
         try {
           localStorage.removeItem('currentAccount')
           localStorage.removeItem('chain')
+          //localStorage.removeItem('user')
           setUserInfo({
             ...userInfo,
             account: ' ',
@@ -76,6 +108,7 @@ const UserConnect = () => {
         try {
           localStorage.removeItem('currentAccount')
           localStorage.removeItem('chain')
+          //localStorage.removeItem('user')
           setUserInfo({
             ...userInfo,
             chain: ' ',

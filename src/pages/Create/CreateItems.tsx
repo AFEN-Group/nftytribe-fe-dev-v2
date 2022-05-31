@@ -24,7 +24,7 @@ import Web3 from 'web3'
 import erc721Abi from '../../smart_contracts/erc721Mintable.json'
 import erc721MarketplaceAbi from '../../smart_contracts/erc721Market.json'
 import erc721CollectionAbi from '../../smart_contracts/erc721Collection.json'
-//import { publicRequest } from '../../utils/requestMethods'
+import { publicRequest } from '../../utils/requestMethods'
 
 import { ethers } from 'ethers'
 import CreateSteps from './Modals/CreateSteps'
@@ -77,6 +77,7 @@ const CreateItems = () => {
   })
   const [cardImage, setCardImage] = useState('')
   const [imageFile, setImageFile] = useState<any>(null)
+  const [userCollections, setUserCollections] = useState([])
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -95,6 +96,22 @@ const CreateItems = () => {
     { value: 'utility', text: 'Utility' },
     // { value: '5', text: 'Music' },
   ]
+  useEffect(() => {
+    const wallet_address = localStorage.getItem('currentAccount')
+    const getCollections = async () => {
+      try {
+        const collections = await publicRequest.get(
+          `/collections/user-collection?wallet_address=${wallet_address}`,
+        )
+        console.log(collections)
+        setUserCollections(collections?.data?.data.collections)
+        setIsLoading(false)
+      } catch (error) {
+        setIsLoading(false)
+      }
+    }
+    getCollections()
+  }, [])
   const inputHandler = async (event: any) => {
     setValidated(false)
     const { name, value } = event.target
@@ -797,7 +814,7 @@ const CreateItems = () => {
                 </>
               )}
               <div className={style.cfieldBx}>
-                <Link
+                {/* <Link
                   to="/createcollection"
                   className={`${style.collectionDashed} ${
                     dark === 'true' ? 'darkGradient' : 'lightGradient'
@@ -805,7 +822,7 @@ const CreateItems = () => {
                 >
                   <img src={create} alt="create" />
                   <p>Create</p>
-                </Link>
+                </Link> */}
                 <div
                   className={`${style.collectionFill} ${
                     dark === 'true' ? 'darkGradient' : 'lightGradient'
@@ -816,6 +833,17 @@ const CreateItems = () => {
                 </div>
                 <p></p>
               </div>
+              {userCollections.length >= 1 && (
+                <div className={style.fieldBx}>
+                  <p>Choose from created collections</p>
+                  <SelectOption
+                    value={userInput.category}
+                    inputName="collection_address"
+                    inputHandler={inputHandler}
+                    options={userCollections}
+                  />
+                </div>
+              )}
 
               <div className={style.fieldBx}>
                 <p>Select a category</p>
