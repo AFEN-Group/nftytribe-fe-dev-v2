@@ -53,6 +53,22 @@
     min-height: 320px;
   }
 }
+@keyframes skeleton {
+  to {
+    opacity: 0.6;
+  }
+}
+.cardImgsk {
+  border-radius: 20px;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  width: 400px;
+  //height: 320px;
+  height: 390px;
+  background: #313131;
+  animation: skeleton 1s ease infinite alternate;
+}
 .cardTop {
   position: absolute;
   top: 1em;

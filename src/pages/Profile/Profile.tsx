@@ -24,7 +24,7 @@ const Profile = () => {
   const user = authState.user
   console.log(user)
   const [collectibles, setCollectibles] = useState<any>()
-  const currentAddress = localStorage.getItem('currentAccount')
+  const currentAddress: any = localStorage.getItem('currentAccount')
   const [res, setRes] = useState<any>()
   //const [currentPage, setCurrentPage] = useState(1)
   //console.log('auth>>', authState)
@@ -84,15 +84,13 @@ const Profile = () => {
                 />
               </div>
               <div className={style.title}>
-                {user && (
+                {res && (
                   <h1>
-                    {user.name ||
-                      shortenAddress(user.wallet_address) ||
-                      user.name}
+                    {res.name || shortenAddress(currentAddress) || res.name}
                   </h1>
                 )}
-                {!user && <h1>User</h1>}
-                {user && (
+                {!res && <h1>User</h1>}
+                {res && (
                   <Link to="/editProfile">
                     <img src={dark === 'true' ? Edit2 : Edit} alt="edit" />
                   </Link>

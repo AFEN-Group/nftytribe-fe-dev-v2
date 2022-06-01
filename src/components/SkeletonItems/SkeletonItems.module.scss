@@ -1,0 +1,141 @@
+@import '../../variables';
+@import '../../mixins';
+@keyframes skeleton {
+  to {
+    opacity: 0.6;
+  }
+}
+.imgSkeleton {
+  background: #313131;
+  width: 100%;
+  border-radius: 20px;
+  height: 470px;
+  animation: skeleton 1s ease infinite alternate;
+}
+.blackBg {
+  background: #313131;
+  width: 80%;
+  height: 30px;
+  //animation: skeleton 1s ease infinite alternate;
+}
+// Items
+.itemBx {
+  box-shadow: 0px 2px 4px rgba(91, 91, 91, 0.24);
+  border-radius: 24px;
+  position: relative;
+  color: #fff;
+  font-family: 'Raleway';
+  transition: all 0.4s ease;
+}
+.itemImg {
+  transition: all 0.4s ease;
+  &:hover {
+    transition: all 0.4s ease;
+    //transform: scale(1.035);
+    transform: scale(1.05);
+    border-radius: 0;
+    //background: #b9bddf;
+  }
+  position: relative;
+  padding: 14px;
+  @include flexRegular(column, center);
+  .imgBg {
+    height: 470px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+  }
+}
+@media (max-width: 1300px) {
+  .itemImg {
+    transition: all 0.4s ease;
+    .imgBg {
+      height: 400px;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 20px;
+    }
+    .imgSkeleton {
+      background: #313131;
+      width: 100%;
+      border-radius: 20px;
+      height: 400px;
+      animation: skeleton 1s ease infinite alternate;
+    }
+  }
+}
+.itemBx:hover > .itemDesc {
+  bottom: -10px;
+  backdrop-filter: blur(5px);
+  transition: all 0.4s ease;
+}
+
+.dark {
+  background: #52525b;
+}
+.light {
+  background: #b9bddf;
+}
+.itemDesc {
+  transition: all 0.4s ease;
+  position: absolute;
+  padding: 25px 10px 10px 10px;
+  bottom: 10px;
+  background: rgba(23, 18, 20, 0.4);
+  box-shadow: inset 0px 0.8px 100px rgba(216, 57, 166, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  width: 96%;
+  left: 2%;
+  right: 2%;
+  margin: auto;
+}
+.itemTxt {
+  //background: grey;
+  @include flexRegular(row, space-between);
+  padding-bottom: 13px;
+}
+.itemSubtxt {
+  h3 {
+    margin-bottom: 0.8em;
+  }
+  .userBx {
+    @include flexRegular(row, flex-start);
+    img {
+      margin-right: 7px;
+    }
+    p {
+      font-size: 0.86em;
+      width: 80%;
+      //background: pink;
+    }
+  }
+}
+.btn {
+  align-self: flex-end;
+  button {
+    @include buttonRegular($blueMain, 78px, 27px);
+    color: #fff;
+    padding: 0.7em;
+    border-radius: 4px;
+    font-size: 0.7em;
+  }
+}
+
+.actionBx {
+  background: #1b1819;
+  border-radius: 12px;
+  padding: 10px 10px;
+  font-size: 0.9em;
+}
+.aBcontent {
+  @include flexRegular(row, space-between);
+}
+.aleft {
+  @include flexRegular(row, flex-start);
+  img {
+    width: 34px;
+    height: 34px;
+    margin-right: 0.4em;
+  }
+}

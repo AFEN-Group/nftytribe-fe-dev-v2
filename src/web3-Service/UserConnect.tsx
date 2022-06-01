@@ -27,11 +27,6 @@ const UserConnect = () => {
           account: accounts[0],
           chain: window.ethereum.chainId,
         })
-
-        setAuthState({
-          ...authState,
-          isFetching: true,
-        })
         try {
           const user = {
             params: {
@@ -55,6 +50,7 @@ const UserConnect = () => {
             error: true,
           })
         }
+        window.location.reload()
         //setWalletError('')
         // } else {
         //   setWalletError('Wrong Chain Selected!')

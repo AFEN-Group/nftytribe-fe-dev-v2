@@ -448,7 +448,7 @@ const ExploreSingle = () => {
                               dark === 'true' ? 'darkGradient' : 'lightGradient'
                             } `}
                           >
-                            {collectedNft && (
+                            {!collectedNft && (
                               <div className={style.bids}>
                                 <div className={style.bidBx}>
                                   <div className={style.bidBlue}>
@@ -481,7 +481,7 @@ const ExploreSingle = () => {
                             )}
                             {
                               //auctionData?.startingPrice !== '0' ||
-                              collectedNft ? (
+                              !collectedNft ? (
                                 <div className={style.time}>
                                   {/* <p>2d 13h 23m 19s</p> */}
                                   <p>

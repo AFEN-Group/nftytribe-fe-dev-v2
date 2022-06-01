@@ -86,7 +86,7 @@ const ConnectWallet = (props: any) => {
       overlay.classList.toggle(style.overlay)
     }
     //}
-  }, [currentAccount])
+  }, [])
   const handleSignOut = async () => {
     disableEthereum()
     props.handleModal()

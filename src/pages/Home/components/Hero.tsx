@@ -11,8 +11,10 @@ import ItemCard from '../../../components/Card/ItemCardFeatured'
 
 import dot1 from '../assets/yellowdot.svg'
 import dot2 from '../assets/bluedot.svg'
+import ItemSkeleton from '../../../components/Card/ItemSkeleton'
 
 const Hero = () => {
+  const [isLoading, setIsLoading] = useState(true)
   const [items, setItems] = useState([])
   const [featured, setFeatured] = useState()
   const [themeState] = useContext<any>(ThemeContext)
@@ -28,7 +30,7 @@ const Hero = () => {
         setFeatured(exploreData?.data?.collectibles[0])
         console.log(exploreData?.data?.collectibles[0])
         //setTotalCount(exploreData?.data?.total_count)
-        //setIsLoading(false)
+        setIsLoading(false)
       } catch (error) {
         //setIsLoading(false)
       }
@@ -172,7 +174,7 @@ const Hero = () => {
                   },
                 }}
               >
-                <ItemCard nftData={featured} />
+                {isLoading ? <ItemSkeleton /> : <ItemCard nftData={featured} />}
               </motion.div>
             </div>
           </div>
