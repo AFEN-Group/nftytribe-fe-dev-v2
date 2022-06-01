@@ -230,6 +230,11 @@
       margin-left: 0.6em;
     }
   }
+  .activitySingle {
+    @include gridRegular(1em);
+    grid-template-columns: 1.5fr 1.5fr 1.5fr;
+    padding: 1em 0;
+  }
 }
 // modal
 .overlay {

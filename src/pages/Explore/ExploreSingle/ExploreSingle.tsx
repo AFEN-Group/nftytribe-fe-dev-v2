@@ -44,6 +44,7 @@ const ExploreSingle = () => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [nft, setNft] = useState<any>()
   const [nftDetails, setNftDetails] = useState<any>()
+  const [activities, setActivities] = useState<any>()
   const [auctionData, setAuctionData] = useState<any>()
   const [showBuy, setShowBuy] = useState(false)
   const [showBid, setShowBid] = useState(false)
@@ -216,6 +217,8 @@ const ExploreSingle = () => {
         )
         console.log('check>>>', details.data)
         setNftDetails(details?.data?.data?._doc)
+        setActivities(details?.data?.data?.activities)
+        console.log('<<< cu ', details?.data?.data?.activities)
         const ifToBeCollected = await checkIfBIdTimePasses(
           id,
           collectionAddress,
@@ -389,22 +392,22 @@ const ExploreSingle = () => {
                     >
                       <p>The Art</p>
                     </div>
-                    {/* <div
+                    <div
                       className={
                         tab === 'activity' ? style.navItemActive : style.navItem
                       }
                       onClick={() => setTab('activity')}
                     >
                       <p>The Activity</p>
-                    </div> */}
-                    {/* <div
+                    </div>
+                    <div
                       className={
                         tab === 'offers' ? style.navItemActive : style.navItem
                       }
                       onClick={() => setTab('offers')}
                     >
                       <p>Offers</p>
-                    </div> */}
+                    </div>
                   </div>
                   <div className={style.rightIcons}>
                     <img src={dark === 'true' ? Share2 : Share} alt="share" />
@@ -420,8 +423,8 @@ const ExploreSingle = () => {
                   </div>
                   {/* <div className={style.bronze}>
                     <p>||| Benin Broxnze</p>
-                  </div>
-                  <div className={style.eyes}>
+                  </div> */}
+                  {/* <div className={style.eyes}>
                     <img src={dark === 'true' ? Eye2 : Eye} alt="seen" />
                     <p>1215</p>
                   </div> */}
@@ -584,7 +587,68 @@ const ExploreSingle = () => {
                     </div>
                   </div>
                 )}
-                {tab === 'activity' && <div className={style.activity}></div>}
+                {tab === 'activity' && (
+                  <div
+                    className={`${style.activity} animate__animated animate__fadeIn`}
+                  >
+                    <div className={style.activitySingle}>
+                      <div className={style.aAddress}>
+                        <p>Address</p>
+                      </div>
+                      <div className={style.aType}>
+                        <p>Activity type</p>
+                      </div>
+                      <div className={style.aDate}>
+                        <p>Date</p>
+                      </div>
+                    </div>
+                    {activities?.map((activity: any, i: any) => (
+                      <div className={style.activitySingle} key={activity._id}>
+                        <div className={style.aAddress}>
+                          {activity.to ? (
+                            <p>{shortenAddress(activity?.to)}</p>
+                          ) : (
+                            <p>{shortenAddress(activity?.from)}</p>
+                          )}
+                        </div>
+                        <div className={style.aType}>
+                          <p>{activity?.type}</p>
+                        </div>
+                        <div className={style.aDate}>
+                          <p>{activity?.timeStamp.substr(0, 10)}</p>
+                          {/* <p>{activity.timestamp}</p> */}
+                        </div>
+                      </div>
+                    ))}
+                    {/* <div className={style.activitySingle}></div> */}
+
+                    {/* <div>
+                      {activities?.map((activity: any, i: any) => {
+                        return (
+                          activity?._id && (
+                            <div
+                              className={style.activitySingle}
+                              key={activity._id}
+                            >
+                              <div className={style.aAddress}>
+                                <p>{activity.from}</p>
+                              </div>
+                              <div className={style.aType}>
+                                <p>{activity.type}jjjjj</p>
+                              </div>
+                              <div className={style.aDate}>
+                                <p>{activity.timestamp.substr(0, 10)}</p>
+                              </div>
+                              <div className="">
+                                <p>hhhhh</p>
+                              </div>
+                            </div>
+                          )
+                        )
+                      })}
+                    </div> */}
+                  </div>
+                )}
                 {tab === 'offers' && (
                   <div
                     className={`${style.offers} animate__animated animate__fadeIn`}
@@ -592,10 +656,9 @@ const ExploreSingle = () => {
                     <div className={style.offersContent}>
                       <div className={style.offer}>
                         <div className={style.offerUser}>
-                          <img src={User} alt="user" />
-                          <p>Michael Carson</p>
+                          <p>No offers</p>
                         </div>
-                        <div className={style.offerAddr}>
+                        {/* <div className={style.offerAddr}>
                           <p>0x120999...</p>
                         </div>
                         <div className={style.offerAddr}>
@@ -606,9 +669,9 @@ const ExploreSingle = () => {
                         </div>
                         <div className={style.offerAddr}>
                           <p>12:33:08</p>
-                        </div>
+                        </div> */}
                       </div>
-                      <div className={style.offer}>
+                      {/* <div className={style.offer}>
                         <div className={style.offerUser}>
                           <img src={User} alt="user" />
                           <p>Michael Carson</p>
@@ -661,7 +724,7 @@ const ExploreSingle = () => {
                         <div className={style.offerAddr}>
                           <p>12:33:08</p>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 )}
