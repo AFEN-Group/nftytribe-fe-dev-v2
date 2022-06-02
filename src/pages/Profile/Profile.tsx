@@ -22,7 +22,7 @@ const Profile = () => {
   const [authState] = useContext<any>(AuthContext)
   const dark = themeState.dark
   const user = authState.user
-  console.log(user)
+  ///console.log(user)
   const [collectibles, setCollectibles] = useState<any>()
   const currentAddress: any = localStorage.getItem('currentAccount')
   const [res, setRes] = useState<any>()
@@ -36,7 +36,7 @@ const Profile = () => {
     const getUser = async () => {
       try {
         const result = await publicRequest.get(`/user/${currentAddress}`)
-        console.log('user>>>', result)
+        console.log('user>>>', result.data.data)
         setRes(result.data.data)
       } catch (error) {
         console.log(error)
@@ -57,7 +57,7 @@ const Profile = () => {
         const result = await publicRequest.get(
           `/user/get-collectibles?wallet_address=${currentAddress}&${query}&page=${currentPage}&size=9`,
         )
-        console.log('res>', result)
+        //console.log('res>', result)
         setCollectibles(result.data.data.collectibles)
         setTotalPages(Math.round(result.data.data.total_count / 10))
         //setIsLoading(false)

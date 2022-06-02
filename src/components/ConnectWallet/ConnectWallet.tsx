@@ -39,6 +39,7 @@ const ConnectWallet = (props: any) => {
   const [afenSwap, setAfenSwap] = useState(true)
   //const [currentAccount, setCurrentAccount] = useState('')
   const currentAccount = localStorage.getItem('currentAccount')
+  const userObj = localStorage.getItem('user')
   const numberInputHandler = async (event: any) => {
     const valueFiltered = event.target.value.replace(/\D/g, '')
     setUserInput({

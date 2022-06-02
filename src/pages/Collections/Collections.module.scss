@@ -68,6 +68,43 @@
   }
 }
 
+//
+.bodyBtns {
+  margin: 2em 0;
+  @include flexRegular(row, center);
+  //background: pink;
+}
+.bodyBtn,
+.bodyBtn2 {
+  @include flexRegular(row, center);
+  background: #4d55a6;
+  color: #fff;
+  outline: none;
+  border: 0;
+  cursor: pointer;
+  //border: 1px solid #ffffff;
+  border-radius: 0px 10px;
+  width: 20vw;
+  max-width: 250px;
+  height: 52px;
+  transition: 0.3s ease-in;
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+.bodyBtn2 {
+  margin-left: 2em;
+  img {
+    margin-left: 1em;
+  }
+}
+.collectionsContainer {
+  margin-top: 3.5em;
+  @include gridRegular(2.5em);
+  grid-template-columns: 2fr 2fr 2fr;
+  align-items: flex-start;
+}
+
 // Import
 // .importContent {
 //   @include flexRegular(column, center);

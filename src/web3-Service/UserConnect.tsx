@@ -41,7 +41,9 @@ const UserConnect = () => {
             isFetching: false,
             error: false,
           })
-          //window.location.reload()
+          setTimeout(() => {
+            window.location.reload()
+          }, 1000)
         } catch (err) {
           console.log(err)
           setAuthState({
@@ -50,7 +52,7 @@ const UserConnect = () => {
             error: true,
           })
         }
-        window.location.reload()
+        //window.location.reload()
         //setWalletError('')
         // } else {
         //   setWalletError('Wrong Chain Selected!')

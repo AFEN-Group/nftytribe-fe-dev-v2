@@ -25,6 +25,7 @@ const EditProfile = () => {
   const [authState, setAuthState] = useContext<any>(AuthContext)
   const user = authState.user
   //console.log(user)
+  //console.log(localStorage.getItem('user'))
   const [userInput, setUserInput] = useState<any>({
     name: user?.name || '',
     email: user?.email || '',
@@ -43,6 +44,7 @@ const EditProfile = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0)
+    //console.log(userInput.name)
   }, [currentAddress])
 
   const inputHandler = (event: any) => {
@@ -83,7 +85,7 @@ const EditProfile = () => {
           file: e.target.files[0],
           location: data.location,
         })
-        console.log(data)
+        //console.log(data)
       } catch (error) {
         console.log(error)
       }
@@ -113,7 +115,7 @@ const EditProfile = () => {
             ...coverImage,
             location: data.location,
           })
-          console.log('cover image>>>', data)
+          // console.log('cover image>>>', data)
         } catch (error) {
           console.log(error)
         }
@@ -161,22 +163,22 @@ const EditProfile = () => {
       //   isFetching: false,
       //   error: false,
       // })
-      setAuthState({
-        ...authState,
-        user: {
-          ...authState.user,
-          //
-          cover_image: coverImage.location,
-          image: imageFile.location,
-          name: userInput.name,
-          email: userInput.email,
-          bio: userInput.bio,
-          twitter_username: userInput.twitterLink,
-          custom_url: userInput.website,
-        },
-        isFetching: false,
-        error: false,
-      })
+      // setAuthState({
+      //   ...authState,
+      //   user: {
+      //     ...authState.user,
+      //     //
+      //     cover_image: coverImage.location,
+      //     image: imageFile.location,
+      //     name: userInput.name,
+      //     email: userInput.email,
+      //     bio: userInput.bio,
+      //     twitter_username: userInput.twitterLink,
+      //     custom_url: userInput.website,
+      //   },
+      //   isFetching: false,
+      //   error: false,
+      // })
       setIsLoading(false)
     } catch (err) {
       console.log(err)

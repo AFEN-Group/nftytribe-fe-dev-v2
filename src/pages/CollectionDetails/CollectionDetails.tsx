@@ -28,6 +28,8 @@ const CollectionDetails = () => {
   const dark = themeState.dark
   const [collectibles, setCollectibles] = useState([])
   const [collection, setCollection] = useState<any>()
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(0)
   const { collectionId } = useParams()
 
   useEffect(() => {
@@ -35,16 +37,29 @@ const CollectionDetails = () => {
     const getCollectiblesForCollection = async () => {
       console.log(collectionId, 'hello')
       const response = await publicRequest.get(
-        `/collections/${collectionId}/collectibles`,
+        `/collections/${collectionId}/collectibles?page=${currentPage}`,
       )
       //const resp = await data.json()
       console.log(response)
       setCollection(response?.data?.data.collection)
       setCollectibles(response?.data?.data.collectibles)
+      setTotalPages(Math.round(response.data.data.total_count / 10))
+
       //setIsLoading(false)
     }
     getCollectiblesForCollection()
-  }, [collectionId])
+  }, [collectionId, currentPage])
+
+  const nextPage = () => {
+    if (currentPage >= 1) {
+      setCurrentPage(currentPage + 1)
+    }
+  }
+  const prevPage = () => {
+    if (currentPage <= totalPages) {
+      setCurrentPage(currentPage - 1)
+    }
+  }
   return (
     <>
       <Header />
@@ -252,17 +267,46 @@ const CollectionDetails = () => {
                 </div>
                 <div className={style.itemsContainer}>
                   {collectibles?.length >= 1 ? (
-                    <div className={style.itemsContent}>
-                      {collectibles?.map((nft: any, i: any) => {
-                        return (
-                          nft?._id && (
-                            <div className={style.itemBx} key={nft._id}>
-                              <ItemCard nftData={nft} />
-                            </div>
+                    <>
+                      <div className={style.itemsContent}>
+                        {collectibles?.map((nft: any, i: any) => {
+                          return (
+                            nft?._id && (
+                              <div className={style.itemBx} key={nft._id}>
+                                <ItemCard nftData={nft} />
+                              </div>
+                            )
                           )
-                        )
-                      })}
-                    </div>
+                        })}
+                      </div>
+                      <div className={style.pagination}>
+                        <div className={style.paginateBtns}>
+                          {currentPage > 1 && (
+                            <button
+                              className={`${style.filterItem} ${
+                                dark === 'true' ? 'lightTxt' : 'darkTxt'
+                              }`}
+                              onClick={prevPage}
+                            >
+                              {'Prev'}
+                            </button>
+                          )}
+                          {currentPage < totalPages && (
+                            <button
+                              className={`${style.filterItem} ${
+                                dark === 'true' ? 'lightTxt' : 'darkTxt'
+                              }`}
+                              onClick={nextPage}
+                            >
+                              {'Next'}
+                            </button>
+                          )}
+                        </div>
+                        {/* <p>
+                          Page {currentPage} of {totalPages}
+                        </p> */}
+                      </div>
+                    </>
                   ) : (
                     <div className={style.noContent}>
                       <div className={style.noResults}>
