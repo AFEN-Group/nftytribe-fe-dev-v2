@@ -67,7 +67,7 @@ const ExploreSingle = () => {
   useEffect(() => {
     window.scrollTo(0, 0)
     const wallet_address = localStorage.getItem('currentAccount')
-    console.log(wallet_address)
+    //console.log(wallet_address)
     if (wallet_address) {
       setWalletAddress(wallet_address)
     }

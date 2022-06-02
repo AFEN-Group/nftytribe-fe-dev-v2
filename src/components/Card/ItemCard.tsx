@@ -7,7 +7,7 @@ import like from './assets/like.svg'
 import user from './assets/user3.svg'
 import arrow from './assets/icon.svg'
 import style from './Card.module.scss'
-import Logo from './assets/logo.svg'
+//import Logo from './assets/logo.svg'
 import eth from './assets/eth.svg'
 import Web3 from 'web3'
 
@@ -24,15 +24,14 @@ const ItemCard = (data: any) => {
     }
     return url
   }
+  // if (data) {
+  //   const nftPrice = data?.nftData?.price
+  //   //.toString()
+  //   console.log('price>>>>', data)
+  // }
+  const currentAddress: any = localStorage.getItem('currentAccount')
+
   return (
-    // <Link
-    //   //to={`/explore/22/22`}
-    //   to={
-    //     data?.nftData?.is_lazy_mint
-    //       ? `/explore/${data?.nftData?.collection_address}/${data?.nftData?.signature}?lazy_mint=true`
-    //       : `/explore/${data?.nftData?.collection_address}/${data?.nftData?.token_id}`
-    //   }
-    // >
     <div className={style.card}>
       <div className={style.cardContent}>
         {/* <div className={style.cardImgBx}> */}
@@ -114,23 +113,32 @@ const ItemCard = (data: any) => {
                 }
                 className={style.buyBtn}
               >
-                {data?.nftData?.marketplace_type === 2 ? (
-                  <button>Bid</button>
-                ) : (
-                  <button>Buy</button>
-                )}
+                <button>
+                  {data?.nftData?.marketplace_type === 2 &&
+                  data?.nftData?.wallet_address !== currentAddress
+                    ? 'Bid'
+                    : data?.nftData?.marketplace_type !== 2 &&
+                      data?.nftData?.wallet_address !== currentAddress
+                    ? 'Buy'
+                    : data?.nftData?.wallet_address === currentAddress
+                    ? 'View'
+                    : ''}
+                </button>
               </Link>
             </div>
             <div className={style.actionBx}>
               <div className={style.aBcontent}>
                 <div className={style.aleft}>
                   <img src={eth} alt="eth" />
-
-                  <p>
-                    {' '}
-                    {Web3.utils.fromWei(data?.nftData?.price, 'ether') ||
-                      ''}{' '}
-                  </p>
+                  {data?.nftData?.price ? (
+                    <p>
+                      {' '}
+                      {Web3.utils.fromWei(data?.nftData?.price, 'ether') ||
+                        ''}{' '}
+                    </p>
+                  ) : (
+                    <p>0.00</p>
+                  )}
                   {/* <p>2800 Afen</p> */}
                 </div>
                 <div className={style.aright}>
@@ -143,7 +151,6 @@ const ItemCard = (data: any) => {
         )}
       </div>
     </div>
-    // </Link>
   )
 }
 

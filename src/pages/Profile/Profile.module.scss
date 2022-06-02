@@ -4,7 +4,6 @@
 .container {
   padding: 0 0 2em 0;
 }
-
 .coverBx {
   img {
     width: 100%;
@@ -254,5 +253,33 @@
     border: 0;
     color: #fff;
     outline: none;
+  }
+}
+.pagination {
+  //background: pink;
+  padding: 1em auto;
+  width: 90%;
+  margin: 2em auto;
+  @include flexRegular(column, center);
+}
+.paginateBtns {
+  @include flexRegular(row, center);
+  margin: 2em 0;
+  //background: pink;
+  width: 100%;
+  button:nth-child(2) {
+    margin-left: 2em;
+  }
+  button {
+    padding: 0.8em 3em;
+    transition: 0.3s ease-in;
+    background: none;
+    outline: none;
+    border: 1px solid gray;
+    //color: gray;
+    &:hover {
+      transform: scale(1.08);
+      //background: $mainGradient;
+    }
   }
 }

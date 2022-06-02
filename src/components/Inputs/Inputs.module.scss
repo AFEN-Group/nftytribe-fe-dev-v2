@@ -10,12 +10,16 @@
     border: 2px solid #a1a1aa;
     border-radius: 4px;
     outline: none;
-    padding: 0.2em 0.2em 0.2em 1em;
+    padding: 0.2em 2em 0.2em 1em;
     transition: 0.2s ease-in;
     //font-weight: lighter;
     font-weight: 300;
   }
   select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+  input[type='datetime-local'] {
     -webkit-appearance: none;
     -moz-appearance: none;
   }

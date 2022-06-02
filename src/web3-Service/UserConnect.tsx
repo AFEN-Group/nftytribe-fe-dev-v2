@@ -71,8 +71,8 @@ const UserConnect = () => {
         localStorage.removeItem('currentAccount')
         localStorage.removeItem('chain')
         localStorage.removeItem('user')
-        //window.location = '/'
-        window.location.reload()
+        window.location = '/'
+        //window.location.reload()
         resolve(true)
       } catch (error) {
         reject(error)

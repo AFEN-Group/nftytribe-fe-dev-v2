@@ -5,7 +5,7 @@ import { AuthContext } from '../../context/AuthContext'
 import style from './Profile.module.scss'
 import Header from '../../components/Header/Header'
 import Cover from './assets/cover.svg'
-import Avatar from './assets/user3.svg'
+//import Avatar from './assets/user3.svg'
 import Av2 from './assets/user5.svg'
 import Edit from './assets/edit.svg'
 import Edit2 from './assets/edit2.svg'
@@ -17,7 +17,7 @@ import ItemCard from '../../components/Card/ItemCard'
 import { shortenAddress } from '../../utils/formatting'
 
 const Profile = () => {
-  const [tab, setTab] = useState('all')
+  //const [tab, setTab] = useState('all')
   const [themeState] = useContext<any>(ThemeContext)
   const [authState] = useContext<any>(AuthContext)
   const dark = themeState.dark
@@ -26,7 +26,9 @@ const Profile = () => {
   const [collectibles, setCollectibles] = useState<any>()
   const currentAddress: any = localStorage.getItem('currentAccount')
   const [res, setRes] = useState<any>()
-  //const [currentPage, setCurrentPage] = useState(1)
+  const [query, setQuery] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(0)
   //console.log('auth>>', authState)
 
   useEffect(() => {
@@ -40,22 +42,45 @@ const Profile = () => {
         console.log(error)
       }
     }
+    if (currentAddress) {
+      getUser()
+    }
+  }, [currentAddress])
+  useEffect(() => {
+    setCurrentPage(1)
+    //setTotalPages(1)
+  }, [query])
+
+  useEffect(() => {
     const fetchUserNfts = async () => {
       try {
         const result = await publicRequest.get(
-          `/user/get-collectibles?wallet_address=${currentAddress}&collected=true&page=1&size=10`,
+          `/user/get-collectibles?wallet_address=${currentAddress}&${query}&page=${currentPage}&size=9`,
         )
-        //console.log(result)
+        console.log('res>', result)
         setCollectibles(result.data.data.collectibles)
-        //setTotalPages(Math.round(result.data.data.total_count / 10))
+        setTotalPages(Math.round(result.data.data.total_count / 10))
         //setIsLoading(false)
       } catch (error) {
         console.log(error)
       }
     }
-    getUser()
-    fetchUserNfts()
-  }, [currentAddress])
+    if (currentAddress) {
+      fetchUserNfts()
+    }
+  }, [currentAddress, query, currentPage])
+  const nextPage = () => {
+    if (currentPage >= 1) {
+      setCurrentPage(currentPage + 1)
+      //localStorage.setItem("")
+    }
+  }
+  const prevPage = () => {
+    if (currentPage <= totalPages) {
+      setCurrentPage(currentPage - 1)
+    }
+  }
+
   return (
     <>
       <Header />
@@ -105,74 +130,74 @@ const Profile = () => {
             <div
               //className={style.filterItemA}
               className={
-                tab === 'all' && dark === 'true'
+                query === '' && dark === 'true'
                   ? style.darkActive
-                  : tab === 'all' && dark !== 'true'
+                  : query === '' && dark !== 'true'
                   ? style.lightActive
                   : style.filterItem
               }
-              onClick={(e) => setTab('all')}
+              onClick={(e) => setQuery('')}
             >
               <p>All</p>
             </div>
             <div
               //className={style.filterItem}
               className={
-                tab === 'collected' && dark === 'true'
+                query === 'collected=true' && dark === 'true'
                   ? style.darkActive
-                  : tab === 'collected' && dark !== 'true'
+                  : query === 'collected=true' && dark !== 'true'
                   ? style.lightActive
                   : style.filterItem
               }
-              onClick={(e) => setTab('collected')}
+              onClick={(e) => setQuery('collected=true')}
             >
               <p>Collected</p>
             </div>
             <div
               className={
-                tab === 'onSale' && dark === 'true'
+                query === 'on_sale=true' && dark === 'true'
                   ? style.darkActive
-                  : tab === 'onSale' && dark !== 'true'
+                  : query === 'on_sale=true' && dark !== 'true'
                   ? style.lightActive
                   : style.filterItem
               }
-              onClick={(e) => setTab('onSale')}
+              onClick={(e) => setQuery('on_sale=true')}
             >
               <p>On sale</p>
             </div>
             <div
               className={
-                tab === 'created' && dark === 'true'
+                query === 'created=true' && dark === 'true'
                   ? style.darkActive
-                  : tab === 'created' && dark !== 'true'
+                  : query === 'created=true' && dark !== 'true'
                   ? style.lightActive
                   : style.filterItem
               }
-              onClick={(e) => setTab('created')}
+              onClick={(e) => setQuery('created=true')}
             >
               <p>Created</p>
             </div>
             <div
               className={
-                tab === 'activity' && dark === 'true'
+                query === 'activity=true' && dark === 'true'
                   ? style.darkActive
-                  : tab === 'activity' && dark !== 'true'
+                  : query === 'activity=true' && dark !== 'true'
                   ? style.lightActive
                   : style.filterItem
               }
-              onClick={(e) => setTab('activity')}
+              onClick={(e) => setQuery('activity=true')}
             >
               <p>Activity</p>
             </div>
             <div
               className={
-                tab === 'sold' && dark === 'true'
+                query === 'sold=true' && dark === 'true'
                   ? style.darkActive
-                  : tab === 'sold' && dark !== 'true'
+                  : query === 'sold=true' && dark !== 'true'
                   ? style.lightActive
                   : style.filterItem
               }
-              onClick={(e) => setTab('sold')}
+              onClick={(e) => setQuery('sold=true')}
             >
               <p>Sold</p>
             </div>
@@ -185,17 +210,46 @@ const Profile = () => {
             className={`${style.items} animate__animated animate__fadeInUp animate__delay-2s `}
           >
             {collectibles?.length >= 1 ? (
-              <div className={style.itemsContent}>
-                {collectibles?.map((nft: any, i: any) => {
-                  return (
-                    nft?._id && (
-                      <div className={style.itemBx} key={nft._id}>
-                        <ItemCard nftData={nft} />
-                      </div>
+              <>
+                <div className={style.itemsContent}>
+                  {collectibles?.map((nft: any, i: any) => {
+                    return (
+                      nft?._id && (
+                        <div className={style.itemBx} key={nft._id}>
+                          <ItemCard nftData={nft} />
+                        </div>
+                      )
                     )
-                  )
-                })}
-              </div>
+                  })}
+                </div>
+                <div className={style.pagination}>
+                  <div className={style.paginateBtns}>
+                    {currentPage > 1 && (
+                      <button
+                        className={`${style.filterItem} ${
+                          dark === 'true' ? 'lightTxt' : 'darkTxt'
+                        }`}
+                        onClick={prevPage}
+                      >
+                        {'Prev'}
+                      </button>
+                    )}
+                    {currentPage < totalPages && (
+                      <button
+                        className={`${style.filterItem} ${
+                          dark === 'true' ? 'lightTxt' : 'darkTxt'
+                        }`}
+                        onClick={nextPage}
+                      >
+                        {'Next'}
+                      </button>
+                    )}
+                  </div>
+                  <p>
+                    Page {currentPage} of {totalPages}
+                  </p>
+                </div>
+              </>
             ) : (
               <div className={style.noContent}>
                 <div className={style.noResults}>
