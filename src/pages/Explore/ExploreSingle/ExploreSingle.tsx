@@ -38,6 +38,7 @@ const ExploreSingle = () => {
   const { collectionAddress, id } = useParams()
   const params = new URLSearchParams(window.location.search)
   const lazy_mint = params.get('lazy_mint')
+  const seller = params.get('seller')
 
   const navigate = useNavigate()
   //const [priceType, setPriceType] = useState('auction')
@@ -76,7 +77,7 @@ const ExploreSingle = () => {
     const getNftDetails = async () => {
       try {
         const details = await publicRequest.get(
-          `/collectibles/${collectionAddress}/${id}`,
+          `/collectibles/${collectionAddress}/${id}?seller=${seller}`,
         )
         console.log('check>>>', details.data)
         setNftDetails(details?.data?.data?._doc)

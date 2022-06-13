@@ -39,8 +39,8 @@ const ItemCard = (data: any) => {
           //to={`/explore/22/22`}
           to={
             data?.nftData?.is_lazy_mint
-              ? `/explore/${data?.nftData?.collection_address}/${data?.nftData?.signature}?lazy_mint=true`
-              : `/explore/${data?.nftData?.collection_address}/${data?.nftData?.token_id}`
+              ? `/explore/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner}&lazy_mint=true`
+              : `/explore/${data?.nftData?.collection_address}/${data?.nftData?.token_id}?seller=${data?.nftData?.owner}`
           }
         >
           <div className={style.cardImg}>
