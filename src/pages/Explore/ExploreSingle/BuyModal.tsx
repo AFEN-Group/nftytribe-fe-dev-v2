@@ -1,4 +1,5 @@
-import { useState } from 'react'
+//import { useState } from 'react'
+import useState from 'react-usestateref'
 //import { ThemeContext } from '../../../context/ThemeContext'
 //import useState from 'react-usestateref'
 import { Link } from 'react-router-dom'
@@ -13,6 +14,7 @@ import marketPlaceAbi from '../../../smart_contracts/erc721Market.json'
 import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
 import erc1155MintableAbi from "../../../smart_contracts/erc1155Mintable.json"
 import erc1155Marketplace from "../../../smart_contracts/erc1155Market.json"
+import NumberInput from '../../../components/Inputs/NumberInput'
 
 declare const window: any
 
@@ -30,7 +32,30 @@ const BuyModal = (props: any) => {
   //   eMsg: '',
   // })
   const [completed, setCompleted] = useState(false)
+  const [validated, setValidated] = useState(false)
+  const [userInput, setUserInput, userInputRef] = useState<any>({
+    quantity: '',
+  })
   //const tokens = [{ value: '1', text: 'eth' }]
+
+  const inputHandler = async (event: any) => {
+    setValidated(false)
+    const { name, value } = event.target
+    let letters = /[a-zA-Z]/
+    let specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,<>\/?~]/
+    let dots = value.match(/\./g)
+    if (letters.test(value) || specialChars.test(value) || dots?.length >= 2 || event.target.name > props?.nftDetails?.number_of_copie) {
+      console.log(value)
+    } else {
+      setUserInput({
+        ...userInput,
+        [event.target.name]: value,
+      })
+    }
+    if (userInputRef.current.quantity !== '') {
+      setValidated(true)
+    }
+  }
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
@@ -292,6 +317,19 @@ const BuyModal = (props: any) => {
                     ETH
                   </p>
                 </div>
+                {props?.nftDetails?.is_multiple && (
+                  <div className={style.fieldBx}>
+                    <p>Quantity</p>
+                    <br />
+                    <NumberInput
+                      inputName="quantity"
+                      holder="Enter quantity"
+                      min="1"
+                      max={props?.nftDetails?.number_of_copies}
+                    // inputHandler={inputHandler}
+                    // value={userInput.bid}
+                    />
+                  </div>)}
                 {/* <div className={style.pbItem}>
                   <p>Total </p>
                   <div className={style.pbBlue}>
