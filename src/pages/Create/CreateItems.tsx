@@ -70,7 +70,7 @@ const CreateItems = () => {
     wallet_address: '',
     title: '',
     description: '',
-    collection_address: erc721Mintable_address,
+    collection_address: itemType === 'single'? erc721Mintable_address : erc1155Mintable_adddress,
     //customCollection: '',
     nft_type: '',
     is_multiple: '',
@@ -103,6 +103,7 @@ const CreateItems = () => {
   ]
   useEffect(() => {
     const wallet_address = localStorage.getItem('currentAccount')
+    console.log(itemType,'type')
     const getCollections = async () => {
       try {
         const collections = await publicRequest.get(
@@ -485,11 +486,11 @@ const CreateItems = () => {
                 //setShowConnect(true)
               }
 
-              console.log(parseInt(returnValues?.tokenId), 'hello')
+              console.log(parseInt(returnvalues?.tokenId), 'hello')
               const approve = await erc721Contract.methods
                 .approve(
                   erc721Marketplace_address,
-                  parseInt(returnValues.tokenId),
+                  parseInt(returnvalues.tokenId),
                 )
                 .send({ from: wallet_address })
               console.log(approve, 'else')
@@ -541,7 +542,7 @@ const CreateItems = () => {
 
               let updatableData
               if (data.on_sale) {
-                console.log(parseInt(returnValues.token_id), 'hello')
+                console.log(parseInt(returnvalues.token_id), 'hello')
 
                 if (data.market_type === '2') {
                   data.starting_time =
@@ -550,7 +551,7 @@ const CreateItems = () => {
                 }
                 const putOnSale = await marketplace_contract.methods
                   .putOnSale(
-                    parseInt(returnValues.tokenId),
+                    parseInt(returnvalues.tokenId),
                     web3.utils.toWei(data.price, 'ether'),
                     parseInt(data.market_type),
                     parseInt(data.starting_time),
@@ -658,12 +659,13 @@ const CreateItems = () => {
             data.wallet_address = wallet_address
             data.chain = chain
             data.collection_address =
-              userInput.collection_address || erc1155Factory_address
+              erc1155Mintable_adddress || userInput.collection_address
             data.upload = imageFile
             data.is_multiple = false
             data.nft_type = userInput.category
             data.cardImage = cardImage
-            data.copies = userInput.copies
+            data.number_of_copies = userInput.copies
+            data.is_multiple = true
             if (data.market_type != '0') {
               data.on_sale = false
             }
@@ -781,26 +783,26 @@ const CreateItems = () => {
                 const mintingCharge = mintingChargePerToken * userInput.copies
                 if (
                   userInput.collection_address.toLowerCase() ===
-                  erc721Mintable_address.toLowerCase()
+                  erc1155Mintable_adddress.toLowerCase()
                 ) {
                   //console.log('hello collection')
 
                   mint = await erc1155Contract.methods
-                    .mint(response.data.file, 0)
+                    .mint(response.data.file, 0, userInput.copies)
                     .send({ from: wallet_address, value: mintingCharge })
                   console.log(mint, 'befor')
-                  returnvalues = mint.events.Transfer.returnValues
-                  //console.log(mint, 'hello here0')
+                  returnvalues = mint.events.TransferSingle.returnValues
+                  console.log(returnvalues, 'hello here0')
                 } else {
                   erc1155collectionContract = new web3.eth.Contract(
                     erc1155MintableAbi,
                     userInput.collection_address || erc721Mintable_address,
                   )
                   mint = await erc1155collectionContract.methods
-                    .mint(response.data.file, 0)
+                    .mint(response.data.file, 0, userInput.copies)
                     .send({ from: wallet_address, value: mintingCharge })
                   console.log(mint, 'befor')
-                  returnvalues = mint.events.Transfer.returnValues
+                  returnvalues = mint.events.TransferSingle.returnValues
                   console.log(mint, 'hello here')
                 }
 
@@ -817,8 +819,9 @@ const CreateItems = () => {
                   transaction_hash: mint.transactionHash,
                   on_sale: false,
                   type: 'mint',
-                  token_id: returnvalues.tokenId,
+                  token_id: returnvalues.id,
                   price: web3.utils.toWei(data.price, 'ether'),
+                  number_of_copies : userInput.copies
                 }
 
                 const updateCollectible = await fetch(
@@ -877,17 +880,24 @@ const CreateItems = () => {
                 alert('connect to meta mask wallet')
                 //setShowConnect(true)
               }
-
-              console.log(parseInt(returnValues?.tokenId), 'hello')
-              const approve = await erc1155Contract.methods
-                .approve(
+              const isApproved = await erc1155Contract.methods.isApprovedForAll(wallet_address, erc1155Marketplace_address).call();
+              console.log(isApproved,'check')
+              if(isApproved){
+                setIsLoading(false)
+                setStep(3)
+              }
+              else{
+                const approve = await erc1155Contract.methods
+                .setApprovalForAll(
                   erc1155Marketplace_address,
-                  parseInt(returnValues.tokenId),
+                  true,
                 )
                 .send({ from: wallet_address })
-              console.log(approve, 'else')
-              setIsLoading(false)
-              setStep(3)
+                console.log(approve, 'else')
+                setIsLoading(false)
+                setStep(3)
+              }
+              
             } catch (err) {
               console.log(err)
               setIsLoading(false)
@@ -929,6 +939,9 @@ const CreateItems = () => {
               data.is_multiple = false
               data.nft_type = userInput.category
               data.cardImage = cardImage
+              //data.price = parseFloat(userInput.price) * parseInt(userInput.copies)
+              returnvalues = mint.events.TransferSingle.returnValues
+              console.log(returnvalues,'value')
 
               if (data.market_type !== '0') {
                 data.on_sale = true
@@ -936,25 +949,24 @@ const CreateItems = () => {
 
               let updatableData
               if (data.on_sale) {
-                console.log(parseInt(returnValues.token_id), 'hello')
 
                 if (data.market_type === '2') {
                   data.starting_time =
                     new Date(data.starting_time).getTime() / 1000
                   data.ending_time = new Date(data.ending_time).getTime() / 1000
                 }
+                console.log(web3.utils.toWei(data.price.toString(), 'ether'), 'price', returnvalues.id)
                 const putOnSale = await marketplace_contract.methods
                   .putOnSale(
-                    parseInt(returnValues.tokenId),
-                    web3.utils.toWei(data.price, 'ether'),
-                    parseInt(data.market_type),
-                    parseInt(data.starting_time),
-                    parseInt(data.ending_time),
                     userInput.collection_address || erc1155Mintable_adddress,
+                    parseInt(returnvalues.id),
+                    parseInt(userInput.copies),
+                    web3.utils.toWei(data.price.toString(), 'ether'),
                     '0x0000000000000000000000000000000000000000',
                   )
                   .send({ from: wallet_address })
 
+                  console.log(putOnSale)
                 // const putOnSale = await handlePutOnSale(
                 //   returnValues.tokenId,
                 //   wallet_address,
@@ -977,7 +989,7 @@ const CreateItems = () => {
                 //   new Date(data.ending_time).getTime() + 2 * 24 * 3600 * 1000 // * 1000
 
                 updatableData = {
-                  token_id: returnValues.tokenId,
+                  token_id: returnvalues.id,
                   wallet_address,
                   collection_address:
                     userInput.collection_address || erc1155Mintable_adddress,
@@ -1001,7 +1013,7 @@ const CreateItems = () => {
                 }
               } else {
                 updatableData = {
-                  token_id: returnvalues.tokenId,
+                  token_id: returnvalues.id,
                   wallet_address,
                   collection_address:
                     userInput.collection_address || erc1155Mintable_adddress,
