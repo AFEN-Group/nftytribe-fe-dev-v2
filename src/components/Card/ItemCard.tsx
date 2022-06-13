@@ -49,7 +49,7 @@ const ItemCard = (data: any) => {
                 //className={style.imgBg}
                 src={
                   data?.nftData?.cardImage.includes('/ipfs') ||
-                  data?.nftData?.cardImage.includes('ipfs://')
+                    data?.nftData?.cardImage.includes('ipfs://')
                     ? `${getImageUrl(data?.nftData?.cardImage)}`
                     : data?.nftData?.cardImage
                 }
@@ -115,14 +115,14 @@ const ItemCard = (data: any) => {
               >
                 <button>
                   {data?.nftData?.marketplace_type === 2 &&
-                  data?.nftData?.wallet_address !== currentAddress
+                    data?.nftData?.wallet_address !== currentAddress
                     ? 'Bid'
                     : data?.nftData?.marketplace_type !== 2 &&
                       data?.nftData?.wallet_address !== currentAddress
-                    ? 'Buy'
-                    : data?.nftData?.wallet_address === currentAddress
-                    ? 'View'
-                    : ''}
+                      ? 'Buy'
+                      : data?.nftData?.wallet_address === currentAddress
+                        ? 'View'
+                        : ''}
                 </button>
               </Link>
             </div>
@@ -133,7 +133,7 @@ const ItemCard = (data: any) => {
                   {data?.nftData?.price ? (
                     <p>
                       {' '}
-                      {Web3.utils.fromWei(data?.nftData?.price, 'ether') ||
+                      {Web3.utils.fromWei(data?.nftData?.price.toString(), 'ether') ||
                         ''}{' '}
                     </p>
                   ) : (

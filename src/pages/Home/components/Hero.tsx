@@ -1,13 +1,17 @@
 import { useEffect, useContext, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { gsap, Expo } from 'gsap'
 import { motion } from 'framer-motion'
 import { ThemeContext } from '../../../context/ThemeContext'
 import { publicRequest } from '../../../utils/requestMethods'
 
-import style from '../Home.module.scss'
 
+
+import style from '../Home.module.scss'
 import ItemCard from '../../../components/Card/ItemCardFeatured'
-//import ItemCard2 from '../../../components/Card/ItemCard'
+//import ItemCard2 from '../../../components/Card/ItemCardDefault'
+import Arrow1 from '../assets/h-arrow1.svg'
+import Arrow2 from '../assets/h-arrow2.svg'
 
 import dot1 from '../assets/yellowdot.svg'
 import dot2 from '../assets/bluedot.svg'
@@ -19,6 +23,7 @@ const Hero = () => {
   const [featured, setFeatured] = useState()
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
+
 
   useEffect(() => {
     const getExploreCollectibles = async () => {
@@ -60,13 +65,15 @@ const Hero = () => {
     })
   }, [])
 
+
+
   return (
     <>
       <div
-        className={`${style.heroContainer} ${
-          dark === 'true' ? 'darkTheme' : 'lightTheme'
-        }`}
+        className={`${style.heroContainer} ${dark === 'true' ? 'darkTheme' : 'lightTheme'
+          }`}
       >
+
         <div className={style.hero}>
           <div className={style.heroTopContent}>
             <div className={style.heroTopLeft}>
@@ -74,28 +81,52 @@ const Hero = () => {
                 <div
                   className={`${style.leftTop} animate__animated animate__slideInDown`}
                 >
-                  <h2>Collect, sell & create</h2>
+                  <h2>Discover, Create & Trade</h2>
                 </div>
                 <h1>
-                  <span id="heroTitle">NFTs on Nfty Tribe</span>{' '}
+                  <span id="heroTitle">NFTs on NftyTribe</span>{' '}
                 </h1>
                 {/* <h1>One of a kind NFTs</h1> */}
                 <div className={style.leftBtm}>
                   <p>
                     <span id="heroText">
                       {' '}
-                      NftyTribe is a multi-chain NFT marketplace facilitating
+                      {/* NftyTribe is a multi-chain NFT marketplace facilitating
                       next-level experiences in exchanging NFTs. Users can trade
                       NFTs and seamlessly send and receive physical items tied
-                      to NFTs.{' '}
+                      to NFTs.  */}
+                      NftyTribe is a multi-chain NFT marketplace facilitating next-level experiences in exchanging NFTs. Users can trade NFTs and seamlessly send and receive physical items tied to NFTs..
                     </span>
                   </p>
                   <div
-                    className={`${style.leftBtns} animate__animated animate__slideInUp`}
+                    className={`${style.leftBtns} ${style.forW} animate__animated animate__slideInUp`}
                     id="heroBtns"
                   >
-                    <button>Join the tribe</button>
-                    <button>Explore marketplace</button>
+                    <Link to="/launchpartners">
+                      <button
+                        className={
+                          dark === 'true'
+                            ? style.lButton1_dark
+                            : style.lButton1_light
+                        }
+
+                      >
+                        Launch with us
+                      </button>
+                    </Link>
+                    <Link to="/explore">
+                      {' '}
+                      <button
+                        className={
+                          dark === 'true'
+                            ? style.lButton2_dark
+                            : style.lButton2_light
+                        }
+                      >
+                        Explore Marketplace{' '}
+                        <img src={dark === 'true' ? Arrow1 : Arrow2} alt="" />
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -176,6 +207,43 @@ const Hero = () => {
               >
                 {isLoading ? <ItemSkeleton /> : <ItemCard nftData={featured} />}
               </motion.div>
+              <div
+                className={`${style.leftBtns} ${style.forM} animate__animated animate__slideInUp`}
+                id="heroBtns"
+              >
+                {/* <button
+                  className={
+                    dark === 'true' ? style.lButton1_dark : style.lButton1_light
+                  }
+                  onClick={() => setJoinStatus(true)}
+                >
+                  Join the tribe
+                </button> */}
+                <Link to="/launchpartners">
+                  <button
+                    className={
+                      dark === 'true'
+                        ? style.lButton1_dark
+                        : style.lButton1_light
+                    }
+                  >
+                    Launch with us
+                  </button>
+                </Link>
+                <Link to="/collections">
+                  {' '}
+                  <button
+                    className={
+                      dark === 'true'
+                        ? style.lButton2_dark
+                        : style.lButton2_light
+                    }
+                  >
+                    Import Collection{' '}
+                    <img src={dark === 'true' ? Arrow1 : Arrow2} alt="" />
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -183,46 +251,45 @@ const Hero = () => {
           <div className={style.heroBanners}>
             <div
               //className={style.hBanner1}
-              className={`${style.hBanner1} ${
-                dark === 'true' ? 'gradient3' : 'lightGradient '
-              } `}
+              className={`${style.hBanner1} ${dark === 'true' ? 'gradient3' : 'lightGradient '
+                } `}
             >
               <ul className={style.hb1Content}>
-                <li>The Asmali collection drops on the 15th of August {'>'}</li>
+                <li>Nftytribe coming on the 30th of June... {'>'}</li>
                 <li></li>
-                <li>The Asmali collection drops on the 15th of August {'>'}</li>
+                <li>Nftytribe coming soon...{'>'}</li>
                 <li></li>
-                <li>The Asmali collection drops on the 15th of August {'>'}</li>
+                <li>Nftytribe coming on the 30th of June... {'>'}</li>
                 <li></li>
-                <li>The Asmali collection drops on the 15th of August {'>'}</li>
+                <li>Nftytribe coming soon... {'>'}</li>
                 <li></li>
-                <li>The Asmali collection drops on the 15th of August {'>'}</li>
+                <li>Nftytribe coming on the 30th of June...{'>'}</li>
                 <li></li>
-                <li>The Asmali collection drops on the 15th of August {'>'}</li>
+                <li>Nftytribe coming soon...{'>'}</li>
                 <li></li>
-                <li>The Asmali collection drops on the 15th of August {'>'}</li>
+                <li>Nftytribe coming on the 30th of June.. {'>'}</li>
                 <li></li>
-                <li>The Asmali collection drops on the 15th of August {'>'}</li>
+                <li>Nftytribe coming soon... {'>'}</li>
                 <li></li>
               </ul>
             </div>
             <div className={style.hBanner2}>
               <ul className={style.hb2Content}>
-                <li>The Asmali collection drops on the 15th of August {'>'}</li>
+                <li>Nftytribe coming on the 30th of June... {'>'}</li>
                 <li></li>
-                <li>The Asmali collection drops on the 15th of August {'>'}</li>
+                <li>Nftytribe coming soon... {'>'}</li>
                 <li></li>
-                <li>The Asmali collection drops on the 15th of August {'>'}</li>
+                <li>Nftytribe coming on the 30th of June... {'>'}</li>
                 <li></li>
-                <li>The Asmali collection drops on the 15th of August {'>'}</li>
+                <li>Nftytribe coming soon... {'>'}</li>
                 <li></li>
-                <li>The Asmali collection drops on the 15th of August {'>'}</li>
+                <li>Nftytribe coming on the 30th of June... {'>'}</li>
                 <li></li>
-                <li>The Asmali collection drops on the 15th of August {'>'}</li>
+                <li>Nftytribe coming soon... {'>'}</li>
                 <li></li>
-                <li>The Asmali collection drops on the 15th of August {'>'}</li>
+                <li>Nftytribe coming on the 30th of June... {'>'}</li>
                 <li></li>
-                <li>The Asmali collection drops on the 15th of August {'>'}</li>
+                <li>Nftytribe coming soon...{'>'}</li>
                 <li></li>
               </ul>
             </div>

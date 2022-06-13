@@ -4,6 +4,7 @@
 .container {
   padding: 0 0 2em 0;
 }
+
 .coverBx {
   img {
     width: 100%;
@@ -11,14 +12,17 @@
     object-fit: cover;
   }
 }
+
 .coverBx2 {
   position: relative;
+
   .cover {
     width: 100%;
     max-height: 350px;
     object-fit: cover;
   }
 }
+
 .coverBtns {
   position: absolute;
   //background: pink;
@@ -28,9 +32,11 @@
   top: 2em;
   left: 5%;
   height: 100%;
+
   .arrow {
     margin-top: 8em;
   }
+
   button {
     margin-top: 6em;
     color: #fff;
@@ -42,13 +48,16 @@
     border: 1px solid #fff;
     cursor: pointer;
   }
+
   .bl {
     border: 1px solid #fff;
   }
+
   .bd {
     border: 1px solid $darkGradient;
   }
 }
+
 .fileInput1 {
   position: absolute;
   bottom: 2.5em;
@@ -71,10 +80,12 @@
   max-width: 1300px;
   margin: auto;
 }
+
 .avatar {
   position: relative;
   //background: pink;
   @include flexRegular(row, center);
+
   img {
     position: absolute;
     top: -5em;
@@ -84,26 +95,31 @@
     object-fit: cover;
   }
 }
+
 .title {
   @include flexRegular(row, center);
   margin-top: 3em;
+
   h1 {
     // font-family: Neue-bold;
-    font-size: 1.5em;
+    font-size: 1.2em;
     font-weight: 700;
     text-align: center;
     //background: pink;
   }
+
   img {
     margin-left: 1em;
     cursor: pointer;
   }
 }
+
 .filters {
   margin: 4em auto 2em auto;
   width: 70%;
   @include flexRegular(row, space-between);
 }
+
 .filterItemA,
 .filterItem,
 .darkActive,
@@ -114,13 +130,16 @@
   border-radius: 0px 6px;
   padding: 0.5em 2em;
 }
+
 .darkActive {
   background: $darkGradient;
   color: $darkTxt;
 }
+
 .lightActive {
   background: $mainGradient;
 }
+
 // .filterItemA {
 //   background: $mainGradient;
 // }
@@ -133,39 +152,51 @@
 
 .itemsContent {
   width: 85%;
+
+  max-width: 1400px;
   margin: auto;
   @include gridRegular(1.5em);
   grid-template-columns: 2fr 2fr 2fr;
   align-items: flex-start;
+
   &::-webkit-scrollbar {
     display: none;
   }
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
   overflow-y: scroll;
   overflow-x: visible;
   //height: 100vh;
   //background: pink;
 }
+
 .noContent {
   @include flexRegular(column, center);
 }
+
 .itemBx {
   margin-left: 0em;
 }
+
 .noResults {
   h2 {
     font-family: Neue-bold;
     margin-bottom: 1em;
   }
+
   .explore {
     cursor: pointer;
     @include flexRegular(row, center);
     transition: 0.2s ease-in;
+
     img {
       margin-left: 1em;
       transition: 0.2s ease-in;
     }
+
     // &:hover {
     //   img {
     //     margin-left: 2em;
@@ -182,6 +213,7 @@
 .picBtn {
   margin-top: 3em;
   @include flexRegular(row, center);
+
   button {
     @include flexRegular(row, center);
     width: 100px;
@@ -194,6 +226,7 @@
     outline: none;
     font-size: 0.7em;
   }
+
   .fileInput2 {
     //background: lavender;
     position: absolute;
@@ -201,6 +234,7 @@
     width: 100%;
     @include flexRegular(column, center);
     cursor: pointer;
+
     input {
       height: 36px;
       width: 100px;
@@ -209,28 +243,34 @@
     }
   }
 }
+
 .editBx {
   //background: pink;
   @include flexRegular(column, center);
   width: 65%;
   margin: 4.5em auto 2em auto;
+
   h2 {
     font-family: 'Neue-bold';
   }
 }
+
 .inputField {
   margin: 1.5em 0;
   width: 100%;
+
   //background: lavender;
   p {
     margin-bottom: 0.5em;
   }
+
   h4 {
     font-size: 0.85em;
     color: #a1a1aa;
     font-weight: 200;
     margin: 0.5em 0;
   }
+
   button {
     margin-top: 1em;
     border: 1.4px solid #3f3f46;
@@ -240,8 +280,10 @@
     border-radius: 0px 10px;
   }
 }
+
 .editBtn {
   margin-top: 2em;
+
   button {
     @include flexRegular(row, center);
     width: 395px;
@@ -255,6 +297,7 @@
     outline: none;
   }
 }
+
 .pagination {
   //background: pink;
   padding: 1em auto;
@@ -262,20 +305,24 @@
   margin: 2em auto;
   @include flexRegular(column, center);
 }
+
 .paginateBtns {
   @include flexRegular(row, center);
   margin: 2em 0;
   //background: pink;
   width: 100%;
+
   button:nth-child(2) {
     margin-left: 2em;
   }
+
   button {
     padding: 0.8em 3em;
     transition: 0.3s ease-in;
     background: none;
     outline: none;
     border: 1px solid gray;
+
     //color: gray;
     &:hover {
       transform: scale(1.08);

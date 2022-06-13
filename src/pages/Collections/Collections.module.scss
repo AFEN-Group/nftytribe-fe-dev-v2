@@ -5,34 +5,41 @@
 .container {
   padding: 12em 0 2em 0;
 }
+
 .content {
   //background: pink;
   width: 90%;
   max-width: 1300px;
   margin: auto;
 }
+
 .top {
   text-align: center;
+
   h1 {
     font-family: Neue-bold;
     font-size: 2.5em;
     overflow: hidden;
+
     span {
       display: inline-block;
       transform: translateY(100%);
     }
   }
+
   p {
     font-weight: 400;
     line-height: 20px;
     width: 40%;
     margin: 1em auto;
     overflow: hidden;
+
     span {
       display: inline-block;
       transform: translateY(100%);
     }
   }
+
   margin-bottom: 2em;
 }
 
@@ -42,6 +49,7 @@
   //max-width: ;
   margin: 1em auto 3em auto;
   @include flexRegular(row, space-between);
+
   .box {
     @include flexRegular(column, center);
     cursor: pointer;
@@ -60,6 +68,7 @@
       transform: scale(1.03);
       color: #000;
     }
+
     &:focus {
       background: $mainGradient;
       transform: scale(1.03);
@@ -74,11 +83,12 @@
   @include flexRegular(row, center);
   //background: pink;
 }
+
 .bodyBtn,
 .bodyBtn2 {
   @include flexRegular(row, center);
-  background: #4d55a6;
-  color: #fff;
+  //background: #4d55a6;
+  //color: #fff;
   outline: none;
   border: 0;
   cursor: pointer;
@@ -88,16 +98,20 @@
   max-width: 250px;
   height: 52px;
   transition: 0.3s ease-in;
+
   &:hover {
     transform: scale(1.05);
   }
 }
+
 .bodyBtn2 {
   margin-left: 2em;
+
   img {
     margin-left: 1em;
   }
 }
+
 .collectionsContainer {
   margin-top: 3.5em;
   @include gridRegular(2.5em);
@@ -110,11 +124,9 @@
 //   @include flexRegular(column, center);
 // }
 .overlay {
-  background: linear-gradient(
-    116.82deg,
-    rgba(255, 255, 255, 0.48) 0%,
-    rgba(196, 196, 196, 0.14) 100%
-  );
+  background: linear-gradient(116.82deg,
+      rgba(255, 255, 255, 0.48) 0%,
+      rgba(196, 196, 196, 0.14) 100%);
   position: fixed;
   @include flexRegular(column, center);
   //background: rgba(23, 18, 20, 0.32);
@@ -125,6 +137,7 @@
   height: 100vh;
   transition: 0.6s ease-in-out;
 }
+
 .modalContainer {
   //@include flexRegular(column, center);
   display: flex;
@@ -152,23 +165,28 @@
   transition: 0.6s ease-in;
   padding: 5em 3em;
 }
+
 @media (max-height: 700px) {
   .modal {
     top: 10vh;
   }
 }
+
 .modalTop {
   position: relative;
   @include flexRegular(column, center);
+
   h1 {
     font-family: Neue-bold;
     font-size: 1.4em;
   }
+
   p {
     font-weight: 300;
     margin: 1em 0;
     text-align: center;
   }
+
   img {
     position: absolute;
     right: 0;
@@ -176,9 +194,11 @@
     cursor: pointer;
   }
 }
+
 .modalBody,
 .modalBody2 {
   .modalInput {
+
     input,
     select {
       outline: none;
@@ -190,6 +210,7 @@
       padding-left: 0.7em;
       margin: 0.5em 0;
     }
+
     select {
       -webkit-appearance: none;
       -moz-appearance: none;
@@ -200,18 +221,22 @@
       margin-bottom: 1em;
       font-weight: 300;
     }
+
     p {
       font-size: 0.9em;
     }
   }
 }
+
 .modalBody {
   margin-top: 2em;
 }
+
 .modalBtns {
   @include flexRegular(row, space-between);
   width: 80%;
   margin: 3em auto 1em auto;
+
   .btn1,
   .btn2 {
     border: 1px solid #52525b;
@@ -220,24 +245,27 @@
     height: 45px;
     background: none;
   }
+
   .btn1 {
-    background: radial-gradient(
-      72.94% 98.64% at 75.16% 76.53%,
-      #ebedff 0%,
-      #fff2e3 78.65%,
-      #fefdf8 100%
-    );
+    background: radial-gradient(72.94% 98.64% at 75.16% 76.53%,
+        #ebedff 0%,
+        #fff2e3 78.65%,
+        #fefdf8 100%);
   }
 }
+
 .successImg {
   margin: 0 0 0 0;
   @include flexRegular(row, center);
+
   img {
     width: 100%;
   }
 }
+
 .modalBtnSingle {
   @include flexRegular(row, center);
+
   button {
     border: 1px solid #52525b;
     border-radius: 0px 10px;

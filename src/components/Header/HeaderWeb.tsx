@@ -92,20 +92,19 @@ const HeaderWeb = (props: any) => {
     <>
       <div
         className={style.section}
-        // className={`${style.section} ${
-        //   dark === 'true' ? 'darkTheme' : 'lightTheme'
-        // }`}
+      // className={`${style.section} ${
+      //   dark === 'true' ? 'darkTheme' : 'lightTheme'
+      // }`}
       >
         <ConnectWallet
           handleModal={handleModal}
           showConnect={showConnect}
-          //handleClose={handleClose}
+        //handleClose={handleClose}
         />
         <div
           //className={style.container}
-          className={`${style.container} ${
-            dark === 'true' ? 'darkTheme' : 'lightTheme'
-          }`}
+          className={`${style.container} ${dark === 'true' ? 'darkTheme' : 'lightTheme'
+            }`}
           id="container"
           onMouseLeave={() => setShowDropDown('None')}
         >
@@ -135,9 +134,8 @@ const HeaderWeb = (props: any) => {
               <div className={style.buttonsBox}>
                 <div className={style.buttons}>
                   <div
-                    className={`${style.btn} ${
-                      dark === 'true' ? 'darkGradient' : 'lightGradient'
-                    }`}
+                    className={`${style.btn} ${dark === 'true' ? 'yellowBtn' : 'blueBtn'
+                      }`}
                     onClick={() => setShowConnect(!showConnect)}
                     id="showIcon"
                   >
@@ -201,9 +199,8 @@ const HeaderWeb = (props: any) => {
               </div>
               {showDropDown === 'Profile' && (
                 <div
-                  className={`animate__animated animate__fadeIn animate__faster  ${
-                    style.dropDown
-                  } ${dark === 'true' ? 'darkTheme' : 'lightTheme'}`}
+                  className={`animate__animated animate__fadeIn animate__faster  ${style.dropDown
+                    } ${dark === 'true' ? 'darkTheme' : 'lightTheme'}`}
                   onMouseLeave={() => setShowDropDown('None')}
                 >
                   <div className={style.dropContent}>
