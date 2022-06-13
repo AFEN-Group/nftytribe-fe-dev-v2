@@ -25,52 +25,56 @@ const Trending = () => {
   return (
     <>
       <div className={style.trending}>
-        <div className={style.trContent}>
-          <div className={style.trTop}>
-            <h1>
-              <span>Trending today</span>{' '}
-            </h1>
-          </div>
-          <div className={style.trBody}>
-            {/* <div className={style.slidesContainer}> */}
-            <Marquee
-              speed={110}
-              pauseOnHover={true}
-              gradient={false}
-              className={style.slidesContainer}
-            >
-              {data?.map((nft: any, i: any) => {
-                return (
-                  nft?._id && (
-                    <div className={style.trSlide} key={nft._id}>
-                      <Card2 nftData={nft} />
-                    </div>
+        {data.length >= 4 && (
+
+
+          <div className={style.trContent}>
+            <div className={style.trTop}>
+              <h1>
+                <span>Trending today</span>{' '}
+              </h1>
+            </div>
+            <div className={style.trBody}>
+              {/* <div className={style.slidesContainer}> */}
+              <Marquee
+                speed={110}
+                pauseOnHover={true}
+                gradient={false}
+                className={style.slidesContainer}
+              >
+                {data?.map((nft: any, i: any) => {
+                  return (
+                    nft?._id && (
+                      <div className={style.trSlide} key={nft._id}>
+                        <Card2 nftData={nft} />
+                      </div>
+                    )
                   )
-                )
-              })}
-            </Marquee>
-            {/* </div> */}
-            {/* <div className={style.slidesContainer}> */}
-            <Marquee
-              speed={110}
-              pauseOnHover={true}
-              direction="right"
-              gradient={false}
-              className={style.slidesContainer}
-            >
-              {data?.map((nft: any, i: any) => {
-                return (
-                  nft?._id && (
-                    <div className={style.trSlide} key={nft._id}>
-                      <Card2 nftData={nft} />
-                    </div>
+                })}
+              </Marquee>
+              {/* </div> */}
+              {/* <div className={style.slidesContainer}> */}
+              <Marquee
+                speed={110}
+                pauseOnHover={true}
+                direction="right"
+                gradient={false}
+                className={style.slidesContainer}
+              >
+                {data?.map((nft: any, i: any) => {
+                  return (
+                    nft?._id && (
+                      <div className={style.trSlide} key={nft._id}>
+                        <Card2 nftData={nft} />
+                      </div>
+                    )
                   )
-                )
-              })}
-            </Marquee>
-            {/* </div> */}
+                })}
+              </Marquee>
+              {/* </div> */}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   )

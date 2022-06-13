@@ -156,7 +156,7 @@ const BuyModal = (props: any) => {
           console.log(error)
           setIsLoading(false)
         }
-      } else if(! props?.nftDetails?.is_multiple) {
+      } else if (!props?.nftDetails?.is_multiple) {
         console.log('hello', props.nft, props.nftDetails)
         try {
           const itemDetail = await marketPlaceContract.methods
@@ -223,9 +223,9 @@ const BuyModal = (props: any) => {
           console.log(err)
         }
       }
-      else if(props?.nftDetails?.is_multiple){
-        erc1155Contract = new web3.eth.Contract(erc1155MintableAbi, erc1155MarketplaceAddress );
-        marketPlaceContract = new web3.eth.Contract(erc, erc1155MarketplaceAddress)
+      else if (props?.nftDetails?.is_multiple) {
+        erc1155Contract = new web3.eth.Contract(erc1155MintableAbi, erc1155MarketplaceAddress);
+        marketPlaceContract = new web3.eth.Contract(erc1155Marketplace, erc1155MarketplaceAddress)
       }
 
       setIsLoading(false)
@@ -263,7 +263,7 @@ const BuyModal = (props: any) => {
                       {' ' +
                         shortenAddress(
                           props.nft?.owner_of ||
-                            props.nftDetails?.wallet_address,
+                          props.nftDetails?.wallet_address,
                         ) || ''}{' '}
                     </strong>
                   </span>
