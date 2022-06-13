@@ -1,0 +1,15 @@
+@import '../../variables';
+@import '../../mixins';
+
+.cntent {
+  width: 90%;
+  margin: auto;
+  max-width: 1300px;
+  position: relative;
+}
+.containerG {
+  background: $mainGradient;
+}
+.containerD {
+  background: $gradient4;
+}

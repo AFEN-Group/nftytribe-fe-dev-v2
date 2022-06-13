@@ -1,0 +1,285 @@
+@import '../../variables';
+@import '../../mixins';
+
+.container {
+  padding: 0 0 2em 0;
+}
+.coverBx {
+  img {
+    width: 100%;
+    max-height: 350px;
+    object-fit: cover;
+  }
+}
+.coverBx2 {
+  position: relative;
+  .cover {
+    width: 100%;
+    max-height: 350px;
+    object-fit: cover;
+  }
+}
+.coverBtns {
+  position: absolute;
+  //background: pink;
+  @include flexRegular(column, flex-start);
+  align-items: flex-start;
+  width: 10%;
+  top: 2em;
+  left: 5%;
+  height: 100%;
+  .arrow {
+    margin-top: 8em;
+  }
+  button {
+    margin-top: 6em;
+    color: #fff;
+    background: none;
+    width: 190px;
+    height: 44px;
+    border-radius: 0px 6px;
+    outline: none;
+    border: 1px solid #fff;
+    cursor: pointer;
+  }
+  .bl {
+    border: 1px solid #fff;
+  }
+  .bd {
+    border: 1px solid $darkGradient;
+  }
+}
+.fileInput1 {
+  position: absolute;
+  bottom: 2.5em;
+  left: 5%;
+  //background: pink;
+  //width: 80%;
+  z-index: 2;
+  opacity: 0;
+
+  input {
+    width: 190px;
+    height: 44px;
+    cursor: pointer;
+  }
+}
+
+.content {
+  position: relative;
+  width: 95%;
+  max-width: 1300px;
+  margin: auto;
+}
+.avatar {
+  position: relative;
+  //background: pink;
+  @include flexRegular(row, center);
+  img {
+    position: absolute;
+    top: -5em;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}
+.title {
+  @include flexRegular(row, center);
+  margin-top: 3em;
+  h1 {
+    // font-family: Neue-bold;
+    font-size: 1.5em;
+    font-weight: 700;
+    text-align: center;
+    //background: pink;
+  }
+  img {
+    margin-left: 1em;
+    cursor: pointer;
+  }
+}
+.filters {
+  margin: 4em auto 2em auto;
+  width: 70%;
+  @include flexRegular(row, space-between);
+}
+.filterItemA,
+.filterItem,
+.darkActive,
+.lightActive {
+  cursor: pointer;
+  //border: 1px solid #000000;
+  border: 1px solid gray;
+  border-radius: 0px 6px;
+  padding: 0.5em 2em;
+}
+.darkActive {
+  background: $darkGradient;
+  color: $darkTxt;
+}
+.lightActive {
+  background: $mainGradient;
+}
+// .filterItemA {
+//   background: $mainGradient;
+// }
+.items {
+  //background: pink;
+  margin: 3em 0;
+  padding-bottom: 5em;
+  @include flexRegular(column, center);
+}
+
+.itemsContent {
+  width: 85%;
+  margin: auto;
+  @include gridRegular(1.5em);
+  grid-template-columns: 2fr 2fr 2fr;
+  align-items: flex-start;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  overflow-y: scroll;
+  overflow-x: visible;
+  //height: 100vh;
+  //background: pink;
+}
+.noContent {
+  @include flexRegular(column, center);
+}
+.itemBx {
+  margin-left: 0em;
+}
+.noResults {
+  h2 {
+    font-family: Neue-bold;
+    margin-bottom: 1em;
+  }
+  .explore {
+    cursor: pointer;
+    @include flexRegular(row, center);
+    transition: 0.2s ease-in;
+    img {
+      margin-left: 1em;
+      transition: 0.2s ease-in;
+    }
+    // &:hover {
+    //   img {
+    //     margin-left: 2em;
+    //   }
+    // }
+  }
+}
+
+.profileInfo {
+  //background: pink;
+  position: relative;
+}
+
+.picBtn {
+  margin-top: 3em;
+  @include flexRegular(row, center);
+  button {
+    @include flexRegular(row, center);
+    width: 100px;
+    padding: 1em;
+    height: 34px;
+    background: #4d55a6;
+    border: 0;
+    border-radius: 0px 4px;
+    color: #fff;
+    outline: none;
+    font-size: 0.7em;
+  }
+  .fileInput2 {
+    //background: lavender;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    @include flexRegular(column, center);
+    cursor: pointer;
+    input {
+      height: 36px;
+      width: 100px;
+      cursor: pointer;
+      opacity: 0;
+    }
+  }
+}
+.editBx {
+  //background: pink;
+  @include flexRegular(column, center);
+  width: 65%;
+  margin: 4.5em auto 2em auto;
+  h2 {
+    font-family: 'Neue-bold';
+  }
+}
+.inputField {
+  margin: 1.5em 0;
+  width: 100%;
+  //background: lavender;
+  p {
+    margin-bottom: 0.5em;
+  }
+  h4 {
+    font-size: 0.85em;
+    color: #a1a1aa;
+    font-weight: 200;
+    margin: 0.5em 0;
+  }
+  button {
+    margin-top: 1em;
+    border: 1.4px solid #3f3f46;
+    background: $mainGradient;
+    width: 120px;
+    height: 44px;
+    border-radius: 0px 10px;
+  }
+}
+.editBtn {
+  margin-top: 2em;
+  button {
+    @include flexRegular(row, center);
+    width: 395px;
+    height: 50px;
+    padding: 1em;
+    background: #4d55a6;
+    //border: 0.5px solid #ffffff;
+    border-radius: 0px 14px;
+    border: 0;
+    color: #fff;
+    outline: none;
+  }
+}
+.pagination {
+  //background: pink;
+  padding: 1em auto;
+  width: 90%;
+  margin: 2em auto;
+  @include flexRegular(column, center);
+}
+.paginateBtns {
+  @include flexRegular(row, center);
+  margin: 2em 0;
+  //background: pink;
+  width: 100%;
+  button:nth-child(2) {
+    margin-left: 2em;
+  }
+  button {
+    padding: 0.8em 3em;
+    transition: 0.3s ease-in;
+    background: none;
+    outline: none;
+    border: 1px solid gray;
+    //color: gray;
+    &:hover {
+      transform: scale(1.08);
+      //background: $mainGradient;
+    }
+  }
+}

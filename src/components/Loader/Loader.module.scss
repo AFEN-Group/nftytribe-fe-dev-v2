@@ -1,0 +1,13 @@
+@import '../../variables';
+@import '../../mixins';
+
+.loader {
+  @include flexRegular(row, center);
+  //background: red;
+  //height: 100%;
+  //margin-top: 10vh;
+  //min-height: 300px;
+  //   img {
+  //     width: 100%;
+  //   }
+}
