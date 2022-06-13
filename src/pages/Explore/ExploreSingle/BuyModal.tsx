@@ -11,6 +11,8 @@ import user from './assets/usericon.svg'
 import Web3 from 'web3'
 import marketPlaceAbi from '../../../smart_contracts/erc721Market.json'
 import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
+import erc1155MintableAbi from "../../../smart_contracts/erc1155Mintable.json"
+import erc1155Marketplace from "../../../smart_contracts/erc1155Market.json"
 
 declare const window: any
 
@@ -37,11 +39,14 @@ const BuyModal = (props: any) => {
     //const chain = 'rinkeby'
     const erc721Address = '0x236DdF1f75c0bA5Eb29a8776Ec1820E5dC41a59a' // process.env.REACT_APP_ERC721_CONTRACT
     const contract_address = '0xb6b043610655a356A433aBc0c6BAE46e0AA5C230' //process.env.REACT_APP_MARKETPLACE_CONTRACT
+    const erc1155Address = '0xce8e4e1b586da68f65a386968185ecbe8f222b89'
+    const erc1155MarketplaceAddress = '0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd'
 
     // contract function
     //const marketplace_address = process.env.REACT_APP_MARKETPLACE_CONTRACT
     let marketPlaceContract
     let erc721Contract
+    let erc1155Contract
     let web3: any
     if (window.ethereum && userWallet) {
       web3 = new Web3(window.ethereum)
@@ -151,7 +156,7 @@ const BuyModal = (props: any) => {
           console.log(error)
           setIsLoading(false)
         }
-      } else {
+      } else if(! props?.nftDetails?.is_multiple) {
         console.log('hello', props.nft, props.nftDetails)
         try {
           const itemDetail = await marketPlaceContract.methods
@@ -218,6 +223,10 @@ const BuyModal = (props: any) => {
           console.log(err)
         }
       }
+      else if(props?.nftDetails?.is_multiple){
+        erc1155Contract = new web3.eth.Contract(erc1155MintableAbi, erc1155MarketplaceAddress );
+        marketPlaceContract = new web3.eth.Contract(erc, erc1155MarketplaceAddress)
+      }
 
       setIsLoading(false)
     } else {
@@ -279,7 +288,7 @@ const BuyModal = (props: any) => {
                 <div className={style.pbItem}>
                   <p>Amount </p>
                   <p>
-                    {Web3.utils.fromWei(props.nftDetails?.price, 'ether') || ''}{' '}
+                    {Web3.utils.fromWei(props.nftDetails?.price.toString(), 'ether') || ''}{' '}
                     ETH
                   </p>
                 </div>

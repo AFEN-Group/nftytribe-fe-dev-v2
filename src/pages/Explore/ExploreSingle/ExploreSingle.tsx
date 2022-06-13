@@ -22,6 +22,8 @@ import User2 from './assets/user4.svg'
 import Container from '../../../components/Container/Container'
 
 import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
+import erc1155Abi from '../../../smart_contracts/erc1155Mintable.json'
+import erc1155MarketplaceAbi from "../../../smart_contracts/erc1155Market.json"
 import marketPlaceAbi from '../../../smart_contracts/erc721Market.json'
 import Web3 from 'web3'
 // import { shortenAddress } from '../../../utils/formatting'
@@ -71,6 +73,31 @@ const ExploreSingle = () => {
     if (wallet_address) {
       setWalletAddress(wallet_address)
     }
+    const getNftDetails = async () => {
+      try {
+        const details = await publicRequest.get(
+          `/collectibles/${collectionAddress}/${id}`,
+        )
+        console.log('check>>>', details.data)
+        setNftDetails(details?.data?.data?._doc)
+        setActivities(details?.data?.data?.activities)
+        console.log('<<< cu ', details?.data?.data?.activities)
+        if(!details?.data?.data?._doc?.is_multiple){
+          const ifToBeCollected = await checkIfBIdTimePasses(
+            id,
+            collectionAddress,
+          )
+          setCollectedNft(ifToBeCollected)
+          console.log('available?>>', ifToBeCollected)
+        }
+       
+        setIsLoading(false)
+        setIsLoaded(true)
+      } catch (error) {
+        setIsLoading(false)
+      }
+    }
+
     const getTokenDetails = async () => {
       if (lazy_mint) {
         try {
@@ -89,8 +116,14 @@ const ExploreSingle = () => {
           setIsLoading(false)
         }
       } else {
-        const contract_address = '0xd5582083916dc813f974ce4ca3f27e6977e161cf'
+        await getNftDetails()
+        let contract_address = '0xd5582083916dc813f974ce4ca3f27e6977e161cf'
+        if(nftDetails.is_multiple){
+          contract_address = "0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd"
+        }
+        
         let erc721Contract
+        let erc1155Contract
         let marketPlaceContract
         if (window.ethereum) {
           let web3: any = new Web3(window.ethereum)
@@ -99,10 +132,21 @@ const ExploreSingle = () => {
             marketPlaceAbi,
             contract_address,
           )
+          if(nftDetails.is_multiple){
+            erc1155Contract = new web3.eth.Contract(erc1155Abi, collectionAddress)
+            marketPlaceContract = new web3.eth.Contract(
+              erc1155MarketplaceAbi,
+              contract_address,
+            )
+          }
+          
         } else {
           alert('connect to meta mask wallet')
         }
         let uri = await erc721Contract.methods.tokenURI(id).call()
+        if(nftDetails.is_multiple){
+          uri = await erc1155Contract.methods.uri(id).call();
+        }
         const moralis_uri = `https://deep-index.moralis.io/api/v2/nft/${collectionAddress}/${id}?chain=rinkeby&format=decimal&offset=0&limit=20`
         const { data } = await axios({
           method: 'get',
@@ -142,7 +186,8 @@ const ExploreSingle = () => {
           } catch (err) {}
         }
 
-        const owner = await erc721Contract.methods.ownerOf(id).call()
+        if(!nftDetails.is_multiple){
+          const owner = await erc721Contract.methods.ownerOf(id).call()
         nft.owner_of = owner
         setNft(nft)
         console.log(nft)
@@ -206,33 +251,11 @@ const ExploreSingle = () => {
         setTimeDifference(difference)
       }
 
+        }
       //return difference;
     }
     getTokenDetails()
 
-    const getNftDetails = async () => {
-      try {
-        const details = await publicRequest.get(
-          `/collectibles/${collectionAddress}/${id}`,
-        )
-        console.log('check>>>', details.data)
-        setNftDetails(details?.data?.data?._doc)
-        setActivities(details?.data?.data?.activities)
-        console.log('<<< cu ', details?.data?.data?.activities)
-        const ifToBeCollected = await checkIfBIdTimePasses(
-          id,
-          collectionAddress,
-        )
-        setCollectedNft(ifToBeCollected)
-        console.log('available?>>', ifToBeCollected)
-        setIsLoading(false)
-        setIsLoaded(true)
-      } catch (error) {
-        setIsLoading(false)
-      }
-    }
-
-    getNftDetails()
   }, [collectionAddress, id, lazy_mint])
 
   const getImage = (uri: any) => {
@@ -519,7 +542,7 @@ const ExploreSingle = () => {
                           {/* <p>{nft?.amount} BNB</p> */}
                           {nftDetails?.price ? (
                             <p>
-                              {Web3.utils.fromWei(nftDetails?.price, 'ether') ||
+                              {Web3.utils.fromWei(nftDetails?.price.toString(), 'ether') ||
                                 ''}{' '}
                               ETH
                             </p>
