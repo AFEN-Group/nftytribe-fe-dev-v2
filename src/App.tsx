@@ -22,7 +22,7 @@ import CreateItems from './pages/Create/CreateItems'
 import CreateCollection from './pages/Create/CreateCollection'
 import Profile from './pages/Profile/Profile'
 import EditProfile from './pages/Profile/EditProfile'
-//import Footer from './components/Footer/Footer'
+import Footer from './components/Footer/Footer'
 //import LaunchPartners from './pages/LaunchPartners/LaunchPartners'
 import Rewards from './pages/Rewards/Rewards'
 
@@ -73,6 +73,7 @@ function App() {
                 <Route path="/about" element={<About />}></Route>
 
                 <Route path="/rewards" element={<Rewards />}></Route>
+
               </Routes>
             </Router>
           </div>
@@ -82,7 +83,7 @@ function App() {
               Mobile version still in progress, please view on larger device.
             </p>
           </div>
-          {/* <Footer /> */}
+
         </>
       </WalletContext.Provider>
     </ContractContext.Provider>

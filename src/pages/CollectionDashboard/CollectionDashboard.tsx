@@ -116,42 +116,42 @@ const CollectionDashboard = () => {
                 {!collections
                   ? null
                   : collections.map((collection: any, i) => {
-                      return (
-                        collection.title && (
-                          <Link
-                            to={`/collectionDetails/${collection.contract_address}`}
-                            className={
-                              dark === 'true'
-                                ? style.tableItemD
-                                : style.tableItem
-                            }
-                            key={collection._id}
-                          >
-                            <div className={style.collectionInfo}>
-                              <p>{itemNumber++}</p>
-                              <img
-                                //src={user}
-                                src={`
-                          ${
-                            collection?.cover_image?.includes('/ipfs') ||
-                            collection?.cover_image?.includes('ipfs://')
-                              ? getImage(collection?.cover_image)
-                              : collection?.cover_image
-                              ? collection?.cover_image
-                              : user
+                    return (
+                      collection.title && (
+                        <Link
+                          to={`/collectionDetails/${collection.contract_address}`}
+                          className={
+                            dark === 'true'
+                              ? style.tableItemD
+                              : style.tableItem
                           }
+                          key={collection._id}
+                        >
+                          <div className={style.collectionInfo}>
+                            <p>{itemNumber++}</p>
+                            <img
+                              //src={user}
+                              src={`
+                          ${collection?.cover_image?.includes('/ipfs') ||
+                                  collection?.cover_image?.includes('ipfs://')
+                                  ? getImage(collection?.cover_image)
+                                  : collection?.cover_image
+                                    ? collection?.cover_image
+                                    : user
+                                }
                          
                         `}
-                                alt="collection"
-                                className={style.user}
-                              />
-                              <p>{collection?.title || 'Untitled'}</p>
-                              {/* <img src={arrow2} alt="arrow-up" /> */}
-                            </div>
-                            <div className={style.itemAlign}>
-                              <p>61,555</p>
-                            </div>
-                            {/* <div className={style.itemAlign}>
+                              alt="collection"
+                              className={style.user}
+                            />
+                            <p>{collection?.title || 'Untitled'}</p>
+                            {/* <img src={arrow2} alt="arrow-up" /> */}
+                          </div>
+                          <div className={style.itemAlign}>
+                            {/* <p>61,555</p> */}
+                            <p>0</p>
+                          </div>
+                          {/* <div className={style.itemAlign}>
                               <p>
                                 <span>+70%</span>
                               </p>
@@ -161,19 +161,22 @@ const CollectionDashboard = () => {
                                 <span>+800%</span>
                               </p>
                             </div> */}
-                            <div className={style.itemAlign}>
-                              <p>1 ETH</p>
-                            </div>
-                            <div className={style.itemAlign}>
-                              <p>2k</p>
-                            </div>
-                            <div className={style.itemAlign}>
-                              <p>500</p>
-                            </div>
-                          </Link>
-                        )
+                          <div className={style.itemAlign}>
+                            {/* <p>1 ETH</p> */}
+                            <p>0</p>
+                          </div>
+                          <div className={style.itemAlign}>
+                            {/* <p>2k</p> */}
+                            <p>0</p>
+                          </div>
+                          <div className={style.itemAlign}>
+                            {/* <p>500</p> */}
+                            <p>0</p>
+                          </div>
+                        </Link>
                       )
-                    })}
+                    )
+                  })}
                 {/* <div className={style.tableItem}>
                   <div className={style.collectionInfo}>
                     <p>1</p>
