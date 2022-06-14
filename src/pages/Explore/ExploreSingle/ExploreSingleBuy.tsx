@@ -21,10 +21,15 @@ import User2 from './assets/user4.svg'
 // import Eye2 from './assets/eye2.svg'
 import Container from '../../../components/Container/Container'
 
-import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
+// import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
 import erc1155Abi from '../../../smart_contracts/erc1155Mintable.json'
-import erc1155MarketplaceAbi from "../../../smart_contracts/erc1155Market.json"
+// import erc1155MarketplaceAbi from "../../../smart_contracts/erc1155Market.json"
 import marketPlaceAbi from '../../../smart_contracts/erc721Market.json'
+import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
+import erc721MarketplaceAbi from '../../../smart_contracts/erc721Market.json'
+import erc721CollectionAbi from '../../../smart_contracts/erc721Collection.json'
+import erc1155MintableAbi from '../../../smart_contracts/erc1155Mintable.json'
+import erc1155MarketplaceAbi from '../../../smart_contracts/erc1155Market.json'
 import Web3 from 'web3'
 // import { shortenAddress } from '../../../utils/formatting'
 
@@ -33,6 +38,13 @@ import BuyModal from './BuyModal'
 //import BidModal from './BidModal'
 import { shortenAddress } from '../../../utils/formatting'
 declare const window: any
+
+const erc721Mintable_address = '0x236DdF1f75c0bA5Eb29a8776Ec1820E5dC41a59a'
+const erc721Marketplace_address = '0xD5582083916dc813f974ce4CA3F27E6977e161cF'
+const erc1155Mintable_adddress = '0xCE8e4E1b586dA68F65A386968185ecBE8f222B89'
+const erc1155Factory_address = '0xad1235972331af412613b8a0478d29b07bf70179'
+const erc1155Marketplace_address = '0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd'
+
 
 const ExploreSingleBuy = () => {
     const { collectionAddress, id } = useParams()
@@ -107,7 +119,7 @@ const ExploreSingleBuy = () => {
                     )
                     //console.log(details)
                     const nft = details
-                    setNftDetails(nft.data.data._doc)
+                    setNftDetails(nft?.data?.data?._doc)
                     console.log('show img>>', nft.data.data._doc)
                     //setNftPrice(nft.data._doc.price)
                     setIsLoading(false)
@@ -287,10 +299,522 @@ const ExploreSingleBuy = () => {
         }
     }
     const handleSale = async () => {
-        if (nftDetails?.on_sale) {
-            //put off sale
-        } else {
+        if (!nftDetails?.on_sale) {
             //put on sale
+            if (nftDetails?.is_multiple) {
+                try {
+                    setIsLoading(true)
+                    let erc1155Contract
+                    let marketplace_contract
+                    let web3: any
+                    if (window.ethereum) {
+                        web3 = new Web3(window.ethereum)
+
+                        erc1155Contract = new web3.eth.Contract(
+                            erc1155MintableAbi,
+                            erc1155Mintable_adddress,
+                        )
+                        marketplace_contract = new web3.eth.Contract(
+                            erc1155MarketplaceAbi,
+                            '0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd',
+                        )
+                    } else {
+                        alert('connect to meta mask wallet')
+                        //setShowConnect(true)
+                    }
+
+                    const data = nftDetails
+                    // data.wallet_address = wallet_address
+                    // data.chain = chain
+                    // data.collection_address =
+                    //   userInput.collection_address || erc1155Mintable_adddress
+                    // data.upload = imageFile
+                    // data.is_multiple = false
+                    // data.nft_type = userInput.category
+                    // data.cardImage = cardImage
+                    //data.price = parseFloat(userInput.price) * parseInt(userInput.copies)
+                    //returnvalues = mint.events.TransferSingle.returnValues
+                    //console.log(returnvalues, 'value')
+
+                    if (data.market_type !== '0') {
+                        data.on_sale = true
+                    }
+
+                    let updatableData
+                    // if (data.on_sale) {
+
+                    if (data.market_type === '2') {
+                        data.starting_time =
+                            new Date(data.starting_time).getTime() / 1000
+                        data.ending_time = new Date(data.ending_time).getTime() / 1000
+                    }
+                    //console.log(web3.utils.toWei(data.price.toString(), 'ether'), 'price', returnvalues.id)
+                    const putOnSale = await marketplace_contract.methods
+                        .putOnSale(
+                            //userInput.collection_address || erc1155Mintable_adddress,
+                            data?.collection_address,
+                            parseInt(data?.token_id),
+                            parseInt(data?.copies),
+                            web3.utils.toWei(data.price.toString(), 'ether'),
+                            '0x0000000000000000000000000000000000000000',
+                        )
+                        .send({ from: walletAddress })
+
+                    console.log(putOnSale)
+
+
+                    updatableData = {
+                        token_id: data.token_id,
+                        walletAddress,
+                        collection_address:
+                            data.collection_address,
+                        file: data.file,
+                        transaction_hash: data.transactionHash,
+                        type: 'putOnSale',
+                        chain_id: 'rinkeby',
+
+                        on_sale: true,
+                        marketplace_type: data.marketplace_type,
+                        order_detail: {
+                            starting_price: web3.utils.toWei(
+                                data.price.toString(),
+                                'ether',
+                            ),
+                            start_time: data.starting_time,
+                            expiration_time: data.ending_time,
+                        },
+                        price: web3.utils.toWei(data.price.toString(), 'ether'),
+                    }
+                    // } else {
+                    //     updatableData = {
+                    //         token_id: data.token_id,
+                    //         walletAddress,
+                    //         collection_address:
+                    //             data.collection_address,
+                    //         file: data.file,
+                    //         transaction_hash: data.transactionHash,
+                    //         type: 'putOnSale',
+                    //         chain_id: 'rinkeby',
+                    //     }
+                    // }
+
+                    const updateCollectible = await fetch(
+                        'https://dev.api.nftytribe.io/api/collectibles/update-collectible',
+                        {
+                            method: 'PUT',
+                            headers: {
+                                'content-type': 'application/json',
+                            },
+                            body: JSON.stringify(updatableData),
+                        },
+                    )
+
+                    const res = await updateCollectible.json()
+
+                    console.log(res.data)
+                    setIsLoading(false)
+
+                    window.location.reload()
+                    setIsLoading(false)
+
+                } catch (err) {
+                    console.log(err)
+
+                    setIsLoading(false)
+                }
+            }
+            if (!nftDetails.is_multiple) {
+                try {
+                    setIsLoading(true)
+                    let erc721Contract
+                    let marketplace_contract
+                    let web3: any
+                    if (window.ethereum) {
+                        web3 = new Web3(window.ethereum)
+
+                        erc721Contract = new web3.eth.Contract(
+                            erc721Abi,
+                            erc721Mintable_address,
+                        )
+                        marketplace_contract = new web3.eth.Contract(
+                            erc721MarketplaceAbi,
+                            '0xD5582083916dc813f974ce4CA3F27E6977e161cF',
+                        )
+                    } else {
+                        alert('connect to meta mask wallet')
+                        //setShowConnect(true)
+                    }
+
+                    const data = nftDetails
+                    // data.wallet_address = wallet_address
+                    // data.chain = chain
+                    // data.collection_address =
+                    //   userInput.collection_address || erc721Mintable_address
+                    // data.upload = imageFile
+                    // data.is_multiple = false
+                    // data.nft_type = userInput.category
+                    // data.cardImage = cardImage
+
+                    if (data.market_type !== '0') {
+                        data.on_sale = true
+                    }
+
+                    let updatableData
+                    // if (data.on_sale) {
+                    //console.log(parseInt(returnvalues.token_id), 'hello')
+
+                    if (data.market_type === '2') {
+                        data.starting_time =
+                            new Date(data.starting_time).getTime() / 1000
+                        data.ending_time = new Date(data.ending_time).getTime() / 1000
+                    }
+                    const putOnSale = await marketplace_contract.methods
+                        .putOnSale(
+                            parseInt(data?.token_id),
+                            web3.utils.toWei(data.price.toString(), 'ether'),
+                            parseInt(data.market_type),
+                            parseInt(data.starting_time),
+                            parseInt(data.ending_time),
+                            data?.collection_address,
+                        )
+                        .send({ from: walletAddress })
+
+                    // const putOnSale = await handlePutOnSale(
+                    //   returnValues.tokenId,
+                    //   wallet_address,
+                    //   userInput.collection_address,
+                    //   web3.utils.toWei(data.price, 'ether'),
+                    //   parseInt(data.starting_time),
+                    //   parseInt(data.ending_time),
+                    //   parseInt(data.market_type),
+                    // )
+                    // if (putOnSale?.error) {
+                    //   console.log(err)
+                    //   setMsg({ ...msg, eMsg: err, sMsg: '' })
+                    //   setIsLoading(false)
+                    //   return
+                    // }
+
+                    //console.log(putOnSale, putOnSale.events, 'sale')
+
+                    // const expiration_time =
+                    //   new Date(data.ending_time).getTime() + 2 * 24 * 3600 * 1000 // * 1000
+
+                    updatableData = {
+                        token_id: data.token_id,
+                        walletAddress,
+                        collection_address:
+                            data.collection_address,
+                        file: data.file,
+                        transaction_hash: data.transactionHash,
+                        type: 'putOnSale',
+                        chain_id: 'rinkeby',
+                        //order_type: data.market_type,
+
+                        on_sale: true,
+                        marketplace_type: data.market_type,
+                        order_detail: {
+                            starting_price: web3.utils.toWei(
+                                data.price.toString(),
+                                'ether',
+                            ),
+                            start_time: data.starting_time,
+                            expiration_time: data.ending_time,
+                        },
+                        price: web3.utils.toWei(data.price.toString(), 'ether'),
+                    }
+                    // } else {
+                    //     updatableData = {
+                    //         token_id: data.token_id,
+                    //         walletAddress,
+                    //         collection_address:
+                    //             data.collection_address,
+                    //         file: data.file,
+                    //         transaction_hash: data.transactionHash,
+                    //         type: 'putOnSale',
+                    //         chain_id: 'rinkeby',
+                    //     }
+                    // }
+
+                    const updateCollectible = await fetch(
+                        'https://dev.api.nftytribe.io/api/collectibles/update-collectible',
+                        {
+                            method: 'PUT',
+                            headers: {
+                                'content-type': 'application/json',
+                            },
+                            body: JSON.stringify(updatableData),
+                        },
+                    )
+
+                    const res = await updateCollectible.json()
+
+                    console.log(res.data)
+                    setIsLoading(false)
+                    window.location.reload()
+                    setIsLoading(false)
+                } catch (err) {
+                    console.log(err)
+
+                    setIsLoading(false)
+                }
+            }
+        } else {
+            //put off sale
+            if (nftDetails?.is_multiple) {
+                try {
+                    setIsLoading(true)
+                    let erc1155Contract
+                    let marketplace_contract
+                    let web3: any
+                    if (window.ethereum) {
+                        web3 = new Web3(window.ethereum)
+
+                        erc1155Contract = new web3.eth.Contract(
+                            erc1155MintableAbi,
+                            erc1155Mintable_adddress,
+                        )
+                        marketplace_contract = new web3.eth.Contract(
+                            erc1155MarketplaceAbi,
+                            '0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd',
+                        )
+                    } else {
+                        alert('connect to meta mask wallet')
+                        //setShowConnect(true)
+                    }
+
+                    const data = nftDetails
+                    // data.wallet_address = wallet_address
+                    // data.chain = chain
+                    // data.collection_address =
+                    //   userInput.collection_address || erc1155Mintable_adddress
+                    // data.upload = imageFile
+                    // data.is_multiple = false
+                    // data.nft_type = userInput.category
+                    // data.cardImage = cardImage
+                    //data.price = parseFloat(userInput.price) * parseInt(userInput.copies)
+                    //returnvalues = mint.events.TransferSingle.returnValues
+                    //console.log(returnvalues, 'value')
+
+                    if (data.market_type !== '0') {
+                        data.on_sale = true
+                    }
+
+                    let updatableData
+                    if (data.on_sale) {
+
+                        if (data.market_type === '2') {
+                            data.starting_time =
+                                new Date(data.starting_time).getTime() / 1000
+                            data.ending_time = new Date(data.ending_time).getTime() / 1000
+                        }
+                        //console.log(web3.utils.toWei(data.price.toString(), 'ether'), 'price', returnvalues.id)
+                        const putOffSale = await marketplace_contract.methods
+                            .putOffSale(
+                                //userInput.collection_address || erc1155Mintable_adddress,
+                                data?.collection_address,
+                                parseInt(data?.token_id),
+
+                            )
+                            .send({ from: walletAddress })
+                        console.log(putOffSale)
+
+
+                        updatableData = {
+                            token_id: data.token_id,
+                            walletAddress,
+                            collection_address:
+                                data.collection_address,
+                            file: data.file,
+                            transaction_hash: data.transactionHash,
+                            type: 'putOffSale',
+                            chain_id: 'rinkeby',
+
+                            on_sale: false,
+                            marketplace_type: data.marketplace_type,
+                            order_detail: {
+                                starting_price: web3.utils.toWei(
+                                    data.price.toString(),
+                                    'ether',
+                                ),
+                                start_time: data.starting_time,
+                                expiration_time: data.ending_time,
+                            },
+                            price: web3.utils.toWei(data.price.toString(), 'ether'),
+                        }
+                    } else {
+                        updatableData = {
+                            token_id: data.token_id,
+                            walletAddress,
+                            collection_address:
+                                data.collection_address,
+                            file: data.file,
+                            transaction_hash: data.transactionHash,
+                            type: 'putOffSale',
+                            chain_id: 'rinkeby',
+                        }
+                    }
+
+                    const updateCollectible = await fetch(
+                        'https://dev.api.nftytribe.io/api/collectibles/update-collectible',
+                        {
+                            method: 'PUT',
+                            headers: {
+                                'content-type': 'application/json',
+                            },
+                            body: JSON.stringify(updatableData),
+                        },
+                    )
+
+                    const res = await updateCollectible.json()
+
+                    console.log(res.data)
+                    setIsLoading(false)
+
+                    window.location.reload()
+                    setIsLoading(false)
+
+                } catch (err) {
+                    console.log(err)
+
+                    setIsLoading(false)
+                }
+            }
+            if (!nftDetails.is_multiple) {
+                try {
+                    setIsLoading(true)
+                    let erc721Contract
+                    let marketplace_contract
+                    let web3: any
+                    if (window.ethereum) {
+                        web3 = new Web3(window.ethereum)
+
+                        erc721Contract = new web3.eth.Contract(
+                            erc721Abi,
+                            erc721Mintable_address,
+                        )
+                        marketplace_contract = new web3.eth.Contract(
+                            erc721MarketplaceAbi,
+                            '0xD5582083916dc813f974ce4CA3F27E6977e161cF',
+                        )
+                    } else {
+                        alert('connect to meta mask wallet')
+                        //setShowConnect(true)
+                    }
+
+                    const data = nftDetails
+                    // data.wallet_address = wallet_address
+                    // data.chain = chain
+                    // data.collection_address =
+                    //   userInput.collection_address || erc721Mintable_address
+                    // data.upload = imageFile
+                    // data.is_multiple = false
+                    // data.nft_type = userInput.category
+                    // data.cardImage = cardImage
+
+                    if (data.market_type !== '0') {
+                        data.on_sale = true
+                    }
+
+                    let updatableData
+                    if (data.on_sale) {
+                        //console.log(parseInt(returnvalues.token_id), 'hello')
+
+                        if (data.market_type === '2') {
+                            data.starting_time =
+                                new Date(data.starting_time).getTime() / 1000
+                            data.ending_time = new Date(data.ending_time).getTime() / 1000
+                        }
+                        const putOffSale = await marketplace_contract.methods
+                            .putOffSale(
+                                //userInput.collection_address || erc1155Mintable_adddress,
+                                data?.collection_address,
+                                parseInt(data?.token_id),
+
+                            )
+                            .send({ from: walletAddress })
+
+                        // const putOnSale = await handlePutOnSale(
+                        //   returnValues.tokenId,
+                        //   wallet_address,
+                        //   userInput.collection_address,
+                        //   web3.utils.toWei(data.price, 'ether'),
+                        //   parseInt(data.starting_time),
+                        //   parseInt(data.ending_time),
+                        //   parseInt(data.market_type),
+                        // )
+                        // if (putOnSale?.error) {
+                        //   console.log(err)
+                        //   setMsg({ ...msg, eMsg: err, sMsg: '' })
+                        //   setIsLoading(false)
+                        //   return
+                        // }
+
+                        //console.log(putOnSale, putOnSale.events, 'sale')
+
+                        // const expiration_time =
+                        //   new Date(data.ending_time).getTime() + 2 * 24 * 3600 * 1000 // * 1000
+
+                        updatableData = {
+                            token_id: data.token_id,
+                            walletAddress,
+                            collection_address:
+                                data.collection_address,
+                            file: data.file,
+                            transaction_hash: data.transactionHash,
+                            type: 'putOffSale',
+                            chain_id: 'rinkeby',
+                            //order_type: data.market_type,
+
+                            on_sale: false,
+                            marketplace_type: data.market_type,
+                            order_detail: {
+                                starting_price: web3.utils.toWei(
+                                    data.price.toString(),
+                                    'ether',
+                                ),
+                                start_time: data.starting_time,
+                                expiration_time: data.ending_time,
+                            },
+                            price: web3.utils.toWei(data.price.toString(), 'ether'),
+                        }
+                    } else {
+                        updatableData = {
+                            token_id: data.token_id,
+                            walletAddress,
+                            collection_address:
+                                data.collection_address,
+                            file: data.file,
+                            transaction_hash: data.transactionHash,
+                            type: 'putOffSale',
+                            chain_id: 'rinkeby',
+                        }
+                    }
+
+                    const updateCollectible = await fetch(
+                        'https://dev.api.nftytribe.io/api/collectibles/update-collectible',
+                        {
+                            method: 'PUT',
+                            headers: {
+                                'content-type': 'application/json',
+                            },
+                            body: JSON.stringify(updatableData),
+                        },
+                    )
+
+                    const res = await updateCollectible.json()
+
+                    console.log(res.data)
+                    setIsLoading(false)
+                    window.location.reload()
+                    setIsLoading(false)
+                } catch (err) {
+                    console.log(err)
+
+                    setIsLoading(false)
+                }
+            }
+
         }
     }
 
@@ -493,7 +1017,7 @@ const ExploreSingleBuy = () => {
                                             {nftDetails?.wallet_address != walletAddress ? (
                                                 <button
                                                     disabled={
-                                                        !isLoaded
+                                                        !isLoaded || isLoading
                                                     }
                                                     className={`${nftDetails?.on_sale ? style.regBtn : style.regBtn2
                                                         } ${dark === 'true' ? 'lightBorder' : 'darkBorder'} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
@@ -507,7 +1031,7 @@ const ExploreSingleBuy = () => {
                                             ) : (
                                                 <button
                                                     disabled={
-                                                        !isLoaded
+                                                        !isLoaded || isLoading
                                                     }
                                                     className={`${nftDetails?.on_sale ? style.regBtn : style.regBtn2
                                                         } ${dark === 'true' ? 'lightBorder' : 'darkBorder'} ${dark === 'true' ? 'lightTxt' : 'darkTxt'

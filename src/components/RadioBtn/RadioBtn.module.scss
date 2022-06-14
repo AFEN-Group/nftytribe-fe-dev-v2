@@ -1,0 +1,52 @@
+@import '../../variables';
+
+/* Special radio */
+.pbRadio input {
+    position: absolute;
+    z-index: 2;
+    opacity: 0;
+    height: 50px;
+    width: 120px;
+    cursor: pointer;
+    //background: pink;
+    top: 0;
+}
+
+.pbRadio input:checked~.checkmark {
+    background-color: #fff;
+}
+
+.checkmark {
+    //margin-right: 4em;
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.295);
+    top: 0;
+    right: 3em;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.pbRadio input:checked~.checkmark:after {
+    display: block;
+    //border: 1px solid #4D55A6;
+}
+
+.pbRadio .checkmark:after {
+    top: 5.6px;
+    left: 4.3px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    //background: #6548C3;
+    background: #4D55A6;
+}
+
+/* */
