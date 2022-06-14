@@ -13,17 +13,21 @@ import Arrow from './assets/arrow.svg'
 import ItemCard from '../../components/Card/ItemCard'
 import Container from '../../components/Container/Container'
 import Arrow2 from './assets/arrowright.svg'
+import AcceptBtn from '../../components/AcceptBtn/AcceptBtn'
+//import RadioBtn from '../../components/RadioBtn/RadioBtn'
 
 const Explore = () => {
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
-  const [tab, setTab] = useState('all')
+  const [tab, setTab] = useState('')
   const [data, setData] = useState([])
   const [filter, setFilter] = useState("")
+  const [filterQuery, setFilterQuery] = useState('')
+  const [query, setQuery] = useState('')
   //const [isLoading, setIsLoading] = useState(true)
   const getExploreCollectibles = async () => {
     try {
-      const explore = await publicRequest.get(`/collectibles/explore`)
+      const explore = await publicRequest.get(`/collectibles/explore/filter?on_sale=true&nft_type=${tab}${filterQuery}`)
       const exploreData = explore.data
       console.log(exploreData)
       setData(exploreData?.data?.collectibles)
@@ -34,9 +38,15 @@ const Explore = () => {
     }
   }
   console.log(data)
+
+  useEffect(() => {
+    getExploreCollectibles()
+    console.log(filterQuery)
+  }, [tab, filterQuery])
+
   useEffect(() => {
     window.scrollTo(0, 0)
-    getExploreCollectibles()
+
     const heroTitle = document.getElementById('heroTitle')
     const heroText = document.getElementById('heroText')
     const tl = gsap.timeline()
@@ -52,6 +62,11 @@ const Explore = () => {
       ease: Expo.easeInOut,
     })
   }, [])
+
+  const setDefaults = () => {
+    setFilterQuery('')
+    setTab("")
+  }
 
   return (
     <>
@@ -71,13 +86,13 @@ const Explore = () => {
               >
                 <div
                   className={
-                    tab === 'all' && dark === 'true'
+                    tab === '' && dark === 'true'
                       ? style.darkActive
-                      : tab === 'all' && dark !== 'true'
+                      : tab === '' && dark !== 'true'
                         ? style.lightActive
                         : style.exploreCat
                   }
-                  onClick={(e) => setTab('all')}
+                  onClick={(e) => setTab('')}
                 >
                   <p>All</p>
                 </div>
@@ -161,16 +176,25 @@ const Explore = () => {
                     <div className={`${dark === "true" ? style.filterBxD : style.filterBxL} animate__animated animate__fadeIn`}
                     >
                       <div className={style.filterItem1}>
-                        <p>Fixed Sale</p>
-                        <div className={style.radio}>
-                          <input type="radio" />
+                        <div className={style.filterTxt} >
+                          <p>Fixed Sale</p>
+                        </div>
+
+                        {/* <div className={style.radioBx}> <RadioBtn /></div> */}
+                        <div className={style.pbRadio} onClick={() => setFilterQuery("&marketplace_type=1")}>
+                          <input type="radio" name="filter" />
+                          <span className={style.checkmark}></span>
                         </div>
                       </div>
                       <div className={style.filterItem}>
-                        <p>Auction</p>
-                        <div className={style.radio}>
-
+                        <div className={style.filterTxt} >
+                          <p>Auctions</p>
                         </div>
+                        <div className={style.pbRadio} onClick={() => setFilterQuery("&marketplace_type=2")}>
+                          <input type="radio" name="filter" />
+                          <span className={style.checkmark}></span>
+                        </div>
+
                       </div>
                     </div>)}
                   <div className={style.sBItem} onClick={() => setFilter("blockchain")}>
@@ -181,34 +205,48 @@ const Explore = () => {
                     <div className={`${dark === "true" ? style.filterBxD : style.filterBxL} animate__animated animate__fadeIn`}
                     >
                       <div className={style.filterItem1}>
-                        <p>Ethereum</p>
-                        <div className={style.radio}>
-                          <input type="radio" />
+                        <div className={style.filterTxt}>
+                          <p>Ethereum</p>
                         </div>
+                        <div className={style.pbRadio} onClick={() => setFilterQuery("&chain=rinkeby")}>
+                          <input type="radio" name="filter" />
+                          <span className={style.checkmark}></span>
+                        </div>
+
                       </div>
                       <div className={style.filterItem}>
-                        <p>Binance</p>
-                        <div className={style.radio}>
-
+                        <div className={style.filterTxt}>
+                          <p>Binance</p>
+                        </div>
+                        <div className={style.pbRadio} onClick={() => setFilterQuery("&chain=binance")}>
+                          <input type="radio" name="filter" />
+                          <span className={style.checkmark}></span>
                         </div>
                       </div>
                     </div>)}
                   <div className={style.sBItem}>
                     <p>Recently added</p>
+                    {/* <AcceptBtn onClick={setDefaults} /> */}
+                    <div className={style.pbRadio} onClick={setDefaults}>
+                      <input type="radio" name="filter" />
+                      <span className={style.checkmark}></span>
+                    </div>
                     {/* <img src={Arrow1} alt="filter" /> */}
                   </div>
-                  <div className={style.sBItem} onClick={() => setFilter("collection")}>
+                  {/* <div className={style.sBItem} onClick={() => setFilter("collection")}>
                     <p>Collection</p>
                     <img src={filter === 'collection' ? Arrow2 : Arrow1} alt="filter" />
-                  </div>
+
+                  </div> */}
                   {filter === "collection" && (
                     <div className={`${dark === "true" ? style.filterBxD : style.filterBxL} animate__animated animate__fadeIn`}
                     >
-                      <div className={style.filterItem1}>
+                      <div className={style.filterItem}>
                         <p>Fixed Sale</p>
                         <div className={style.radio}>
-                          <input type="radio" />
+
                         </div>
+
                       </div>
                     </div>)}
                   {/* <div className={style.sBItem}>
@@ -239,10 +277,10 @@ const Explore = () => {
                     <div className={style.noResults}>
                       <img src={Sad} alt="sad" />
                       <h2>No items found</h2>
-                      <Link to="/explore" className={style.exploreM}>
+                      {/* <Link to="/explore" className={style.exploreM}>
                         <p>Explore marketplace</p>
                         <img src={Arrow} alt="arrow" />
-                      </Link>
+                      </Link> */}
                     </div>
                   </div>
                 )}
