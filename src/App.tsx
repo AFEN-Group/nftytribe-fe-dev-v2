@@ -13,7 +13,9 @@ import 'animate.css'
 import Home from './pages/Home/Home'
 import About from './pages/About/About'
 import Explore from './pages/Explore/Explore'
-import ExploreSingle from './pages/Explore/ExploreSingle/ExploreSingle'
+//import ExploreSingle from './pages/Explore/ExploreSingle/ExploreSingle'
+import ExploreBuy from './pages/Explore/ExploreSingle/ExploreSingleBuy'
+import ExploreBid from './pages/Explore/ExploreSingle/ExploreSingleBid'
 import Collections from './pages/Collections/MyCollectionsFull'
 import CollectionDetails from './pages/CollectionDetails/CollectionDetails'
 import CollectionDashboard from './pages/CollectionDashboard/CollectionDashboard'
@@ -42,9 +44,17 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />}></Route>
                 <Route path="/explore" element={<Explore />}></Route>
-                <Route
+                {/* <Route
                   path="/explore/:collectionAddress/:id"
                   element={<ExploreSingle />}
+                ></Route> */}
+                <Route
+                  path="/exploreBuy/:collectionAddress/:id"
+                  element={<ExploreBuy />}
+                ></Route>
+                <Route
+                  path="/exploreBid/:collectionAddress/:id"
+                  element={<ExploreBid />}
                 ></Route>
                 <Route path="/collections" element={<Collections />}></Route>
 

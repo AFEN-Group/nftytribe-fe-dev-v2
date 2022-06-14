@@ -133,8 +133,8 @@ const Profile = () => {
                 query === '' && dark === 'true'
                   ? style.darkActive
                   : query === '' && dark !== 'true'
-                  ? style.lightActive
-                  : style.filterItem
+                    ? style.lightActive
+                    : style.filterItem
               }
               onClick={(e) => setQuery('')}
             >
@@ -146,8 +146,8 @@ const Profile = () => {
                 query === 'collected=true' && dark === 'true'
                   ? style.darkActive
                   : query === 'collected=true' && dark !== 'true'
-                  ? style.lightActive
-                  : style.filterItem
+                    ? style.lightActive
+                    : style.filterItem
               }
               onClick={(e) => setQuery('collected=true')}
             >
@@ -158,8 +158,8 @@ const Profile = () => {
                 query === 'on_sale=true' && dark === 'true'
                   ? style.darkActive
                   : query === 'on_sale=true' && dark !== 'true'
-                  ? style.lightActive
-                  : style.filterItem
+                    ? style.lightActive
+                    : style.filterItem
               }
               onClick={(e) => setQuery('on_sale=true')}
             >
@@ -170,8 +170,8 @@ const Profile = () => {
                 query === 'created=true' && dark === 'true'
                   ? style.darkActive
                   : query === 'created=true' && dark !== 'true'
-                  ? style.lightActive
-                  : style.filterItem
+                    ? style.lightActive
+                    : style.filterItem
               }
               onClick={(e) => setQuery('created=true')}
             >
@@ -182,8 +182,8 @@ const Profile = () => {
                 query === 'activity=true' && dark === 'true'
                   ? style.darkActive
                   : query === 'activity=true' && dark !== 'true'
-                  ? style.lightActive
-                  : style.filterItem
+                    ? style.lightActive
+                    : style.filterItem
               }
               onClick={(e) => setQuery('activity=true')}
             >
@@ -194,8 +194,8 @@ const Profile = () => {
                 query === 'sold=true' && dark === 'true'
                   ? style.darkActive
                   : query === 'sold=true' && dark !== 'true'
-                  ? style.lightActive
-                  : style.filterItem
+                    ? style.lightActive
+                    : style.filterItem
               }
               onClick={(e) => setQuery('sold=true')}
             >
@@ -222,33 +222,32 @@ const Profile = () => {
                     )
                   })}
                 </div>
-                <div className={style.pagination}>
-                  <div className={style.paginateBtns}>
-                    {currentPage > 1 && (
-                      <button
-                        className={`${style.filterItem} ${
-                          dark === 'true' ? 'lightTxt' : 'darkTxt'
-                        }`}
-                        onClick={prevPage}
-                      >
-                        {'Prev'}
-                      </button>
-                    )}
-                    {currentPage < totalPages && (
-                      <button
-                        className={`${style.filterItem} ${
-                          dark === 'true' ? 'lightTxt' : 'darkTxt'
-                        }`}
-                        onClick={nextPage}
-                      >
-                        {'Next'}
-                      </button>
-                    )}
-                  </div>
-                  <p>
-                    Page {currentPage} of {totalPages}
-                  </p>
-                </div>
+                {totalPages > 1 && (
+                  <div className={style.pagination}>
+                    <div className={style.paginateBtns}>
+                      {currentPage > 1 && (
+                        <button
+                          className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
+                            }`}
+                          onClick={prevPage}
+                        >
+                          {'Prev'}
+                        </button>
+                      )}
+                      {currentPage < totalPages && (
+                        <button
+                          className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
+                            }`}
+                          onClick={nextPage}
+                        >
+                          {'Next'}
+                        </button>
+                      )}
+                    </div>
+                    <p>
+                      Page {currentPage} of {totalPages}
+                    </p>
+                  </div>)}
               </>
             ) : (
               <div className={style.noContent}>

@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
+import { ThemeContext } from '../../context/ThemeContext'
 import { gsap, Expo } from 'gsap'
 import { Link } from 'react-router-dom'
 import { publicRequest } from '../../utils/requestMethods'
@@ -11,11 +12,14 @@ import CollectionCard from '../../components/Card/CollectionCard'
 
 const MyCollectionsFull = () => {
   const [showImport, setShowImport] = useState(false)
+  const [themeState] = useContext<any>(ThemeContext)
+  const dark = themeState.dark
   useEffect(() => {
     window.scrollTo(0, 0)
 
     const heroTitle = document.getElementById('heroTitle')
     const heroText = document.getElementById('heroText')
+
     const tl = gsap.timeline()
     tl.to(heroTitle, {
       y: 0,
@@ -69,11 +73,19 @@ const MyCollectionsFull = () => {
               >
                 <Link to="/createcollection">
                   {' '}
-                  <div className={style.bodyBtn}> Create collection </div>
+                  <div
+                    //className={style.bodyBtn}
+                    className={`${style.bodyBtn} ${dark === 'true' ? 'yellowBtn' : 'blueBtn'
+                      } `}
+                  >
+                    Create collection
+                  </div>
                 </Link>
 
                 <div
-                  className={style.bodyBtn2}
+                  //className={style.bodyBtn2}
+                  className={`${style.bodyBtn2} ${dark === 'true' ? 'yellowBtn' : 'blueBtn'
+                    }`}
                   onClick={() => setShowImport(true)}
                 >
                   {' '}
@@ -87,12 +99,12 @@ const MyCollectionsFull = () => {
                 {!collections
                   ? null
                   : collections.map((collection: any, i) => {
-                      return (
-                        collection.title && (
-                          <CollectionCard nftData={collection} />
-                        )
+                    return (
+                      collection.title && (
+                        <CollectionCard nftData={collection} />
                       )
-                    })}
+                    )
+                  })}
               </div>
             </div>
           </div>

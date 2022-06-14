@@ -83,7 +83,7 @@ const ExploreSingle = () => {
         setNftDetails(details?.data?.data?._doc)
         setActivities(details?.data?.data?.activities)
         console.log('<<< cu ', details?.data?.data?.activities)
-        if(!details?.data?.data?._doc?.is_multiple){
+        if (!details?.data?.data?._doc?.is_multiple) {
           const ifToBeCollected = await checkIfBIdTimePasses(
             id,
             collectionAddress,
@@ -91,7 +91,7 @@ const ExploreSingle = () => {
           setCollectedNft(ifToBeCollected)
           console.log('available?>>', ifToBeCollected)
         }
-       
+
         setIsLoading(false)
         setIsLoaded(true)
       } catch (error) {
@@ -119,10 +119,10 @@ const ExploreSingle = () => {
       } else {
         await getNftDetails()
         let contract_address = '0xd5582083916dc813f974ce4ca3f27e6977e161cf'
-        if(nftDetails.is_multiple){
+        if (nftDetails.is_multiple) {
           contract_address = "0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd"
         }
-        
+
         let erc721Contract
         let erc1155Contract
         let marketPlaceContract
@@ -133,19 +133,19 @@ const ExploreSingle = () => {
             marketPlaceAbi,
             contract_address,
           )
-          if(nftDetails.is_multiple){
+          if (nftDetails.is_multiple) {
             erc1155Contract = new web3.eth.Contract(erc1155Abi, collectionAddress)
             marketPlaceContract = new web3.eth.Contract(
               erc1155MarketplaceAbi,
               contract_address,
             )
           }
-          
+
         } else {
           alert('connect to meta mask wallet')
         }
         let uri = await erc721Contract.methods.tokenURI(id).call()
-        if(nftDetails.is_multiple){
+        if (nftDetails.is_multiple) {
           uri = await erc1155Contract.methods.uri(id).call();
         }
         const moralis_uri = `https://deep-index.moralis.io/api/v2/nft/${collectionAddress}/${id}?chain=rinkeby&format=decimal&offset=0&limit=20`
@@ -184,75 +184,75 @@ const ExploreSingle = () => {
             })
             nft.metadata = data
             //console.log(data)
-          } catch (err) {}
+          } catch (err) { }
         }
 
-        if(!nftDetails.is_multiple){
+        if (!nftDetails.is_multiple) {
           const owner = await erc721Contract.methods.ownerOf(id).call()
-        nft.owner_of = owner
-        setNft(nft)
-        console.log(nft)
+          nft.owner_of = owner
+          setNft(nft)
+          console.log(nft)
 
-        const auctionInfo = await marketPlaceContract.methods
-          .auctions(collectionAddress, id)
-          .call()
-        console.log('auction Info', auctionInfo)
-        setAuctionData(auctionInfo)
-        setIsLoading(false)
-        setIsLoaded(true)
+          const auctionInfo = await marketPlaceContract.methods
+            .auctions(collectionAddress, id)
+            .call()
+          console.log('auction Info', auctionInfo)
+          setAuctionData(auctionInfo)
+          setIsLoading(false)
+          setIsLoaded(true)
 
-        const timestamp = auctionInfo.closingTime
-        const date = new Date(timestamp * 1000)
-        const datevalues = [
-          date.getFullYear(),
-          date.getMonth() + 1,
-          date.getDate(),
-          date.getHours(),
-          date.getMinutes(),
-          date.getSeconds(),
-        ]
-        setEndDate(datevalues)
-        console.log('>>', datevalues)
-        //alert(datevalues) //=>
+          const timestamp = auctionInfo.closingTime
+          const date = new Date(timestamp * 1000)
+          const datevalues = [
+            date.getFullYear(),
+            date.getMonth() + 1,
+            date.getDate(),
+            date.getHours(),
+            date.getMinutes(),
+            date.getSeconds(),
+          ]
+          setEndDate(datevalues)
+          console.log('>>', datevalues)
+          //alert(datevalues) //=>
 
-        //const timeDiffCalc = (dateFuture: any, dateNow: any) => {
-        const dateFuture = auctionInfo.closingTime
-        //const dateNow: any = new Date()
-        const dateNow = auctionInfo.startingTime
-        let diffInMilliSeconds = Math.abs(dateFuture - dateNow) / 1000
-        // calculate days
-        const days = Math.floor(diffInMilliSeconds / 86400)
-        diffInMilliSeconds -= days * 86400
-        // calculate hours
-        const hours = Math.floor(diffInMilliSeconds / 3600) % 24
-        diffInMilliSeconds -= hours * 3600
-        // calculate minutes
-        const minutes = Math.floor(diffInMilliSeconds / 60) % 60
-        diffInMilliSeconds -= minutes * 60
-        // calculate minutes
-        const seconds = Math.floor(diffInMilliSeconds)
-        setTimeLeft({
-          hours,
-          minutes,
-          seconds,
-        })
-        // setMinutesLeft(minutes);
-        // setSecondsLeft(seconds);
+          //const timeDiffCalc = (dateFuture: any, dateNow: any) => {
+          const dateFuture = auctionInfo.closingTime
+          //const dateNow: any = new Date()
+          const dateNow = auctionInfo.startingTime
+          let diffInMilliSeconds = Math.abs(dateFuture - dateNow) / 1000
+          // calculate days
+          const days = Math.floor(diffInMilliSeconds / 86400)
+          diffInMilliSeconds -= days * 86400
+          // calculate hours
+          const hours = Math.floor(diffInMilliSeconds / 3600) % 24
+          diffInMilliSeconds -= hours * 3600
+          // calculate minutes
+          const minutes = Math.floor(diffInMilliSeconds / 60) % 60
+          diffInMilliSeconds -= minutes * 60
+          // calculate minutes
+          const seconds = Math.floor(diffInMilliSeconds)
+          setTimeLeft({
+            hours,
+            minutes,
+            seconds,
+          })
+          // setMinutesLeft(minutes);
+          // setSecondsLeft(seconds);
 
-        let difference = ''
-        if (days > 0) {
-          difference += days === 1 ? `${days}d, ` : `${days}d, `
+          let difference = ''
+          if (days > 0) {
+            difference += days === 1 ? `${days}d, ` : `${days}d, `
+          }
+
+          difference += hours === 0 || hours === 1 ? `${hours}h, ` : `${hours}h, `
+
+          difference +=
+            minutes === 0 || hours === 1 ? `${minutes}m` : `${minutes}m`
+          console.log('difference >>', difference)
+          setTimeDifference(difference)
         }
 
-        difference += hours === 0 || hours === 1 ? `${hours}h, ` : `${hours}h, `
-
-        difference +=
-          minutes === 0 || hours === 1 ? `${minutes}m` : `${minutes}m`
-        console.log('difference >>', difference)
-        setTimeDifference(difference)
       }
-
-        }
       //return difference;
     }
     getTokenDetails()
@@ -323,8 +323,8 @@ const ExploreSingle = () => {
           handleClose={handleClose}
           nft={nft}
           nftDetails={nftDetails}
-          //nftPrice={nftPrice}
-          //saleType={saleType}
+        //nftPrice={nftPrice}
+        //saleType={saleType}
         />
       )}
       {showBid && (
@@ -359,7 +359,7 @@ const ExploreSingle = () => {
                         <img
                           src={
                             nft?.metadata?.image.includes('ipfs/') ||
-                            nft?.metadata?.image.includes('ipfs://')
+                              nft?.metadata?.image.includes('ipfs://')
                               ? getImage(nft?.metadata?.image)
                               : nft?.metadata?.image
                           }
@@ -383,7 +383,7 @@ const ExploreSingle = () => {
                         <img
                           src={
                             nft?.metadata?.image.includes('ipfs/') ||
-                            nft?.metadata?.image.includes('ipfs://')
+                              nft?.metadata?.image.includes('ipfs://')
                               ? getImage(nft?.metadata?.image)
                               : nft?.metadata?.image
                           }
@@ -445,9 +445,9 @@ const ExploreSingle = () => {
                       <p>{shortenAddress(nftDetails?.wallet_address)}</p>
                     )}
                   </div>
-                  {/* <div className={style.bronze}>
-                    <p>||| Benin Broxnze</p>
-                  </div> */}
+                  <div className={style.bronze}>
+                    <p>{nftDetails?.is_multiple ? 'Multiple Items' : 'Single Item'}{' '}</p>
+                  </div>
                   {/* <div className={style.eyes}>
                     <img src={dark === 'true' ? Eye2 : Eye} alt="seen" />
                     <p>1215</p>
@@ -471,9 +471,8 @@ const ExploreSingle = () => {
                         auctionData && (
                           <div
                             //className={style.bidPrices}
-                            className={`${style.bidPrices} ${
-                              dark === 'true' ? 'darkGradient' : 'lightGradient'
-                            } `}
+                            className={`${style.bidPrices} ${dark === 'true' ? 'darkGradient' : 'lightGradient'
+                              } `}
                           >
                             {!collectedNft && (
                               <div className={style.bids}>
@@ -553,6 +552,9 @@ const ExploreSingle = () => {
                         </div>
                       )}
                     </div>
+                    {nftDetails?.is_multiple && (
+                      <p>Number of copies : {nftDetails.number_of_copies}</p>
+                    )}
                     <div className={style.Btns}>
                       {nftDetails?.marketplace_type === 2 ? (
                         //&& collectedNft
@@ -561,16 +563,15 @@ const ExploreSingle = () => {
                         <>
                           <button
                             disabled={!isLoaded || !collectedNft}
-                            className={`${style.gradBtn} ${
-                              dark === 'true' ? 'darkGradient' : 'lightGradient'
-                            } `}
+                            className={`${style.gradBtn} ${dark === 'true' ? 'darkGradient' : 'lightGradient'
+                              } `}
                             onClick={handleSubmit}
                           >
                             Bid
                           </button>
                           {collectNft &&
                             nftDetails?.wallet_address.toLowerCase() ===
-                              walletAddress?.toLowerCase() && (
+                            walletAddress?.toLowerCase() && (
                               <button
                                 style={{ marginLeft: '50px' }}
                                 className={style.regBtn}
@@ -594,21 +595,20 @@ const ExploreSingle = () => {
                             !isLoaded
                             //|| auctionData?.startingPrice === '0'
                           }
-                          className={`${
-                            nftDetails?.on_sale ? style.regBtn : style.regBtn2
-                          } ${dark === 'true' ? 'lightBorder' : 'darkBorder'} ${
-                            dark === 'true' ? 'lightTxt' : 'darkTxt'
-                          }`}
+                          className={`${nftDetails?.on_sale ? style.regBtn : style.regBtn2
+                            } ${dark === 'true' ? 'lightBorder' : 'darkBorder'} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
+                            }`}
                           onClick={handleSubmit}
                         >
                           {!nftDetails?.on_sale
                             ? //||
-                              //auctionData?.startingPrice === '0'
-                              'Not On Sale'
+                            //auctionData?.startingPrice === '0'
+                            'Not On Sale'
                             : 'Buy'}
                         </button>
                       )}
                     </div>
+
                   </div>
                 )}
                 {tab === 'activity' && (
