@@ -70,7 +70,7 @@ const CreateItems = () => {
     wallet_address: '',
     title: '',
     description: '',
-    collection_address: itemType === 'single'? erc721Mintable_address : erc1155Mintable_adddress,
+    collection_address: itemType === 'single' ? erc721Mintable_address : erc1155Mintable_adddress,
     //customCollection: '',
     nft_type: '',
     is_multiple: '',
@@ -103,7 +103,7 @@ const CreateItems = () => {
   ]
   useEffect(() => {
     const wallet_address = localStorage.getItem('currentAccount')
-    console.log(itemType,'type')
+    console.log(itemType, 'type')
     const getCollections = async () => {
       try {
         const collections = await publicRequest.get(
@@ -821,7 +821,7 @@ const CreateItems = () => {
                   type: 'mint',
                   token_id: returnvalues.id,
                   price: web3.utils.toWei(data.price, 'ether'),
-                  number_of_copies : userInput.copies
+                  number_of_copies: userInput.copies
                 }
 
                 const updateCollectible = await fetch(
@@ -881,23 +881,23 @@ const CreateItems = () => {
                 //setShowConnect(true)
               }
               const isApproved = await erc1155Contract.methods.isApprovedForAll(wallet_address, erc1155Marketplace_address).call();
-              console.log(isApproved,'check')
-              if(isApproved){
+              console.log(isApproved, 'check')
+              if (isApproved) {
                 setIsLoading(false)
                 setStep(3)
               }
-              else{
+              else {
                 const approve = await erc1155Contract.methods
-                .setApprovalForAll(
-                  erc1155Marketplace_address,
-                  true,
-                )
-                .send({ from: wallet_address })
+                  .setApprovalForAll(
+                    erc1155Marketplace_address,
+                    true,
+                  )
+                  .send({ from: wallet_address })
                 console.log(approve, 'else')
                 setIsLoading(false)
                 setStep(3)
               }
-              
+
             } catch (err) {
               console.log(err)
               setIsLoading(false)
@@ -941,7 +941,7 @@ const CreateItems = () => {
               data.cardImage = cardImage
               //data.price = parseFloat(userInput.price) * parseInt(userInput.copies)
               returnvalues = mint.events.TransferSingle.returnValues
-              console.log(returnvalues,'value')
+              console.log(returnvalues, 'value')
 
               if (data.market_type !== '0') {
                 data.on_sale = true
@@ -966,7 +966,7 @@ const CreateItems = () => {
                   )
                   .send({ from: wallet_address })
 
-                  console.log(putOnSale)
+                console.log(putOnSale)
                 // const putOnSale = await handlePutOnSale(
                 //   returnValues.tokenId,
                 //   wallet_address,
@@ -1189,23 +1189,24 @@ const CreateItems = () => {
                   >
                     Open for bids
                   </div> */}
-                  <div
-                    className={
-                      userInput.market_type === '2' && dark === 'true'
-                        ? style.sAdark
-                        : userInput.market_type === '2' && dark !== 'true'
-                          ? style.sAlight
-                          : style.smBtn
-                    }
-                    onClick={() =>
-                      setUserInput({
-                        ...userInput,
-                        market_type: '2',
-                      })
-                    }
-                  >
-                    Timed auction
-                  </div>
+                  {itemType !== 'multiple' && (
+                    <div
+                      className={
+                        userInput.market_type === '2' && dark === 'true'
+                          ? style.sAdark
+                          : userInput.market_type === '2' && dark !== 'true'
+                            ? style.sAlight
+                            : style.smBtn
+                      }
+                      onClick={() =>
+                        setUserInput({
+                          ...userInput,
+                          market_type: '2',
+                        })
+                      }
+                    >
+                      Timed auction
+                    </div>)}
                 </div>
               </div>
               {userInput.market_type === '2' && (

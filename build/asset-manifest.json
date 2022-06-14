@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.5e244d6b.css",
-    "main.js": "/static/js/main.e1238bcf.js",
+    "main.css": "/static/css/main.96a51478.css",
+    "main.js": "/static/js/main.1cedb6e1.js",
     "static/media/vidImg.svg": "/static/media/vidImg.42742b2d8e8ef6a3e80eb2d5ebf7718e.svg",
     "static/media/cover.svg": "/static/media/cover.4b658d096da040ad016f0a8a3f0f14bd.svg",
     "static/media/shape4.svg": "/static/media/shape4.d803d089cab2790dd0d6383b2c72f685.svg",
@@ -66,6 +66,8 @@
     "static/media/arrow-right.svg": "/static/media/arrow-right.014949e4108f757f85bac010cfccc214.svg",
     "static/media/profile.svg": "/static/media/profile.6484f9c198283b8b3e1dc6e20ea2fb22.svg",
     "static/media/profile2.svg": "/static/media/profile2.1023c714e649b0c3e21ea8b06f8b4bf7.svg",
+    "static/media/h-arrow1.svg": "/static/media/h-arrow1.8e342bf257a3ea60856e7f00081f081d.svg",
+    "static/media/h-arrow2.svg": "/static/media/h-arrow2.854f91cb8f08ba4e8cf2cd4e96f20123.svg",
     "index.html": "/index.html",
     "static/media/mail.svg": "/static/media/mail.3f5d31641170941e5e9b5163d072ed21.svg",
     "static/media/dots.svg": "/static/media/dots.64d49c12eb7cdb5d41c2282bedac3fd4.svg",
@@ -105,11 +107,12 @@
     "static/media/bluedot.svg": "/static/media/bluedot.96b8dc19917833ccea68db3415628214.svg",
     "static/media/yellowdot.svg": "/static/media/yellowdot.6bdec628e892f78008985db11f1d85a8.svg",
     "static/media/arrowdown.svg": "/static/media/arrowdown.4224e64d722ee3f005f47d0bf9b46414.svg",
-    "main.5e244d6b.css.map": "/static/css/main.5e244d6b.css.map",
-    "main.e1238bcf.js.map": "/static/js/main.e1238bcf.js.map"
+    "static/media/arrowright.svg": "/static/media/arrowright.5eed037261d49b7fffdbc563fa8c0192.svg",
+    "main.96a51478.css.map": "/static/css/main.96a51478.css.map",
+    "main.1cedb6e1.js.map": "/static/js/main.1cedb6e1.js.map"
   },
   "entrypoints": [
-    "static/css/main.5e244d6b.css",
-    "static/js/main.e1238bcf.js"
+    "static/css/main.96a51478.css",
+    "static/js/main.1cedb6e1.js"
   ]
 }

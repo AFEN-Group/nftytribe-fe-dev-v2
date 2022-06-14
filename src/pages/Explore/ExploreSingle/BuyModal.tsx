@@ -250,7 +250,55 @@ const BuyModal = (props: any) => {
       }
       else if (props?.nftDetails?.is_multiple) {
         erc1155Contract = new web3.eth.Contract(erc1155MintableAbi, erc1155MarketplaceAddress);
-        marketPlaceContract = new web3.eth.Contract(erc1155Marketplace, erc1155MarketplaceAddress)
+        marketPlaceContract = new web3.eth.Contract(erc1155Marketplace, erc1155MarketplaceAddress);
+
+        const buyDetails = await marketPlaceContract.methods._auctions(props?.nftDetails?.collection_address, props?.nftDetails?.token_id, props?.nftDetails?.owner ? props?.nftDetails?.owner : props?.nftDetails?.wallet_address).call()
+        let totalPrice
+
+        console.log(buyDetails, userInput.quantity, 'got details')
+        if (userInput.quantity) {
+          totalPrice = parseInt(buyDetails.price, 10) * parseInt(userInput.quantity)
+        }
+
+        console.log(props?.nftDetails?.collection_address, parseInt(props?.nftDetails?.token_id), props?.nftDetails?.owner ? props?.nftDetails?.owner : props?.nftDetails?.wallet_address, parseInt(userInput.quantity), totalPrice)
+
+        const buy = await marketPlaceContract.methods.buy(props?.nftDetails?.collection_address, parseInt(props?.nftDetails?.token_id), props?.nftDetails?.owner ? props?.nftDetails?.owner : props?.nftDetails?.wallet_address, parseInt(userInput.quantity))
+          .send({ from: userWallet, value: totalPrice?.toString() })
+
+        console.log(buy)
+
+        const transactionHash = buy.transactionHash
+
+        const itemObj = {
+          wallet_address:
+            props?.nftDetails?.owner,
+          collection_address:
+            props?.nft?.token_address ||
+            props?.nftDetails?.collection_address,
+          buyer: userWallet,
+          chain: 'rinkeby',
+          transaction_hash: transactionHash,
+          price: props?.nft?.amount || props?.nftDetails?.price,
+          token_id: props?.nft?.token_id || props?.nftDetails?.token_id,
+          quantity: userInput.quantity
+        }
+
+        const buyApi = await fetch(
+          `https://dev.api.nftytribe.io/api/collectibles/buy-multiple`,
+          {
+            method: 'POST',
+            body: JSON.stringify(itemObj),
+            headers: {
+              'content-type': 'application/json',
+            },
+          },
+        )
+
+        const response = await buyApi.json()
+        console.log(response)
+
+        setIsLoading(false)
+        setCompleted(true)
       }
 
       setIsLoading(false)
@@ -326,7 +374,7 @@ const BuyModal = (props: any) => {
                       holder="Enter quantity"
                       min="1"
                       max={props?.nftDetails?.number_of_copies}
-                    // inputHandler={inputHandler}
+                      inputHandler={inputHandler}
                     // value={userInput.bid}
                     />
                   </div>)}
@@ -340,7 +388,7 @@ const BuyModal = (props: any) => {
               <div className={style.modalBtns2}>
                 <button
                   className={style.btn1}
-                  disabled={isLoading}
+                  disabled={isLoading || !validated}
                   onClick={handleSubmit}
                 >
                   {!isLoading ? (

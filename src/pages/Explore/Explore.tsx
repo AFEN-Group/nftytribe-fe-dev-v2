@@ -12,13 +12,14 @@ import Sad from './assets/sad.svg'
 import Arrow from './assets/arrow.svg'
 import ItemCard from '../../components/Card/ItemCard'
 import Container from '../../components/Container/Container'
-//import Arrow2 from './assets/arrowright.svg'
+import Arrow2 from './assets/arrowright.svg'
 
 const Explore = () => {
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
   const [tab, setTab] = useState('all')
   const [data, setData] = useState([])
+  const [filter, setFilter] = useState("")
   //const [isLoading, setIsLoading] = useState(true)
   const getExploreCollectibles = async () => {
     try {
@@ -73,8 +74,8 @@ const Explore = () => {
                     tab === 'all' && dark === 'true'
                       ? style.darkActive
                       : tab === 'all' && dark !== 'true'
-                      ? style.lightActive
-                      : style.exploreCat
+                        ? style.lightActive
+                        : style.exploreCat
                   }
                   onClick={(e) => setTab('all')}
                 >
@@ -85,8 +86,8 @@ const Explore = () => {
                     tab === 'art' && dark === 'true'
                       ? style.darkActive
                       : tab === 'art' && dark !== 'true'
-                      ? style.lightActive
-                      : style.exploreCat
+                        ? style.lightActive
+                        : style.exploreCat
                   }
                   onClick={(e) => setTab('art')}
                 >
@@ -97,8 +98,8 @@ const Explore = () => {
                     tab === 'gaming' && dark === 'true'
                       ? style.darkActive
                       : tab === 'gaming' && dark !== 'true'
-                      ? style.lightActive
-                      : style.exploreCat
+                        ? style.lightActive
+                        : style.exploreCat
                   }
                   onClick={(e) => setTab('gaming')}
                 >
@@ -109,8 +110,8 @@ const Explore = () => {
                     tab === 'collectibles' && dark === 'true'
                       ? style.darkActive
                       : tab === 'collectibles' && dark !== 'true'
-                      ? style.lightActive
-                      : style.exploreCat
+                        ? style.lightActive
+                        : style.exploreCat
                   }
                   onClick={(e) => setTab('collectibles')}
                 >
@@ -121,8 +122,8 @@ const Explore = () => {
                     tab === 'utility' && dark === 'true'
                       ? style.darkActive
                       : tab === 'utility' && dark !== 'true'
-                      ? style.lightActive
-                      : style.exploreCat
+                        ? style.lightActive
+                        : style.exploreCat
                   }
                   onClick={(e) => setTab('utility')}
                 >
@@ -137,9 +138,8 @@ const Explore = () => {
             >
               <div
                 //className={style.sideBar}
-                className={`${style.sideBar} ${
-                  dark === 'true' ? 'darkGradient' : 'lightGradient'
-                } `}
+                className={`${style.sideBar} ${dark === 'true' ? 'darkGradient' : 'lightGradient'
+                  } `}
                 id="sidebar"
               >
                 <div className={style.sideBarContent}>
@@ -149,34 +149,76 @@ const Explore = () => {
                       <strong>Filters</strong>
                     </p>
                   </div>
-                  <div className={style.sBItem}>
+                  {/* <div className={style.sBItem}>
                     <p>Price range</p>
                     <img src={Arrow1} alt="filter" />
-                  </div>
-                  <div className={style.sBItem}>
+                  </div> */}
+                  <div className={style.sBItem} onClick={() => setFilter("saleType")}>
                     <p>Sale type</p>
-                    <img src={Arrow1} alt="filter" />
+                    <img src={filter === 'saleType' ? Arrow2 : Arrow1} alt="filter" />
                   </div>
-                  <div className={style.sBItem}>
+                  {filter === "saleType" && (
+                    <div className={`${dark === "true" ? style.filterBxD : style.filterBxL} animate__animated animate__fadeIn`}
+                    >
+                      <div className={style.filterItem1}>
+                        <p>Fixed Sale</p>
+                        <div className={style.radio}>
+                          <input type="radio" />
+                        </div>
+                      </div>
+                      <div className={style.filterItem}>
+                        <p>Auction</p>
+                        <div className={style.radio}>
+
+                        </div>
+                      </div>
+                    </div>)}
+                  <div className={style.sBItem} onClick={() => setFilter("blockchain")}>
                     <p>Blockchain</p>
-                    <img src={Arrow1} alt="filter" />
+                    <img src={filter === 'blockchain' ? Arrow2 : Arrow1} alt="filter" />
                   </div>
+                  {filter === "blockchain" && (
+                    <div className={`${dark === "true" ? style.filterBxD : style.filterBxL} animate__animated animate__fadeIn`}
+                    >
+                      <div className={style.filterItem1}>
+                        <p>Ethereum</p>
+                        <div className={style.radio}>
+                          <input type="radio" />
+                        </div>
+                      </div>
+                      <div className={style.filterItem}>
+                        <p>Binance</p>
+                        <div className={style.radio}>
+
+                        </div>
+                      </div>
+                    </div>)}
                   <div className={style.sBItem}>
                     <p>Recently added</p>
-                    <img src={Arrow1} alt="filter" />
+                    {/* <img src={Arrow1} alt="filter" /> */}
                   </div>
-                  <div className={style.sBItem}>
+                  <div className={style.sBItem} onClick={() => setFilter("collection")}>
                     <p>Collection</p>
-                    <img src={Arrow1} alt="filter" />
+                    <img src={filter === 'collection' ? Arrow2 : Arrow1} alt="filter" />
                   </div>
-                  <div className={style.sBItem}>
+                  {filter === "collection" && (
+                    <div className={`${dark === "true" ? style.filterBxD : style.filterBxL} animate__animated animate__fadeIn`}
+                    >
+                      <div className={style.filterItem1}>
+                        <p>Fixed Sale</p>
+                        <div className={style.radio}>
+                          <input type="radio" />
+                        </div>
+                      </div>
+                    </div>)}
+                  {/* <div className={style.sBItem}>
                     <p>Price ascending</p>
                     <img src={Arrow1} alt="filter" />
                   </div>
                   <div className={style.sBItem}>
                     <p>Price descending</p>
                     <img src={Arrow1} alt="filter" />
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className={style.itemsContainer}>
