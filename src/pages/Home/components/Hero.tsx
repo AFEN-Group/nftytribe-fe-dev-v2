@@ -185,6 +185,7 @@ const Hero = () => {
                 />
               </div>
               <motion.div
+                className={style.featured}
                 initial="hidden"
                 animate="visible"
                 variants={{

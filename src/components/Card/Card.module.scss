@@ -9,6 +9,7 @@
   background: $mainGradient;
   //background: black;
 }
+
 .card2 {
   position: relative;
   box-shadow: 0px 2px 4px rgba(91, 91, 91, 0.24);
@@ -17,9 +18,11 @@
   background: $mainGradient;
   //background: black;
 }
+
 .cardImgBx {
   position: relative;
 }
+
 .cardImg {
   img {
     border-radius: 20px;
@@ -31,6 +34,7 @@
     //max-height: 320px;
   }
 }
+
 .cardImg2 {
   img {
     border-radius: 20px;
@@ -42,6 +46,7 @@
     min-height: 320px;
   }
 }
+
 .cardImg3 {
   img {
     border-radius: 20px;
@@ -53,11 +58,26 @@
     min-height: 320px;
   }
 }
+
+.cardImgFeatured {
+  img {
+    border-radius: 20px;
+    object-fit: cover;
+    width: 500px;
+    height: 100%;
+    max-width: 420px;
+    height: 420px;
+    min-height: 320px;
+  }
+
+}
+
 @keyframes skeleton {
   to {
     opacity: 0.6;
   }
 }
+
 .cardImgsk {
   border-radius: 20px;
   object-fit: cover;
@@ -69,6 +89,7 @@
   background: #313131;
   animation: skeleton 1s ease infinite alternate;
 }
+
 .cardTop {
   position: absolute;
   top: 1em;
@@ -76,6 +97,7 @@
   width: 90%;
   margin: 0 5%;
 }
+
 .descBox1 {
   @include flexRegular(column, center);
   //   background: rgba(23, 18, 20, 0.4);
@@ -99,6 +121,7 @@
   margin: auto;
   color: #fff;
 }
+
 .descBox2 {
   transition: all 0.2s ease;
   position: absolute;
@@ -114,6 +137,7 @@
   //margin: auto;
   color: #fff;
 }
+
 .descBox3 {
   transition: all 0.2s ease;
   position: absolute;
@@ -132,15 +156,18 @@
   @include flexRegular(row, center);
   margin: 0.4em;
   cursor: pointer;
+
   p {
     margin: 0 1em;
   }
 }
+
 .userImg {
   width: 30px;
   height: 30px;
   border-radius: 50%;
 }
+
 //
 .itemInfo2 {
   @include flexRegular(row, space-between);
@@ -156,6 +183,7 @@
   width: 100%;
   //margin: auto;
 }
+
 .itemInfo3 {
   @include flexRegular(row, space-between);
   color: #fff;
@@ -170,25 +198,31 @@
   //width: 60%;
   width: 100%;
 }
+
 .itemTxt {
   background: grey;
   @include flexRegular(row, space-between);
   padding-bottom: 18px;
   margin-bottom: 1.5em;
 }
+
 .itemSubtxt {
   cursor: pointer;
+
   h3 {
     margin-bottom: 0.8em;
   }
+
   .userBx {
     @include flexRegular(row, flex-start);
+
     img {
       margin-right: 7px;
       // width: 50px;
       // height: 50px;
       // border-radius: 50%;
     }
+
     p {
       font-size: 0.86em;
       width: 80%;
@@ -197,8 +231,10 @@
     }
   }
 }
+
 .buyBtn {
   align-self: flex-end;
+
   button {
     @include buttonRegular($blueMain, 78px, 27px);
     color: #fff;
@@ -207,8 +243,10 @@
     font-size: 0.7em;
   }
 }
+
 .buyBtnBg {
   align-self: flex-end;
+
   button {
     @include buttonRegular($blueMain, 84px, 34px);
     color: #fff;
@@ -230,10 +268,12 @@
   right: 5%;
   margin: auto;
   bottom: -5px;
+
   p {
     font-size: 0.9em;
   }
 }
+
 .actionBx2 {
   //background: pink;
   background: #1b1819;
@@ -247,20 +287,25 @@
   right: 5%;
   margin: auto;
   bottom: -5px;
+
   p {
     font-size: 1.1em;
   }
 }
+
 .aBcontent {
   @include flexRegular(row, space-between);
 }
+
 .aleft {
   @include flexRegular(row, flex-start);
+
   img {
     width: 24px;
     height: 24px;
     margin-right: 0.4em;
   }
+
   p {
     white-space: nowrap;
   }
