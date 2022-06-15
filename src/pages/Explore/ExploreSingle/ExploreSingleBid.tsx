@@ -56,6 +56,8 @@ const ExploreSingle = () => {
     const [walletAddress, setWalletAddress] = useState('')
     const [itemCollected, setItemCollected] = useState(false)
     const [themeState] = useContext<any>(ThemeContext)
+    const [isBidActive, setIsBidActive] = useState<any>()
+    const [canCollect, setCanCollect] = useState<any>()
     const dark = themeState.dark
     const { handleAuctionBid, checkIfBIdTimePasses, collectNft } = useContext(
         ContractContext,
@@ -133,7 +135,7 @@ const ExploreSingle = () => {
                         marketPlaceAbi,
                         contract_address,
                     )
-                    if (nftDetails.is_multiple) {
+                    if (nftDetails?.is_multiple) {
                         erc1155Contract = new web3.eth.Contract(erc1155Abi, collectionAddress)
                         marketPlaceContract = new web3.eth.Contract(
                             erc1155MarketplaceAbi,
@@ -215,11 +217,14 @@ const ExploreSingle = () => {
                     console.log('>>', datevalues)
                     //alert(datevalues) //=>
 
-                    //const timeDiffCalc = (dateFuture: any, dateNow: any) => {
-                    const dateFuture = auctionInfo.closingTime
-                    //const dateNow: any = new Date()
-                    const dateNow = auctionInfo.startingTime
-                    let diffInMilliSeconds = Math.abs(dateFuture - dateNow) / 1000
+                    //const timeDiffCalc = (dateFuture: any, dateStart: any) => {
+                    const dateFutureStr = auctionInfo.closingTime.toString()
+                    console.log(dateFutureStr)
+                    const dateFuture = dateFutureStr + '000'
+
+                    const dateStartStr = auctionInfo.startingTime.toString()
+                    const dateStart = dateStartStr + '000'
+                    let diffInMilliSeconds = Math.abs(parseInt(dateFuture) - parseInt(dateStart)) / 1000
                     // calculate days
                     const days = Math.floor(diffInMilliSeconds / 86400)
                     diffInMilliSeconds -= days * 86400
@@ -238,6 +243,25 @@ const ExploreSingle = () => {
                     })
                     // setMinutesLeft(minutes);
                     // setSecondsLeft(seconds);
+
+                    //check if bid is still active
+                    const dateToday = Math.floor(Date.now() / 1000)
+                    // console.log("today>>>", dateToday)
+                    // console.log("end date>>>", dateFuture)
+                    if (parseInt(dateFuture) < dateToday) {
+                        setIsBidActive(false)
+                    } else {
+                        setIsBidActive(true)
+                    }
+
+
+                    //check if item can be collected
+                    if (parseInt(dateFuture) < dateToday && auctionInfo.highestBidder === walletAddress) {
+                        setCanCollect(true)
+                    } else {
+                        setCanCollect(false)
+                    }
+
 
                     let difference = ''
                     if (days > 0) {
@@ -302,6 +326,7 @@ const ExploreSingle = () => {
             nftDetails?.token_id,
             nftDetails?.collection_address,
         )
+        setIsLoading(false)
         if (result.data) {
             console.log(result)
             setIsLoading(false)
@@ -470,73 +495,66 @@ const ExploreSingle = () => {
                                             </p>
                                         </div>
                                         <div className={style.prices}>
+                                            {!isLoading && (
 
-                                            <div
-                                                //className={style.bidPrices}
-                                                className={`${style.bidPrices} ${dark === 'true' ? 'darkGradient' : 'lightGradient'
-                                                    } `}
-                                            >
-                                                {!collectedNft && (
-                                                    <div className={style.bids}>
-                                                        <div className={style.bidBx}>
-                                                            <div className={style.bidBlue}>
-                                                                Current bid
+
+                                                <div
+                                                    //className={style.bidPrices}
+                                                    className={`${style.bidPrices} ${dark === 'true' ? 'darkGradient' : 'lightGradient'
+                                                        } `}
+                                                >
+                                                    {(isBidActive && !isLoading) && (
+                                                        <div className={style.bids}>
+                                                            <div className={style.bidBx}>
+                                                                <div className={style.bidBlue}>
+                                                                    Current bid
+                                                                </div>
+                                                                {/* <p> {auctionData?.currentBid?.toString()}</p> */}
+                                                                {auctionData?.currentBid && (
+                                                                    <p>
+                                                                        {Web3.utils.fromWei(
+                                                                            auctionData?.currentBid?.toString(),
+                                                                            'ether'
+                                                                        ) || ''}{' '}
+                                                                        ETH
+
+                                                                    </p>
+                                                                )}
                                                             </div>
-                                                            {/* <p>2800 BNB</p> */}
-                                                            <p>
-                                                                {Web3.utils.fromWei(
-                                                                    auctionData?.currentBid.toString(),
-                                                                    'ether'
-                                                                ) || ''}{' '}
-                                                                ETH
+                                                            <div className={style.bidBx2}>
+                                                                <div className={style.bidBlue}>
+                                                                    Starting price
+                                                                </div>
+                                                                {auctionData?.startingPrice && (
+                                                                    <p>
+                                                                        {Web3.utils.fromWei(
+                                                                            auctionData?.startingPrice?.toString(),
+                                                                            'ether'
+                                                                        ) || ''}{' '}
+                                                                        ETH
 
-                                                            </p>
-                                                        </div>
-                                                        <div className={style.bidBx2}>
-                                                            <div className={style.bidBlue}>
-                                                                Starting price
+                                                                    </p>)}
                                                             </div>
-                                                            <p>
-                                                                {Web3.utils.fromWei(
-                                                                    auctionData?.startingPrice.toString(),
-                                                                    'ether'
-                                                                ) || ''}{' '}
-                                                                ETH
+                                                        </div>
+                                                    )}
+                                                    {
+                                                        //auctionData?.startingPrice !== '0' ||
+                                                        isBidActive ? (
+                                                            <div className={style.time}>
+                                                                {/* <p>2d 13h 23m 19s</p> */}
+                                                                <p>
+                                                                    {timeDifference}
+                                                                </p>
 
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                                {
-                                                    //auctionData?.startingPrice !== '0' ||
-                                                    !collectedNft ? (
-                                                        <div className={style.time}>
-                                                            {/* <p>2d 13h 23m 19s</p> */}
-                                                            <p>
-                                                                {/* {endDate[2] +
-                                    ' ' +
-                                    endDate[1] +
-                                    ' ' +
-                                    endDate[0]} */}
-                                                                {timeDifference}
-                                                            </p>
-                                                            {/* <p>
-                                  {endDate[3] +
-                                    ' . ' +
-                                    endDate[4] +
-                                    ' . ' +
-                                    endDate[5] +
-                                    '0'}
-                                </p> */}
-                                                            {/* <p>{format(auctionData?.closingTime)}</p> */}
-                                                        </div>
-                                                    ) : (
-                                                        <div className={style.time}>
-                                                            <p>Bid ended</p>
-                                                        </div>
-                                                    )
-                                                }
-                                            </div>
+                                                            </div>
+                                                        ) : (
+                                                            <div className={style.time}>
+                                                                <p>Bid ended</p>
+                                                            </div>
+                                                        )
+                                                    }
+                                                </div>
+                                            )}
 
 
                                         </div>
@@ -549,7 +567,7 @@ const ExploreSingle = () => {
                                             <>
                                                 {nftDetails?.wallet_address != walletAddress ? (
                                                     <button
-                                                        disabled={!isLoaded || !collectedNft}
+                                                        disabled={!isLoaded || !isBidActive}
                                                         className={`${style.gradBtn} ${dark === 'true' ? 'darkGradient' : 'lightGradient'
                                                             } `}
                                                         onClick={handleSubmit}
@@ -557,7 +575,7 @@ const ExploreSingle = () => {
                                                         Bid
                                                     </button>) : (
                                                     <button
-                                                        disabled={!isLoaded || !collectedNft}
+                                                        disabled={!isLoaded || !isBidActive}
                                                         className={`${style.gradBtn} ${dark === 'true' ? 'darkGradient' : 'lightGradient'
                                                             } `}
                                                         onClick={handleSale}
@@ -567,7 +585,7 @@ const ExploreSingle = () => {
                                                             : 'Remove from Sale'}
                                                     </button>
                                                 )}
-                                                {collectNft &&
+                                                {canCollect &&
                                                     nftDetails?.wallet_address.toLowerCase() ===
                                                     walletAddress?.toLowerCase() && (
                                                         <button

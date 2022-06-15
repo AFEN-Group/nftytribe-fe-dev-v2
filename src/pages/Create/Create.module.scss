@@ -5,6 +5,7 @@
 .createOptions {
   padding: 12em 0 2em 0;
 }
+
 .cOptContent1 {
   ///background: pink;
   width: 95%;
@@ -12,35 +13,43 @@
   max-width: 1300px;
   position: relative;
 }
+
 .cOptContent2 {
   //background: pink;
-  width: 73%;
+  width: 95%;
   margin: auto;
-  max-width: 950px;
+  max-width: 1300px;
   position: relative;
 }
+
 .cOptTop {
   text-align: center;
+
   h1 {
     font-family: Neue-bold;
     font-size: 2.5em;
     margin-bottom: 0.5em;
     overflow: hidden;
+
     span {
       display: inline-block;
       transform: translateY(100%);
     }
   }
+
   p {
     overflow: hidden;
+
     span {
       display: inline-block;
       transform: translateY(100%);
     }
   }
 }
+
 .cOptTop2 {
   text-align: center;
+
   h1 {
     font-family: Neue-bold;
     font-size: 2.5em;
@@ -52,33 +61,42 @@
     //   }
   }
 }
+
 .cOptBody {
   margin-top: 2em;
 }
+
 .optBoxes {
   //width: 90%;
+  //background: pink;
   width: 60%;
   margin: 5em auto;
   @include flexRegular(row, space-between);
   //background: pink;
 }
+
 .optBox {
   width: 20%;
   max-width: 240px;
 }
+
 .optBox2 {
+  //background: pink;
   width: 45%;
   max-width: 420px;
+
   p {
     margin-top: 2em;
   }
 }
+
 .optBox {
   p {
     margin-top: 1em;
     //color: #000;
   }
 }
+
 .optBox,
 .optBox2 {
   @include flexRegular(column, center);
@@ -95,11 +113,13 @@
   &:hover {
     background: $mainGradient;
     transform: scale(1.03);
+
     p {
       color: #000;
     }
   }
 }
+
 .mg1 {
   margin-top: 1.5em !important;
 }
@@ -108,6 +128,7 @@
 .create {
   padding: 12em 0 2em 0;
 }
+
 .createContent {
   margin: auto;
   width: 80%;
@@ -115,6 +136,7 @@
   @include flexRegular(row, flex-start);
   align-items: flex-start;
 }
+
 .left,
 .right {
   width: 42.5%;
@@ -122,15 +144,18 @@
 
 .leftTop {
   margin: 1em 0;
+
   h2 {
     font-family: Neue-bold;
     font-size: 1.8em;
   }
+
   p {
     font-weight: 400;
     margin-top: 1em;
   }
 }
+
 .fileContainerL,
 .fileContainerD {
   position: relative;
@@ -145,12 +170,15 @@
   @include flexRegular(column, center);
   font-family: Neue-bold;
   text-align: center;
+
   h3 {
     margin: 3em 0 0.5em 0;
   }
+
   img {
     cursor: pointer;
   }
+
   input {
     position: absolute;
     cursor: pointer;
@@ -161,14 +189,18 @@
     transition: 0.2s ease-in;
   }
 }
+
 .fileContainerL {
   background: #f4f4f5;
+
   p {
     color: #4d55a6;
   }
 }
+
 .fileContainerD {
   background: #18181b;
+
   p {
     color: #ffcc00;
   }
@@ -179,26 +211,34 @@
   //background: cornsilk;
   overflow-y: scroll;
   overflow-x: visible;
+
   // Hide scrollbar //
   &::-webkit-scrollbar {
     display: none;
   }
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
   //
 
   height: 95vh;
 }
+
 .fieldBx {
   margin-bottom: 1em;
+
   p {
     margin-bottom: 0.4em;
   }
 }
+
 .cfieldBx {
   @include flexRegular(row, flex-start);
   margin: 2em 0;
 }
+
 .collectionDashed,
 .collectionFill {
   @include flexRegular(column, center);
@@ -213,19 +253,24 @@
     margin-top: 1em;
     font-weight: 700;
   }
+
   &:hover {
     cursor: pointer;
   }
 }
+
 .collectionDashed {
   border: 1.4px dashed #18181b;
+
   img {
     width: 33px;
     height: 33px;
   }
 }
+
 .collectionFill {
   border: 1.4px solid #18181b;
+
   // margin-left: 2em; // important?
   img {
     //background: pink;
@@ -234,9 +279,11 @@
     //height: 40px;
   }
 }
+
 .smBtns {
   @include flexRegular(row, flex-start);
   margin-bottom: 2em;
+
   .smBtn {
     cursor: pointer;
     margin-right: 2em;
@@ -248,6 +295,7 @@
     white-space: nowrap;
     transition: 0.2s ease-in;
   }
+
   // .smBtnA {
   //   border: 1px solid #71717a !important;
   //   color: #000;
@@ -267,6 +315,7 @@
     color: #000;
     background: $darkGradient;
   }
+
   .sAlight {
     border: 1px solid #71717a !important;
     color: #000;
@@ -289,22 +338,26 @@
   width: 100%;
   max-width: 450px;
   position: relative;
+
   //background: #bcc;
   p {
     font-weight: 700;
   }
 }
+
 .toggle {
   // width: 43vw;
   // max-width: 569px;
   @include flexRegular(row, space-between);
   align-items: center;
+
   //background: pink;
   p {
     @include flexRegular(row, flex-start);
     color: #939292;
   }
 }
+
 /* Toggle Btn */
 .switchToggle {
   position: relative;
@@ -313,11 +366,13 @@
   height: 30px;
   margin-top: -45px;
 }
+
 .switchToggle input {
   opacity: 0;
   width: 0;
   height: 0;
 }
+
 .sliderToggle {
   position: absolute;
   cursor: pointer;
@@ -329,6 +384,7 @@
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
+
 .sliderToggle:before {
   position: absolute;
   content: '';
@@ -340,25 +396,31 @@
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
-.switchToggle input:checked + .sliderToggle {
+
+.switchToggle input:checked+.sliderToggle {
   /* background-color: #03a439ee; */
   background-color: #4d55a6;
 }
-.switchToggle input:focus + .sliderToggle {
+
+.switchToggle input:focus+.sliderToggle {
   box-shadow: 0 0 1px $blueMain;
 }
-.switchToggle input:checked + .sliderToggle:before {
+
+.switchToggle input:checked+.sliderToggle:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
 }
+
 /* Rounded sliders */
 .sliderToggle.round {
   border-radius: 34px;
 }
+
 .sliderToggle.round:before {
   border-radius: 50%;
 }
+
 .toggleCheck {
   cursor: pointer;
   position: absolute;
@@ -366,6 +428,7 @@
   //top: 1em;
   z-index: 1;
 }
+
 /// Toggle btn ends
 .advancedBx {
   width: 100%;
@@ -379,6 +442,7 @@
   cursor: pointer;
   transition: 0.3s ease-in;
 }
+
 .advancedBxA {
   width: 100%;
   max-width: 450px;
@@ -389,18 +453,23 @@
   padding: 0.2em 1em;
   transition: 0.2s ease-in;
   cursor: pointer;
+
   .aBxTop {
     @include flexRegular(row, space-between);
     margin: 2em 0;
     cursor: pointer;
+
     p {
       color: #4d55a6;
     }
+
     transition: 0.3s ease-in;
   }
 }
+
 .submitBx {
   margin: 2em 0 1em 0;
+
   button {
     width: 100%;
     max-width: 450px;
@@ -415,10 +484,12 @@
 .fileTxt {
   padding: 4em;
 }
+
 .fileBx {
   padding: 1em;
   //background: lavenderblush;
   position: relative;
+
   img {
     //width: 95%;
     width: 400px;
@@ -427,6 +498,7 @@
     //max-height: 400px;
     object-fit: cover;
   }
+
   .cancel {
     position: absolute;
     cursor: pointer;
@@ -455,6 +527,7 @@
   height: 100vh;
   transition: 0.6s ease-in-out;
 }
+
 .modalContainer {
   //@include flexRegular(column, center);
   display: flex;
@@ -483,32 +556,39 @@
   transition: 0.6s ease-in;
   padding: 5em 3em;
 }
+
 .modal {
   top: 20vh;
 }
+
 .modalSm {
   top: 23vh;
 }
+
 @media (max-height: 700px) {
   .modal {
     top: 10vh;
   }
 }
+
 .modalTop,
 .modalTop2 {
   //background: pink;
   position: relative;
   width: 100%;
   @include flexRegular(column, center);
+
   h1 {
     font-family: Neue-bold;
     font-size: 1.4em;
   }
+
   p {
     font-weight: 300;
     margin: 1em 0;
     text-align: center;
   }
+
   img {
     position: absolute;
     right: 0;
@@ -516,15 +596,19 @@
     cursor: pointer;
   }
 }
+
 .modalTop2 {
+
   //margin-bottom: 1em;
   p {
     margin: 2em 0;
   }
 }
+
 .modalBody,
 .modalBody2 {
   .modalInput {
+
     input,
     select {
       outline: none;
@@ -536,6 +620,7 @@
       padding-left: 0.7em;
       margin: 0.5em 0;
     }
+
     select {
       -webkit-appearance: none;
       -moz-appearance: none;
@@ -546,18 +631,22 @@
       margin-bottom: 1em;
       font-weight: 300;
     }
+
     p {
       font-size: 0.9em;
     }
   }
 }
+
 .modalBody {
   margin-top: 2em;
 }
+
 .modalBtns {
   @include flexRegular(row, space-between);
   width: 80%;
   margin: 3em auto 1em auto;
+
   .btn1,
   .btn2 {
     border: 1px solid #52525b;
@@ -566,25 +655,28 @@
     height: 45px;
     background: none;
   }
+
   .btn1 {
-    background: radial-gradient(
-      72.94% 98.64% at 75.16% 76.53%,
-      #ebedff 0%,
-      #fff2e3 78.65%,
-      #fefdf8 100%
-    );
+    background: radial-gradient(72.94% 98.64% at 75.16% 76.53%,
+        #ebedff 0%,
+        #fff2e3 78.65%,
+        #fefdf8 100%);
   }
 }
+
 .successImg {
   margin: 0 0 0 0;
   @include flexRegular(row, center);
+
   img {
     width: 100%;
   }
 }
+
 .modalBtnSingle,
 .modalBtnSingle2 {
   @include flexRegular(row, center);
+
   button {
     border: 1px solid #52525b;
     border-radius: 0px 10px;
@@ -593,6 +685,7 @@
     background: $mainGradient;
   }
 }
+
 // .modalBtnSingle2 {
 //   margin-top: 2em;
 // }

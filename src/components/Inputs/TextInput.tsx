@@ -19,6 +19,7 @@ const TextInput = (props: any) => {
         value={props.value}
         onChange={props.inputHandler}
         autoComplete="off"
+        minLength={props.min}
         maxLength={props.max}
       />
     </div>

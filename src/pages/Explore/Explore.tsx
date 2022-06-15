@@ -145,6 +145,18 @@ const Explore = () => {
                 >
                   <p>Utility</p>
                 </div>
+                <div
+                  className={
+                    tab === 'african_art' && dark === 'true'
+                      ? style.darkActive
+                      : tab === 'african_art' && dark !== 'true'
+                        ? style.lightActive
+                        : style.exploreCat
+                  }
+                  onClick={(e) => setTab('african_art')}
+                >
+                  <p>African Art</p>
+                </div>
               </div>
             </div>
 

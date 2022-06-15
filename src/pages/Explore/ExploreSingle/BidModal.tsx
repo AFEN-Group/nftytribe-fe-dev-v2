@@ -59,7 +59,8 @@ const BidModal = (props: any) => {
     }
   }
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault()
     setIsLoading(true)
     const wallet_address = localStorage.getItem('currentAccount')
     console.log(props.nftDetails?.marketplace_type)
@@ -143,7 +144,8 @@ const BidModal = (props: any) => {
         ></div>
         <div className={style.modalContainer}>
           {!completed && !props.itemCollected && (
-            <div
+            <form
+              onSubmit={handleSubmit}
               className={`${style.modalB} animate__animated animate__zoomInUp `}
             >
               <div className={style.modalTop}>
@@ -164,7 +166,7 @@ const BidModal = (props: any) => {
                       {' ' +
                         shortenAddress(
                           props.nft?.owner_of ||
-                            props.nftDetails?.wallet_address,
+                          props.nftDetails?.wallet_address,
                         ) || ''}{' '}
                     </strong>
                   </span>
@@ -200,7 +202,7 @@ const BidModal = (props: any) => {
                 <div className={style.pbItem}>
                   <p>Amount </p>
                   <p>
-                    {Web3.utils.fromWei(props.nftDetails?.price, 'ether') || ''}{' '}
+                    {Web3.utils.fromWei(props.nftDetails?.price.toString(), 'ether') || ''}{' '}
                     ETH
                   </p>
                 </div>
@@ -213,9 +215,10 @@ const BidModal = (props: any) => {
               </div>
               <div className={style.modalBtns2}>
                 <button
+                  type='submit'
                   className={style.btn1}
                   disabled={isLoading || !validated}
-                  onClick={handleSubmit}
+
                 >
                   {!isLoading ? (
                     'Place bid'
@@ -228,7 +231,7 @@ const BidModal = (props: any) => {
                   Cancel
                 </button>
               </div>
-            </div>
+            </form>
           )}
           {completed && (
             <div
