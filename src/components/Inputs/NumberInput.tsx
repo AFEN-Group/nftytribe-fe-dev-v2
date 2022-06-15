@@ -22,6 +22,7 @@ const NumberInput = (props: any) => {
                 maxLength={1}
                 min={props.min}
                 max={props.max}
+                required
             />
         </div>
     )

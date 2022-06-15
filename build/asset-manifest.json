@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.f51a1895.css",
-    "main.js": "/static/js/main.5974c1e6.js",
+    "main.js": "/static/js/main.37e204ed.js",
     "static/media/vidImg.svg": "/static/media/vidImg.42742b2d8e8ef6a3e80eb2d5ebf7718e.svg",
     "static/media/cover.svg": "/static/media/cover.4b658d096da040ad016f0a8a3f0f14bd.svg",
     "static/media/shape4.svg": "/static/media/shape4.d803d089cab2790dd0d6383b2c72f685.svg",
@@ -21,7 +21,6 @@
     "static/media/heroImg.png": "/static/media/heroImg.4bdc49ece38990da2a84.png",
     "static/media/kl.png": "/static/media/kl.12babe8aed62ff129c4a.png",
     "static/media/member10.svg": "/static/media/member10.fcbd3d1a838bd8abe306f867e778aac3.svg",
-    "static/media/anime.jpeg": "/static/media/anime.244e0c5d10128d043d58.jpeg",
     "static/media/afen-logo.svg": "/static/media/afen-logo.26c1eb0d8bddf0d4c5a05039bb958015.svg",
     "static/media/eth.svg": "/static/media/eth.13fd951482e62553a56d9fbbf4dce6e2.svg",
     "static/media/NeueMachina-Regular.otf": "/static/media/NeueMachina-Regular.6c408aeebce449ab7d74.otf",
@@ -86,12 +85,10 @@
     "static/media/arrow2.svg": "/static/media/arrow2.b4bf4a3d1275c2b8ff51254eaa971fb6.svg",
     "static/media/dots2.svg": "/static/media/dots2.be54d568c4e10742c19e1170d88e8d18.svg",
     "static/media/logo1.svg": "/static/media/logo1.40991263ddfa5c3397cec63ed0aa78d2.svg",
-    "static/media/notifications.svg": "/static/media/notifications.d3d4fa2cb553e1baa752aba69d07fc9c.svg",
     "static/media/x.svg": "/static/media/x.8e40b8964fc1ee40e4463c03a3ccef02.svg",
     "static/media/x2.svg": "/static/media/x2.46ddf5d5915b70440ef9f57993687a6d.svg",
     "static/media/arrowLeft.svg": "/static/media/arrowLeft.0c94785df75c77561b1a63db33a7ef62.svg",
     "static/media/Filter.svg": "/static/media/Filter.c633e8c5553f43bd9f6285a80ec27aa7.svg",
-    "static/media/lang.svg": "/static/media/lang.f6ac11dc9fa6e74360879c2649530ecb.svg",
     "static/media/close.svg": "/static/media/close.16870d2714aa8c6e9dbaaf07c4971852.svg",
     "static/media/check.svg": "/static/media/check.5de61607c3eac2ab189626aa59099ab1.svg",
     "static/media/check2.svg": "/static/media/check2.4daeb7666446a0bf6d1ddefb40145dcc.svg",
@@ -109,10 +106,10 @@
     "static/media/arrowdown.svg": "/static/media/arrowdown.4224e64d722ee3f005f47d0bf9b46414.svg",
     "static/media/arrowright.svg": "/static/media/arrowright.5eed037261d49b7fffdbc563fa8c0192.svg",
     "main.f51a1895.css.map": "/static/css/main.f51a1895.css.map",
-    "main.5974c1e6.js.map": "/static/js/main.5974c1e6.js.map"
+    "main.37e204ed.js.map": "/static/js/main.37e204ed.js.map"
   },
   "entrypoints": [
     "static/css/main.f51a1895.css",
-    "static/js/main.5974c1e6.js"
+    "static/js/main.37e204ed.js"
   ]
 }

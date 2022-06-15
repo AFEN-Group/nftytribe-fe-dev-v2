@@ -8,7 +8,7 @@ import { publicRequest } from '../../../utils/requestMethods'
 
 
 import style from '../Home.module.scss'
-import ItemCard from '../../../components/Card/ItemCardFeatured'
+import ItemCard from '../../../components/Card/ItemCardFeaturedOld'
 //import ItemCard2 from '../../../components/Card/ItemCardDefault'
 import Arrow1 from '../assets/h-arrow1.svg'
 import Arrow2 from '../assets/h-arrow2.svg'
@@ -102,7 +102,7 @@ const Hero = () => {
                     className={`${style.leftBtns} ${style.forW} animate__animated animate__slideInUp`}
                     id="heroBtns"
                   >
-                    <Link to="/launchpartners">
+                    <Link to="/collections">
                       <button
                         className={
                           dark === 'true'
@@ -111,7 +111,7 @@ const Hero = () => {
                         }
 
                       >
-                        Launch with us
+                        Import Collection
                       </button>
                     </Link>
                     <Link to="/explore">

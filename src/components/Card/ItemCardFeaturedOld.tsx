@@ -36,6 +36,7 @@ const ItemCardOld = (data: any) => {
         }
         return url
     }
+    const currentAddress: any = localStorage.getItem('currentAccount')
     return (
         // <Link
         //   //to={`/explore/22/22`}
@@ -48,7 +49,7 @@ const ItemCardOld = (data: any) => {
         <div className={style.card2}>
             <div className={style.cardContent}>
                 {/* <div className={style.cardImgBx}> */}
-                <Link
+                {/* <Link
                     //to={`/explore/22/22`}
                     to={
                         data?.nftData?.is_lazy_mint
@@ -76,13 +77,84 @@ const ItemCardOld = (data: any) => {
                                 alt="item"
                             />
                         )}
-                        {/* <img src={koala} alt="item" /> */}
+                       
                     </div>
                     <div className={style.cardTop}>
                         <img src={dots} alt="options" />
                         <img src={like} alt="like" />
                     </div>
-                </Link>
+                </Link> */}
+                {data?.nftData?.marketplace_type === 2 ? (
+                    <Link
+                        //to={`/explore/22/22`}
+                        to={
+                            data?.nftData?.is_lazy_mint
+                                ? `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner}&lazy_mint=true`
+                                : `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.token_id}?seller=${data?.nftData?.owner}`
+                        }
+                    >
+                        <div className={style.cardImg}>
+                            {data?.nftData?.cardImage !== '' && (
+                                <img
+                                    //className={style.imgBg}
+                                    src={
+                                        data?.nftData?.cardImage.includes('/ipfs') ||
+                                            data?.nftData?.cardImage.includes('ipfs://')
+                                            ? `${getImageUrl(data?.nftData?.cardImage)}`
+                                            : data?.nftData?.cardImage
+                                    }
+                                    alt="item"
+                                />
+                            )}
+                            {data?.nftData?.cardImage === '' && (
+                                <img
+                                    //className={style.imgBg}
+                                    src={koala}
+                                    alt="item"
+                                />
+                            )}
+                            {/* <img src={koala} alt="item" /> */}
+                        </div>
+                        <div className={style.cardTop}>
+                            <img src={dots} alt="options" />
+                            <img src={like} alt="like" />
+                        </div>
+                    </Link>) : (
+                    <Link
+                        //to={`/explore/22/22`}
+                        to={
+                            data?.nftData?.is_lazy_mint
+                                ? `/exploreBuy/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner}&lazy_mint=true`
+                                : `/exploreBuy/${data?.nftData?.collection_address}/${data?.nftData?.token_id}?seller=${data?.nftData?.owner}`
+                        }
+                    >
+                        <div className={style.cardImg}>
+                            {data?.nftData?.cardImage !== '' && (
+                                <img
+                                    //className={style.imgBg}
+                                    src={
+                                        data?.nftData?.cardImage.includes('/ipfs') ||
+                                            data?.nftData?.cardImage.includes('ipfs://')
+                                            ? `${getImageUrl(data?.nftData?.cardImage)}`
+                                            : data?.nftData?.cardImage
+                                    }
+                                    alt="item"
+                                />
+                            )}
+                            {data?.nftData?.cardImage === '' && (
+                                <img
+                                    //className={style.imgBg}
+                                    src={koala}
+                                    alt="item"
+                                />
+                            )}
+                            {/* <img src={koala} alt="item" /> */}
+                        </div>
+                        <div className={style.cardTop}>
+                            <img src={dots} alt="options" />
+                            <img src={like} alt="like" />
+                        </div>
+                    </Link>)}
                 {!showFull && (
                     <div
                         //className={style.descBox1}
@@ -119,7 +191,7 @@ const ItemCardOld = (data: any) => {
                                     )}
                                 </div>
                             </div>
-                            <Link
+                            {/* <Link
                                 //to={`/explore/22/22`}
                                 to={
                                     data?.nftData?.is_lazy_mint
@@ -133,7 +205,51 @@ const ItemCardOld = (data: any) => {
                                 ) : (
                                     <button>Buy</button>
                                 )}
-                            </Link>
+                            </Link> */}
+                            {data?.nftData?.marketplace_type === 2 ? (
+                                <Link
+                                    //to={`/explore/22/22`}
+                                    to={
+                                        data?.nftData?.is_lazy_mint
+                                            ? `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner}&lazy_mint=true`
+                                            : `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.token_id}?seller=${data?.nftData?.owner}`
+                                    }
+                                    className={style.buyBtn}
+                                >
+                                    <button>
+                                        {data?.nftData?.marketplace_type === 2 &&
+                                            data?.nftData?.wallet_address !== currentAddress
+                                            ? 'Bid'
+                                            : data?.nftData?.marketplace_type !== 2 &&
+                                                data?.nftData?.wallet_address !== currentAddress
+                                                ? 'Buy'
+                                                : data?.nftData?.wallet_address === currentAddress
+                                                    ? 'View'
+                                                    : ''}
+                                    </button>
+                                </Link>) : (
+                                <Link
+                                    //to={`/explore/22/22`}
+                                    to={
+                                        data?.nftData?.is_lazy_mint
+                                            ? `/exploreBuy/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner}&lazy_mint=true`
+                                            : `/exploreBuy/${data?.nftData?.collection_address}/${data?.nftData?.token_id}?seller=${data?.nftData?.owner}`
+                                    }
+                                    className={style.buyBtn}
+                                >
+                                    <button>
+                                        {data?.nftData?.marketplace_type === 2 &&
+                                            data?.nftData?.wallet_address !== currentAddress
+                                            ? 'Bid'
+                                            : data?.nftData?.marketplace_type !== 2 &&
+                                                data?.nftData?.wallet_address !== currentAddress
+                                                ? 'Buy'
+                                                : data?.nftData?.wallet_address === currentAddress
+                                                    ? 'View'
+                                                    : ''}
+                                    </button>
+                                </Link>
+                            )}
                         </div>
                         <div className={style.actionBx2}>
                             <div className={style.aBcontent}>
@@ -143,14 +259,14 @@ const ItemCardOld = (data: any) => {
 
                                     <p>
                                         {' '}
-                                        {Web3.utils.fromWei(data?.nftData?.price, 'ether') ||
+                                        {Web3.utils.fromWei(data?.nftData?.price.toString(), 'ether') ||
                                             ''}{' '}
                                     </p>
                                     {/* <p>2800 Afen</p> */}
                                 </div>
-                                <div className={style.aright}>
+                                {/* <div className={style.aright}>
                                     <p>$2800 </p>
-                                </div>
+                                </div> */}
                             </div>
                             <div className={style.aleft}></div>
                         </div>
