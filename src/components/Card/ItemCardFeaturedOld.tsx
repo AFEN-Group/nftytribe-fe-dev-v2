@@ -109,7 +109,7 @@ const ItemCardOld = (data: any) => {
                                 : `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.token_id}?seller=${data?.nftData?.owner}`
                         }
                     >
-                        <div className={style.cardImgfeatured}>
+                        <div className={style.cardImgFeatured}>
                             {data?.nftData?.cardImage !== '' && (
                                 <img
                                     //className={style.imgBg}
