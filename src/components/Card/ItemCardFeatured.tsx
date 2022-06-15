@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { shortenAddress } from '../../utils/formatting'
+import { publicRequest } from '../../utils/requestMethods'
 //import koala from './assets/kl.png'
 import anime from './assets/anime.jpeg'
 import dots from './assets/dots.svg'
@@ -14,6 +15,7 @@ import Web3 from 'web3'
 
 const ItemCardFeatured = (data: any) => {
   const [showFull, setShowFull] = useState(false)
+  const [usdPrice, setUsdPrice] = useState<any>()
   // const convert = require('crypto-convert')
   // useEffect(() => {
   //   const startConvert = async () => {
@@ -37,6 +39,20 @@ const ItemCardFeatured = (data: any) => {
     }
     return url
   }
+  useEffect(() => {
+    const getUsdPrice = async () => {
+      try {
+        const usdPrice = await publicRequest.get(`https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd`)
+        const usdValue = usdPrice.data.ethereum.usd
+        const ethPrice = Web3.utils.fromWei(data?.nftData?.price.toString(), 'ether')
+        setUsdPrice(parseFloat(ethPrice) * usdValue)
+        //console.log(ethPrice)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getUsdPrice()
+  }, [])
   return (
     // <Link
     //   //to={`/explore/22/22`}
@@ -152,7 +168,10 @@ const ItemCardFeatured = (data: any) => {
                   </p> */}
                   <p>0.1</p>
                 </div>
-                <div className={style.aright}>{/* <p>$2800 </p> */}</div>
+                <div className={style.aright}>
+                  {/* <p>$2800 </p> */}
+                  <p>${usdPrice.toFixed(2)}</p>
+                </div>
               </div>
               <div className={style.aleft}></div>
             </div>

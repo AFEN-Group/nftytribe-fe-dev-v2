@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { shortenAddress } from '../../utils/formatting'
+import { publicRequest } from '../../utils/requestMethods'
 import koala from './assets/kl.png'
 import dots from './assets/dots.svg'
 import like from './assets/like.svg'
@@ -13,6 +14,7 @@ import Web3 from 'web3'
 
 const ItemCard = (data: any) => {
   const [showFull, setShowFull] = useState(false)
+  const [usdPrice, setUsdPrice] = useState<any>()
   const getImageUrl = (uri: any) => {
     let url
     if (uri.includes('ipfs/')) {
@@ -24,11 +26,33 @@ const ItemCard = (data: any) => {
     }
     return url
   }
-  // if (data) {
-  //   const nftPrice = data?.nftData?.price
-  //   //.toString()
-  //   console.log('price>>>>', data)
+  // const getExploreCollectibles = async () => {
+  //   try {
+  //     const explore = await publicRequest.get(`/collectibles/explore/filter?on_sale=true&nft_type=${tab}${filterQuery}`)
+  //     const exploreData = explore.data
+  //     console.log(exploreData)
+  //     setData(exploreData?.data?.collectibles)
+  //     //setTotalCount(exploreData?.data?.total_count)
+  //     setIsLoading(false)
+  //   } catch (error) {
+  //     setIsLoading(false)
+  //   }
   // }
+  useEffect(() => {
+    const getUsdPrice = async () => {
+
+      try {
+        const usdPrice = await publicRequest.get(`https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd`)
+        const usdValue = usdPrice.data.ethereum.usd
+        const ethPrice = Web3.utils.fromWei(data?.nftData?.price.toString(), 'ether')
+        setUsdPrice(parseFloat(ethPrice) * usdValue)
+        //console.log(ethPrice)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getUsdPrice()
+  }, [])
   const currentAddress: any = localStorage.getItem('currentAccount')
 
   return (
@@ -202,7 +226,8 @@ const ItemCard = (data: any) => {
                   {/* <p>2800 Afen</p> */}
                 </div>
                 <div className={style.aright}>
-                  <p>$2800 </p>
+
+                  <p>${usdPrice.toFixed(2)} </p>
                 </div>
               </div>
               <div className={style.aleft}></div>

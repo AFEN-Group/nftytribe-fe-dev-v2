@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { shortenAddress } from '../../utils/formatting'
+import { publicRequest } from '../../utils/requestMethods'
 import koala from './assets/kl.png'
 import dots from './assets/dots.svg'
 import like from './assets/like.svg'
@@ -13,6 +14,7 @@ import Web3 from 'web3'
 
 const ItemCardOld = (data: any) => {
     const [showFull, setShowFull] = useState(false)
+    const [usdPrice, setUsdPrice] = useState<any>()
     // const convert = require('crypto-convert')
     // useEffect(() => {
     //   const startConvert = async () => {
@@ -36,6 +38,20 @@ const ItemCardOld = (data: any) => {
         }
         return url
     }
+    useEffect(() => {
+        const getUsdPrice = async () => {
+            try {
+                const usdPrice = await publicRequest.get(`https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd`)
+                const usdValue = usdPrice.data.ethereum.usd
+                const ethPrice = Web3.utils.fromWei(data?.nftData?.price.toString(), 'ether')
+                setUsdPrice(parseFloat(ethPrice) * usdValue)
+                //console.log(ethPrice)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getUsdPrice()
+    }, [])
     const currentAddress: any = localStorage.getItem('currentAccount')
     return (
         // <Link
@@ -93,7 +109,7 @@ const ItemCardOld = (data: any) => {
                                 : `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.token_id}?seller=${data?.nftData?.owner}`
                         }
                     >
-                        <div className={style.cardImg}>
+                        <div className={style.cardImgfeatured}>
                             {data?.nftData?.cardImage !== '' && (
                                 <img
                                     //className={style.imgBg}
@@ -128,7 +144,7 @@ const ItemCardOld = (data: any) => {
                                 : `/exploreBuy/${data?.nftData?.collection_address}/${data?.nftData?.token_id}?seller=${data?.nftData?.owner}`
                         }
                     >
-                        <div className={style.cardImg}>
+                        <div className={style.cardImgFeatured}>
                             {data?.nftData?.cardImage !== '' && (
                                 <img
                                     //className={style.imgBg}
@@ -264,9 +280,9 @@ const ItemCardOld = (data: any) => {
                                     </p>
                                     {/* <p>2800 Afen</p> */}
                                 </div>
-                                {/* <div className={style.aright}>
-                                    <p>$2800 </p>
-                                </div> */}
+                                <div className={style.aright}>
+                                    <p>${usdPrice.toFixed(2)} </p>
+                                </div>
                             </div>
                             <div className={style.aleft}></div>
                         </div>
