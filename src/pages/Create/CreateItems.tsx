@@ -99,6 +99,7 @@ const CreateItems = () => {
     { value: 'gaming', text: 'Gaming' },
     { value: 'collectibles', text: 'Collectibles' },
     { value: 'utility', text: 'Utility' },
+    { value: 'african_art', text: 'African Art' },
     // { value: '5', text: 'Music' },
   ]
   useEffect(() => {
@@ -399,7 +400,7 @@ const CreateItems = () => {
                     .send({ from: wallet_address, value: mintingCharge })
                   console.log(mint, 'befor')
                   returnvalues = mint.events.Transfer.returnValues
-                  //console.log(mint, 'hello here0')
+                  console.log(mint, 'hello here',)
                 } else {
                   erc721collectionContract = new web3.eth.Contract(
                     erc721CollectionAbi,
@@ -486,11 +487,12 @@ const CreateItems = () => {
                 //setShowConnect(true)
               }
 
-              console.log(parseInt(returnvalues?.tokenId), 'hello')
+              // console.log(parseInt(returnvalues?.tokenId), 'hello')
+              console.log(parseInt(returnValues?.tokenId), 'hello')
               const approve = await erc721Contract.methods
                 .approve(
                   erc721Marketplace_address,
-                  parseInt(returnvalues.tokenId),
+                  parseInt(returnValues.tokenId),
                 )
                 .send({ from: wallet_address })
               console.log(approve, 'else')
@@ -542,7 +544,7 @@ const CreateItems = () => {
 
               let updatableData
               if (data.on_sale) {
-                console.log(parseInt(returnvalues.token_id), 'hello')
+                console.log(parseInt(returnValues.token_id), 'hello')
 
                 if (data.market_type === '2') {
                   data.starting_time =
@@ -551,7 +553,7 @@ const CreateItems = () => {
                 }
                 const putOnSale = await marketplace_contract.methods
                   .putOnSale(
-                    parseInt(returnvalues.tokenId),
+                    parseInt(returnValues.tokenId),
                     web3.utils.toWei(data.price, 'ether'),
                     parseInt(data.market_type),
                     parseInt(data.starting_time),
@@ -607,7 +609,7 @@ const CreateItems = () => {
                 }
               } else {
                 updatableData = {
-                  token_id: returnvalues.tokenId,
+                  token_id: returnValues.tokenId,
                   wallet_address,
                   collection_address:
                     userInput.collection_address || erc721Mintable_address,

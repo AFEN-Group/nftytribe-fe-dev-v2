@@ -115,7 +115,7 @@ const ExploreSingleBuy = () => {
             if (lazy_mint) {
                 try {
                     const details = await publicRequest.get(
-                        `/collectibles/${collectionAddress}/${id}?lazy_mint=true`,
+                        `/collectibles/${collectionAddress}/${id}?lazy_mint=true&seller=${seller}`,
                     )
                     //console.log(details)
                     const nft = details
