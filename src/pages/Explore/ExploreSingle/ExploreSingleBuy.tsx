@@ -298,7 +298,8 @@ const ExploreSingleBuy = () => {
             console.log('not available')
         }
     }
-    const handleSale = async () => {
+    const handleSale = async (e: any) => {
+        e.preventDefault();
         if (!nftDetails?.on_sale) {
             //put on sale
             if (nftDetails?.is_multiple) {
@@ -622,7 +623,7 @@ const ExploreSingleBuy = () => {
 
                         updatableData = {
                             token_id: data.token_id,
-                            walletAddress,
+                            wallet_address : walletAddress,
                             collection_address:
                                 data.collection_address,
                             file: data.file,
@@ -645,13 +646,14 @@ const ExploreSingleBuy = () => {
                     } else {
                         updatableData = {
                             token_id: data.token_id,
-                            walletAddress,
+                            wallet_address : walletAddress,
                             collection_address:
                                 data.collection_address,
                             file: data.file,
                             transaction_hash: data.transactionHash,
                             type: 'putOffSale',
                             chain_id: 'rinkeby',
+                            on_sale:false
                         }
                     }
 
@@ -671,7 +673,7 @@ const ExploreSingleBuy = () => {
                     console.log(res.data)
                     setIsLoading(false)
 
-                    window.location.reload()
+                    //window.location.reload()
                     setIsLoading(false)
 
                 } catch (err) {
@@ -757,7 +759,7 @@ const ExploreSingleBuy = () => {
 
                         updatableData = {
                             token_id: data.token_id,
-                            walletAddress,
+                            wallet_address : walletAddress,
                             collection_address:
                                 data.collection_address,
                             file: data.file,
@@ -767,21 +769,12 @@ const ExploreSingleBuy = () => {
                             //order_type: data.market_type,
 
                             on_sale: false,
-                            marketplace_type: data.market_type,
-                            order_detail: {
-                                starting_price: web3.utils.toWei(
-                                    data.price.toString(),
-                                    'ether',
-                                ),
-                                start_time: data.starting_time,
-                                expiration_time: data.ending_time,
-                            },
-                            price: web3.utils.toWei(data.price.toString(), 'ether'),
+                            price: 0,
                         }
                     } else {
                         updatableData = {
                             token_id: data.token_id,
-                            walletAddress,
+                            wallet_address : walletAddress,
                             collection_address:
                                 data.collection_address,
                             file: data.file,
@@ -1000,7 +993,7 @@ const ExploreSingleBuy = () => {
                                                 {/* <p>{nft?.amount} BNB</p> */}
                                                 {nftDetails?.price ? (
                                                     <p>
-                                                        {Web3.utils.fromWei(nftDetails?.price.toString(), 'ether') ||
+                                                        {Web3.utils.fromWei(parseInt(nftDetails?.price, 10).toString(), 'ether') ||
                                                             ''}{' '}
                                                         ETH
                                                     </p>
