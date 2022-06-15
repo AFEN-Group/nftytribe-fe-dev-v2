@@ -234,14 +234,14 @@ const HeaderWeb = (props: any) => {
                         <img src={Collection} alt="collection" />
                         <p>My collections</p>
                       </Link>
-                      <Link to="" className={style.dropItem}>
+                      {/* <Link to="" className={style.dropItem}>
                         <img src={Language} alt="language" />
                         <p>Language</p>
                       </Link>
                       <Link to="/" className={style.dropItem}>
                         <img src={Notification} alt="notification" />
                         <p>Notifications</p>
-                      </Link>
+                      </Link> */}
                       <Link to="/editProfile" className={style.dropItem}>
                         <img src={Settings} alt="settings" />
                         <p>Settings</p>
