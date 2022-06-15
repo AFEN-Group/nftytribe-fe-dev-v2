@@ -14,6 +14,7 @@ import ItemCard from '../../components/Card/ItemCard'
 import Container from '../../components/Container/Container'
 import Arrow2 from './assets/arrowright.svg'
 import AcceptBtn from '../../components/AcceptBtn/AcceptBtn'
+import Loader from '../../components/Loader/Loader'
 //import RadioBtn from '../../components/RadioBtn/RadioBtn'
 
 const Explore = () => {
@@ -24,7 +25,7 @@ const Explore = () => {
   const [filter, setFilter] = useState("")
   const [filterQuery, setFilterQuery] = useState('')
   const [query, setQuery] = useState('')
-  //const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
   const getExploreCollectibles = async () => {
     try {
       const explore = await publicRequest.get(`/collectibles/explore/filter?on_sale=true&nft_type=${tab}${filterQuery}`)
@@ -32,9 +33,9 @@ const Explore = () => {
       console.log(exploreData)
       setData(exploreData?.data?.collectibles)
       //setTotalCount(exploreData?.data?.total_count)
-      //setIsLoading(false)
+      setIsLoading(false)
     } catch (error) {
-      //setIsLoading(false)
+      setIsLoading(false)
     }
   }
   console.log(data)
@@ -261,17 +262,22 @@ const Explore = () => {
               </div>
               <div className={style.itemsContainer}>
                 {data?.length >= 1 ? (
-                  <div className={style.itemsContent}>
-                    {data?.map((nft: any, i: any) => {
-                      return (
-                        nft?._id && (
-                          <div className={style.itemBx} key={nft._id}>
-                            <ItemCard nftData={nft} />
-                          </div>
+                  !isLoading ? (
+                    <div className={style.itemsContent}>
+                      {data?.map((nft: any, i: any) => {
+                        return (
+                          nft?._id && (
+                            <div className={style.itemBx} key={nft._id}>
+                              <ItemCard nftData={nft} />
+                            </div>
+                          )
                         )
-                      )
-                    })}
-                  </div>
+                      })}
+                    </div>) : (
+                    <div className={style.loaderBx}>
+                      <Loader />
+                    </div>
+                  )
                 ) : (
                   <div className={style.noContent}>
                     <div className={style.noResults}>
