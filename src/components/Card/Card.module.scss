@@ -63,9 +63,9 @@
   img {
     border-radius: 20px;
     object-fit: cover;
-    width: 500px;
+    width: 510px;
     height: 100%;
-    max-width: 420px;
+    max-width: 530px;
     height: 420px;
     min-height: 320px;
   }
@@ -145,11 +145,13 @@
   box-shadow: inset 0px 0.8px 100px rgba(216, 57, 166, 0.1);
   backdrop-filter: blur(20px);
   border-radius: 20px;
-  width: 100%;
-  left: 0;
+  width: 98%;
+  left: 1.5%;
+  right: 1.5%;
   // left: 5%;
   // right: 5%;
   color: #fff;
+
 }
 
 .userInfo {
@@ -196,7 +198,8 @@
   backdrop-filter: blur(20px);
   border-radius: 10px;
   //width: 60%;
-  width: 100%;
+  width: 97%;
+
 }
 
 .itemTxt {
