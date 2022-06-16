@@ -1,4 +1,5 @@
-import { useState, useEffect, useContext } from 'react'
+import { useEffect, useContext } from 'react'
+import useState from 'react-usestateref'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ThemeContext } from '../../../context/ThemeContext'
 import ContractContext from '../../../context/ContractContext'
@@ -58,7 +59,8 @@ const ExploreSingleBuy = () => {
     const [isLoading, setIsLoading] = useState(true)
     const [isLoaded, setIsLoaded] = useState(false)
     const [nft, setNft] = useState<any>()
-    const [nftDetails, setNftDetails] = useState<any>()
+    //const [nftDetails, setNftDetails] = useState<any>()
+    const [nftDetails, setNftDetails, nftDetailsRef] = useState<any>()
     const [activities, setActivities] = useState<any>()
     const [auctionData, setAuctionData] = useState<any>()
     const [showBuy, setShowBuy] = useState(false)
@@ -92,9 +94,11 @@ const ExploreSingleBuy = () => {
                     `/collectibles/${collectionAddress}/${id}?seller=${seller}`,
                 )
                 console.log('check>>>', details.data)
+
                 setNftDetails(details?.data?.data?._doc)
                 setActivities(details?.data?.data?.activities)
                 console.log('<<< cu ', details?.data?.data?.activities)
+                console.log(details?.data?.data?._doc, ">>>")
                 if (!details?.data?.data?._doc?.is_multiple) {
                     const ifToBeCollected = await checkIfBIdTimePasses(
                         id,
@@ -130,9 +134,9 @@ const ExploreSingleBuy = () => {
                 }
             } else {
                 await getNftDetails()
-                console.log("nft Details>>", nftDetails)
+                console.log("nft Details>>", nftDetailsRef.current)
                 let contract_address = '0xd5582083916dc813f974ce4ca3f27e6977e161cf'
-                if (nftDetails?.is_multiple) {
+                if (nftDetailsRef.current?.is_multiple) {
                     contract_address = "0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd"
                 }
 
