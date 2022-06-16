@@ -221,10 +221,12 @@ const ExploreSingle = () => {
                     const dateFutureStr = auctionInfo.closingTime.toString()
                     console.log(dateFutureStr)
                     const dateFuture = dateFutureStr + '000'
+                    const dateToday = Math.floor(Date.now())
+                    const dateToday2 = Math.floor(Date.now() / 1000)
 
                     const dateStartStr = auctionInfo.startingTime.toString()
                     const dateStart = dateStartStr + '000'
-                    let diffInMilliSeconds = Math.abs(parseInt(dateFuture) - parseInt(dateStart)) / 1000
+                    let diffInMilliSeconds = Math.abs(parseInt(dateFuture) - dateToday) / 1000
                     // calculate days
                     const days = Math.floor(diffInMilliSeconds / 86400)
                     diffInMilliSeconds -= days * 86400
@@ -245,10 +247,10 @@ const ExploreSingle = () => {
                     // setSecondsLeft(seconds);
 
                     //check if bid is still active
-                    const dateToday = Math.floor(Date.now() / 1000)
+                    //const dateToday = Math.floor(Date.now() / 1000)
                     // console.log("today>>>", dateToday)
                     // console.log("end date>>>", dateFuture)
-                    if (parseInt(dateFuture) < dateToday) {
+                    if (parseInt(dateFuture) < dateToday2) {
                         setIsBidActive(false)
                     } else {
                         setIsBidActive(true)
@@ -256,7 +258,7 @@ const ExploreSingle = () => {
 
 
                     //check if item can be collected
-                    if (parseInt(dateFuture) < dateToday && auctionInfo.highestBidder === walletAddress) {
+                    if (parseInt(dateFuture) < dateToday2 && auctionInfo.highestBidder === walletAddress) {
                         setCanCollect(true)
                     } else {
                         setCanCollect(false)
