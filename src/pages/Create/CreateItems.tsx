@@ -538,6 +538,8 @@ const CreateItems = () => {
               data.is_multiple = false
               data.nft_type = userInput.category
               data.cardImage = cardImage
+              //returnvalues = mint.events.TransferSingle.returnValues
+              console.log(mint?.events?.TransferSingle, "mint events")
 
               if (data.market_type !== '0') {
                 data.on_sale = true
@@ -545,7 +547,11 @@ const CreateItems = () => {
 
               let updatableData
               if (data.on_sale) {
-                console.log(parseInt(returnValues.token_id), 'hello')
+                // console.log(parseInt(returnValues?.id), 'hello')
+                // returnValues?.tokenId
+                // console.log(parseInt(returnvalues?.id), 'hello2')
+                console.log(parseInt(returnvalues?.tokenId), 'hello3')
+                console.log(parseInt(returnValues?.tokenId), 'hello4')
 
                 if (data.market_type === '2') {
                   data.starting_time =
@@ -554,8 +560,9 @@ const CreateItems = () => {
                 }
                 const putOnSale = await marketplace_contract.methods
                   .putOnSale(
-                    parseInt(returnValues.tokenId),
-                    web3.utils.toWei(data.price, 'ether'),
+                    parseInt(returnValues?.tokenId),
+                    //parseInt(returnvalues.id || returnvalues.tokenId),
+                    web3.utils.toWei(data.price.toString(), 'ether'),
                     parseInt(data.market_type),
                     parseInt(data.starting_time),
                     parseInt(data.ending_time),
@@ -586,7 +593,7 @@ const CreateItems = () => {
                 //   new Date(data.ending_time).getTime() + 2 * 24 * 3600 * 1000 // * 1000
 
                 updatableData = {
-                  token_id: returnValues.tokenId,
+                  token_id: returnValues?.tokenId || returnvalues?.id,
                   wallet_address,
                   collection_address:
                     userInput.collection_address || erc721Mintable_address,
@@ -606,11 +613,11 @@ const CreateItems = () => {
                     start_time: data.starting_time,
                     expiration_time: data.ending_time,
                   },
-                  price: web3.utils.toWei(data.price, 'ether'),
+                  price: web3.utils.toWei(data.price.toString(), 'ether'),
                 }
               } else {
                 updatableData = {
-                  token_id: returnValues.tokenId,
+                  token_id: returnValues?.tokenId || returnvalues?.id,
                   wallet_address,
                   collection_address:
                     userInput.collection_address || erc721Mintable_address,
