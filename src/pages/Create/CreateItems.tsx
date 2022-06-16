@@ -12,6 +12,7 @@ import style from './Create.module.scss'
 import TextInput from '../../components/Inputs/TextInput'
 import TextArea from '../../components/Inputs/TextArea'
 import SelectOption from '../../components/Inputs/SelectOption'
+import SelectOption2 from '../../components/Inputs/SelectOption2'
 import icon from './assets/upload.svg'
 import check from './assets/check.svg'
 import arrow1 from './assets/arrowR1.svg'
@@ -108,9 +109,9 @@ const CreateItems = () => {
     const getCollections = async () => {
       try {
         const collections = await publicRequest.get(
-          `/collections/user-collection?wallet_address=${wallet_address}`,
+          `/collections/user-collection?wallet_address=${wallet_address}&chain_id=rinkeby`,
         )
-        console.log(collections)
+        console.log(collections.data?.data.collections)
         setUserCollections(collections?.data?.data.collections)
         setIsLoading(false)
       } catch (error) {
@@ -1253,11 +1254,11 @@ const CreateItems = () => {
                 </div>
                 <p></p>
               </div>
-              {userCollections.length >= 1 && (
+              {userCollections.length === 1 && (
                 <div className={style.fieldBx}>
                   <p>Choose from created collections</p>
-                  <SelectOption
-                    value={userInput.category}
+                  <SelectOption2
+                    //value={userInput.collection_address}
                     inputName="collection_address"
                     inputHandler={inputHandler}
                     options={userCollections}

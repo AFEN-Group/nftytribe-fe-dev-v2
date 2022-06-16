@@ -26,8 +26,6 @@ const Trending = () => {
     <>
       <div className={style.trending}>
         {data.length >= 4 && (
-
-
           <div className={style.trContent}>
             <div className={style.trTop}>
               <h1>
