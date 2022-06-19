@@ -2,7 +2,8 @@ import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { ThemeContext } from '../../context/ThemeContext'
 import style from './Footer.module.scss'
-import Logo from './assets/afen-logo.svg'
+//import Logo from './assets/afen-logo.svg'
+import Logo from './assets/logo-light.svg'
 import Facebook from './assets/facebook.svg'
 import IG from './assets/Insta.svg'
 import Mail from './assets/mail.svg'
@@ -15,9 +16,8 @@ const Footer = () => {
   const dark = themeState.dark
   return (
     <div
-      className={`${style.container} ${
-        dark === 'true' ? 'darkTheme' : 'lightTheme'
-      }`}
+      className={`${style.container} ${dark === 'true' ? 'darkTheme' : 'lightTheme'
+        }`}
     >
       <div className={style.content}>
         <div className={style.left}>
@@ -39,7 +39,7 @@ const Footer = () => {
             </div>
             <div className={style.lLinks}>
               <p>
-                © Afen, Inc. All rights reserved | Terms & Conditions | Privacy
+                © nftytribe, Inc. All rights reserved | Terms & Conditions | Privacy
               </p>
             </div>
           </div>
@@ -61,7 +61,7 @@ const Footer = () => {
                 <p>Careers</p>
               </Link>
             </div>
-            <div className={style.rightBlocks}>
+            {/* <div className={style.rightBlocks}>
               <h2>Technology</h2>
               <Link to="/">
                 <p>BloomOne</p>
@@ -72,15 +72,15 @@ const Footer = () => {
               <Link to="/">
                 <p>NFT Marketplace</p>
               </Link>
-            </div>
+            </div> */}
             <div className={style.rightBlocks}>
               <h2>Community</h2>
               <Link to="/">
                 <p>Roadmap</p>
               </Link>
-              <Link to="/">
-                <p>Whitepaper</p>
-              </Link>
+              <a href="/NftyTribeLitePaper.pdf" download>
+                <p>Litepaper</p>
+              </a>
               <Link to="/">
                 <p>Blog</p>
               </Link>

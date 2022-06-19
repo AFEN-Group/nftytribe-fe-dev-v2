@@ -1,6 +1,8 @@
 import { useEffect, useState, useContext } from 'react'
 import { gsap, Power3 } from 'gsap'
 //import { UserContext } from '../../context/UserContext'
+import Web3 from 'web3'
+//import web3 from 'web3-eth'
 import { ThemeContext } from '../../context/ThemeContext'
 import WalletContext from '../../context/WalletContext'
 import { shortenAddress } from '../../utils/formatting'
@@ -12,7 +14,7 @@ import User from './assets/profile.svg'
 import User2 from './assets/profile2.svg'
 import Metamask from './assets/metamask.svg'
 import Wc from './assets/wc.svg'
-import Coinbase from './assets/coinbase.svg'
+//import Coinbase from './assets/coinbase.svg'
 import Check from './assets/check.svg'
 import Check2 from './assets/check2.svg'
 import Add from './assets/add.svg'
@@ -22,6 +24,8 @@ import BNB from './assets/bnb.svg'
 import Swap from './assets/swap01.svg'
 import Swap2 from './assets/swap02.svg'
 
+declare const window: any
+
 const ConnectWallet = (props: any) => {
   const [userInput, setUserInput] = useState<any>({
     value1: '',
@@ -30,7 +34,14 @@ const ConnectWallet = (props: any) => {
   //const [userState, setUserState] = useContext<any>(UserContext)
   //const currentAccount = userState.userWallet
   //console.log(currentAccount)
-  const { connectToMetaMask, disableEthereum } = useContext<any>(WalletContext)
+  const {
+    connectToMetaMask,
+    disableEthereum,
+    walletError,
+    //walletType,
+    enableWalletConnect,
+    disconnectWalletConnect
+  } = useContext<any>(WalletContext)
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
   // current view
@@ -40,6 +51,7 @@ const ConnectWallet = (props: any) => {
   //const [currentAccount, setCurrentAccount] = useState('')
   const currentAccount = localStorage.getItem('currentAccount')
   const userObj = localStorage.getItem('user')
+  const [walletBalance, setWalletBalance] = useState<any>()
   const numberInputHandler = async (event: any) => {
     const valueFiltered = event.target.value.replace(/\D/g, '')
     setUserInput({
@@ -52,6 +64,7 @@ const ConnectWallet = (props: any) => {
     let box: any = document.getElementById('box')
     let overlay: any = document.getElementById('overlay')
     let icon: any = document.getElementById('showIcon')
+    //let iconM: any = document.getElementById('showIconM')
     let show2: any = document.getElementById('show2')
     let close: any = document.getElementById('close')
     if (document.getElementById('showBtn')) {
@@ -65,6 +78,14 @@ const ConnectWallet = (props: any) => {
       t1.reversed(!t1.reversed())
       overlay.classList.toggle(style.overlay)
     }
+    if (document.getElementById('showIconM')) {
+      let iconM: any = document.getElementById('showIconM')
+      iconM.onclick = function () {
+        t1.reversed(!t1.reversed())
+        overlay.classList.toggle(style.overlay)
+      }
+    }
+
     if (!currentAccount) {
       show2.onclick = function () {
         t1.reversed(!t1.reversed())
@@ -87,9 +108,19 @@ const ConnectWallet = (props: any) => {
       overlay.classList.toggle(style.overlay)
     }
     //}
+    const getBalance = async () => {
+      const balance = await web3.eth.getBalance(currentAccount?.toString())
+      setWalletBalance(balance)
+      console.log(balance)
+    }
+    //getBalance()
   }, [])
+  // const showM = () => {
+  //   const t1 = gsap.timeline({ paused: true })
+  // }
   const handleSignOut = async () => {
     disableEthereum()
+    disconnectWalletConnect()
     props.handleModal()
   }
   const handleSignIn = async () => {
@@ -97,6 +128,14 @@ const ConnectWallet = (props: any) => {
     connectToMetaMask()
     props.handleModal()
   }
+  const handleSignIn2 = async () => {
+    props.handleModal()
+    enableWalletConnect()
+    props.handleModal()
+  }
+
+  let web3: any
+  web3 = new Web3(window.ethereum)
 
   // const handleSignOut = async () => {
   //   //disableEthereum()
@@ -121,6 +160,8 @@ const ConnectWallet = (props: any) => {
   //   props.handleModal()
   //   window.location.reload()
   // }
+  const walletType = localStorage.getItem("walletType")
+
 
   return (
     <>
@@ -129,9 +170,8 @@ const ConnectWallet = (props: any) => {
           <div onClick={props.handleModal} id="overlay"></div>
           <div
             //className={style.box}
-            className={`${style.box} ${
-              dark === 'true' ? 'lBdark2' : 'lightTheme'
-            }`}
+            className={`${style.box} ${dark === 'true' ? 'lBdark2' : 'lightTheme'
+              }`}
             id="box"
           >
             {currentAccount ? (
@@ -189,7 +229,7 @@ const ConnectWallet = (props: any) => {
                     <div className={style.wallets}>
                       <div className={style.activeWallet}>
                         <div className={style.awleft}>
-                          <img src={Metamask} alt="wallet" />
+                          <img src={walletType === "MetaMask" ? Metamask : Wc} alt="wallet" />
                           <div className={style.awInfo}>
                             <h3>{shortenAddress(currentAccount)}</h3>
 
@@ -202,9 +242,11 @@ const ConnectWallet = (props: any) => {
                             alt="check"
                           />
                           <p>0.00</p>
+                          {/* <p>{wBalance[0]}</p> */}
+                          {/* <p>{web3.utils.toWei(walletBalance.toString(), 'ether')}</p> */}
                         </div>
                       </div>
-                      <div className={style.activeWallet}>
+                      {/* <div className={style.activeWallet}>
                         <div className={style.awleft}>
                           <img src={Wc} alt="wallet" />
                           <div className={style.awInfo}>
@@ -212,12 +254,12 @@ const ConnectWallet = (props: any) => {
 
                             <p>Polygon</p>
                           </div>
-                        </div>
-                        <div className={style.awRight}>
-                          {/* <img src={dark === 'true' ? Check2 : Check} alt="check" /> */}
-                          <p>0.00</p>
-                        </div>
-                      </div>
+                        </div> */}
+                      {/* <div className={style.awRight}> */}
+                      {/* <img src={dark === 'true' ? Check2 : Check} alt="check" /> */}
+                      {/* <p>0.00</p>
+                        </div> */}
+                      {/* </div> */}
                     </div>
                     <div className={style.swapOptions}>
                       <div className={style.swOption}>
@@ -225,7 +267,7 @@ const ConnectWallet = (props: any) => {
                         <p>Add Funds</p>
                       </div>
                       <div
-                        className={style.swOption}
+                        className={`${style.swOption} disabled`}
                         onClick={(e) => setView('swap')}
                       >
                         <img src={SwapH} alt="swap" />
@@ -239,7 +281,7 @@ const ConnectWallet = (props: any) => {
                   <div
                     className={style.signOut}
                     onClick={handleSignOut}
-                    //onClick={() => setCurrentAccount('')}
+                  //onClick={() => setCurrentAccount('')}
                   >
                     Sign Out
                   </div>
@@ -261,15 +303,14 @@ const ConnectWallet = (props: any) => {
                       <input
                         type="text"
                         placeholder="0.00"
-                        className={`${
-                          dark === 'true' ? 'darkTheme' : 'lightTheme'
-                        } 
+                        className={`${dark === 'true' ? 'darkTheme' : 'lightTheme'
+                          } 
                        ${dark === 'true' ? 'lightTxt' : 'darkTxt'}`}
                         onChange={numberInputHandler}
                         //name={afenSwap ? 'value1' : 'value2'}
                         name="value1"
                         value={userInput.value1}
-                        //value={afenSwap ? userInput.value1 : userInput.value2}
+                      //value={afenSwap ? userInput.value1 : userInput.value2}
                       />
                       <div className={style.sInfo}>
                         <img src={afenSwap ? Afen : BNB} alt="afen" />
@@ -286,14 +327,13 @@ const ConnectWallet = (props: any) => {
                       <input
                         type="text"
                         placeholder="0.00"
-                        className={`${
-                          dark === 'true' ? 'darkTheme' : 'lightTheme'
-                        } ${dark === 'true' ? 'lightTxt' : 'darkTxt'}`}
+                        className={`${dark === 'true' ? 'darkTheme' : 'lightTheme'
+                          } ${dark === 'true' ? 'lightTxt' : 'darkTxt'}`}
                         onChange={numberInputHandler}
                         //name={afenSwap ? 'value2' : 'value1'}
                         name="value2"
                         value={userInput.value2}
-                        //value={afenSwap ? userInput.value2 : userInput.value1}
+                      //value={afenSwap ? userInput.value2 : userInput.value1}
                       />
                       <div className={style.sInfo}>
                         <img src={afenSwap ? BNB : Afen} alt="BNB" />
@@ -370,9 +410,8 @@ const ConnectWallet = (props: any) => {
                   <p className={`${dark === 'true' ? style.b1 : style.b2}`}>
                     Connect with one of our wallet providers or{' '}
                     <span
-                      className={`${
-                        dark === 'true' ? 'yellowMain' : 'blueLight'
-                      }`}
+                      className={`${dark === 'true' ? 'yellowMain' : 'blueLight'
+                        }`}
                     >
                       Create
                     </span>{' '}
@@ -385,15 +424,16 @@ const ConnectWallet = (props: any) => {
                     <img src={Metamask} alt="metamask" />
                     <p>Metamask</p>
                   </div>
-                  {/* <p className={style.err}>{walletError}</p> */}
-                  <div className={style.wallet}>
+
+                  <div className={style.wallet} onClick={handleSignIn2}>
                     <img src={Wc} alt="wallet-connect" />
                     <p>Wallet Connect</p>
                   </div>
-                  <div className={style.wallet}>
+                  <p className={style.err}>{walletError}</p>
+                  {/* <div className={style.wallet}>
                     <img src={Coinbase} alt="coinbase" />
                     <p>Coinbase Wallet</p>
-                  </div>
+                  </div> */}
                   {/* <div className={style.wallet}>
                 <button>Show More Options</button>
               </div> */}

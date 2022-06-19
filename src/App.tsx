@@ -85,8 +85,11 @@ function App() {
                 <Route path="/rewards" element={<Rewards />}></Route>
 
               </Routes>
+              <Footer />
             </Router>
+
           </div>
+
 
           <div className="app_info">
             <p>

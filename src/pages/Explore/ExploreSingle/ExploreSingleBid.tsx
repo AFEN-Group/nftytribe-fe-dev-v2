@@ -32,6 +32,7 @@ import Loader from '../../../components/Loader/Loader'
 //import BuyModal from './BuyModal'
 import BidModal from './BidModal'
 import { shortenAddress } from '../../../utils/formatting'
+import PutOnSaleModal from './PutOnSaleModal'
 declare const window: any
 
 const ExploreSingle = () => {
@@ -51,6 +52,7 @@ const ExploreSingle = () => {
     const [auctionData, setAuctionData] = useState<any>()
     //const [showBuy, setShowBuy] = useState(false)
     const [showBid, setShowBid] = useState(false)
+    const [showPutOnSale, setShowPutOnSale] = useState(false)
     const [collectedNft, setCollectedNft] = useState(false)
     const [endDate, setEndDate] = useState<any>()
     const [walletAddress, setWalletAddress] = useState('')
@@ -312,8 +314,9 @@ const ExploreSingle = () => {
         }
     }
     const handleSale = async () => {
-        if (nftDetails?.on_sale) {
-            //put off sale
+        if (!nftDetails?.on_sale) {
+            //put on sale
+            setShowPutOnSale(true)
         } else {
             //put on sale
         }
@@ -341,22 +344,20 @@ const ExploreSingle = () => {
 
     const handleClose = () => {
         //setShowConnect(false)
-        //setShowBuy(false)
         setShowBid(false)
+        setShowPutOnSale(false)
     }
 
     return (
         <>
             <Header />
-            {/* {showBuy && (
-                <BuyModal
+            {showPutOnSale && (
+                <PutOnSaleModal
                     handleClose={handleClose}
                     nft={nft}
                     nftDetails={nftDetails}
-                //nftPrice={nftPrice}
-                //saleType={saleType}
                 />
-            )} */}
+            )}
             {showBid && (
                 <BidModal
                     handleClose={handleClose}
@@ -496,12 +497,10 @@ const ExploreSingle = () => {
                                                     'No description.'}{' '}
                                             </p>
                                         </div>
-                                        <div className={style.prices}>
-                                            {!isLoading && (
-
-
+                                        {/* <div className={style.prices}>
+                                            {!isLoading &&  (
                                                 <div
-                                                    //className={style.bidPrices}
+                                                    
                                                     className={`${style.bidPrices} ${dark === 'true' ? 'darkGradient' : 'lightGradient'
                                                         } `}
                                                 >
@@ -511,7 +510,7 @@ const ExploreSingle = () => {
                                                                 <div className={style.bidBlue}>
                                                                     Current bid
                                                                 </div>
-                                                                {/* <p> {auctionData?.currentBid?.toString()}</p> */}
+                                                              
                                                                 {auctionData?.currentBid && (
                                                                     <p>
                                                                         {Web3.utils.fromWei(
@@ -543,7 +542,7 @@ const ExploreSingle = () => {
                                                         //auctionData?.startingPrice !== '0' ||
                                                         isBidActive ? (
                                                             <div className={style.time}>
-                                                                {/* <p>2d 13h 23m 19s</p> */}
+                                                                <p>2d 13h 23m 19s</p>
                                                                 <p>
                                                                     {timeDifference}
                                                                 </p>
@@ -559,7 +558,7 @@ const ExploreSingle = () => {
                                             )}
 
 
-                                        </div>
+                                        </div> */}
                                         {nftDetails?.is_multiple && (
                                             <p>Number of copies : {nftDetails.number_of_copies}</p>
                                         )}
