@@ -195,8 +195,10 @@
 
 .sBItem {
   //   background: lavender;
+  position: relative;
   margin: 2em 0 3em 0;
   @include flexRegular(row, flex-start);
+  cursor: pointer;
 
   img {
     margin-left: 1em;
@@ -206,6 +208,116 @@
     font-weight: 300;
   }
 }
+
+/***/
+// fiter styles
+.filterBxL,
+.filterBxD {
+  background: #fff;
+  border: 1px solid #52525B;
+  border-radius: 4px;
+  padding: 1.5em 1.5em 1.5em 1.5em;
+  @include flexRegular(column, center);
+  align-items: flex-start;
+
+  // p {
+  //   background: pink;
+  //   margin-right: 2em;
+  // }
+}
+
+.filterBxL {
+  background: #fff
+}
+
+.filterBxD {
+  background: #A7A9B9;
+}
+
+.filterItem1,
+.filterItem {
+  position: relative;
+  @include flexRegular(row, flex-start);
+
+  .radioBx {
+    background: pink;
+    margin-left: 6em;
+  }
+
+  p {
+    white-space: nowrap;
+    // margin-right: 6.5em;
+  }
+
+  .filterTxt {
+    //background: pink;
+    width: 90px;
+  }
+}
+
+/* Special radio */
+.pbRadio {
+  margin-left: 80px;
+
+}
+
+.pbRadio input {
+  position: absolute;
+  z-index: 2;
+  opacity: 0;
+  height: 50px;
+  width: 120px;
+  cursor: pointer;
+  //background: pink;
+  top: 0;
+  right: 0;
+}
+
+.pbRadio input:checked~.checkmark {
+  background-color: #fff;
+}
+
+.checkmark {
+  //margin-right: 4em;
+  position: absolute;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.295);
+  top: 0;
+  right: 3em;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.pbRadio input:checked~.checkmark:after {
+  display: block;
+  //border: 1px solid #4D55A6;
+}
+
+.pbRadio .checkmark:after {
+  top: 5.6px;
+  left: 4.3px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  //background: #6548C3;
+  background: #4D55A6;
+}
+
+/* */
+
+.filterItem {
+  margin-top: 2em;
+}
+
+/***/
+
 
 .itemsContainer {
   width: 76%;

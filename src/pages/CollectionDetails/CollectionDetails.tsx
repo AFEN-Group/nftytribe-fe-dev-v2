@@ -18,6 +18,7 @@ import Arrow from './assets/arrow.svg'
 //import ItemCard from '../../components/Card/ItemCardDefault'
 import ItemCard from '../../components/Card/ItemCard'
 import Container from '../../components/Container/Container'
+import Arrow2 from './assets/arrowright.svg'
 import { useParams } from 'react-router-dom'
 import { publicRequest } from '../../utils/requestMethods'
 
@@ -26,6 +27,8 @@ const CollectionDetails = () => {
   const [tab, setTab] = useState('all')
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
+  const [filter, setFilter] = useState("")
+  const [filterQuery, setFilterQuery] = useState('')
   const [collectibles, setCollectibles] = useState([])
   const [collection, setCollection] = useState<any>()
   const [currentPage, setCurrentPage] = useState(1)
@@ -60,6 +63,11 @@ const CollectionDetails = () => {
       setCurrentPage(currentPage - 1)
     }
   }
+
+  const setDefaults = () => {
+    setFilterQuery('')
+    setTab("")
+  }
   return (
     <>
       <Header />
@@ -83,28 +91,26 @@ const CollectionDetails = () => {
               <div className={style.infoMain}>
                 <div className={style.infoTitle}>
                   <h1>{collection?.title}</h1>
-                  <img src={Edit} alt="edit" />
+                  {/* <img src={Edit} alt="edit" /> */}
                 </div>
                 <p>
                   Welcome to the home of {collection?.title}. Discover items in
                   this collection.
-                  {}
+                  { }
                 </p>
                 <div className={style.infoBoxes}>
                   <div className={style.boxRow}>
                     <div
-                      className={`${style.singleBox} ${
-                        dark === 'true' ? 'darkGradient' : ''
-                      } `}
+                      className={`${style.singleBox} ${dark === 'true' ? 'darkGradient' : ''
+                        } `}
                     >
                       <h3>{collectibles?.length}</h3>
                       <p>Items</p>
                     </div>
                     <div
                       // className={style.singleBox}
-                      className={`${style.singleBox} ${
-                        dark === 'true' ? 'darkGradient' : ''
-                      } `}
+                      className={`${style.singleBox} ${dark === 'true' ? 'darkGradient' : ''
+                        } `}
                     >
                       <h3>0</h3>
                       <p>Owners</p>
@@ -113,18 +119,16 @@ const CollectionDetails = () => {
                   <div className={style.boxRow}>
                     <div
                       //className={style.singleBox}
-                      className={`${style.singleBox} ${
-                        dark === 'true' ? 'darkGradient' : ''
-                      } `}
+                      className={`${style.singleBox} ${dark === 'true' ? 'darkGradient' : ''
+                        } `}
                     >
                       <h3>---</h3>
                       <p>Floor price</p>
                     </div>
                     <div
                       //className={style.singleBox}
-                      className={`${style.singleBox} ${
-                        dark === 'true' ? 'darkGradient' : ''
-                      } `}
+                      className={`${style.singleBox} ${dark === 'true' ? 'darkGradient' : ''
+                        } `}
                     >
                       <h3>0.00</h3>
                       <p>Vol traded</p>
@@ -132,23 +136,22 @@ const CollectionDetails = () => {
                   </div>
                 </div>
               </div>
-              <div
+              {/* <div
                 //className={style.infoIcons}
-                className={`${style.infoIcons} ${
-                  dark === 'true' ? 'darkGradient' : ''
-                } `}
+                className={`${style.infoIcons} ${dark === 'true' ? 'darkGradient' : ''
+                  } `}
               >
                 <img src={IG} alt="IG" />
                 <img src={Settings} alt="settings" />
                 <img src={Share} alt="share" />
                 <img src={Reddit} alt="reddit" />
-              </div>
+              </div> */}
             </div>
             <div className={style.collectionBody}>
               <div className={style.mainNav}>
                 <div
-                  className={style.mItemA}
-                  //className={`${style.mItemA} ${dark === 'true' ? 'yellowTxt'} `}
+                  //className={style.mItemA}
+                  className={`${style.mItemA} ${dark === 'true' ? 'yellowTxt' : ''} `}
                 >
                   <p>Items</p>
                 </div>
@@ -156,17 +159,17 @@ const CollectionDetails = () => {
                   <p>Activity</p>
                 </div>
               </div>
-              <div
+              {/* <div
                 className={style.exploreCats}
-                //className={`${style.exploreCats} animate__animated animate__fadeInUp animate__delay-1s`}
+              //className={`${style.exploreCats} animate__animated animate__fadeInUp animate__delay-1s`}
               >
                 <div
                   className={
                     tab === 'all' && dark === 'true'
                       ? style.darkActive
                       : tab === 'all' && dark !== 'true'
-                      ? style.lightActive
-                      : style.exploreCat
+                        ? style.lightActive
+                        : style.exploreCat
                   }
                   onClick={(e) => setTab('all')}
                 >
@@ -177,8 +180,8 @@ const CollectionDetails = () => {
                     tab === 'art' && dark === 'true'
                       ? style.darkActive
                       : tab === 'art' && dark !== 'true'
-                      ? style.lightActive
-                      : style.exploreCat
+                        ? style.lightActive
+                        : style.exploreCat
                   }
                   onClick={(e) => setTab('art')}
                 >
@@ -189,8 +192,8 @@ const CollectionDetails = () => {
                     tab === 'gaming' && dark === 'true'
                       ? style.darkActive
                       : tab === 'gaming' && dark !== 'true'
-                      ? style.lightActive
-                      : style.exploreCat
+                        ? style.lightActive
+                        : style.exploreCat
                   }
                   onClick={(e) => setTab('gaming')}
                 >
@@ -201,8 +204,8 @@ const CollectionDetails = () => {
                     tab === 'collectibles' && dark === 'true'
                       ? style.darkActive
                       : tab === 'collectibles' && dark !== 'true'
-                      ? style.lightActive
-                      : style.exploreCat
+                        ? style.lightActive
+                        : style.exploreCat
                   }
                   onClick={(e) => setTab('collectibles')}
                 >
@@ -213,19 +216,18 @@ const CollectionDetails = () => {
                     tab === 'utility' && dark === 'true'
                       ? style.darkActive
                       : tab === 'utility' && dark !== 'true'
-                      ? style.lightActive
-                      : style.exploreCat
+                        ? style.lightActive
+                        : style.exploreCat
                   }
                   onClick={(e) => setTab('utility')}
                 >
                   <p>Utility</p>
                 </div>
-              </div>
+              </div> */}
               <div className={style.itemsBody}>
                 <div
-                  className={`${style.sideBar} ${
-                    dark === 'true' ? 'darkGradient' : 'lightGradient'
-                  } `}
+                  className={`${style.sideBar} ${dark === 'true' ? 'darkGradient' : 'lightGradient'
+                    } `}
                   id="sidebar"
                 >
                   <div className={style.sideBarContent}>
@@ -235,34 +237,99 @@ const CollectionDetails = () => {
                         <strong>Filters</strong>
                       </p>
                     </div>
-                    <div className={style.sBItem}>
-                      <p>Price range</p>
-                      <img src={Arrow1} alt="filter" />
-                    </div>
-                    <div className={style.sBItem}>
+                    {/* <div className={style.sBItem}>
+                    <p>Price range</p>
+                    <img src={Arrow1} alt="filter" />
+                  </div> */}
+                    <div className={style.sBItem} onClick={() => setFilter("saleType")}>
                       <p>Sale type</p>
-                      <img src={Arrow1} alt="filter" />
+                      <img src={filter === 'saleType' ? Arrow2 : Arrow1} alt="filter" />
                     </div>
-                    <div className={style.sBItem}>
+                    {filter === "saleType" && (
+                      <div className={`${dark === "true" ? style.filterBxD : style.filterBxL} animate__animated animate__fadeIn`}
+                      >
+                        <div className={style.filterItem1}>
+                          <div className={style.filterTxt} >
+                            <p>Fixed Sale</p>
+                          </div>
+
+                          {/* <div className={style.radioBx}> <RadioBtn /></div> */}
+                          <div className={style.pbRadio} onClick={() => setFilterQuery("&marketplace_type=1")}>
+                            <input type="radio" name="filter" />
+                            <span className={style.checkmark}></span>
+                          </div>
+                        </div>
+                        <div className={style.filterItem}>
+                          <div className={style.filterTxt} >
+                            <p>Auctions</p>
+                          </div>
+                          <div className={style.pbRadio} onClick={() => setFilterQuery("&marketplace_type=2")}>
+                            <input type="radio" name="filter" />
+                            <span className={style.checkmark}></span>
+                          </div>
+
+                        </div>
+                      </div>)}
+                    <div className={style.sBItem} onClick={() => setFilter("blockchain")}>
                       <p>Blockchain</p>
-                      <img src={Arrow1} alt="filter" />
+                      <img src={filter === 'blockchain' ? Arrow2 : Arrow1} alt="filter" />
                     </div>
+                    {filter === "blockchain" && (
+                      <div className={`${dark === "true" ? style.filterBxD : style.filterBxL} animate__animated animate__fadeIn`}
+                      >
+                        <div className={style.filterItem1}>
+                          <div className={style.filterTxt}>
+                            <p>Ethereum</p>
+                          </div>
+                          <div className={style.pbRadio} onClick={() => setFilterQuery("&chain=rinkeby")}>
+                            <input type="radio" name="filter" />
+                            <span className={style.checkmark}></span>
+                          </div>
+
+                        </div>
+                        <div className={style.filterItem}>
+                          <div className={style.filterTxt}>
+                            <p>Binance</p>
+                          </div>
+                          <div className={style.pbRadio} onClick={() => setFilterQuery("&chain=binance")}>
+                            <input type="radio" name="filter" />
+                            <span className={style.checkmark}></span>
+                          </div>
+                        </div>
+                      </div>)}
                     <div className={style.sBItem}>
                       <p>Recently added</p>
-                      <img src={Arrow1} alt="filter" />
+                      {/* <AcceptBtn onClick={setDefaults} /> */}
+                      <div className={style.pbRadio} onClick={setDefaults}>
+                        <input type="radio" name="filter" />
+                        <span className={style.checkmark}></span>
+                      </div>
+                      {/* <img src={Arrow1} alt="filter" /> */}
                     </div>
-                    <div className={style.sBItem}>
-                      <p>Collection</p>
-                      <img src={Arrow1} alt="filter" />
-                    </div>
-                    <div className={style.sBItem}>
-                      <p>Price ascending</p>
-                      <img src={Arrow1} alt="filter" />
-                    </div>
-                    <div className={style.sBItem}>
-                      <p>Price descending</p>
-                      <img src={Arrow1} alt="filter" />
-                    </div>
+                    {/* <div className={style.sBItem} onClick={() => setFilter("collection")}>
+                    <p>Collection</p>
+                    <img src={filter === 'collection' ? Arrow2 : Arrow1} alt="filter" />
+
+                  </div> */}
+                    {filter === "collection" && (
+                      <div className={`${dark === "true" ? style.filterBxD : style.filterBxL} animate__animated animate__fadeIn`}
+                      >
+                        <div className={style.filterItem}>
+                          <p>Fixed Sale</p>
+                          <div className={style.radio}>
+
+                          </div>
+
+                        </div>
+                      </div>)}
+                    {/* <div className={style.sBItem}>
+                    <p>Price ascending</p>
+                    <img src={Arrow1} alt="filter" />
+                  </div>
+                  <div className={style.sBItem}>
+                    <p>Price descending</p>
+                    <img src={Arrow1} alt="filter" />
+                  </div> */}
                   </div>
                 </div>
                 <div className={style.itemsContainer}>
@@ -283,9 +350,8 @@ const CollectionDetails = () => {
                         <div className={style.paginateBtns}>
                           {currentPage > 1 && (
                             <button
-                              className={`${style.filterItem} ${
-                                dark === 'true' ? 'lightTxt' : 'darkTxt'
-                              }`}
+                              className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
+                                }`}
                               onClick={prevPage}
                             >
                               {'Prev'}
@@ -293,9 +359,8 @@ const CollectionDetails = () => {
                           )}
                           {currentPage < totalPages && (
                             <button
-                              className={`${style.filterItem} ${
-                                dark === 'true' ? 'lightTxt' : 'darkTxt'
-                              }`}
+                              className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
+                                }`}
                               onClick={nextPage}
                             >
                               {'Next'}

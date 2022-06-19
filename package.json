@@ -12,6 +12,7 @@
     "@types/node": "^16.11.33",
     "@types/react": "^18.0.8",
     "@types/react-dom": "^18.0.3",
+    "@walletconnect/web3-provider": "^1.7.8",
     "animate.css": "^4.1.1",
     "aos": "^3.0.0-beta.6",
     "axios": "^0.26.1",
@@ -28,6 +29,7 @@
     "sass": "^1.49.7",
     "timeago.js": "^4.0.2",
     "typescript": "^4.6.4",
+    "walletconnect": "^1.7.8",
     "web-vitals": "^2.1.4",
     "web3": "^1.7.0"
   },
