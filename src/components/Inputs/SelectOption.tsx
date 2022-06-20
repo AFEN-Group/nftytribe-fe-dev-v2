@@ -8,9 +8,8 @@ const SelectOption = (props: any) => {
   return (
     <div className={style.inputBx}>
       <select
-        className={`${dark === 'true' ? 'darkTheme' : 'lightTheme'} ${
-          dark === 'true' ? style.selectDark : style.selectLight
-        }  
+        className={`${dark === 'true' ? 'darkTheme' : 'lightTheme'} ${dark === 'true' ? style.selectDark : style.selectLight
+          }  
         `}
         name={props.inputName}
         onChange={props.inputHandler}
