@@ -10,6 +10,7 @@ import Container from '../../components/Container/Container'
 import Header from '../../components/Header/Header'
 import style from './Create.module.scss'
 import TextInput from '../../components/Inputs/TextInput'
+import SelectDate from '../../components/Inputs/SelectDate'
 import TextArea from '../../components/Inputs/TextArea'
 import SelectOption from '../../components/Inputs/SelectOption'
 import SelectOption2 from '../../components/Inputs/SelectOption2'
@@ -1223,9 +1224,11 @@ const CreateItems = () => {
                 <>
                   <div className={style.fieldBx}>
                     <p>Start Date</p>
-                    <TextInput
-                      type="datetime-local"
+                    <SelectDate
+                      type="text"
                       inputName="starting_time"
+                      //onFocus={(e: any) => e.target.type = 'datetime-local'}
+                      holder="Choose Start Date"
                       //value={userInput.price}
                       inputHandler={inputHandler}
                     //step="1"
@@ -1233,9 +1236,11 @@ const CreateItems = () => {
                   </div>
                   <div className={style.fieldBx}>
                     <p>End Date</p>
-                    <TextInput
-                      type="datetime-local"
+                    <SelectDate
+                      type="text"
                       inputName="ending_time"
+                      //onFocus={(e: any) => e.target.type = 'datetime-local'}
+                      holder="Choose End Date"
                       //value={userInput.price}
                       inputHandler={inputHandler}
                     />

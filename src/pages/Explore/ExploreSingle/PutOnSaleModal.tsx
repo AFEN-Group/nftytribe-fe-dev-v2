@@ -17,6 +17,8 @@ import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
 import erc1155MintableAbi from '../../../smart_contracts/erc1155Mintable.json'
 import erc1155MarketplaceAbi from '../../../smart_contracts/erc1155Market.json'
 import TextInput from '../../../components/Inputs/TextInput'
+import SelectOption from '../../../components/Inputs/SelectOption3'
+import SelectDate from '../../../components/Inputs/SelectDate'
 
 declare const window: any
 
@@ -42,6 +44,10 @@ const PutOnSaleModal = (props: any) => {
     )
     const [completed, setCompleted] = useState(false)
     //const tokens = [{ value: '1', text: 'eth' }]
+    const marketType = [
+        { value: '1', text: 'Fixed price' },
+        { value: '2', text: 'Auction' },
+    ]
 
     const inputHandler = async (event: any) => {
         setValidated(false)
@@ -57,9 +63,11 @@ const PutOnSaleModal = (props: any) => {
                 [event.target.name]: value,
             })
         }
-        if (userInputRef.current.bid !== '') {
+        if (userInputRef.current.amount !== '') {
             setValidated(true)
         }
+        //setValidated(false)
+
     }
 
     const handleSubmit = async (e: any) => {
@@ -104,17 +112,17 @@ const PutOnSaleModal = (props: any) => {
 
                     const data = props.nftDetails
 
-                    if (data.market_type !== '0') {
+                    if (userInput.market_type !== '0') {
                         data.on_sale = true
                     }
 
                     let updatableData
                     // if (data.on_sale) {
 
-                    if (data.market_type === '2') {
+                    if (userInput.market_type === '2') {
                         data.starting_time =
-                            new Date(data.starting_time).getTime() / 1000
-                        data.ending_time = new Date(data.ending_time).getTime() / 1000
+                            new Date(userInput.starting_time).getTime() / 1000
+                        data.ending_time = new Date(userInput.ending_time).getTime() / 1000
                     }
                     //console.log(web3.utils.toWei(userInput.amount.toString(), 'ether'), 'price', returnvalues.id)
 
@@ -207,7 +215,7 @@ const PutOnSaleModal = (props: any) => {
                     const data = props.nftDetails
 
 
-                    if (data.market_type !== '0') {
+                    if (userInput.market_type !== '0') {
                         data.on_sale = true
                     }
 
@@ -215,16 +223,16 @@ const PutOnSaleModal = (props: any) => {
                     // if (data.on_sale) {
                     //console.log(parseInt(returnvalues.token_id), 'hello')
 
-                    if (data.market_type === '2') {
+                    if (userInput.market_type === '2') {
                         data.starting_time =
-                            new Date(data.starting_time).getTime() / 1000
-                        data.ending_time = new Date(data.ending_time).getTime() / 1000
+                            new Date(userInput.starting_time).getTime() / 1000
+                        data.ending_time = new Date(userInput.ending_time).getTime() / 1000
                     }
                     const putOnSale = await marketplace_contract.methods
                         .putOnSale(
                             parseInt(data?.token_id),
                             web3.utils.toWei(userInput.amount.toString(), 'ether'),
-                            parseInt(data.market_type),
+                            parseInt(userInput.market_type),
                             parseInt(data.starting_time),
                             parseInt(data.ending_time),
                             data?.collection_address,
@@ -241,10 +249,10 @@ const PutOnSaleModal = (props: any) => {
                         transaction_hash: data.transactionHash,
                         type: 'putOnSale',
                         chain_id: 'rinkeby',
-                        //order_type: data.market_type,
+                        //order_type: userInput.market_type,
 
                         on_sale: true,
-                        marketplace_type: data.market_type,
+                        marketplace_type: userInput.market_type,
                         order_detail: {
                             starting_price: web3.utils.toWei(
                                 userInput.amount.toString(),
@@ -296,7 +304,7 @@ const PutOnSaleModal = (props: any) => {
                     {!completed && !props.itemCollected && (
                         <form
                             onSubmit={handleSubmit}
-                            className={`${style.modalB} animate__animated animate__zoomInUp `}
+                            className={`${style.modalD} animate__animated animate__zoomInUp `}
                         >
                             <div className={style.modalTop}>
                                 <h1>Put item on sale.</h1>
@@ -338,8 +346,44 @@ const PutOnSaleModal = (props: any) => {
                                         holder="Enter amount"
                                         inputHandler={inputHandler}
                                         value={userInput.amount}
+                                        required
                                     />
                                 </div>
+                                <div className={style.fieldBx}>
+                                    <p>Choose market type</p><br />
+                                    <SelectOption
+                                        options={marketType}
+                                        inputName="market_type"
+                                        inputHandler={inputHandler}
+                                        value={userInput.market_type}
+                                    />
+                                </div>
+                                {userInput.market_type === '2' && (
+                                    <>
+                                        <div className={style.fieldBx}>
+                                            <p>Start Date</p><br />
+                                            <SelectDate
+                                                type="text"
+                                                inputName="starting_time"
+                                                //onFocus={(e: any) => e.target.type = 'datetime-local'}
+                                                holder="Choose Start Date"
+                                                //value={userInput.price}
+                                                inputHandler={inputHandler}
+                                            //step="1"
+                                            />
+                                        </div>
+                                        <div className={style.fieldBx}>
+                                            <p>End Date</p>
+                                            <SelectDate
+                                                type="text"
+                                                inputName="ending_time"
+                                                //onFocus={(e: any) => e.target.type = 'datetime-local'}
+                                                holder="Choose End Date"
+                                                //value={userInput.price}
+                                                inputHandler={inputHandler}
+                                            />
+                                        </div>
+                                    </>)}
                                 {/* 
                                 <div className={style.pbItem}>
                                     <p>Amount </p>
