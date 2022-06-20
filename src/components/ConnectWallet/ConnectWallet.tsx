@@ -66,6 +66,8 @@ const ConnectWallet = (props: any) => {
     let icon: any = document.getElementById('showIcon')
     //let iconM: any = document.getElementById('showIconM')
     let show2: any = document.getElementById('show2')
+    let show3: any = document.getElementById('show3')
+    let show4: any = document.getElementById('show4')
     let close: any = document.getElementById('close')
     if (document.getElementById('showBtn')) {
       let btn: any = document.getElementById('showBtn')
@@ -91,6 +93,20 @@ const ConnectWallet = (props: any) => {
         t1.reversed(!t1.reversed())
         overlay.classList.toggle(style.overlay)
       }
+      if (document.getElementById('show4')) {
+        show3.onclick = function () {
+          t1.reversed(!t1.reversed())
+          overlay.classList.toggle(style.overlay)
+        }
+      }
+      if (document.getElementById('show4')) {
+        show4.onclick = function () {
+          t1.reversed(!t1.reversed())
+          overlay.classList.toggle(style.overlay)
+        }
+      }
+
+
     }
     t1.to(box, 0.001, {
       right: 0,
