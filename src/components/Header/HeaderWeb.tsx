@@ -141,7 +141,10 @@ const HeaderWeb = (props: any) => {
                 <img src={dark === 'true' ? Logo2 : Logo} alt="logo" />
               </Link>
 
-              <div className={style.navBox}>
+              <div
+                // className={style.navBox}
+                className={`${dark === "true" ? style.navBoxD : style.navBoxL}`}
+              >
                 {/* <Link to="/">
                   <p>Home</p>
                 </Link> */}
@@ -184,7 +187,7 @@ const HeaderWeb = (props: any) => {
                 <img src={dark === 'true' ? Logo2 : Logo} alt="logo" />
               </Link>
               <div
-                className={style.navBox}
+                className={`${dark === "true" ? style.navBoxD : style.navBoxL}`}
                 onMouseOver={() => setShowDropDown('None')}
               >
                 <div className={style.navBoxItems}>

@@ -22,9 +22,8 @@ const Rewards = () => {
     <>
       <Header />
       <div
-        className={`${style.container} ${
-          dark === 'true' ? 'darkTheme' : 'lightTheme'
-        }`}
+        className={`${style.container} ${dark === 'true' ? 'darkTheme' : 'lightTheme'
+          }`}
       >
         <div className={style.content}>
           <div className={style.sectionOne}>
@@ -105,14 +104,16 @@ const Rewards = () => {
                   percentage yield as well as up to 50%+ in trading fees{' '}
                 </p>
                 <div className={style.twoBtns}>
+                  <a href="https://pancakeswap.finance/swap">
+                    <button className={style.buyAfen}>
+                      Buy Afen
+                      <img src={arrow2} alt="buy afen" />
+                    </button></a>
                   <button className={style.stake}>
                     Stake Afen
                     <img src={arrow1} alt="stake" />
                   </button>
-                  <button className={style.buyAfen}>
-                    Buy Afen
-                    <img src={arrow2} alt="buy afen" />
-                  </button>
+
                 </div>
               </div>
             </div>

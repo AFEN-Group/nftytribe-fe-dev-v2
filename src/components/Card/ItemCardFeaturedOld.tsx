@@ -193,10 +193,10 @@ const ItemCardOld = (data: any) => {
                     <div
                         className={`${style.descBox3} animate__animated animate__fadeIn `}
                     >
-                        <div className={style.itemInfo3}>
+                        <div className={style.itemInfo3} onClick={() => setShowFull(false)}>
                             <div
                                 className={style.itemSubtxt}
-                                onClick={() => setShowFull(false)}
+
                             >
                                 <h3>{data?.nftData?.title}</h3>
                                 <div className={style.userBx}>
