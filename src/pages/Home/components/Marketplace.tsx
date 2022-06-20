@@ -1,4 +1,5 @@
 import { useContext } from 'react'
+import { Link } from 'react-router-dom'
 import style from '../Home.module.scss'
 import nArrow from '../assets/arrow-right.svg'
 import { ThemeContext } from '../../../context/ThemeContext'
@@ -10,9 +11,8 @@ const Marketplace = () => {
     <>
       <div
         //className={style.mk}
-        className={`${style.mk} ${
-          dark === 'true' ? 'darkTheme' : 'lightTheme'
-        }`}
+        className={`${style.mk} ${dark === 'true' ? 'darkTheme' : 'lightTheme'
+          }`}
       >
         <div className={style.mkContent}>
           <div className={style.mkLeft}>
@@ -20,10 +20,10 @@ const Marketplace = () => {
               <h1>Limitless Marketplace</h1>
               <p>Explopre our marketplace to start buying and selling NFTs </p>
 
-              <div className={style.mkBtn}>
+              <Link to="/explore" className={style.mkBtn}>
                 <p>Explore marketplace</p>
                 <img src={nArrow} alt="more" />
-              </div>
+              </Link>
             </div>
           </div>
           <div className={style.mkRight}>

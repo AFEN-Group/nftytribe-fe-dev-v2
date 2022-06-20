@@ -45,7 +45,8 @@
     //border: 1px solid black;
   }
 
-  .navBox {
+  .navBoxL,
+  .navBoxD {
     width: 29%;
     @include flexRegular(row, space-between);
 
@@ -53,8 +54,23 @@
       transition: 0.2s ease-in-out;
       cursor: pointer;
 
+
+    }
+  }
+
+  .navBoxL {
+    p {
       &:hover {
-        color: #f3bb1c;
+        color: $blueHover;
+        transform: scale(1.08);
+      }
+    }
+  }
+
+  .navBoxD {
+    p {
+      &:hover {
+        color: #F3BB1C;
         transform: scale(1.08);
       }
     }
@@ -111,7 +127,9 @@
     //border: 1px solid black;
   }
 
-  .navBox {
+
+  .navBoxL,
+  .navBoxD {
     //background: rgba(135, 207, 235, 0.505);
     width: 53%;
     @include flexRegular(row, space-between);
@@ -148,12 +166,30 @@
     p {
       transition: 0.2s ease-in-out;
 
+
+    }
+  }
+
+  .navBoxL {
+    p {
       &:hover {
-        color: #f3bb1c;
+        color: $blueHover;
+
         transform: scale(1.08);
       }
     }
   }
+
+  .navBoxD {
+    p {
+      &:hover {
+        color: #F3BB1C;
+        transform: scale(1.08);
+      }
+    }
+  }
+
+
 
   .buttonsBox {
     width: 20%;

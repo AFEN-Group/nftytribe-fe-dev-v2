@@ -39,7 +39,7 @@
 
   .exploreCats {
     margin: 2em auto 1em auto;
-    width: 60%;
+    width: 75%;
     @include flexRegular(row, space-between);
   }
 

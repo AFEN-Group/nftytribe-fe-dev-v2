@@ -151,8 +151,10 @@ const ItemCard = (data: any) => {
         {showFull && (
           <div
             className={`${style.descBox2} animate__animated animate__fadeIn `}
+
           >
-            <div className={style.itemInfo2}>
+            <div className={style.itemInfo2}
+              onClick={() => setShowFull(false)}>
               <div
                 className={style.itemSubtxt}
                 onClick={() => setShowFull(false)}

@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { ThemeContext } from '../../context/ThemeContext'
+//import MailchimpSubscribe from 'react-mailchimp-subscribe'
 import style from './Footer.module.scss'
 //import Logo from './assets/afen-logo.svg'
 import Logo from './assets/logo-light.svg'
@@ -10,6 +11,7 @@ import Mail from './assets/mail.svg'
 import Medium from './assets/medium.svg'
 import Twitter from './assets/twitter.svg'
 import TextInput from './TextInput'
+import Subscribe from './Subscribe/Subscribe'
 
 const Footer = () => {
   const [themeState] = useContext<any>(ThemeContext)
@@ -21,7 +23,7 @@ const Footer = () => {
     >
       <div className={style.content}>
         <div className={style.left}>
-          <div className={style.lbody}>
+          {/* <div className={style.lbody}>
             <p>
               Subscribe to the newsletter to hear about Afen updates and events.
             </p>
@@ -32,7 +34,8 @@ const Footer = () => {
             />
             <br />
             <button className={style.sub}>Subscribe</button>
-          </div>
+          </div> */}
+          <Subscribe />
           <div className={style.lbottom}>
             <div className={style.logoBox}>
               <img src={Logo} alt="logo" />

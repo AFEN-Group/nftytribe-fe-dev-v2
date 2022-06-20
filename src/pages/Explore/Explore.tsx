@@ -123,6 +123,18 @@ const Explore = () => {
                 </div>
                 <div
                   className={
+                    tab === 'photography' && dark === 'true'
+                      ? style.darkActive
+                      : tab === 'photography' && dark !== 'true'
+                        ? style.lightActive
+                        : style.exploreCat
+                  }
+                  onClick={(e) => setTab('photography')}
+                >
+                  <p>Photography</p>
+                </div>
+                <div
+                  className={
                     tab === 'collectibles' && dark === 'true'
                       ? style.darkActive
                       : tab === 'collectibles' && dark !== 'true'
@@ -133,18 +145,7 @@ const Explore = () => {
                 >
                   <p>Collectibles</p>
                 </div>
-                <div
-                  className={
-                    tab === 'utility' && dark === 'true'
-                      ? style.darkActive
-                      : tab === 'utility' && dark !== 'true'
-                        ? style.lightActive
-                        : style.exploreCat
-                  }
-                  onClick={(e) => setTab('utility')}
-                >
-                  <p>Utility</p>
-                </div>
+
                 <div
                   className={
                     tab === 'african_art' && dark === 'true'

@@ -124,9 +124,11 @@
 }
 
 .descBox2 {
+  cursor: pointer;
   transition: all 0.2s ease;
   position: absolute;
   background: rgba(23, 18, 20, 0.207);
+  //background: pink;
   box-shadow: inset 0px 0.8px 100px rgba(216, 57, 166, 0.1);
   backdrop-filter: blur(20px);
   border-radius: 20px;
@@ -179,7 +181,8 @@
   position: absolute;
   padding: 15px 10px 55px 10px;
   bottom: -12px;
-  background: rgba(23, 18, 20, 0.586);
+  //background: rgba(23, 18, 20, 0.586);
+  //background: pink;
   box-shadow: inset 0px 0.8px 100px rgba(216, 57, 166, 0.1);
   backdrop-filter: blur(20px);
   border-radius: 10px;
@@ -198,6 +201,7 @@
   box-shadow: inset 0px 0.8px 100px rgba(216, 57, 166, 0.1);
   backdrop-filter: blur(20px);
   border-radius: 10px;
+  cursor: pointer;
   //width: 60%;
   width: 97%;
 
@@ -240,11 +244,11 @@
   align-self: flex-end;
 
   button {
-    @include buttonRegular($blueMain, 78px, 27px);
+    @include buttonRegular($blueHover, 108px, 37px);
     color: #fff;
     padding: 0.7em;
     border-radius: 4px;
-    font-size: 0.7em;
+    font-size: 0.87em;
   }
 }
 

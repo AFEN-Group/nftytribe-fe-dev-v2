@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import style from '../Home.module.scss'
 //import Card from '../../../components/Card/ItemCardDefault'
-import Card2 from '../../../components/Card/ItemCard'
+import Card2 from '../../../components/Card/ItemCard2'
 import { publicRequest } from '../../../utils/requestMethods'
 import Marquee from 'react-fast-marquee'
 

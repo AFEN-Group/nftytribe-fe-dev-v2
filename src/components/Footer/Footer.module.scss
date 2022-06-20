@@ -46,7 +46,7 @@
     border-radius: 15px;
     border: 1px solid #624bd0;
     box-sizing: border-box;
-    margin-top: 1.5em;
+    margin-top: 1em;
     font-weight: 800;
     color: #fff;
     transition: 0.25s ease-in;
@@ -123,6 +123,26 @@
         transform: scale(1.1);
       }
     }
+  }
+}
+
+.subResponse {
+  //background: pink;
+  text-align: left;
+  @include flexRegular(column, flex-start);
+  align-items: flex-start;
+  margin: 1.5em auto;
+  width: 95%;
+  font-size: .8em;
+
+  .subErr {
+    color: $yellowMain;
+    font-weight: 600;
+  }
+
+  .subSucc {
+    color: rgb(7, 202, 7);
+    font-weight: 600;
   }
 }
 
@@ -209,7 +229,7 @@
 
     &:not(:placeholder-shown)+.labelName {
       .contentName {
-        transform: translateY(-130%);
+        transform: translateY(-160%);
         font-size: 0.8em;
         color: #fff;
         background: $blueMain;

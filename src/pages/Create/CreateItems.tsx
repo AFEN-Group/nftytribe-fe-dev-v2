@@ -99,8 +99,8 @@ const CreateItems = () => {
     { value: '', text: 'Select' },
     { value: 'art', text: 'Art' },
     { value: 'gaming', text: 'Gaming' },
+    { value: 'photography', text: 'Photography' },
     { value: 'collectibles', text: 'Collectibles' },
-    { value: 'utility', text: 'Utility' },
     { value: 'african_art', text: 'African Art' },
     // { value: '5', text: 'Music' },
   ]
