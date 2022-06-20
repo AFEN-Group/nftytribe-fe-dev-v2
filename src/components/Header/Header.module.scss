@@ -171,18 +171,45 @@
   transition: 0.3s ease-in;
 }
 
-.dropDown {
+.dropDown,
+.searchResults {
   cursor: pointer;
-  right: 1em;
-  top: 4.5em;
   width: 18vw;
   max-width: 250px;
   position: absolute;
-  padding: 2em 2em 1em 2em;
+
   //background: #ffffff;
   //border: 0.5px solid #000000;
   border: 0.5px solid #52525b;
   border-radius: 0px 8px;
+}
+
+.dropDown {
+  right: 1em;
+  top: 4.5em;
+  padding: 2em 2em 1em 2em;
+}
+
+.ld {
+  @include flexRegular(column, flex-start);
+}
+
+.searchResults {
+  right: 18em;
+  top: 5em;
+  padding: 2em 2em 1em 1em;
+  @include flexRegular(column, flex-start);
+}
+
+.searchSingle {
+  padding: 3em 0 !important;
+  margin: 3em 0;
+  background: pink;
+  width: 10%;
+}
+
+.noResult {
+  pointer-events: none
 }
 
 .dropTop {

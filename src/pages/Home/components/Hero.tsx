@@ -1,11 +1,9 @@
 import { useEffect, useContext, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { gsap, Expo } from 'gsap'
 import { motion } from 'framer-motion'
 import { ThemeContext } from '../../../context/ThemeContext'
 import { publicRequest } from '../../../utils/requestMethods'
-
-
 
 import style from '../Home.module.scss'
 import ItemCard from '../../../components/Card/ItemCardFeaturedOld'
@@ -22,7 +20,9 @@ const Hero = () => {
   const [items, setItems] = useState([])
   const [featured, setFeatured] = useState()
   const [themeState] = useContext<any>(ThemeContext)
+  const currentAccount = localStorage.getItem('currentAccount')
   const dark = themeState.dark
+  const navigate = useNavigate()
 
 
   useEffect(() => {
@@ -65,6 +65,12 @@ const Hero = () => {
     })
   }, [])
 
+  const handleImport = () => {
+    if (currentAccount) {
+      navigate('/collections')
+    }
+  }
+
 
 
   return (
@@ -102,18 +108,20 @@ const Hero = () => {
                     className={`${style.leftBtns} ${style.forW} animate__animated animate__slideInUp`}
                     id="heroBtns"
                   >
-                    <Link to="/collections">
-                      <button
-                        className={
-                          dark === 'true'
-                            ? style.lButton1_dark
-                            : style.lButton1_light
-                        }
+                    {/* <Link to="/collections"> */}
+                    <button
+                      id='show3'
+                      className={
+                        dark === 'true'
+                          ? style.lButton1_dark
+                          : style.lButton1_light
+                      }
+                      onClick={handleImport}
 
-                      >
-                        Import Collection
-                      </button>
-                    </Link>
+                    >
+                      Import Collection
+                    </button>
+                    {/* </Link> */}
                     <Link to="/explore">
                       {' '}
                       <button
@@ -231,19 +239,21 @@ const Hero = () => {
                     Launch with us
                   </button>
                 </Link>
-                <Link to="/collections">
-                  {' '}
-                  <button
-                    className={
-                      dark === 'true'
-                        ? style.lButton2_dark
-                        : style.lButton2_light
-                    }
-                  >
-                    Import Collection{' '}
-                    <img src={dark === 'true' ? Arrow1 : Arrow2} alt="" />
-                  </button>
-                </Link>
+                {/* <Link to="/collections"> */}
+                {' '}
+                <button
+                  id='show4'
+                  className={
+                    dark === 'true'
+                      ? style.lButton2_dark
+                      : style.lButton2_light
+                  }
+                  onClick={handleImport}
+                >
+                  Import Collection{' '}
+                  <img src={dark === 'true' ? Arrow1 : Arrow2} alt="" />
+                </button>
+                {/* </Link> */}
               </div>
             </div>
           </div>

@@ -2,6 +2,8 @@ import { useEffect, useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 //import { UserContext } from '../../context/UserContext'
 import { ThemeContext } from '../../context/ThemeContext'
+import { publicRequest } from '../../utils/requestMethods'
+import { CircularProgress } from '@material-ui/core'
 import style from './Header.module.scss'
 import Logo from './assets/logo.svg'
 import Logo2 from './assets/logo-light.svg'
@@ -26,6 +28,9 @@ const HeaderWeb = (props: any) => {
   //const [isConnected, setIsConnected] = useState(false)
   const [showDropDown, setShowDropDown] = useState('None')
   const [showConnect, setShowConnect] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [searchRes, setSearchRes] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
   //const [userState] = useContext<any>(UserContext)
   //const currentAccount = userState.userWallet
   const currentAccount = localStorage.getItem('currentAccount')
@@ -83,6 +88,28 @@ const HeaderWeb = (props: any) => {
       }
     }
   }, [])
+
+  useEffect(() => {
+    const handleSearch = async () => {
+      if (searchTerm.length >= 3) {
+        setIsLoading(true)
+        try {
+          const searchReq = await publicRequest.get(
+            `/collections/search?search_term=${searchTerm}`,
+          )
+          console.log('REQ RESPONSE: ', searchReq.data.data.collections)
+          //setSearchRes(searchReq1.data.concat(searchReq2.data))
+          setSearchRes(searchReq.data.data.collections)
+          setIsLoading(false)
+        } catch (err) {
+          console.log(' ERROR::: ', err)
+        }
+      } else {
+        return
+      }
+    }
+    handleSearch()
+  }, [searchTerm])
 
   const handleModal = () => {
     setShowConnect(!showConnect)
@@ -176,9 +203,61 @@ const HeaderWeb = (props: any) => {
                   </Link>
                 </div>
                 <div className={style.searchBox}>
-                  <input type="text" placeholder="Find collection" />
+                  <input
+                    type="text"
+                    placeholder="Find collection"
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
                   <img src={Search} alt="search" />
                 </div>
+                {searchTerm?.length >= 3 && searchRes?.length < 1 && (
+                  <div
+                    //className="animate__animated animate__fadeIn navSearchRes"
+                    className={`animate__animated animate__fadeIn animate__faster  ${style.searchResults
+                      } ${dark === 'true' ? 'darkTheme' : 'lightTheme'}`}
+                  >
+                    <div >
+                      <div
+                        className={style.noResult}>
+                        <p>
+                          Sorry, no results were found
+                        </p>
+
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {searchTerm?.length >= 3 && searchRes?.length >= 1 && (
+                  <div
+                    //className="animate__animated animate__fadeIn navSearchRes"
+                    className={`animate__animated animate__fadeIn animate__faster  ${style.searchResults
+                      } ${dark === 'true' ? 'darkTheme' : 'lightTheme'}`}
+                  >
+                    <div >
+                      {isLoading ? (
+                        <div className={style.ld}>
+                          <CircularProgress color="inherit" size="25px" />
+                        </div>
+                      ) : (
+                        <div >
+
+                          {searchRes?.map((result: any) => (
+                            <Link
+                              to={`/collectionDetails/${result.contract_address}`}
+                              className={style.searchSingle}
+                              key={result.id}
+                            >
+                              <p>{result.title}</p>
+                              <br></br>
+                            </Link>
+                            // <p>{result?.title}</p>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
               </div>
               <div className={style.buttonsBox}>
                 <img
