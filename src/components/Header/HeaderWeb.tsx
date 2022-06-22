@@ -81,7 +81,7 @@ const HeaderWeb = (props: any) => {
     }
     const scrollFunction = () => {
       const header: any = document.getElementById('container')
-      if (window.scrollY > 150) {
+      if (window.scrollY > 130) {
         header.classList.add(style.containerScroll)
       } else {
         header.classList.remove(style.containerScroll)

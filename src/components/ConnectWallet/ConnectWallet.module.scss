@@ -1,5 +1,6 @@
 @import '../../variables';
 @import '../../mixins';
+
 .overlay {
   width: 100%;
   position: fixed;
@@ -29,21 +30,27 @@
   max-width: 375px;
   //z-index: 1;
 }
+
 .top {
   margin: 1.5em 0 1em 0;
   //background: lavender;
   padding: 0 2em 1em 2em;
   @include flexRegular(row, space-between);
+
   p {
     margin-top: 0.7em;
   }
+
   span {
     font-weight: bolder;
   }
+
   border-bottom: 0.2px solid #b9bddf;
 }
+
 .addy {
   font-family: 'Raleway';
+
   span {
     background: #3cc13b;
     color: #fff;
@@ -51,29 +58,36 @@
     padding: 5px;
   }
 }
+
 .topLeft {
   @include flexRegular(row, flex-start);
   align-items: flex-end;
+
   img {
     margin-right: 1em;
     align-self: center;
   }
+
   p {
     font-weight: 600;
     font-size: 20px;
+
     span {
       font-size: 11px;
       font-weight: lighter;
     }
   }
 }
+
 .topRight {
   @include flexRegular(row, flex-start);
+
   //background: lavender;
   img {
     cursor: pointer;
     //align-self: flex-end;
   }
+
   button {
     margin-top: 1em;
     background: #3cc13b;
@@ -87,25 +101,31 @@
     margin-right: 1em;
   }
 }
+
 .body {
   font-family: 'Raleway';
   width: 85%;
   margin: auto;
 }
+
 .bodyTxt {
   margin: 2em auto 0 0.5em;
   width: 90%;
+
   .b1 {
     color: #b1b1b1;
   }
+
   .b2 {
     color: #626261;
   }
+
   p {
     font-size: 1.05em;
     line-height: 25px;
   }
 }
+
 .wallets {
   border: 0.2px solid #b9bddf;
   box-sizing: border-box;
@@ -113,6 +133,7 @@
   margin: 2.5em 0.2em;
   width: 95%;
 }
+
 .wallet {
   cursor: pointer;
   @include flexRegular(row, flex-start);
@@ -120,18 +141,22 @@
   //border: 0.2px solid #b9bddf;
   border: 0.2px solid #27272a34;
   transition: 0.2s ease-in;
+
   img {
     margin-right: 1.4em;
   }
+
   p {
     font-size: 1.08em;
     font-weight: 600;
   }
+
   button {
     margin: 0 35%;
     @include buttonRegular($blueMain, 30%, 41px);
     color: #fff;
   }
+
   &:hover {
     cursor: pointer;
     // background: #4d54a649;
@@ -139,6 +164,7 @@
     border-radius: 10px 0 10px 0;
   }
 }
+
 .wallet:nth-child(1) {
   border-radius: 10px 10px 0px 0px;
 }
@@ -149,49 +175,62 @@
   margin: auto;
   padding: 1em 0;
 }
+
 .awleft {
   @include flexRegular(row, flex-start);
   align-items: flex-start;
+
   img {
     margin-right: 1em;
   }
 }
+
 .awInfo {
   h3 {
     font-weight: lighter;
   }
+
   p {
     opacity: 0.6;
     font-size: 0.75em;
   }
 }
+
 .swapOptions {
   @include flexRegular(row, center);
 }
+
 .swOption {
   @include flexRegular(column, center);
+
   img {
     cursor: pointer;
   }
+
   p {
     margin-top: 0.5em;
   }
 }
+
 .swOption:nth-child(1) {
   margin-right: 5em;
 }
+
 .swapTop {
   @include flexRegular(row, space-between);
   width: 98%;
   margin: auto;
+
   p {
     //color: #4d55a6;
     cursor: pointer;
   }
 }
+
 .swapBtn {
   @include flexRegular(row, center);
   margin: 1.5em 0;
+
   button {
     @include buttonRegular($blueMain, 50%, 37px);
     color: #fff;
@@ -199,9 +238,11 @@
     margin: auto;
   }
 }
+
 .sInput {
   margin: 1em 0;
   position: relative;
+
   input {
     width: 100%;
     outline: none;
@@ -215,6 +256,7 @@
     // color: #fff;
   }
 }
+
 .sInfo {
   //background: pink;
   position: absolute;
@@ -225,27 +267,33 @@
   left: 0.8em;
   border-right: 0.2px solid #b9bddf;
   height: 50px;
+
   img {
     width: 25px;
     height: 25px;
     margin-right: 0.6em;
   }
+
   p {
     font-weight: 700;
   }
 }
+
 .slippageTxt {
   margin: 0.6em auto;
   width: 96%;
   @include flexRegular(row, space-between);
 }
+
 .swapIcon {
   margin: 1.4em 0;
   @include flexRegular(row, center);
+
   img {
     cursor: pointer;
   }
 }
+
 .signOut {
   border: 0.2px solid #b9bddf;
   box-sizing: border-box;
@@ -256,6 +304,7 @@
   padding: 0.8em 0;
   cursor: pointer;
 }
+
 .reviewBtn {
   background: #4d55a6;
   box-sizing: border-box;
@@ -267,38 +316,64 @@
   cursor: pointer;
   color: #fff;
 }
+
 .sReview {
   margin-top: 3em;
 }
+
 .swapValue {
   //background: pink;
   @include flexRegular(row, center);
+
   img {
     width: 26px;
     height: 26px;
     margin: 0 0.7em;
   }
+
   p:nth-child(1) {
     font-weight: 500;
     font-size: 1.19em;
   }
+
   p:nth-child(2) {
     font-size: 1.11em;
   }
+
   p {
     font-size: 1.03em;
   }
 }
+
 .swapTotal {
   margin: 1em 0 0 0;
   text-align: center;
+
   h1 {
     font-size: 2.8em;
   }
 }
+
 .err {
   color: rgb(204, 7, 7);
   margin: 0.5em 0;
   //text-align: center;
   padding-left: 1em;
+}
+
+@media (max-width: 1080px) {
+
+  .box {
+    position: fixed;
+    z-index: 15;
+    height: 100vh;
+    // padding-left: 1em;
+    // padding-right: 0.5em;
+    top: 0;
+    right: 0vw;
+    //background: #fff;
+    transition: 0.5s ease-in-out;
+    width: 100vw;
+    max-width: 875px;
+  }
 }
