@@ -75,6 +75,13 @@ button:disabled {
   transition: 0.2s ease-in;
 }
 
+.disable_link2 {
+  filter: blur(1.5px);
+  cursor: not-allowed;
+  pointer-events: none;
+  transition: 0.2s ease-in;
+}
+
 ul {
   list-style: none;
 }
