@@ -68,6 +68,13 @@ button:disabled {
   transition: 0.2s ease-in;
 }
 
+.disable_link {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+  transition: 0.2s ease-in;
+}
+
 ul {
   list-style: none;
 }
@@ -95,20 +102,20 @@ ul {
 }
 
 @media (max-width: 980px) {
-  .app {
-    display: none;
-  }
+  // .app {
+  //   display: none;
+  // }
 
-  .app_info {
-    display: flex;
-    justify-content: center;
-    color: #222751;
-    font-size: 1.8em;
-    width: 85%;
-    margin: 25vh auto;
+  // .app_info {
+  //   display: flex;
+  //   justify-content: center;
+  //   color: #222751;
+  //   font-size: 1.8em;
+  //   width: 85%;
+  //   margin: 25vh auto;
 
-    p {
-      text-align: center;
-    }
-  }
+  //   p {
+  //     text-align: center;
+  //   }
+  // }
 }

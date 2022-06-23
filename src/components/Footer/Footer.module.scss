@@ -31,6 +31,7 @@
   padding-top: 1em;
 
   .lbody {
+    //background: pink;
     padding-left: 1em;
 
     p {
@@ -245,55 +246,100 @@
   }
 }
 
-// @media (max-width: 1080px) {
-//   .inputBox {
-//     //background: rgb(84, 84, 88);
-//     //margin: 2em 0 1.9em 0;
-//   }
-// }
-@media (max-width: 980px) {
-  .container {
-    display: none;
+@media (max-width: 1080px) {
+  .content {
+    width: 95%;
+  }
+
+  .rightBody {
+    width: 100%;
+    @include flexRegular(row, flex-end);
+    align-items: flex-end;
+
+    .rightBlocks {
+      margin-left: 2em;
+      align-self: flex-end;
+    }
+  }
+
+  .right {
+    .rightBtm {
+      width: 100%;
+      //background: pink;
+    }
+
   }
 }
 
-@media (max-width: 780px) {
-  .inputBox {
-    label {
-      .contentName {
-        bottom: 12px;
+@media (max-width: 845px) {
+  .content {
+    @include flexRegular(column-reverse, space-between);
+  }
+
+  .left,
+  .right {
+    width: 90%;
+  }
+
+  .right {
+    padding-left: 0;
+    @include flexRegular(column, center);
+    align-items: center;
+
+
+    .rightBody {
+      @include flexRegular(row, center);
+      align-items: flex-start;
+      //background: pink;
+
+      .rightBlocks {
+
+        min-height: 25vh;
+        margin-right: 4em;
       }
     }
+
+    .rightBtm {
+      //background: lavender;
+      @include flexRegular(row, center);
+      margin-top: 1em;
+    }
+  }
+
+  .left {
+    width: 95%;
+    margin-top: 2.5em;
+    @include flexRegular(column, center);
+    //background: lavender;
   }
 }
 
-@media (max-width: 755px) {
+@media (max-width: 700px) {
   .inputBox {
-    label {
-      .contentName {
-        bottom: 45px;
-      }
-    }
-  }
-
-  .double {
-    label {
-      .contentName {
-        bottom: 10px !important;
-      }
-    }
+    //background: pink;
+    //width: 80vw;
 
     .field {
-      width: 65vw !important;
-      margin-right: 0 !important;
-    }
-  }
-}
 
-@media (max-width: 480px) {
-  .double {
-    .field {
-      width: 77vw !important;
+      padding-top: 25px;
+      @include buttonRegular(none, 80vw, 50px);
+      margin-right: auto;
+      max-width: 460px;
+      //border: 1px solid #b9bddf;
+      color: #fff;
+      padding-left: 0.4em;
+      border-bottom: 1px solid gray;
+      border-radius: 0;
+      outline: none;
+      background: none;
+
+    }
+
+    label {
+      //background: lavender;
+      //width: 80vw;
     }
   }
+
+
 }

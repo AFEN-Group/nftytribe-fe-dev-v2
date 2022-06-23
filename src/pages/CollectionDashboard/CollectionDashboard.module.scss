@@ -4,48 +4,59 @@
 .container {
   padding: 12em 0 2em 0;
 }
+
 .content {
   //background: pink;
   width: 95%;
   max-width: 1300px;
   margin: auto;
 }
+
 .top {
   text-align: center;
+
   h1 {
     font-family: Neue-bold;
     font-size: 2.5em;
     overflow: hidden;
+
     span {
       display: inline-block;
       transform: translateY(100%);
     }
   }
+
   p {
     font-weight: 400;
     line-height: 20px;
     width: 60%;
     margin: 1em auto;
     overflow: hidden;
+
     span {
       display: inline-block;
       transform: translateY(100%);
     }
   }
+
   margin-bottom: 2em;
 }
+
 .filters {
-  @include flexRegular(row, space-between);
-  width: 40%;
-  max-width: 700px;
+  @include flexRegular(row, space-around);
+  width: 30%;
+  max-width: 600px;
   margin: auto;
   //background: lavender;
 }
+
 .filter {
   border: 1px solid #52525b;
   border-radius: 0px 8px;
   padding: 0.7em 1em;
   @include flexRegular(row, center);
+  //margin-right: 2em;
+
   img {
     margin-left: 1em;
     cursor: pointer;
@@ -59,15 +70,18 @@
   //background: cornsilk;
   font-weight: 700;
 }
+
 .tpTableTitles {
   @include gridRegular(1em);
   //grid-template-columns: 2.3fr 0.7fr 0.7fr 0.7fr 0.7fr 0.7fr 0.7fr;
-  grid-template-columns: 2.3fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 3fr 2fr 2fr;
   padding: 2.5em 0;
+
   div {
-    @include flexRegular(row, flex-end);
+    @include flexRegular(row, flex-start);
   }
 }
+
 .tableItem,
 .tableItemD {
   @include gridRegular(1em);
@@ -75,28 +89,33 @@
   border-top: 1px solid #71717a;
   //border-bottom: 1px solid #71717a;
   //grid-template-columns: 2.3fr 0.7fr 0.7fr 0.7fr 0.7fr 0.7fr 0.7fr;
-  grid-template-columns: 2.3fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 3fr 2fr 2fr;
   padding: 1.5em 0;
   transition: 0.25s ease-in;
 
   .collectionInfo {
     @include flexRegular(row, flex-start);
+
     img {
       margin: 0 1em;
     }
   }
+
   .user {
     width: 50px;
     height: 50px;
     border-radius: 50%;
   }
+
   .itemAlign {
-    @include flexRegular(row, flex-end);
+    @include flexRegular(row, flex-start);
+
     span {
       color: #3cc13b;
     }
   }
 }
+
 .tableItem {
   &:hover {
     padding: 1.5em 0.5em;
@@ -104,6 +123,7 @@
     background: $mainGradient;
   }
 }
+
 .tableItemD {
   &:hover {
     color: black;
@@ -112,6 +132,7 @@
     background: $darkGradient;
   }
 }
+
 .line1 {
   height: 1px;
   width: 100%;

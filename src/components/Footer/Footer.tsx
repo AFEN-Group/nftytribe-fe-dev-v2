@@ -18,8 +18,7 @@ const Footer = () => {
   const dark = themeState.dark
   return (
     <div
-      className={`${style.container} ${dark === 'true' ? 'darkTheme' : 'lightTheme'
-        }`}
+      className={`${style.container}`}
     >
       <div className={style.content}>
         <div className={style.left}>

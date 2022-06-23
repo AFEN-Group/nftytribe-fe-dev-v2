@@ -14,7 +14,8 @@
   position: relative;
   box-shadow: 0px 2px 4px rgba(91, 91, 91, 0.24);
   border-radius: 0px 24px;
-  padding: 0.5em;
+  //padding: 0.5em;
+  padding: 1em;
   background: $mainGradient;
   //background: black;
 }
@@ -33,6 +34,11 @@
     min-width: 285px;
     height: 320px;
     //max-height: 320px;
+    transition: .3s ease-in;
+
+    &:hover {
+      transform: scale(1.03);
+    }
   }
 }
 
@@ -57,6 +63,7 @@
     max-width: 420px;
     height: 420px;
     min-height: 320px;
+
   }
 }
 
@@ -64,13 +71,56 @@
   img {
     border-radius: 20px;
     object-fit: cover;
-    width: 510px;
+    width: 440px;
     height: 100%;
     max-width: 530px;
     height: 420px;
     min-height: 320px;
+    transition: .3s ease-in;
+
+    &:hover {
+      transform: scale(1.03);
+    }
+  }
+}
+
+@media (max-width: 1080px) {
+
+  //.cardImg,
+  // .cardImg2,
+  // .cardImg3,
+  .cardImgFeatured {
+    img {
+      width: 55vw;
+      max-width: 500px;
+    }
   }
 
+  // .cardImg {
+  //   img {
+  //     width: 100vw;
+  //   }
+  // }
+}
+
+@media (max-width: 650px) {
+  // .card {
+  //   width: 100%;
+  //   max-width: 490px;
+  // }
+}
+
+@media (max-width: 500px) {
+
+  //.cardImg,
+  // .cardImg2,
+  // .cardImg3,
+  .cardImgFeatured {
+    img {
+      width: 80vw;
+      max-width: 500px;
+    }
+  }
 }
 
 @keyframes skeleton {
@@ -139,6 +189,8 @@
   // right: 2%;
   //margin: auto;
   color: #fff;
+
+
 }
 
 .descBox3 {
@@ -181,7 +233,7 @@
   position: absolute;
   padding: 15px 10px 55px 10px;
   bottom: -12px;
-  //background: rgba(23, 18, 20, 0.586);
+  background: rgba(23, 18, 20, 0.586);
   //background: pink;
   box-shadow: inset 0px 0.8px 100px rgba(216, 57, 166, 0.1);
   backdrop-filter: blur(20px);
@@ -245,6 +297,18 @@
 
   button {
     @include buttonRegular($blueHover, 108px, 37px);
+    color: #fff;
+    padding: 0.7em;
+    border-radius: 4px;
+    font-size: 0.87em;
+  }
+}
+
+.buyBtnSm {
+  align-self: flex-end;
+
+  button {
+    @include buttonRegular($blueHover, 88px, 31px);
     color: #fff;
     padding: 0.7em;
     border-radius: 4px;

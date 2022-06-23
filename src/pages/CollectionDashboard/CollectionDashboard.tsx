@@ -67,18 +67,17 @@ const CollectionDashboard = () => {
               </h1>
               <p>
                 <span id="heroText">
-                  Top Nfts are ranked according to Volume, floor price and
-                  owners
+                  Top Nfts are ranked according to Volume and floor price.
                 </span>
               </p>
             </div>
             <div
               className={`${style.filters} animate__animated animate__fadeInUp animate__delay-1s`}
             >
-              <div className={style.filter}>
+              {/* <div className={style.filter}>
                 <p>Categories</p>
                 <img src={arrowA} alt="categories" />
-              </div>
+              </div> */}
               <div className={style.filter}>
                 <p>Chains</p>
                 <img src={arrowA} alt="categories" />
@@ -105,12 +104,12 @@ const CollectionDashboard = () => {
                 <div>
                   <p>Floor price</p>
                 </div>
-                <div>
+                {/* <div>
                   <p>Owners</p>
                 </div>
                 <div>
                   <p>Items</p>
-                </div>
+                </div> */}
               </div>
               <div className={style.tpTableItems}>
                 {!collections
@@ -162,17 +161,17 @@ const CollectionDashboard = () => {
                               </p>
                             </div> */}
                           <div className={style.itemAlign}>
-                            {/* <p>1 ETH</p> */}
+
                             <p>0</p>
                           </div>
-                          <div className={style.itemAlign}>
-                            {/* <p>2k</p> */}
+                          {/* <div className={style.itemAlign}>
+                            
                             <p>0</p>
-                          </div>
-                          <div className={style.itemAlign}>
-                            {/* <p>500</p> */}
+                          </div> */}
+                          {/* <div className={style.itemAlign}>
+                           
                             <p>0</p>
-                          </div>
+                          </div> */}
                         </Link>
                       )
                     )

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { shortenAddress } from '../../utils/formatting'
 import { publicRequest } from '../../utils/requestMethods'
@@ -11,8 +11,12 @@ import style from './Card.module.scss'
 //import Logo from './assets/logo.svg'
 import eth from './assets/eth.svg'
 import Web3 from 'web3'
+import { ThemeContext } from '../../context/ThemeContext'
 
 const ItemCardOld = (data: any) => {
+    const [themeState] = useContext<any>(ThemeContext)
+    const dark = themeState.dark
+
     const [showFull, setShowFull] = useState(false)
     const [usdPrice, setUsdPrice] = useState<any>()
     // const convert = require('crypto-convert')
@@ -62,7 +66,9 @@ const ItemCardOld = (data: any) => {
         //       : `/explore/${data?.nftData?.collection_address}/${data?.nftData?.token_id}`
         //   }
         // >
-        <div className={style.card2}>
+        <div className={`${style.card2}
+          ${dark === 'true' ? 'darkGradient' : 'lightGradient'}
+            `}>
             <div className={style.cardContent}>
                 {/* <div className={style.cardImgBx}> */}
                 {/* <Link
@@ -131,10 +137,10 @@ const ItemCardOld = (data: any) => {
                             )}
                             {/* <img src={koala} alt="item" /> */}
                         </div>
-                        <div className={style.cardTop}>
+                        {/* <div className={style.cardTop}>
                             <img src={dots} alt="options" />
                             <img src={like} alt="like" />
-                        </div>
+                        </div> */}
                     </Link>) : (
                     <Link
                         //to={`/explore/22/22`}
@@ -166,10 +172,10 @@ const ItemCardOld = (data: any) => {
                             )}
                             {/* <img src={koala} alt="item" /> */}
                         </div>
-                        <div className={style.cardTop}>
+                        {/* <div className={style.cardTop}>
                             <img src={dots} alt="options" />
                             <img src={like} alt="like" />
-                        </div>
+                        </div> */}
                     </Link>)}
                 {!showFull && (
                     <div
@@ -230,9 +236,10 @@ const ItemCardOld = (data: any) => {
                                             ? `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner}&lazy_mint=true`
                                             : `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.token_id}?seller=${data?.nftData?.owner}`
                                     }
-                                    className={style.buyBtn}
+                                    className={`${style.buyBtn} `}
                                 >
-                                    <button>
+                                    <button className={` ${dark === 'true' ? 'yellowBtn' : 'blueBtn'}`}
+                                    >
                                         {data?.nftData?.marketplace_type === 2 &&
                                             data?.nftData?.wallet_address !== currentAddress
                                             ? 'Bid'
@@ -253,7 +260,8 @@ const ItemCardOld = (data: any) => {
                                     }
                                     className={style.buyBtn}
                                 >
-                                    <button>
+                                    <button className={` ${dark === 'true' ? 'yellowBtn' : 'blueBtn'}`}
+                                    >
                                         {data?.nftData?.marketplace_type === 2 &&
                                             data?.nftData?.wallet_address !== currentAddress
                                             ? 'Bid'

@@ -1,0 +1,276 @@
+.menu-wrap {
+  position: absolute;
+  /* top: 3.3em; */
+  /* top: 1.6em; */
+  top: 3.3em;
+  padding-top: 3em;
+  padding-bottom: 0;
+  left: 81%;
+  z-index: 2;
+}
+
+.menu-wrap2 {
+  top: 1.6em !important;
+}
+
+.menu-wrap .toggler {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 6;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  opacity: 0;
+}
+
+.menu-wrap .hamburger {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-right: 2em;
+  z-index: 1;
+  /* width: 60px; */
+  width: 63px;
+  height: 43px;
+  padding: 1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hamburger Line */
+.menu-wrap .hamburger>div {
+  position: relative;
+  width: 100%;
+  height: 3px;
+  /* background-color: #2b3252; */
+  /* background-color: #d0f5d1; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Top and bottom lines*/
+.menu-wrap .hamburger>div:before,
+.menu-wrap .hamburger>div:after {
+  content: '';
+  position: absolute;
+  /* z-index: 6; */
+  top: -10px;
+  width: 100%;
+  height: 3px;
+  background: inherit;
+}
+
+/*Moves line down */
+.menu-wrap .hamburger>div:after {
+  top: 10px;
+}
+
+/*Toggler animate */
+.menu-wrap .toggler:checked+.hamburger>div {
+  transform: rotate(135deg);
+}
+
+/* Toggler spin on hover */
+/* .menu-wrap .toggler:hover + .hamburger > div {
+    transform: rotate(180deg);
+  } */
+
+/*Turn lines into X */
+
+.menu-wrap .toggler:checked+.hamburger>div:before,
+.menu-wrap .toggler:checked+.hamburger>div:after {
+  top: 0;
+  transform: rotate(90deg);
+}
+
+/* .menuClose {
+    position: absolute;
+    width: 5%;
+    z-index: 1;
+    right: 55px;
+    top: 18px;
+    transition: 0.2s ease-in;
+  }
+  .menuClose:hover {
+    transform: rotate(180deg);
+    transition: 0.2s ease-in;
+  } */
+
+/* .menu-wrap .toggler + .hamburger > div:before {
+    left: 0;
+    transition: transform 0.125s cubic-bezier(0.6, 0.04, 0.98, 0.335),
+      top 0.05s 0.125s linear, left 0.125s 0.175s ease-in;
+  }
+  .menu-wrap .toggler + .hamburger > div:after {
+    top: 10px;
+    right: 0;
+    transition: transform 0.125s cubic-bezier(0.6, 0.04, 0.98, 0.335),
+      top 0.05s 0.125s linear, right 0.125s 0.175s ease-in;
+  } */
+/*   */
+
+/* .menu-wrap .toggler:checked + .hamburger > div:before {
+    left: -80px;
+    top: -80px;
+    transform: translate3d(80px, 80px, 0) rotate(90deg);
+    transition: left 0.125s ease-out, top 0.05s 0.125s linear,
+      transform 0.125s 0.175s cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
+  .menu-wrap .toggler:checked + .hamburger > div:after {
+    right: -80px;
+    top: -80px;
+    transform: translate3d(-80px, 80px, 0) rotate(90deg);
+    transition: right 0.125s ease-out, top 0.05s 0.125s linear,
+      transform 0.125s 0.175s cubic-bezier(0.075, 0.82, 0.165, 1);
+  } */
+
+/*Rotate on hover(when checkbox is checked) */
+.menu-wrap .toggler:checked:hover+.hamburger>div {
+  transform: rotate(225deg);
+}
+
+/* Show Menu */
+.menu-wrap .toggler:checked~.menu {
+  visibility: visible;
+  /* background: lavender; */
+}
+
+.menu-wrap .toggler:checked~.menu>div {
+  transform: scale(1);
+  transition-duration: 0.6s;
+}
+
+.menu-wrap .toggler:checked~.menu>div>div {
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+/* .menu-wrap .menu {
+  top: 0;
+  left: 20%;
+} */
+.menu-wrap .menu {
+
+  position: fixed;
+  top: 0;
+  left: 0%;
+  right: 0;
+  /* width: 80%; */
+  height: 100%;
+  visibility: hidden;
+  /* visibility: visible; */
+  overflow: hidden;
+  /* display: flex;
+    align-items: center;
+    justify-content: center; */
+}
+
+.showMenuX {
+  visibility: visible;
+}
+
+/* Overlay */
+.menu-wrap .menu>div {
+  /* background: #fff; */
+
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  padding-left: 0%;
+  flex: none;
+  align-items: center;
+  /* justify-content: center; */
+  /* background: cornsilk; */
+  /* Pop up */
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: 0.2s;
+  /* Pop up */
+  /* transform: scale(0);
+    transition: all 0.4s ease; */
+}
+
+.menu-wrap .menu>div>div {
+  /* background: pink; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; 
+  /* text-align: center; */
+  width: 100%;
+  /* max-width: 200vw; */
+  max-height: 100vh;
+  height: 80vh;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  /* background: lavender; */
+  text-align: center;
+
+  /* background: lavender; */
+  margin-top: 6em;
+  /* background: #fad744; */
+}
+
+/*list style */
+.menu-wrap .menu>div>div>ul>li {
+  list-style: none;
+  /* color: #2b3252; */
+
+  opacity: 0.3;
+
+  font-size: 2.2rem;
+  padding: 0.5em 0 2.1em 0;
+}
+
+/*list style */
+.menu-wrap .menu>div>div>ul>li>a,
+.menu-wrap .menu>div>div>ul>li>p {
+  text-decoration: none;
+  /* opacity: 0.3; */
+  /* text-transform: uppercase; */
+  text-align: center;
+  transition: color 0.6s ease;
+  /* color: #fff; */
+  /* font-family: sans-serif;
+    font-style: normal; */
+  font-weight: 900;
+  font-size: 0.8em;
+  transition: 0.1s ease-in-out;
+}
+
+.menu-wrap .menu>div>div>ul>li>a:hover,
+.menu-wrap .menu>div>div>ul>li>p:hover {
+  /* font-size: 0.85em; */
+  /* filter: invert(5); */
+  /* color: #d0f5d1; */
+  transition: 0.1s ease-in-out;
+}
+
+@media (max-width: 600px) {
+  /* .menu-wrap {
+    left: 82%;
+  }
+  .menu-wrap .menu {
+    top: 0;
+    left: 20%;
+  } */
+  /* .menu-wrap .hamburger {
+    width: 64px;
+    height: 45px;
+    padding: 1rem;
+    margin-right: 4em;
+  } */
+  /* .menu-wrap .hamburger > div {
+    height: 2px;
+  }
+  .menu-wrap .hamburger > div:before,
+  .menu-wrap .hamburger > div:after {
+    height: 2px;
+    background: inherit;
+  } */
+}
