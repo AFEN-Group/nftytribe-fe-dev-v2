@@ -208,7 +208,7 @@ const HeaderWeb = (props: any) => {
                 <div className={style.searchBox}>
                   <input
                     type="text"
-                    placeholder="Find collection"
+                    placeholder="Discover..."
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
                   <img src={Search} alt="search" />

@@ -236,9 +236,10 @@ const ItemCardOld = (data: any) => {
                                             ? `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner}&lazy_mint=true`
                                             : `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.token_id}?seller=${data?.nftData?.owner}`
                                     }
-                                    className={style.buyBtn}
+                                    className={`${style.buyBtn} `}
                                 >
-                                    <button>
+                                    <button className={` ${dark === 'true' ? 'yellowBtn' : 'blueBtn'}`}
+                                    >
                                         {data?.nftData?.marketplace_type === 2 &&
                                             data?.nftData?.wallet_address !== currentAddress
                                             ? 'Bid'
@@ -259,7 +260,8 @@ const ItemCardOld = (data: any) => {
                                     }
                                     className={style.buyBtn}
                                 >
-                                    <button>
+                                    <button className={` ${dark === 'true' ? 'yellowBtn' : 'blueBtn'}`}
+                                    >
                                         {data?.nftData?.marketplace_type === 2 &&
                                             data?.nftData?.wallet_address !== currentAddress
                                             ? 'Bid'

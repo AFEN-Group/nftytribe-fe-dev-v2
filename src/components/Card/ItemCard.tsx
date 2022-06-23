@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { shortenAddress } from '../../utils/formatting'
 import { publicRequest } from '../../utils/requestMethods'
@@ -11,8 +11,12 @@ import style from './Card.module.scss'
 //import Logo from './assets/logo.svg'
 import eth from './assets/eth.svg'
 import Web3 from 'web3'
+import { ThemeContext } from '../../context/ThemeContext'
 
 const ItemCard = (data: any) => {
+  const [themeState] = useContext<any>(ThemeContext)
+  const dark = themeState.dark
+
   const [showFull, setShowFull] = useState(false)
   const [usdPrice, setUsdPrice] = useState<any>()
   const getImageUrl = (uri: any) => {
@@ -90,10 +94,10 @@ const ItemCard = (data: any) => {
               )}
               {/* <img src={koala} alt="item" /> */}
             </div>
-            <div className={style.cardTop}>
+            {/* <div className={style.cardTop}>
               <img src={dots} alt="options" />
               <img src={like} alt="like" />
-            </div>
+            </div> */}
           </Link>) : (
           <Link
             //to={`/explore/22/22`}
@@ -125,10 +129,10 @@ const ItemCard = (data: any) => {
               )}
               {/* <img src={koala} alt="item" /> */}
             </div>
-            <div className={style.cardTop}>
+            {/* <div className={style.cardTop}>
               <img src={dots} alt="options" />
               <img src={like} alt="like" />
-            </div>
+            </div> */}
           </Link>
         )}
         {!showFull && (
@@ -175,9 +179,9 @@ const ItemCard = (data: any) => {
                       ? `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner}&lazy_mint=true`
                       : `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.token_id}?seller=${data?.nftData?.owner}`
                   }
-                  className={style.buyBtn}
+                  className={style.buyBtnSm}
                 >
-                  <button>
+                  <button className={` ${dark === 'true' ? 'yellowBtn' : 'blueBtn'}`}>
                     {data?.nftData?.marketplace_type === 2 &&
                       data?.nftData?.wallet_address !== currentAddress
                       ? 'Bid'
@@ -196,9 +200,9 @@ const ItemCard = (data: any) => {
                       ? `/exploreBuy/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner}&lazy_mint=true`
                       : `/exploreBuy/${data?.nftData?.collection_address}/${data?.nftData?.token_id}?seller=${data?.nftData?.owner}`
                   }
-                  className={style.buyBtn}
+                  className={style.buyBtnSm}
                 >
-                  <button>
+                  <button className={` ${dark === 'true' ? 'yellowBtn' : 'blueBtn'}`}>
                     {data?.nftData?.marketplace_type === 2 &&
                       data?.nftData?.wallet_address !== currentAddress
                       ? 'Bid'

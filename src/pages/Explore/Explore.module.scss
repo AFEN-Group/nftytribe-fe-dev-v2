@@ -14,6 +14,7 @@
   position: relative;
 }
 
+
 .exploreTop {
   text-align: center;
 
@@ -39,8 +40,10 @@
 
   .exploreCats {
     margin: 2em auto 1em auto;
-    width: 75%;
+    width: 65%;
+    max-width: 1200px;
     @include flexRegular(row, space-between);
+    //background: pink;
   }
 
   .exploreCat,
@@ -61,6 +64,10 @@
   .lightActive {
     background: $mainGradient;
   }
+}
+
+.exploreCatsM {
+  display: none;
 }
 
 .body {
@@ -225,12 +232,9 @@
 
 /* */
 
-
-
 .filterItem {
   margin-top: 2em;
 }
-
 
 .itemsContainer {
   width: 76%;
@@ -254,7 +258,8 @@
     /* Firefox */
     overflow-y: scroll;
     overflow-x: visible;
-    height: 90vh;
+    height: 100vh;
+    padding-bottom: 1em
   }
 
   .noContent {
@@ -291,3 +296,91 @@
     }
   }
 }
+
+@media (max-width: 1250px) {
+  .exploreTop {
+    .exploreCats {
+      width: 90%;
+      //width: 2000px;
+      //background: pink;
+      max-width: none;
+    }
+  }
+
+  .itemsContainer {
+    .itemsContent {
+      // background: pink;
+      grid-template-columns: 2fr 2fr;
+    }
+  }
+
+}
+
+@media (max-width: 1080px) {
+  .exploreTop {
+    .exploreCats {
+      display: none;
+    }
+  }
+
+  .exploreCatsM {
+    display: block;
+    margin: 2em auto;
+    width: 95%;
+  }
+
+  .slideBoxM {
+
+    //background: pink;
+    .exploreCatM {
+      //margin-right: .5em;
+      // display: flex;
+      // justify-content: center;
+      // align-items: center;
+      // flex-direction: column;
+      //background: pink;
+      border: 1px solid gray;
+      border-radius: 0px 6px;
+      padding: 0.5em 2em;
+    }
+  }
+
+  .body {
+    .sideBar {
+      display: none;
+    }
+  }
+
+  .itemsContainer {
+    .itemsContent {
+
+      grid-template-columns: 2fr 2fr;
+      align-items: center;
+      justify-content: center;
+      width: 90vw;
+      margin: auto;
+    }
+  }
+
+  @media (max-width: 650px) {
+    .itemsContainer {
+      .itemsContent {
+        background: pink;
+        grid-template-columns: 1fr;
+        margin: auto;
+        padding: auto;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+    }
+  }
+}
+
+
+// .slideContainerM {
+//   background: #000;
+
+//   .exploreCat {
+//     width: 40%;
+//   }
+// }

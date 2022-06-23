@@ -849,6 +849,143 @@
   }
 }
 
+.topProContainer {
+  width: 90%;
+  max-width: 1500px;
+  margin: 3em auto;
+  //background: lavender;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  @include gridRegular(6em);
+  padding: 1.5em 0;
+  transition: 0.25s ease-in;
+  width: 85%;
+
+
+}
+
+.tpItem {
+
+  @include flexRegular(row, flex-start);
+  transition: 0.25s ease-in;
+  padding: .5em;
+
+  &:hover {
+    border-radius: 6px;
+    transform: scale(1.06);
+    background: rgba(17, 17, 17, 0.101);
+  }
+
+}
+
+.tpLeft,
+.tpRight {
+  @include flexRegular(row, flex-start);
+}
+
+.tpLeft {
+  p {
+    margin-right: .8em;
+    font-family: 'Neue-bold';
+  }
+
+  img {
+    border-radius: 50%;
+    width: 53px;
+    height: 53px;
+    object-fit: cover;
+  }
+}
+
+.tpRight {
+  margin-left: 1em;
+  //background: lavender;
+  @include flexRegular(row, space-between);
+
+  width: 100%;
+
+  h2 {
+    font-family: 'Neue-bold';
+    font-size: 1.2em
+  }
+
+  p {
+    font-size: .95em
+  }
+}
+
+.tprNumbers {
+  @include flexRegular(column, flex-end);
+}
+
+.tpBtn {
+  @include flexRegular(row, center);
+  margin-top: 5em;
+
+  button {
+    cursor: pointer;
+    font-weight: 600;
+    //color: #52525b;
+    //border: 2px solid #52525b;
+    border-radius: 0px 6px;
+    border: none;
+    width: 19vw;
+    max-width: 230px;
+    height: 50px;
+    @include flexRegular(row, center);
+    transition: 0.2s ease-in;
+
+    &:hover {
+      transform: scale(1.04);
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .topProContainer {
+    width: 95%;
+    @include gridRegular(4em);
+  }
+}
+
+@media (max-width: 1000px) {
+  .topProContainer {
+    grid-template-columns: 2fr;
+  }
+
+  .tpItem {
+    width: 70%;
+    margin: auto;
+  }
+
+  .tpBtn {
+    //background: lavender;
+
+    button {
+      max-width: 260px;
+    }
+  }
+}
+
+@media (max-width: 520px) {
+  .tpItem {
+    width: 90%;
+    margin: auto;
+    padding-bottom: 1.3em;
+    border-bottom: 0.4px solid #71717A;
+  }
+
+  .tpBtn {
+    button {
+      width: 60vw;
+      max-width: 460px;
+    }
+  }
+}
+
+
+//
+
 // ----- Mk
 .mk {
   padding: 9em 0;
