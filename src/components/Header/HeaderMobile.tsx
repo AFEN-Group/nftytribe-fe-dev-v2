@@ -165,7 +165,7 @@ const HeaderMobile = () => {
                             },
                           }}
                         >
-                          <Link to="/">Explore</Link>
+                          <Link to="/explore">Explore</Link>
                         </motion.li>
                         <motion.li
                           //className={style.disabled}
@@ -186,7 +186,7 @@ const HeaderMobile = () => {
                             },
                           }}
                         >
-                          <Link to="/">Rewards</Link>
+                          <Link to="/rewards">Rewards</Link>
                         </motion.li>
                         <motion.li
                           //className={style.disabled}
@@ -207,7 +207,7 @@ const HeaderMobile = () => {
                             },
                           }}
                         >
-                          <Link to="/">About</Link>
+                          <Link to="/about">About</Link>
                         </motion.li>
 
                         <motion.li
