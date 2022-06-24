@@ -465,7 +465,7 @@ const ExploreSingle = () => {
                                         </div>
                                     </div>
                                     <div className={style.rightIcons}>
-                                        <img src={dark === 'true' ? Share2 : Share} alt="share" />
+                                        {/* <img src={dark === 'true' ? Share2 : Share} alt="share" /> */}
                                         <img src={dark === 'true' ? Dots2 : Dots} alt="dots" />
                                     </div>
                                 </div>

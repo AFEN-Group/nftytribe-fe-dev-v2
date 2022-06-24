@@ -66,12 +66,23 @@
     width: 100%;
 
     img {
-      margin-left: -1em;
+      margin-left: .2em;
+      width: 50%;
+    }
+
+    .logoBox {
+      @include flexRegular(row, flex-start);
+      //background: pink;
+      padding-right: 0;
     }
 
     .lLinks {
       p {
         color: #898eb6;
+        margin-left: -3em;
+        width: 100%;
+        font-size: .9em;
+        white-space: nowrap;
       }
     }
   }
@@ -79,9 +90,10 @@
 
 .right {
   padding-left: 2.5em;
+  //background: pink;
 
   .rightBody {
-    @include flexRegular(row, flex-start);
+    @include flexRegular(row, center);
 
     .rightBlocks {
       min-height: 30vh;
@@ -109,7 +121,7 @@
   }
 
   .rightBtm {
-    width: 65%;
+    width: 75%;
     //background: pink;
     //margin-top: 4em;
     margin-top: 2em;
@@ -335,9 +347,32 @@
 
     }
 
-    label {
-      //background: lavender;
-      //width: 80vw;
+    // label {
+    //background: lavender;
+    //width: 80vw;
+    //}
+  }
+
+  .left {
+    .lbottom {
+      //background: pink;
+      width: 100%;
+      @include flexRegular(column, flex-start);
+
+      img {
+        margin-left: 0;
+        width: 50%;
+      }
+
+      .lLinks {
+        p {
+          white-space: normal;
+          text-align: center;
+          //background: pink;
+          margin-left: 0;
+          margin-top: .5em;
+        }
+      }
     }
   }
 

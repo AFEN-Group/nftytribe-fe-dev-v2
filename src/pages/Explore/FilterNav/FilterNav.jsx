@@ -49,7 +49,9 @@ const FilterNav = () => {
             >
                 <Slider {...settings} >
 
-                    <div className={style.expBx} onClick={(e) => setFilter('')}>
+                    <div className={style.expBx}
+                    //</Slider>onClick={(e) => setFilter('')}
+                    >
                         <div className={`${style.exploreCatM} 
                     `}
                             onClick={(e) => setFilter('Category')}

@@ -12,8 +12,10 @@
   margin: auto;
 }
 
+
 .top {
   text-align: center;
+  position: relative;
 
   h1 {
     font-family: Neue-bold;
@@ -42,12 +44,17 @@
   margin-bottom: 2em;
 }
 
+.filtersContainer {
+  position: relative;
+}
+
 .filters {
   @include flexRegular(row, space-around);
   width: 30%;
-  max-width: 600px;
+  max-width: 300px;
   margin: auto;
   //background: lavender;
+  position: relative;
 }
 
 .filter {
@@ -56,19 +63,87 @@
   padding: 0.7em 1em;
   @include flexRegular(row, center);
   //margin-right: 2em;
+  position: relative;
+  cursor: pointer;
 
   img {
     margin-left: 1em;
+
+  }
+}
+
+@media (max-width: 950px) {
+  .content {
+    width: 100%
+  }
+
+  .filters {
+    @include flexRegular(row, center);
+    width: 60%;
+    max-width: none;
+  }
+
+  .filter {
+    margin: auto 2em;
+  }
+}
+
+@media (max-width: 650px) {
+  .filters {
+    width: 90%;
+    max-width: none;
+  }
+}
+
+.drop {
+  position: absolute;
+  z-index: 4;
+  border-radius: 0px 10px;
+  top: 3em;
+  // top: 43%;
+  left: 35%;
+  box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.15);
+  border: 1px solid #bcc;
+  width: 200px;
+  // min-width: 200px;
+  //background: coral;
+
+  p {
+    padding: 1em;
+    cursor: pointer;
+  }
+}
+
+.drop2 {
+  position: absolute;
+  z-index: 4;
+  border-radius: 0px 10px;
+  top: 3em;
+  // top: 43%;
+  left: 45%;
+  box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.15);
+  border: 1px solid #bcc;
+  width: 200px;
+  // min-width: 200px;
+  //background: coral;
+
+  p {
+    padding: 1em;
     cursor: pointer;
   }
 }
 
 .topProTable {
+  position: relative;
   width: 90%;
   max-width: 1500px;
   margin: 3em auto;
   //background: cornsilk;
   font-weight: 700;
+}
+
+.topProContainer {
+  display: none
 }
 
 .tpTableTitles {
@@ -137,4 +212,182 @@
   height: 1px;
   width: 100%;
   background: #71717a;
+}
+
+//
+.topProContainer {
+  width: 90%;
+  max-width: 1500px;
+  margin: 3em auto;
+  //background: lavender;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  @include gridRegular(6em);
+  padding: 1.5em 0;
+  transition: 0.25s ease-in;
+  width: 85%;
+
+
+}
+
+.tpItem {
+
+  @include flexRegular(row, flex-start);
+  transition: 0.25s ease-in;
+  padding: .5em;
+
+  &:hover {
+    border-radius: 6px;
+    transform: scale(1.06);
+    background: rgba(17, 17, 17, 0.101);
+  }
+
+}
+
+.tpLeft,
+.tpRight {
+  @include flexRegular(row, flex-start);
+}
+
+.tpLeft {
+  p {
+    margin-right: .8em;
+    font-family: 'Neue-bold';
+  }
+
+  img {
+    border-radius: 50%;
+    width: 53px;
+    height: 53px;
+    object-fit: cover;
+  }
+}
+
+.tpRight {
+  margin-left: 1em;
+  //background: lavender;
+  @include flexRegular(row, space-between);
+
+  width: 100%;
+
+  h2 {
+    font-family: 'Neue-bold';
+    font-size: 1.2em
+  }
+
+  p {
+    font-size: .95em
+  }
+}
+
+.tprNumbers {
+  @include flexRegular(column, flex-end);
+}
+
+.tpBtn {
+  @include flexRegular(row, center);
+  margin-top: 5em;
+
+  button {
+    cursor: pointer;
+    font-weight: 600;
+    //color: #52525b;
+    //border: 2px solid #52525b;
+    border-radius: 0px 6px;
+    border: none;
+    width: 19vw;
+    max-width: 230px;
+    height: 50px;
+    @include flexRegular(row, center);
+    transition: 0.2s ease-in;
+
+    &:hover {
+      transform: scale(1.04);
+    }
+  }
+}
+
+.topProContainer {
+  display: none;
+}
+
+// @media (max-width: 1200px) {
+//   .topProContainer {
+//     width: 95%;
+//     @include gridRegular(4em);
+//   }
+// }
+
+
+
+@media (max-width: 650px) {
+  .topProContainer {
+    display: block;
+  }
+
+  .topProTable {
+    display: none;
+  }
+
+  .topProContainer {
+    grid-template-columns: 2fr;
+  }
+
+  .tpItem {
+    width: 100%;
+    margin: auto;
+  }
+
+  .tpBtn {
+    //background: lavender;
+
+    button {
+      max-width: 260px;
+    }
+  }
+}
+
+@media (max-width: 520px) {
+  .top {
+    h1 {
+      font-size: 2em;
+      overflow: hidden;
+    }
+  }
+
+  .tpItem {
+    width: 100%;
+    margin: auto;
+    padding-bottom: 1.3em;
+    border-bottom: 0.4px solid #71717A;
+  }
+
+  .tpBtn {
+    button {
+      width: 60vw;
+      max-width: 460px;
+    }
+  }
+
+  .filters {
+    @include flexRegular(row, center);
+    width: 95%;
+    max-width: none;
+  }
+
+  .filter {
+    border: 1px solid #52525b;
+    border-radius: 0px 8px;
+    padding: 0.7em .5em;
+    @include flexRegular(row, center);
+    //margin-right: 2em;
+    position: relative;
+    margin: auto 1em;
+    //background: pink;
+
+    img {
+      margin-left: .5em;
+
+    }
+  }
 }

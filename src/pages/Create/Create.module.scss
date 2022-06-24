@@ -67,9 +67,9 @@
 }
 
 .optBoxes {
-  //width: 90%;
+  width: 90%;
   //background: pink;
-  width: 60%;
+  //width: 60%;
   margin: 5em auto;
   @include flexRegular(row, space-between);
   //background: pink;
@@ -78,6 +78,12 @@
 .optBox {
   width: 20%;
   max-width: 240px;
+}
+
+.disable {
+  filter: blur(3px);
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .optBox2 {
@@ -131,6 +137,7 @@
 
 .createContent {
   margin: auto;
+  padding-bottom: 3em;
   width: 80%;
   max-width: 1200px;
   @include flexRegular(row, flex-start);
@@ -138,9 +145,12 @@
 }
 
 .left,
-.right {
+.right,
+.right2 {
   width: 42.5%;
 }
+
+
 
 .leftTop {
   margin: 1em 0;
@@ -222,8 +232,11 @@
   scrollbar-width: none;
   /* Firefox */
   //
-
   height: 95vh;
+}
+
+.right2 {
+  margin: 4em 0 0 15%;
 }
 
 .fieldBx {

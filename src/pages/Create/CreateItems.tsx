@@ -1247,6 +1247,7 @@ const CreateItems = () => {
                   </div>
                 </>
               )}
+              <p>Choose Collection</p>
               <div className={style.cfieldBx}>
                 {/* <Link
                   to="/createcollection"
@@ -1262,7 +1263,7 @@ const CreateItems = () => {
                     }`}
                 >
                   <img src={logo} alt="logo" />
-                  <p>Nftytribe</p>
+                  {/* <p>Nftytribe</p> */}
                 </div>
                 <p></p>
               </div>
@@ -1289,9 +1290,16 @@ const CreateItems = () => {
               </div>
               <div className={style.fieldBx}>
                 <p>Royalties</p>
-                <SelectOption
+                {/* <SelectOption
                   inputName="royalties"
                   options={royalties}
+                  inputHandler={inputHandler}
+                  value={userInput.royalties}
+                /> */}
+                <TextInput
+                  type="text"
+                  inputName="royalties"
+                  holder="Eg 0%, 10%. max;10%"
                   inputHandler={inputHandler}
                   value={userInput.royalties}
                 />

@@ -543,3 +543,57 @@
 
   margin-bottom: 1em;
 }
+
+@media (max-width: 1080px) {
+  .content {
+    //background: pink;
+    width: 95%;
+  }
+}
+
+@media (max-width: 768px) {
+  .body {
+    @include flexRegular(column, flex-start);
+  }
+
+  .left,
+  .right {
+    width: 95%;
+    //background: pink
+  }
+
+  .left {
+    ///background: pink;
+    @include flexRegular(row, flex-start);
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .right {
+
+
+    .prices {
+      .fixedPrices {
+        width: 80%;
+
+      }
+    }
+  }
+
+
+  .right {
+    margin: 4.5em 0;
+
+    .rightTop {
+      @include flexRegular(row, flex-start);
+    }
+
+    .Btns {
+      button {
+        width: 90vw;
+      }
+    }
+  }
+}

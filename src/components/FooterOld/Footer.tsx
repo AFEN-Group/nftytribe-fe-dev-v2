@@ -15,15 +15,14 @@ const Footer = () => {
   const dark = themeState.dark
   return (
     <div
-      className={`${style.container} ${
-        dark === 'true' ? 'darkTheme' : 'lightTheme'
-      }`}
+      className={`${style.container} ${dark === 'true' ? 'darkTheme' : 'lightTheme'
+        }`}
     >
       <div className={style.content}>
         <div className={style.left}>
           <div className={style.lbody}>
             <p>
-              Subscribe to the newsletter to hear about Afen updates and events.
+              Subscribe to the newsletter to hear about Nftytribe updates and events.
             </p>
             <TextInput
               type="email"

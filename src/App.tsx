@@ -27,6 +27,7 @@ import EditProfile from './pages/Profile/EditProfile'
 import Footer from './components/Footer/Footer'
 //import LaunchPartners from './pages/LaunchPartners/LaunchPartners'
 import Rewards from './pages/Rewards/Rewards'
+import Staking from './pages/Staking/Staking'
 
 function App() {
   const AOS = require('aos')
@@ -83,6 +84,7 @@ function App() {
                 <Route path="/about" element={<About />}></Route>
 
                 <Route path="/rewards" element={<Rewards />}></Route>
+                <Route path="/staking" element={<Staking />}></Route>
 
               </Routes>
               <Footer />
