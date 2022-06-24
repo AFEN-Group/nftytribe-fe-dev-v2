@@ -15,6 +15,7 @@ import Container from '../../components/Container/Container'
 import { publicRequest } from '../../utils/requestMethods'
 import ItemCard from '../../components/Card/ItemCard'
 import { shortenAddress } from '../../utils/formatting'
+import Filters from './Filters'
 
 const Profile = () => {
   //const [tab, setTab] = useState('all')
@@ -204,6 +205,9 @@ const Profile = () => {
             {/* <div className={style.filterItem}>
               <p>Physical Items</p>
             </div> */}
+          </div>
+          <div className={style.filtersM}>
+            <Filters />
           </div>
           <div
             //className={style.items}

@@ -21,11 +21,17 @@ const CreateItemOptions = () => {
 
     const heroTitle = document.getElementById('heroTitle')
     const heroTitle2 = document.getElementById('heroTitle2')
-    //const heroText = document.getElementById('heroText')
+    const heroText = document.getElementById('heroText')
     const tl = gsap.timeline()
     tl.to(heroTitle, {
       y: 0,
       duration: 1.5,
+      ease: Expo.easeInOut,
+    })
+    tl.to(heroText, {
+      y: 0,
+      duration: 1.5,
+      delay: -1,
       ease: Expo.easeInOut,
     })
     tl.to(heroTitle2, {
@@ -33,12 +39,7 @@ const CreateItemOptions = () => {
       duration: 1.5,
       ease: Expo.easeInOut,
     })
-    // tl.to(heroText, {
-    //   y: 0,
-    //   duration: 1.5,
-    //   delay: -1,
-    //   ease: Expo.easeInOut,
-    // })
+
   }, [])
   console.log(chain)
   return (
@@ -52,9 +53,10 @@ const CreateItemOptions = () => {
                 <h1>
                   <span id="heroTitle">Choose Blockchain</span>{' '}
                 </h1>
-                {/* <p>
-              <span id="heroText">Based on categories</span>{' '}
-            </p> */}
+                <p>
+                  <span id="heroText">Select  the most suitable blockchain to create your single or multiple item (s). You need to sign in to create.
+                  </span>{' '}
+                </p>
               </div>
               <div
                 className={`${style.cOptBody} animate__animated animate__fadeInUp animate__delay-1s`}
@@ -112,19 +114,19 @@ const CreateItemOptions = () => {
               <div
                 className={`${style.cOptBody} animate__animated animate__fadeInUp animate__delay-1s`}
               >
-                <div className={style.optBoxes}>
+                <div className={style.optBoxes2}>
                   <Link
                     to={`/createItem/${chain}/single`}
                     className={style.optBox2}
                   >
-                    <img src={Polygon} alt="single" />
+                    <img className={style.tImg} src={Polygon} alt="single" />
                     <p>Single</p>
                   </Link>
                   <Link
                     to={`/createItem/${chain}/multiple`}
                     className={style.optBox2}
                   >
-                    <img src={Polygon} alt="single" />
+                    <img className={style.tImg} src={Polygon} alt="single" />
                     <p>Multiple</p>
                   </Link>
                 </div>

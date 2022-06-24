@@ -120,6 +120,10 @@
   @include flexRegular(row, space-between);
 }
 
+.filtersM {
+  display: none;
+}
+
 .filterItemA,
 .filterItem,
 .darkActive,
@@ -143,6 +147,61 @@
 // .filterItemA {
 //   background: $mainGradient;
 // }
+
+@media (max-width: 1080px) {
+  .filters {
+    width: 95%;
+  }
+}
+
+@media (max-width: 745px) {
+  .filters {
+    //width: 95%;
+    display: none;
+    //background: pink;
+  }
+
+  .filtersM {
+    display: block;
+    //background: pink;
+    margin: 1em 0;
+  }
+
+  .slideBoxM {
+    //@include flexRegular(row, flex-start);
+    //position: relative;
+
+    .filterBx {
+      @include flexRegular(row, center);
+    }
+
+    // .exploreCatsM {
+    //   position: relative;
+    //   z-index: 15;
+    //   background: pink;
+    // }
+
+    .filterM {
+      //margin-right: .5em;
+      position: relative;
+      z-index: 15;
+      @include flexRegular(row, center);
+      border: 1px solid gray;
+      border-radius: 0px 6px;
+      padding: 0.5em 0;
+      //background: pink;
+      //margin-right: 2em;
+      width: 90%;
+      margin: auto;
+
+      img {
+        margin-left: .5em;
+      }
+    }
+
+  }
+}
+
 .items {
   //background: pink;
   margin: 3em 0;
@@ -295,6 +354,26 @@
     border: 0;
     color: #fff;
     outline: none;
+  }
+}
+
+@media (max-width: 1080px) {
+  .itemsContent {
+    width: 96%;
+  }
+}
+
+@media (max-width: 860px) {
+  .itemsContent {
+    @include gridRegular(1.5em);
+    grid-template-columns: 2fr 2fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .itemsContent {
+    @include gridRegular(1.5em);
+    grid-template-columns: 2fr;
   }
 }
 
