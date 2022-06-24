@@ -199,8 +199,9 @@ const CreateCollection = () => {
           <div className={style.createContent}>
             <div className={style.left}>
               <div className={style.leftTop}>
-                <h2>Create collection</h2>
-                <p>Create a collection on the nfty trybe marketplace today.</p>
+                <h2>Create NFT collection</h2>
+                <p>Create, curate, and manage collections of unique NFTs to share and sell.
+                </p>
               </div>
               <div className={style.leftBody}>
                 <div
@@ -284,7 +285,7 @@ const CreateCollection = () => {
               <div className={style.submitBx}>
                 <button
                   disabled={isLoading}
-                  className={dark === 'true' ? 'darkGradient' : 'lightGradient'}
+                  className={dark === 'true' ? 'yellowBtn' : 'blueBtn'}
                 >
                   {!isLoading ? (
                     'Create Collection'

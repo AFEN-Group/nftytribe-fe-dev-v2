@@ -1406,7 +1406,7 @@ const CreateItems = () => {
                   type="submit"
                   onClick={onSubmit}
                   disabled={isLoading || !validated}
-                  className={dark === 'true' ? 'darkGradient' : 'lightGradient'}
+                  className={dark === 'true' ? 'yellowBtn' : 'blueBtn'}
                 >
                   {!isLoading ? (
                     'Create'

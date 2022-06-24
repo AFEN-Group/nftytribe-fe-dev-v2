@@ -6,7 +6,7 @@
   input,
   select {
     width: 100%;
-    max-width: 450px;
+    max-width: 650px;
     height: 48px;
     border: 2px solid #a1a1aa;
     border-radius: 4px;
@@ -61,7 +61,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     @include flexRegular(column, center);
     outline: none;
     width: 100%;
-    max-width: 450px;
+    max-width: 650px;
     height: 105px;
     border: 2px solid #a1a1aa;
     padding-left: 1em;

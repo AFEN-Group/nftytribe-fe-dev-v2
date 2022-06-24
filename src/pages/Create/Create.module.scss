@@ -6,7 +6,8 @@
   padding: 12em 0 2em 0;
 }
 
-.cOptContent1 {
+.cOptContent1,
+.cOptContent2 {
   ///background: pink;
   width: 95%;
   margin: auto;
@@ -14,13 +15,6 @@
   position: relative;
 }
 
-.cOptContent2 {
-  //background: pink;
-  width: 95%;
-  margin: auto;
-  max-width: 1300px;
-  position: relative;
-}
 
 .cOptTop {
   text-align: center;
@@ -73,6 +67,13 @@
   margin: 5em auto;
   @include flexRegular(row, space-between);
   //background: pink;
+}
+
+.optBoxes2 {
+
+  width: 60%;
+  margin: 5em auto;
+  @include flexRegular(row, space-between);
 }
 
 .optBox {
@@ -130,6 +131,52 @@
   margin-top: 1.5em !important;
 }
 
+//Create options responsive
+@media (max-width: 1080px) {
+
+  .optBoxes,
+  .optBoxes2 {
+    width: 100%;
+    //background: pink;
+  }
+
+  .optBox {
+    width: 23%;
+  }
+}
+
+@media (max-width: 800px) {
+  .cOptTop {
+    h1 {
+      font-size: 2em;
+    }
+
+  }
+
+  .optBoxes,
+  .optBoxes2 {
+    @include flexRegular(column, space-between);
+  }
+
+  .tImg {
+    display: none;
+  }
+
+  .optBox,
+  .optBox2 {
+    width: 90%;
+    height: 32vh;
+    max-height: 210px;
+    max-width: 800px;
+    margin: 1em 0;
+    @include flexRegular(row, center);
+
+    img {
+      margin-right: 1.5em;
+    }
+  }
+}
+
 // ----- CreateItem
 .create {
   padding: 12em 0 2em 0;
@@ -149,8 +196,6 @@
 .right2 {
   width: 42.5%;
 }
-
-
 
 .leftTop {
   margin: 1em 0;
@@ -346,6 +391,7 @@
 }
 
 .fieldBx2 {
+
   margin: 2em 0;
   @include flexRegular(row, space-between);
   width: 100%;
@@ -446,7 +492,7 @@
 .advancedBx {
   width: 100%;
   @include flexRegular(row, space-between);
-  max-width: 450px;
+  max-width: 650px;
   height: 48px;
   border: 2px solid #a1a1aa;
   border-radius: 4px;
@@ -458,7 +504,7 @@
 
 .advancedBxA {
   width: 100%;
-  max-width: 450px;
+  max-width: 650px;
   //height: 48px;
   padding: 2em 0.5em;
   border: 1px solid #7177b8;
@@ -485,7 +531,7 @@
 
   button {
     width: 100%;
-    max-width: 450px;
+    max-width: 650px;
     height: 48px;
     outline: none;
     border: 1px solid #52525b;
@@ -702,3 +748,68 @@
 // .modalBtnSingle2 {
 //   margin-top: 2em;
 // }
+
+
+//create item
+@media (max-width: 1080px) {
+  .createContent {
+    width: 95%;
+    //background: pink;
+  }
+
+  .left,
+  .right,
+  .right2 {
+    width: 45%;
+  }
+
+  .right,
+  .right2 {
+    margin-left: 10%;
+  }
+}
+
+@media (max-width: 680px) {
+  .createContent {
+    // width: 95%;
+    @include flexRegular(column, flex-start);
+  }
+
+  .left,
+  .right,
+  .right2 {
+    width: 95%;
+    // background: pink;
+    // @include flexRegular(column, center);
+  }
+
+  .left {
+    text-align: center;
+    @include flexRegular(column, center);
+
+  }
+
+  .right,
+  .right2 {
+    //background: pink;
+    padding: auto;
+    margin-left: 0;
+
+    //width: 100%;
+    input {
+      width: 100% !important;
+    }
+
+    //@include flexRegular(column, center);
+
+  }
+
+  .submitBx {
+    margin: 2em 0 1em 0;
+
+    button {
+      width: 100%;
+      max-width: 750px;
+    }
+  }
+}
