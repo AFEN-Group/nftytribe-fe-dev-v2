@@ -1,10 +1,13 @@
 import { useContext, useEffect } from 'react'
 import { ThemeContext } from '../../context/ThemeContext'
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import Header from '../../components/Header/Header'
 // import Footer from '../../components/Footer/Footer'
 import style from './Rewards.module.scss'
-import Shape1 from './assets/shape01.svg'
+//import Shape1 from './assets/shape01.svg'
+import Shape1 from './assets/gift.svg'
+import Gift from './assets/gift2.svg'
 import Shape2 from './assets/shape2.svg'
 import Shape3 from './assets/shape3.svg'
 import Shape4 from './assets/shape4.svg'
@@ -26,7 +29,11 @@ const Rewards = () => {
           }`}
       >
         <div className={style.content}>
-          <div className={style.sectionOne}>
+          <div className={`
+          ${style.sectionOne} 
+          ${dark === 'true' ? style.darkBx : style.lightBx}
+          ${dark === 'true' ? 'lightTxt' : 'darkTxt'}
+          `}>
             <div className={style.sOneContent}>
               <div className={style.oneLeft}>
                 <h1>Earn rewards for every activity on NftyTrybe</h1>
@@ -38,6 +45,7 @@ const Rewards = () => {
               </div>
               <div className={style.oneRight}>
                 <motion.img
+                  className={style.imgW}
                   src={Shape1}
                   alt="earn rewards"
                   initial="hidden"
@@ -63,13 +71,20 @@ const Rewards = () => {
                     },
                   }}
                 />
+                <img className={style.imgM} src={Gift} alt="gift" />
               </div>
             </div>
           </div>
 
-          <div className={style.sectionTwo}>
+          <div
+            className={`${style.sectionTwo}`}>
             <h1>Reward features</h1>
-            <div className={style.sTwoContent}>
+            <div
+              className={`
+            ${style.sTwoContent}
+            ${dark === 'true' ? style.darkBx : style.lightBx}
+            ${dark === 'true' ? 'lightTxt' : 'darkTxt'}`}
+            >
               <div className={style.twoLeft}>
                 <motion.img
                   src={Shape2}
@@ -104,14 +119,23 @@ const Rewards = () => {
                   percentage yield as well as up to 50%+ in trading fees{' '}
                 </p>
                 <div className={style.twoBtns}>
-                  <a href="https://pancakeswap.finance/swap">
-                    <button className={style.buyAfen}>
-                      Buy Afen
-                      <img src={arrow2} alt="buy afen" />
-                    </button></a>
-                  <button className={style.stake}>
-                    Stake Afen
-                    <img src={arrow1} alt="stake" />
+                  {/* <a href="https://pancakeswap.finance/swap"> */}
+                  <Link to="/staking">
+                    <button
+                      className={`${style.stake} ${dark === 'true' ? 'yellowBtn' : 'blueBtn'}`}>
+                      Stake Afen
+                      <img src={dark === "true" ? arrow1 : arrow2} alt="buy afen" />
+                    </button>
+                  </Link>
+                  {/* </a> */}
+                  <button className={`
+                  ${style.buyAfen}
+                  ${dark === 'true' ? 'lightTxt' : 'darkTxt'}
+                  ${dark === 'true' ? 'lightBorder' : 'darkBorder'}
+                  `}
+                  >
+                    Stake NFTs
+                    <img src={dark === "true" ? arrow2 : arrow1} alt="stake" />
                   </button>
 
                 </div>
@@ -119,7 +143,11 @@ const Rewards = () => {
             </div>
           </div>
 
-          <div className={style.sectionThree}>
+          <div
+            className={`${style.sectionThree}
+          ${dark === 'true' ? style.darkBx : style.lightBx}
+          ${dark === 'true' ? 'lightTxt' : 'darkTxt'}`}
+          >
             <div className={style.sThreeContent}>
               <div className={style.threeLeft}>
                 <h2>Create,Buy, sell NFTs</h2>
@@ -127,9 +155,11 @@ const Rewards = () => {
                   Stake your <span> $AFEN</span> tokens to earn 15% Annual
                   percentage yield as well as up to 50%+ in trading fees.{' '}
                 </p>
-                <button>
+                <button
+                  //className={`${dark === 'true' ? 'yellowBtn' : 'blueBtn'}}`}>
+                  className={`${style.stake} ${dark === 'true' ? 'yellowBtn' : 'blueBtn'}`}>
                   View current batch
-                  <img src={arrow1} alt="view batch" />
+                  <img src={dark === "true" ? arrow1 : arrow2} alt="view batch" />
                 </button>
               </div>
               <div className={style.threeRight}>
@@ -162,7 +192,12 @@ const Rewards = () => {
             </div>
           </div>
 
-          <div className={style.sectionFour}>
+          <div
+            //className={style.sectionFour}
+            className={`${style.sectionFour}
+          ${dark === 'true' ? style.darkBx : style.lightBx}
+          ${dark === 'true' ? 'lightTxt' : 'darkTxt'}`}
+          >
             <div className={style.sFourContent}>
               <div className={style.fourLeft}>
                 <motion.img
@@ -197,9 +232,13 @@ const Rewards = () => {
                   We’ve adopted the looksrare model and added more rewards on
                   Nftytribe.
                 </p>
-                <button>
+                <button
+                  //className={`${dark === 'true' ? 'yellowBtn' : 'blueBtn'}}`}>
+                  className={`${style.stake} ${dark === 'true' ? 'yellowBtn' : 'blueBtn'}`}>
                   View contract
-                  <img src={arrow1} alt="view batch" />
+                  <img
+                    src={dark === "true" ? arrow1 : arrow2}
+                    alt="view batch" />
                 </button>
               </div>
             </div>

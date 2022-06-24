@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import { ThemeContext } from '../../context/ThemeContext'
 //import MailchimpSubscribe from 'react-mailchimp-subscribe'
 import style from './Footer.module.scss'
-//import Logo from './assets/afen-logo.svg'
-import Logo from './assets/logo-light.svg'
+import Logo from './assets/afen-logo.svg'
+//import Logo from './assets/logo-light.svg'
 import Facebook from './assets/facebook.svg'
 import IG from './assets/Insta.svg'
 import Mail from './assets/mail.svg'
@@ -37,11 +37,12 @@ const Footer = () => {
           <Subscribe />
           <div className={style.lbottom}>
             <div className={style.logoBox}>
+              <p>Powered by</p>
               <img src={Logo} alt="logo" />
             </div>
             <div className={style.lLinks}>
               <p>
-                © nftytribe, Inc. All rights reserved | Terms & Conditions | Privacy
+                © Afen, Inc. All rights reserved | Terms & Conditions | Privacy
               </p>
             </div>
           </div>

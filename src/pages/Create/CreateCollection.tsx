@@ -204,11 +204,10 @@ const CreateCollection = () => {
               </div>
               <div className={style.leftBody}>
                 <div
-                  className={` ${
-                    dark === 'true'
-                      ? style.fileContainerD
-                      : style.fileContainerL
-                  }`}
+                  className={` ${dark === 'true'
+                    ? style.fileContainerD
+                    : style.fileContainerL
+                    }`}
                 >
                   {!imageFile.file && (
                     <div className={style.fileTxt}>
@@ -240,7 +239,7 @@ const CreateCollection = () => {
                 </div>
               </div>
             </div>
-            <form onSubmit={handleSubmit} className={style.right}>
+            <form onSubmit={handleSubmit} className={style.right2}>
               <div className={style.fieldBx}>
                 <p>Collection name</p>
                 <TextInput

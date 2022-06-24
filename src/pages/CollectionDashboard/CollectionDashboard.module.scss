@@ -334,7 +334,7 @@
   }
 
   .tpItem {
-    width: 95%;
+    width: 100%;
     margin: auto;
   }
 
@@ -349,13 +349,9 @@
 
 @media (max-width: 520px) {
   .top {
-
     h1 {
-
       font-size: 2em;
       overflow: hidden;
-
-
     }
   }
 
@@ -387,7 +383,7 @@
     //margin-right: 2em;
     position: relative;
     margin: auto 1em;
-
+    //background: pink;
 
     img {
       margin-left: .5em;

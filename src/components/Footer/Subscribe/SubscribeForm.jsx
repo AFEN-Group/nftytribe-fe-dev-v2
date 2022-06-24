@@ -46,7 +46,7 @@ const SubscribeForm = ({ status, message, onValidated }) => {
         <>
             <form className={style.lbody} onSubmit={handleSubmit}>
                 <p>
-                    Subscribe to the newsletter to hear about Afen updates and events.
+                    Subscribe to the newsletter to hear about Nftytribe updates and events.
                 </p>
                 <TextInput
                     type="email"

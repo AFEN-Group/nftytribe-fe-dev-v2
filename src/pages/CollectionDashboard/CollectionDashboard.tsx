@@ -17,6 +17,7 @@ const CollectionDashboard = () => {
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
   let itemNumber = 1
+  let itemNumber2 = 1
   const [filter, setFilter] = useState({
     period: '',
     chain: ''
@@ -279,7 +280,7 @@ const CollectionDashboard = () => {
                         key={collection._id}
                       >
                         <div className={style.tpLeft}>
-                          <p>{itemNumber++}</p>
+                          <p>{itemNumber2++}</p>
                           <img
                             src={`
                                  ${collection?.cover_image?.includes('/ipfs') ||

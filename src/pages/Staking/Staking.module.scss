@@ -1,0 +1,349 @@
+@import '../../variables';
+@import '../../mixins';
+
+
+
+.content {
+    //background: pink;
+    width: 85%;
+    max-width: 1200px;
+    padding: 14em 0 7em 0;
+    margin: auto;
+    //margin: 2em auto;
+}
+
+.backBx {
+    @include flexRegular(row, flex-start);
+    cursor: pointer;
+
+    p {
+        margin-left: 1em;
+        font-size: 1.15em;
+        font-weight: bold;
+    }
+}
+
+.mainBx {
+    margin: 3em 0;
+    border: 0.4px solid #000000;
+    border-radius: 0px 28px;
+    // padding: 16em auto 11em auto;
+    padding-top: 5em;
+    padding-bottom: 7em;
+    padding-left: 5em;
+    padding-right: 5em;
+}
+
+.lightBg {
+    background: radial-gradient(72.94% 98.64% at 75.16% 76.53%, #EBEDFF 0%, #FFF2E3 78.65%, #FEFDF8 100%)
+        /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */
+    ;
+}
+
+.darkBg {
+    background: $darkGradient;
+}
+
+.top {
+    // background: pink;
+    @include flexRegular(row, center);
+}
+
+.afenPrice {
+    background: #fff;
+    border: 0.3px solid #52525B;
+    border-radius: 0px 12px;
+    width: 274px;
+    height: 74px;
+    font-size: 1.2em;
+    @include flexRegular(row, center);
+    //padding: auto 1em;
+    font-family: 'Neue-bold';
+
+    span {
+        color: $blueHover;
+        margin-right: 1em;
+    }
+
+    p {
+        color: #000;
+        margin-left: 2em;
+    }
+}
+
+.buyAfen {
+    margin-left: 7em;
+
+    @include buttonRegular(#4D55A6, 180px, 64px);
+    @include flexRegular(row, center);
+    border-radius: 0px 10px;
+    font-size: 1.01em;
+    color: #fff;
+
+    img {
+        margin-left: 0.5em;
+    }
+}
+
+.body {
+    margin: 3em 0;
+
+    h2 {
+        font-family: 'Neue-bold';
+    }
+}
+
+.statsBx {
+    background: #FFFFFF;
+    color: #000;
+    margin: 2em 0;
+    border: 0.4px solid #52525B;
+    border-radius: 12px;
+
+    padding: 3em 1.5em;
+}
+
+.statTitles,
+.statItems {
+    @include gridRegular(1em);
+    grid-template-columns: repeat(5, 1fr);
+    align-items: flex-start;
+    font-family: 'Neue-bold';
+}
+
+.lst {
+    //background: lavender;
+    @include flexRegular(column, flex-end);
+}
+
+// .statItems {
+//     margin-top: .5em;
+//     color: $blueHover;
+//     font-size: 1.5em;
+// }
+.statSingle {
+    h3 {
+        font-size: 1em //font-size: 1.5em;
+    }
+
+    p {
+        margin-top: .5em;
+        font-size: 1.5em;
+        color: $blueHover;
+    }
+}
+
+.btm {
+    @include flexRegular(row, flex-start);
+    align-items: flex-start;
+    margin: 5em 0;
+
+}
+
+.btmLeft {
+    width: 55%;
+}
+
+.btmRight {
+    margin-left: 5em;
+    width: 40%;
+}
+
+.mgLeft {
+    margin-left: 5%;
+}
+
+.btmLeftTabs {
+    @include flexRegular(row, flex-start);
+    // width: 85%;
+    margin: auto;
+    font-weight: bold;
+    font-family: 'Neue-bold';
+    font-size: 1.2em;
+
+    p {
+        cursor: pointer;
+        //padding: 1em auto 11.5em auto;
+        //padding: 1.5em auto;
+        padding-bottom: .2em;
+    }
+}
+
+.active {
+
+    border-radius: 0px 2px;
+    border-bottom: 4px solid #4D55A6;
+}
+
+.btmBx1 {
+    //width: 85%;
+
+    background: #FFFFFF;
+    color: #000;
+    margin: 2em auto;
+    border: 0.4px solid #52525B;
+    border-radius: 12px;
+
+    padding: 3em 1em;
+
+    input {
+        @include buttonRegular(#D4D3D8, 29vw, 71px);
+        max-width: 400px;
+        //opacity: 0.5;
+        border-radius: 12px;
+        padding-left: 2em
+    }
+
+    button {
+        margin: 2em 0;
+        @include buttonRegular(#4D55A6, 29vw, 71px);
+
+        max-width: 400px;
+        color: #fff;
+        border-radius: 0px 12px;
+        font-size: 1em;
+
+        font-family: 'Neue-bold';
+    }
+}
+
+.box1Content {
+    @include flexRegular(column, flex-start);
+    //align-items: flex-start;
+    //background: pink;
+
+
+}
+
+.bal {
+    text-align: left;
+    // padding: auto 2em;
+    width: 70%;
+    font-family: 'Neue-bold';
+    margin: .4em auto 1em auto;
+    //background: pink;
+
+    span {
+        font-size: 1.3em;
+        color: $blueHover;
+
+    }
+}
+
+.btmBx2 {
+    @include flexRegular(column, flex-start);
+    background: #FFFFFF;
+    color: #000;
+    margin: 2em auto;
+    border: 0.4px solid #52525B;
+    border-radius: 12px;
+
+    padding: 3em 1em;
+
+    input {
+        @include buttonRegular(#D4D3D8, 400px, 71px);
+        max-width: 400px;
+        border-radius: 12px;
+        padding-left: 2em
+    }
+
+    button {
+        margin: 2em auto;
+        @include buttonRegular(#4D55A6, 21vw, 51px);
+        max-width: 310px;
+        color: #fff;
+        border-radius: 0px 12px;
+        font-size: .9em;
+        font-family: 'Neue-bold';
+
+    }
+
+    p {
+        font-family: 'Neue-bold';
+        font-weight: bold;
+        margin: .4em 0;
+        font-size: 1.15em;
+    }
+
+    h3 {
+        font-family: 'Neue-bold';
+        font-weight: bold;
+        font-size: 2em;
+        color: $blueHover;
+        margin: .4em 0;
+    }
+}
+
+@media (max-width: 1080px) {
+    .content {
+        width: 95%;
+    }
+
+    .mainBx {
+        padding-left: 2.5em;
+        padding-right: 2.5em;
+    }
+
+
+}
+
+@media (max-width: 850px) {
+
+    .statTitles,
+    .statItems {
+        @include gridRegular(1em);
+        grid-template-columns: repeat(2, 2fr);
+
+    }
+
+    .lst {
+        // background: lavender;
+        @include flexRegular(column, flex-start);
+        align-items: flex-start;
+    }
+
+    .btm {
+        @include flexRegular(column, flex-start);
+    }
+
+    .btmLeft,
+    .btmRight {
+        width: 95%;
+        margin-left: 0;
+    }
+
+    .btmBx1,
+    .btmBx2 {
+
+        input,
+        button {
+            width: 60vw;
+            max-width: 500px;
+        }
+    }
+}
+
+@media (max-width: 550px) {
+    .mainBx {
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+
+    .top {
+        @include flexRegular(column, center);
+    }
+
+    .buyAfen {
+        margin: 1.5em 0 .5em 0;
+    }
+
+    .btmBx1,
+    .btmBx2 {
+
+        input,
+        button {
+            width: 70vw;
+            max-width: 500px;
+        }
+    }
+}
