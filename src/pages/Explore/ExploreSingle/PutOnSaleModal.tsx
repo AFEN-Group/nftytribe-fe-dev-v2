@@ -37,6 +37,9 @@ const PutOnSaleModal = (props: any) => {
     // })
     const [userInput, setUserInput, userInputRef] = useState<any>({
         bid: '',
+        market_type : '1',
+        starting_time : 0,
+        ending_time : 1
     })
     const [validated, setValidated] = useState(false)
     const { handleAuctionBid, checkIfBIdTimePasses, collectNft } = useContext(
@@ -66,6 +69,12 @@ const PutOnSaleModal = (props: any) => {
         if (userInputRef.current.amount !== '') {
             setValidated(true)
         }
+        if(name === 'starting_time' || name === 'ending_time'){
+            setUserInput({
+                ...userInput,
+                [event.target.name]: value,
+            })
+        }
         //setValidated(false)
 
     }
@@ -74,7 +83,7 @@ const PutOnSaleModal = (props: any) => {
         e.preventDefault()
         setIsLoading(true)
         const wallet_address = localStorage.getItem('currentAccount')
-        console.log(props.nftDetails?.marketplace_type)
+        console.log(props?.nftDetails?.marketplace_type)
 
         // const erc721Address = '0x236DdF1f75c0bA5Eb29a8776Ec1820E5dC41a59a'
         // const contract_address = '0xD5582083916dc813f974ce4CA3F27E6977e161cF'
@@ -88,7 +97,7 @@ const PutOnSaleModal = (props: any) => {
         let erc721Contract
         let web3: any
         if (window.ethereum && wallet_address) {
-            if (props.nftDetails?.is_multiple) {
+            if (props?.nftDetails?.is_multiple) {
                 try {
                     setIsLoading(true)
                     let erc1155Contract
@@ -190,7 +199,7 @@ const PutOnSaleModal = (props: any) => {
                     setIsLoading(false)
                 }
             }
-            if (!props.nftDetails.is_multiple) {
+            if (!props?.nftDetails?.is_multiple) {
                 try {
                     setIsLoading(true)
                     let erc721Contract
@@ -222,12 +231,24 @@ const PutOnSaleModal = (props: any) => {
                     let updatableData
                     // if (data.on_sale) {
                     //console.log(parseInt(returnvalues.token_id), 'hello')
+                    console.log(userInput)
 
                     if (userInput.market_type === '2') {
                         data.starting_time =
                             new Date(userInput.starting_time).getTime() / 1000
                         data.ending_time = new Date(userInput.ending_time).getTime() / 1000
                     }
+                    else{
+                        data.starting_time = 0
+                        data.ending_time = 1
+                    }
+                    console.log(parseInt(data?.token_id),
+                    web3.utils.toWei(userInput.amount.toString(), 'ether'),
+                    parseInt(userInput.market_type),
+                    parseInt(data.starting_time),
+                    parseInt(data.ending_time),
+                    data?.collection_address,
+                    '0x0000000000000000000000000000000000000000')
                     const putOnSale = await marketplace_contract.methods
                         .putOnSale(
                             parseInt(data?.token_id),
@@ -236,52 +257,58 @@ const PutOnSaleModal = (props: any) => {
                             parseInt(data.starting_time),
                             parseInt(data.ending_time),
                             data?.collection_address,
+                            '0x0000000000000000000000000000000000000000'
                         )
                         .send({ from: userWallet })
 
 
-                    updatableData = {
-                        token_id: data.token_id,
-                        userWallet,
-                        collection_address:
-                            data.collection_address,
-                        file: data.file,
-                        transaction_hash: data.transactionHash,
-                        type: 'putOnSale',
-                        chain_id: 'rinkeby',
-                        //order_type: userInput.market_type,
-
-                        on_sale: true,
-                        marketplace_type: userInput.market_type,
-                        order_detail: {
-                            starting_price: web3.utils.toWei(
-                                userInput.amount.toString(),
-                                'ether',
-                            ),
-                            start_time: data.starting_time,
-                            expiration_time: data.ending_time,
-                        },
-                        price: web3.utils.toWei(userInput.amount.toString(), 'ether'),
-                    }
-
-
-                    const updateCollectible = await fetch(
-                        'https://dev.api.nftytribe.io/api/collectibles/update-collectible',
-                        {
-                            method: 'PUT',
-                            headers: {
-                                'content-type': 'application/json',
+                    if(putOnSale){
+                        updatableData = {
+                            token_id: data.token_id,
+                            wallet_address : userWallet,
+                            collection_address:
+                                data.collection_address,
+                            file: data.file,
+                            transaction_hash: data.transactionHash,
+                            type: 'putOnSale',
+                            chain_id: 'rinkeby',
+                            //order_type: userInput.market_type,
+    
+                            on_sale: true,
+                            marketplace_type: userInput.market_type,
+                            order_detail: {
+                                starting_price: web3.utils.toWei(
+                                    userInput.amount.toString(),
+                                    'ether',
+                                ),
+                                start_time: userInput.starting_time === 0? new Date().toISOString() : new Date(data.starting_time).toISOString() ,
+                                expiration_time: userInput.ending_time === 1? new Date().toISOString() : new Date(data.ending_time).toISOString() ,
                             },
-                            body: JSON.stringify(updatableData),
-                        },
-                    )
-
-                    const res = await updateCollectible.json()
-
-                    console.log(res.data)
-                    setIsLoading(false)
-                    window.location.reload()
-                    setIsLoading(false)
+                            price: web3.utils.toWei(userInput.amount.toString(), 'ether'),
+                        }
+    
+    
+                        const updateCollectible = await fetch(
+                            'https://dev.api.nftytribe.io/api/collectibles/update-collectible',
+                            {
+                                method: 'PUT',
+                                headers: {
+                                    'content-type': 'application/json',
+                                },
+                                body: JSON.stringify(updatableData),
+                            },
+                        )
+    
+                        const res = await updateCollectible.json()
+    
+                        console.log(res.data)
+                        setIsLoading(false)
+                        window.location.reload()
+                        setIsLoading(false)
+                    }
+                    else{
+                        setIsLoading(false)
+                    }
                 } catch (err) {
                     console.log(err)
 
