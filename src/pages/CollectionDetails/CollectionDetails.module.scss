@@ -16,7 +16,7 @@
 
 .avatar {
   position: relative;
-  background: pink;
+  //background: pink;
   width: 100%;
   @include flexRegular(row, center);
 
@@ -405,4 +405,29 @@
       //background: $mainGradient;
     }
   }
+}
+
+@media (max-width: 800px) {
+  .coverBx {
+    //background: pink;
+
+    img {
+      height: 300px;
+      object-fit: cover;
+    }
+  }
+
+  .itemsBody {
+    .sideBar {
+      display: none;
+    }
+  }
+
+  .itemsContainer {
+    width: 95%;
+    //background: pink;
+    //padding: 5em auto;
+    margin: 4em auto;
+  }
+
 }

@@ -148,7 +148,7 @@ const CollectionDetails = () => {
               </div> */}
             </div>
             <div className={style.collectionBody}>
-              <div className={style.mainNav}>
+              {/* <div className={style.mainNav}>
                 <div
                   //className={style.mItemA}
                   className={`${style.mItemA} ${dark === 'true' ? 'yellowTxt' : ''} `}
@@ -158,7 +158,7 @@ const CollectionDetails = () => {
                 <div className={style.mItem}>
                   <p>Activity</p>
                 </div>
-              </div>
+              </div> */}
               {/* <div
                 className={style.exploreCats}
               //className={`${style.exploreCats} animate__animated animate__fadeInUp animate__delay-1s`}

@@ -59,7 +59,7 @@ const HeaderWeb = (props: any) => {
     }
   }
 
-  // Hide nav on scroll up and show on scroll down
+  //Hide nav on scroll up and show on scroll down
   // useEffect(() => {
   //   let lastScrollTop = 0;
   //       const nav = document.getElementById(navBox)
@@ -75,7 +75,7 @@ const HeaderWeb = (props: any) => {
   // }, [])
 
   useEffect(() => {
-    // When the user scrolls down Xpx from the top of the page, add styles to the navbar
+    //   // When the user scrolls down Xpx from the top of the page, add styles to the navbar
     window.onscroll = function () {
       scrollFunction()
     }
