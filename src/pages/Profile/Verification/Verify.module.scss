@@ -1,0 +1,231 @@
+@import '../../../variables';
+@import '../../../mixins';
+
+.overlay {
+    background: linear-gradient(116.82deg,
+            rgba(255, 255, 255, 0.48) 0%,
+            rgba(196, 196, 196, 0.14) 100%);
+    position: fixed;
+    @include flexRegular(column, center);
+    //background: rgba(23, 18, 20, 0.32);
+    // box-shadow: inset 0px 1px 100px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(20px);
+    z-index: 3;
+    width: 100%;
+    height: 100vh;
+    transition: 0.6s ease-in-out;
+}
+
+.modalContainer {
+    //@include flexRegular(column, center);
+    display: flex;
+    justify-content: center;
+    //align-items: center;
+}
+
+.modal,
+.modal2 {
+    position: fixed;
+    // margin: auto;
+    width: 50vw;
+    min-width: 450px;
+    max-width: 700px;
+    //box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
+    // border-radius: 0px 100px;
+    background: #ffffff;
+    border: 1px solid #52525b;
+    border-radius: 0px 40px;
+    z-index: 6;
+    @include flexRegular(column, center);
+    align-items: center;
+    transition: 0.6s ease-in;
+
+}
+
+.modal {
+    top: 5vh;
+    //height: 100vh;
+    padding: 3em;
+}
+
+.modal2 {
+    top: 20vh;
+    padding: 5em 3em;
+}
+
+@media (max-height: 700px) {
+    .modal {
+        top: 10vh;
+    }
+}
+
+.modalTop {
+    position: relative;
+    @include flexRegular(column, center);
+
+    h1 {
+        font-family: Neue-bold;
+        font-size: 1.4em;
+    }
+
+    p {
+        font-weight: 300;
+        margin: 1em 0;
+        text-align: center;
+    }
+
+    img {
+        position: absolute;
+        right: 0;
+        top: -1em;
+        cursor: pointer;
+    }
+}
+
+.modalBody,
+.modalBody2 {
+    .modalInput {
+
+        input,
+        select {
+            outline: none;
+            background: #ffffff;
+            border: 2px solid #71717a;
+            border-radius: 4px;
+            width: 421px;
+            height: 50px;
+            padding-left: 0.7em;
+            margin: 0.5em 0;
+        }
+
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+
+            background-image: url('./assets/select.svg');
+            background-repeat: no-repeat;
+            background-position: right 12px top 18px;
+            margin-bottom: 1em;
+            font-weight: 300;
+        }
+
+        p {
+            font-size: 0.9em;
+        }
+    }
+}
+
+.modalInput,
+.modalInputTwo {
+    margin: .5em 0
+}
+
+.modalInputTwo {
+    @include flexRegular(row, space-between);
+
+    input {
+        outline: none;
+        background: #ffffff;
+        border: 2px solid #71717a;
+        border-radius: 4px;
+        width: 164px;
+        height: 50px;
+        padding-left: 0.7em;
+        margin: 0.5em 0;
+    }
+}
+
+.modalBody {
+    margin: .4em auto .4em auto;
+}
+
+.modalBtns {
+    @include flexRegular(row, space-between);
+    width: 80%;
+    margin: 3em auto 1em auto;
+
+    .btn1,
+    .btn2 {
+        border: 1px solid #52525b;
+        border-radius: 0px 10px;
+        width: 115px;
+        height: 45px;
+        background: none;
+    }
+
+    .btn1 {
+        background: radial-gradient(72.94% 98.64% at 75.16% 76.53%,
+                #ebedff 0%,
+                #fff2e3 78.65%,
+                #fefdf8 100%);
+    }
+}
+
+.successImg {
+    margin: 0 0 0 0;
+    @include flexRegular(row, center);
+
+    img {
+        width: 100%;
+    }
+}
+
+.modalBtnSingle {
+    @include flexRegular(row, center);
+
+    button {
+        border: 1px solid #52525b;
+        border-radius: 0px 10px;
+        width: 262px;
+        height: 45px;
+        background: $mainGradient;
+    }
+}
+
+.stepBoxes {
+    @include flexRegular(row, center);
+    margin-bottom: 2em;
+    //background: cornsilk
+}
+
+.stepBx {
+    //background: pink;
+    @include flexRegular(column, center);
+
+    p {
+        margin-top: .6em;
+    }
+}
+
+.line {
+    //position: absolute;
+    height: 1px;
+    width: 104px;
+    margin-left: -2em;
+    //margin: auto 1em;
+    background: #A1A1AA;
+}
+
+// .stepTop {
+//     @include flexRegular(row, center);
+// }
+
+// .stepTxt {
+//     @include flexRegular(row, center);
+// }
+
+// .line {
+//     height: 1px;
+//     width: 104px;
+
+//     margin: auto .8em;
+//     background: #A1A1AA;
+// }
+
+// .line2 {
+//     height: 1px;
+//     width: 104px;
+
+
+//     background: #A1A1AA;
+// }

@@ -16,10 +16,12 @@ import Container from '../../components/Container/Container'
 import TextInput from '../../components/Inputs/TextInput'
 import TextArea from '../../components/Inputs/TextArea'
 import { publicRequest } from '../../utils/requestMethods'
+import Verification from './Verification/Verification'
 
 const EditProfile = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [themeState] = useContext<any>(ThemeContext)
+  const [showVerify, setShowVerify] = useState(false)
   const dark = themeState.dark
   const currentAddress = localStorage.getItem('currentAccount')
   const [authState, setAuthState] = useContext<any>(AuthContext)
@@ -190,11 +192,22 @@ const EditProfile = () => {
       setIsLoading(false)
     }
   }
+
+  const closeVerify = () => {
+    setShowVerify(false)
+    //alert("test")
+  }
+
   return (
     <>
       <Header />
+      {showVerify &&
+        <Verification closeVerify={closeVerify} />
+      }
+
       <Container>
         <div className={style.container}>
+
           <div
             className={`${style.coverBx2} animate__animated animate__fadeInDown `}
           >
@@ -206,6 +219,7 @@ const EditProfile = () => {
                 className={style.cover}
                 src={URL.createObjectURL(coverImage.file)}
                 alt="cover"
+                onClick={closeVerify}
               />
             )}
 
@@ -224,7 +238,7 @@ const EditProfile = () => {
                 type="file"
                 name="img"
                 onChange={selectMedia1}
-                //required
+              //required
               />
             </div>
           </div>
@@ -256,7 +270,7 @@ const EditProfile = () => {
                     type="file"
                     name="img"
                     onChange={selectMedia2}
-                    //required
+                  //required
                   />
                 </div>
               </div>
@@ -319,11 +333,11 @@ const EditProfile = () => {
                     value={userInput.website}
                   />
                 </div>
-                {/* <div className={style.inputField}>
-                  <p>Website URL</p>
+                <div className={`${style.inputField} ${style.mgTop5} `}>
+                  <p>Verification</p>
                   <h4>To get verified and a blue tick</h4>
-                  <button>Verify</button>
-                </div> */}
+                  <button type='button' onClick={() => setShowVerify(true)}>Verify</button>
+                </div>
                 <div className={style.editBtn}>
                   <button
                     type="submit"
