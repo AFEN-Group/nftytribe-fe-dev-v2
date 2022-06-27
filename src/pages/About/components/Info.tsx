@@ -25,9 +25,8 @@ const Info = () => {
         <div className={style.faqBody}>
           <div className={style.faqBoxes}>
             <div
-              className={`${style.faqBox} ${
-                dark === 'true' ? 'darkGradient' : 'lightGradient'
-              }`}
+              className={`${style.faqBox} ${dark === 'true' ? 'darkGradient' : 'lightGradient'
+                }`}
             >
               <div className={style.faqImg}>
                 <img src={Up} alt="up" />
@@ -40,12 +39,14 @@ const Info = () => {
                   around NFTs.
                 </p>
               </div>
-              <button>Learn more</button>
+              <a
+                href='https://awake-cornucopia-fbb.notion.site/Getting-Started-with-NftyTribe-924b743823994844868ad3164115c370'>
+                <button>Learn more</button>
+              </a>
             </div>
             <div
-              className={`${style.faqBoxC} ${
-                dark === 'true' ? 'darkGradient' : 'lightGradient'
-              }`}
+              className={`${style.faqBoxC} ${dark === 'true' ? 'darkGradient' : 'lightGradient'
+                }`}
             >
               <div className={style.faqImg}>
                 <img src={Home} alt="home" />
@@ -57,12 +58,12 @@ const Info = () => {
                   integrated into products to create the best experiences.
                 </p>
               </div>
-              <button>Learn more</button>
+              <a href='https://awake-cornucopia-fbb.notion.site/NftyTribe-FAQs-and-User-guides-06062b612e2d41649c95c9b2baff7502'>
+                <button>Learn more</button></a>
             </div>
             <div
-              className={`${style.faqBox} ${
-                dark === 'true' ? 'darkGradient' : 'lightGradient'
-              }`}
+              className={`${style.faqBox} ${dark === 'true' ? 'darkGradient' : 'lightGradient'
+                }`}
             >
               <div className={style.faqImg}>
                 <img src={Pie} alt="pie" />
@@ -75,7 +76,8 @@ const Info = () => {
                   continue to evolve.
                 </p>
               </div>
-              <button>Learn more</button>
+              <a href='https://awake-cornucopia-fbb.notion.site/NftyTribe-FAQs-and-User-guides-06062b612e2d41649c95c9b2baff7502'>
+                <button>Learn more</button></a>
             </div>
           </div>
         </div>

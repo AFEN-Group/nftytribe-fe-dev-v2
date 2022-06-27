@@ -2,6 +2,7 @@ import { useEffect, useContext } from 'react'
 import { gsap, Expo } from 'gsap'
 import { motion } from 'framer-motion'
 import { ThemeContext } from '../../../context/ThemeContext'
+import { Link } from 'react-router-dom'
 
 import style from '../About.module.scss'
 import heroImg from '../assets/heroImg.png'
@@ -35,9 +36,8 @@ const Hero = () => {
   return (
     <>
       <div
-        className={`${style.heroContainer} ${
-          dark === 'true' ? 'darkTheme' : 'lightTheme'
-        }`}
+        className={`${style.heroContainer} ${dark === 'true' ? 'darkTheme' : 'lightTheme'
+          }`}
       >
         <div className={style.hero}>
           <div className={style.heroTopContent}>
@@ -68,11 +68,16 @@ const Hero = () => {
                     className={`${style.leftBtns} animate__animated animate__slideInUp`}
                     id="heroBtns"
                   >
-                    <button>Join the tribe</button>
-                    <div className={style.readMore}>
-                      <p>Read more</p>
-                      <img src={arrow} alt="arrow" />
-                    </div>
+                    <Link to="/collections">
+                      <button>Import Collection</button>
+                    </Link>
+                    <a
+                      href='https://awake-cornucopia-fbb.notion.site/Getting-Started-with-NftyTribe-924b743823994844868ad3164115c370'>
+                      <div className={style.readMore}>
+                        <p>Read more</p>
+                        <img src={arrow} alt="arrow" />
+                      </div>
+                    </a>
                   </div>
                 </div>
               </div>
