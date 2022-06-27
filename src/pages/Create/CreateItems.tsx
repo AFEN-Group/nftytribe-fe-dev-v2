@@ -23,6 +23,7 @@ import create from './assets/create.svg'
 import logo from './assets/logo-sm.svg'
 
 import Web3 from 'web3'
+import contracts from '../../web3-Service/contractAddress'
 import erc721Abi from '../../smart_contracts/erc721Mintable.json'
 import erc721MarketplaceAbi from '../../smart_contracts/erc721Market.json'
 import erc721CollectionAbi from '../../smart_contracts/erc721Collection.json'
@@ -35,11 +36,13 @@ import CreateSteps from './Modals/CreateSteps'
 
 declare const window: any
 
-const erc721Mintable_address = '0x236DdF1f75c0bA5Eb29a8776Ec1820E5dC41a59a'
-const erc721Marketplace_address = '0xD5582083916dc813f974ce4CA3F27E6977e161cF'
-const erc1155Mintable_adddress = '0xCE8e4E1b586dA68F65A386968185ecBE8f222B89'
-const erc1155Factory_address = '0xad1235972331af412613b8a0478d29b07bf70179'
-const erc1155Marketplace_address = '0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd'
+//const erc721Mintable_address = '0x236DdF1f75c0bA5Eb29a8776Ec1820E5dC41a59a'
+
+const erc721Mintable_address = contracts.erc721MintableAddress
+const erc721Marketplace_address = contracts.erc1155MarketplaceAddress
+const erc1155Mintable_adddress = contracts.erc1155MintableAdddress
+const erc1155Factory_address = contracts.erc1155FactoryAddress
+const erc1155Marketplace_address = contracts.erc1155MarketplaceAddress
 
 const CreateItems = () => {
   const [themeState] = useContext<any>(ThemeContext)
@@ -81,8 +84,8 @@ const CreateItems = () => {
     category: '0',
     royalties: 0,
     is_lazy_mint: false,
-    starting_time : 0,
-    ending_time : 1
+    starting_time: 0,
+    ending_time: 1
   })
   const [cardImage, setCardImage] = useState('')
   const [imageFile, setImageFile] = useState<any>(null)
@@ -504,7 +507,7 @@ const CreateItems = () => {
                 )
                 marketplace_contract = new web3.eth.Contract(
                   erc721MarketplaceAbi,
-                  '0xD5582083916dc813f974ce4CA3F27E6977e161cF',
+                  erc721Marketplace_address,
                 )
               } else {
                 alert('connect to meta mask wallet')
@@ -535,18 +538,18 @@ const CreateItems = () => {
                 console.log(parseInt(returnvalues?.tokenId), 'hello3')
                 console.log(parseInt(returnValues?.tokenId), 'hello4')
                 console.log(parseInt(returnValues?.tokenId),
-                web3.utils.toWei(data.price.toString(), 'ether'),
-                parseInt(data.market_type),
-                parseInt(data.starting_time),
-                parseInt(data.ending_time),
-                userInput.collection_address || erc721Mintable_address)
+                  web3.utils.toWei(data.price.toString(), 'ether'),
+                  parseInt(data.market_type),
+                  parseInt(data.starting_time),
+                  parseInt(data.ending_time),
+                  userInput.collection_address || erc721Mintable_address)
 
                 if (data.market_type === '2') {
                   data.starting_time =
                     new Date(data.starting_time).getTime() / 1000
                   data.ending_time = new Date(data.ending_time).getTime() / 1000
                 }
-                else{
+                else {
                   data.starting_time = 0
                   data.ending_time = 1
                 }
@@ -698,7 +701,7 @@ const CreateItems = () => {
 
 
               //mint
-              const erc1155Mintable_adddress = '0xCE8e4E1b586dA68F65A386968185ecBE8f222B89'
+              const erc1155Mintable_adddress = contracts.erc1155MintableAdddress
               const response = await resp.json()
               console.log(response)
               if (response.success === false) {
@@ -924,7 +927,8 @@ const CreateItems = () => {
                 )
                 marketplace_contract = new web3.eth.Contract(
                   erc1155MarketplaceAbi,
-                  '0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd',
+                  //'0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd',
+                  contracts.erc1155MarketplaceAddress
                 )
               } else {
                 alert('connect to meta mask wallet')

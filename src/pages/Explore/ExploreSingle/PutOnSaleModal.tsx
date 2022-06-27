@@ -11,6 +11,7 @@ import { CircularProgress } from '@material-ui/core'
 import { shortenAddress } from '../../../utils/formatting'
 import user from './assets/usericon.svg'
 import Web3 from 'web3'
+import contracts from '../../../web3-Service/contractAddress'
 import marketPlaceAbi from '../../../smart_contracts/erc721Market.json'
 import erc721MarketplaceAbi from '../../../smart_contracts/erc721Market.json'
 import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
@@ -37,9 +38,9 @@ const PutOnSaleModal = (props: any) => {
     // })
     const [userInput, setUserInput, userInputRef] = useState<any>({
         bid: '',
-        market_type : '1',
-        starting_time : 0,
-        ending_time : 1
+        market_type: '1',
+        starting_time: 0,
+        ending_time: 1
     })
     const [validated, setValidated] = useState(false)
     const { handleAuctionBid, checkIfBIdTimePasses, collectNft } = useContext(
@@ -69,7 +70,7 @@ const PutOnSaleModal = (props: any) => {
         if (userInputRef.current.amount !== '') {
             setValidated(true)
         }
-        if(name === 'starting_time' || name === 'ending_time'){
+        if (name === 'starting_time' || name === 'ending_time') {
             setUserInput({
                 ...userInput,
                 [event.target.name]: value,
@@ -87,11 +88,11 @@ const PutOnSaleModal = (props: any) => {
 
         // const erc721Address = '0x236DdF1f75c0bA5Eb29a8776Ec1820E5dC41a59a'
         // const contract_address = '0xD5582083916dc813f974ce4CA3F27E6977e161cF'
-        const erc721Mintable_address = '0x236DdF1f75c0bA5Eb29a8776Ec1820E5dC41a59a'
-        const erc721Marketplace_address = '0xD5582083916dc813f974ce4CA3F27E6977e161cF'
-        const erc1155Mintable_adddress = '0xCE8e4E1b586dA68F65A386968185ecBE8f222B89'
-        const erc1155Factory_address = '0xad1235972331af412613b8a0478d29b07bf70179'
-        const erc1155Marketplace_address = '0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd'
+        const erc721Mintable_address = contracts.erc721MintableAddress
+        const erc721Marketplace_address = contracts.erc1155MarketplaceAddress
+        const erc1155Mintable_adddress = contracts.erc1155MintableAdddress
+        const erc1155Factory_address = contracts.erc1155FactoryAddress
+        const erc1155Marketplace_address = contracts.erc1155MarketplaceAddress
 
         let marketPlaceContract
         let erc721Contract
@@ -112,7 +113,7 @@ const PutOnSaleModal = (props: any) => {
                         )
                         marketplace_contract = new web3.eth.Contract(
                             erc1155MarketplaceAbi,
-                            '0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd',
+                            erc1155Marketplace_address
                         )
                     } else {
                         alert('connect to meta mask wallet')
@@ -214,7 +215,7 @@ const PutOnSaleModal = (props: any) => {
                         )
                         marketplace_contract = new web3.eth.Contract(
                             erc721MarketplaceAbi,
-                            '0xD5582083916dc813f974ce4CA3F27E6977e161cF',
+                            erc721Marketplace_address
                         )
                     } else {
                         alert('connect to meta mask wallet')
@@ -238,17 +239,17 @@ const PutOnSaleModal = (props: any) => {
                             new Date(userInput.starting_time).getTime() / 1000
                         data.ending_time = new Date(userInput.ending_time).getTime() / 1000
                     }
-                    else{
+                    else {
                         data.starting_time = 0
                         data.ending_time = 1
                     }
                     console.log(parseInt(data?.token_id),
-                    web3.utils.toWei(userInput.amount.toString(), 'ether'),
-                    parseInt(userInput.market_type),
-                    parseInt(data.starting_time),
-                    parseInt(data.ending_time),
-                    data?.collection_address,
-                    '0x0000000000000000000000000000000000000000')
+                        web3.utils.toWei(userInput.amount.toString(), 'ether'),
+                        parseInt(userInput.market_type),
+                        parseInt(data.starting_time),
+                        parseInt(data.ending_time),
+                        data?.collection_address,
+                        '0x0000000000000000000000000000000000000000')
                     const putOnSale = await marketplace_contract.methods
                         .putOnSale(
                             parseInt(data?.token_id),
@@ -262,10 +263,10 @@ const PutOnSaleModal = (props: any) => {
                         .send({ from: userWallet })
 
 
-                    if(putOnSale){
+                    if (putOnSale) {
                         updatableData = {
                             token_id: data.token_id,
-                            wallet_address : userWallet,
+                            wallet_address: userWallet,
                             collection_address:
                                 data.collection_address,
                             file: data.file,
@@ -273,7 +274,7 @@ const PutOnSaleModal = (props: any) => {
                             type: 'putOnSale',
                             chain_id: 'rinkeby',
                             //order_type: userInput.market_type,
-    
+
                             on_sale: true,
                             marketplace_type: userInput.market_type,
                             order_detail: {
@@ -281,13 +282,13 @@ const PutOnSaleModal = (props: any) => {
                                     userInput.amount.toString(),
                                     'ether',
                                 ),
-                                start_time: userInput.starting_time === 0? new Date().toISOString() : new Date(data.starting_time).toISOString() ,
-                                expiration_time: userInput.ending_time === 1? new Date().toISOString() : new Date(data.ending_time).toISOString() ,
+                                start_time: userInput.starting_time === 0 ? new Date().toISOString() : new Date(data.starting_time).toISOString(),
+                                expiration_time: userInput.ending_time === 1 ? new Date().toISOString() : new Date(data.ending_time).toISOString(),
                             },
                             price: web3.utils.toWei(userInput.amount.toString(), 'ether'),
                         }
-    
-    
+
+
                         const updateCollectible = await fetch(
                             'https://dev.api.nftytribe.io/api/collectibles/update-collectible',
                             {
@@ -298,15 +299,15 @@ const PutOnSaleModal = (props: any) => {
                                 body: JSON.stringify(updatableData),
                             },
                         )
-    
+
                         const res = await updateCollectible.json()
-    
+
                         console.log(res.data)
                         setIsLoading(false)
                         window.location.reload()
                         setIsLoading(false)
                     }
-                    else{
+                    else {
                         setIsLoading(false)
                     }
                 } catch (err) {
