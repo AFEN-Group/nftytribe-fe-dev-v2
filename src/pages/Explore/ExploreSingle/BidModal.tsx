@@ -11,6 +11,7 @@ import { CircularProgress } from '@material-ui/core'
 import { shortenAddress } from '../../../utils/formatting'
 import user from './assets/usericon.svg'
 import Web3 from 'web3'
+import contracts from '../../../web3-Service/contractAddress'
 import marketPlaceAbi from '../../../smart_contracts/erc721Market.json'
 import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
 import TextInput from '../../../components/Inputs/TextInput'
@@ -66,8 +67,8 @@ const BidModal = (props: any) => {
     const wallet_address = localStorage.getItem('currentAccount')
     console.log(props.nftDetails?.marketplace_type)
 
-    const erc721Address = '0x236DdF1f75c0bA5Eb29a8776Ec1820E5dC41a59a'
-    const contract_address = '0xD5582083916dc813f974ce4CA3F27E6977e161cF'
+    const erc721Mintable_address = contracts.erc721MintableAddress
+    const erc721Marketplace_address = contracts.erc721MarketplaceAddress
 
     let marketPlaceContract
     let erc721Contract
@@ -84,12 +85,12 @@ const BidModal = (props: any) => {
 
         erc721Contract = new web3.eth.Contract(
           erc721Abi,
-          props.nftDetails.collection_address || erc721Address,
+          props.nftDetails.collection_address || erc721Mintable_address,
         )
 
         marketPlaceContract = new web3.eth.Contract(
           marketPlaceAbi,
-          contract_address,
+          erc721Marketplace_address,
         )
 
         //   try {

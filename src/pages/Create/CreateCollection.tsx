@@ -13,7 +13,8 @@ import icon from './assets/upload.svg'
 import { CircularProgress } from '@material-ui/core'
 import { publicRequest } from '../../utils/requestMethods'
 import Web3 from 'web3'
-import erc721FactoryAbi from '../../smart_contracts/erc721Factory0.json'
+import contracts from '../../web3-Service/contractAddress'
+import erc721FactoryAbi from '../../smart_contracts/erc721Factory.json'
 import CollectionModal from './Modals/CollectionModal'
 
 declare const window: any
@@ -106,7 +107,7 @@ const CreateCollection = () => {
     // }
     const wallet_address = localStorage.getItem('currentAccount')
     const chain = 'rinkeby'
-    const contract_address = '0x4a6Bf413Bb8953dCDAdcFf03077712c48Bb05086'
+    const contract_address = contracts.erc721FactoryAddress
     // console.log(contract_address, '<< contract ?')
     // console.log(wallet_address, '<< wallet ?')
     //'0xb1d612aB4FfF891E4A0042d4DF9C1F257eaeBb74'
