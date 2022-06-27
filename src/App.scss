@@ -62,7 +62,8 @@ button {
 }
 
 button:disabled {
-  opacity: 0.3;
+  //opacity: 0.3;
+  filter: blur(1.5px);
   cursor: not-allowed;
   pointer-events: none;
   transition: 0.2s ease-in;

@@ -265,7 +265,7 @@
 }
 
 .profileInfo {
-  //background: pink;
+
   position: relative;
 }
 
@@ -319,6 +319,7 @@
   width: 100%;
 
   //background: lavender;
+
   p {
     margin-bottom: 0.5em;
   }
@@ -412,4 +413,25 @@
       //background: $mainGradient;
     }
   }
+}
+
+@media (max-width: 800px) {
+  .picBtn {
+    button {
+      width: 80vw;
+    }
+  }
+
+  .editBx {
+    width: 100%;
+
+  }
+
+  .editBtn {
+    button {
+      width: 95vw;
+    }
+  }
+
+
 }

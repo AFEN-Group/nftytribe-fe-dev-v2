@@ -81,6 +81,8 @@ const CreateItems = () => {
     category: '0',
     royalties: 0,
     is_lazy_mint: false,
+    starting_time : 0,
+    ending_time : 1
   })
   const [cardImage, setCardImage] = useState('')
   const [imageFile, setImageFile] = useState<any>(null)
@@ -292,22 +294,6 @@ const CreateItems = () => {
                 },
               )
 
-              //upload image
-              // var form_data = new FormData()
-              // form_data.append('upload', imageFile)
-              // try {
-              //   const resp2 = await fetch(
-              //     'https://dev.api.nftytribe.io/api/collectibles/upload-image',
-              //     {
-              //       method: 'POST',
-              //       body: form_data,
-              //     },
-              //   )
-              //   const data = await resp2.json()
-              //   setCardImage(data.location)
-              // } catch (error) {
-              //   console.log(error)
-              // }
 
               //mint
               const response = await resp.json()
@@ -323,9 +309,6 @@ const CreateItems = () => {
               let web3: any
               if (window.ethereum) {
                 web3 = new Web3(window.ethereum)
-                // const collection_address = userInput.collection_address || erc721Mintable_address    // to use for contract
-                // console.log("address used",collection_address)
-                // console.log("user input",userInput.collection_address)
                 console.log(userInput.collection_address, 'col add')
 
                 erc721Contract = new web3.eth.Contract(
@@ -371,8 +354,7 @@ const CreateItems = () => {
                     userInput.collection_address || erc721Mintable_address,
                   file: response.data.file,
                   type: 'mint',
-                  chain_id: 'rinkeby',
-                  price: web3.utils.toWei(data.price, 'ether'),
+                  chain_id: 'rinkeby'
                 }
 
                 console.log(updatableData, 'get upload')
@@ -430,7 +412,6 @@ const CreateItems = () => {
                   on_sale: false,
                   type: 'mint',
                   token_id: returnvalues.tokenId,
-                  price: web3.utils.toWei(data.price, 'ether'),
                 }
 
                 const updateCollectible = await fetch(
@@ -553,16 +534,25 @@ const CreateItems = () => {
                 // console.log(parseInt(returnvalues?.id), 'hello2')
                 console.log(parseInt(returnvalues?.tokenId), 'hello3')
                 console.log(parseInt(returnValues?.tokenId), 'hello4')
+                console.log(parseInt(returnValues?.tokenId),
+                web3.utils.toWei(data.price.toString(), 'ether'),
+                parseInt(data.market_type),
+                parseInt(data.starting_time),
+                parseInt(data.ending_time),
+                userInput.collection_address || erc721Mintable_address)
 
                 if (data.market_type === '2') {
                   data.starting_time =
                     new Date(data.starting_time).getTime() / 1000
                   data.ending_time = new Date(data.ending_time).getTime() / 1000
                 }
+                else{
+                  data.starting_time = 0
+                  data.ending_time = 1
+                }
                 const putOnSale = await marketplace_contract.methods
                   .putOnSale(
                     parseInt(returnValues?.tokenId),
-                    //parseInt(returnvalues.id || returnvalues.tokenId),
                     web3.utils.toWei(data.price.toString(), 'ether'),
                     parseInt(data.market_type),
                     parseInt(data.starting_time),

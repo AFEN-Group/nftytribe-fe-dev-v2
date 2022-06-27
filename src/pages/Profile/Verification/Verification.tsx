@@ -4,10 +4,12 @@ import { Link } from 'react-router-dom'
 import style from './Verify.module.scss'
 import Close from './assets/close.svg'
 import Happy from './assets/happy.svg'
-//import { CircularProgress } from '@material-ui/core'
+import { Cancel } from '@material-ui/icons'
+import { CircularProgress } from '@material-ui/core'
 import step1 from './assets/step1.svg'
 import step2 from './assets/step2.svg'
 import stepc from './assets/stepC.svg'
+import shapes from './assets/shapes.svg'
 
 const Verification = (props: any) => {
     const [isLoading, setIsLoading] = useState(false)
@@ -19,6 +21,7 @@ const Verification = (props: any) => {
     const [completed, setCompleted] = useState(false)
     const [err, setErr] = useState(0)
     const [currentStep, setCurrentStep] = useState(1)
+    const [imageFile, setImageFile] = useState<any>(null)
 
     const inputHandler = (event: any) => {
         setIsEmpty(true)
@@ -28,6 +31,31 @@ const Verification = (props: any) => {
         })
         if (userInputRef.current.address.length >= 6) {
             setIsEmpty(false)
+        }
+    }
+
+    const selectMedia = async (e: any) => {
+        setIsLoading(true)
+        if (e.target.files && e.target.files.length > 0) {
+            setImageFile(e.target.files[0])
+            var form_data = new FormData()
+            form_data.append('upload', e.target.files[0])
+            //   try {
+            //     const resp = await fetch(
+            //       'https://dev.api.nftytribe.io/api/collectibles/upload-image',
+            //       {
+            //         method: 'POST',
+            //         body: form_data,
+            //       },
+            //     )
+            //     const data = await resp.json()
+            //     setCardImage(data.location)
+            //     console.log(data)
+            //     setIsLoading(false)
+            //   } catch (error) {
+            //     console.log(error)
+            //     setIsLoading(false)
+            //   }
         }
     }
 
@@ -120,6 +148,31 @@ const Verification = (props: any) => {
                             </div>
                             <div className={style.modalInput}>
                                 <p>Upload gov issued ID</p>
+                                <div className={style.fileContainer}>
+                                    {!imageFile && (
+                                        <div className={style.fileTxt}>
+                                            <img src={shapes} alt="upload" />
+                                            <p>Upload file</p>
+                                            <p>PNG, GIF, WEBP, Maximum 100mb</p>
+                                        </div>
+                                    )}
+                                    <input
+                                        type="file"
+                                        name="img"
+                                        onChange={selectMedia}
+                                        required
+                                    />
+                                    {imageFile && (
+                                        <div className={style.fileBx}>
+                                            {/* <img src={guy} alt="guy" /> */}
+                                            <img src={URL.createObjectURL(imageFile)} alt="nft" />
+                                            <Cancel
+                                                className={style.cancel}
+                                                onClick={() => setImageFile(null)}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
 
                             </div>
                             <div className={style.modalBtns}>

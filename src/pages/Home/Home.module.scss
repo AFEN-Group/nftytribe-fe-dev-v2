@@ -663,9 +663,11 @@
   @include flexRegular(row, center);
   width: 26vw; //
   flex-shrink: 0;
+  margin: auto 1vw;
+
   // margin-left: 4vw;
   //margin-left: 1vw;
-  margin-right: 2vw; //
+  //margin-right: 2vw; //
   //background: pink;
 }
 
