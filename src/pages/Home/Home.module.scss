@@ -714,15 +714,19 @@
 }
 
 .topProTop {
+  position: relative;
+
   h1 {
     font-family: Neue-bold;
     text-align: center;
+
   }
 
   .topProFilters {
     //background: pink;
     margin-top: 2.5em;
     @include flexRegular(row, center);
+
   }
 
   .tpFilter {
@@ -730,12 +734,33 @@
     border-radius: 0px 8px;
     padding: 0.7em 1em;
     @include flexRegular(row, center);
+    cursor: pointer;
 
     img {
       margin-left: 1em;
       cursor: pointer;
     }
   }
+
+  .drop2 {
+    position: absolute;
+    z-index: 4;
+    border-radius: 0px 10px;
+    top: 7.5em;
+    // top: 43%;
+    left: 45%;
+    box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid #bcc;
+    width: 200px;
+    // min-width: 200px;
+    background: #fff;
+
+    p {
+      padding: 1em;
+      cursor: pointer;
+    }
+  }
+
 
   .tpFilterC {
     margin: 0 1.5em;

@@ -388,6 +388,19 @@
         font-size: .97em;
       }
     }
+
+    .twoBtns {
+      @include flexRegular(column, flex-start);
+
+      .buyAfen {
+        margin: 1.5em 0 1.5em 0;
+      }
+
+      .stake,
+      .buyAfen {
+        width: 70vw;
+      }
+    }
   }
 
   .sThreeContent {
@@ -401,11 +414,21 @@
       p {
         font-size: .97em;
       }
+
+      button {
+        width: 65vw;
+      }
     }
   }
 
   .sThreeContent,
   .sFourContent {
     padding: 3em 1em 5em 1em;
+  }
+
+  .sFourContent {
+    button {
+      width: 65vw;
+    }
   }
 }

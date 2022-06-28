@@ -41,7 +41,7 @@ const Info = () => {
               </div>
               <a
                 href='https://awake-cornucopia-fbb.notion.site/Getting-Started-with-NftyTribe-924b743823994844868ad3164115c370'>
-                <button>Learn more</button>
+                <button className={dark === 'true' ? 'yellowBtn' : 'blueBtn'}>Learn more</button>
               </a>
             </div>
             <div
@@ -59,7 +59,7 @@ const Info = () => {
                 </p>
               </div>
               <a href='https://awake-cornucopia-fbb.notion.site/NftyTribe-FAQs-and-User-guides-06062b612e2d41649c95c9b2baff7502'>
-                <button>Learn more</button></a>
+                <button className={dark === 'true' ? 'yellowBtn' : 'blueBtn'}>Learn more</button></a>
             </div>
             <div
               className={`${style.faqBox} ${dark === 'true' ? 'darkGradient' : 'lightGradient'
@@ -77,7 +77,7 @@ const Info = () => {
                 </p>
               </div>
               <a href='https://awake-cornucopia-fbb.notion.site/NftyTribe-FAQs-and-User-guides-06062b612e2d41649c95c9b2baff7502'>
-                <button>Learn more</button></a>
+                <button className={dark === 'true' ? 'yellowBtn' : 'blueBtn'}>Learn more</button></a>
             </div>
           </div>
         </div>

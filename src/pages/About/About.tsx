@@ -9,11 +9,20 @@ import Container from '../../components/Container/Container'
 import ContainerG from '../../components/Container/ContainerG'
 import Team from './components/Team'
 //
-import logo1 from './assets/logo1.svg'
-import logo2 from './assets/logo2.svg'
-import logo3 from './assets/logo3.svg'
-import logo4 from './assets/logo4.svg'
-import logo5 from './assets/logo5.svg'
+// import logo1 from './assets/logo1.svg'
+// import logo2 from './assets/logo2.svg'
+// import logo3 from './assets/logo3.svg'
+// import logo4 from './assets/logo4.svg'
+// import logo5 from './assets/logo5.svg'
+import logo1 from './logos/chainlogo.svg'
+import logo2d from './logos/logo2-d.png'
+import logo2w from './logos/logo2-w.png'
+import logo3 from './logos/logo3.png'
+import logo4d from './logos/logo4-d.png'
+import logo4w from './logos/logo4-w.png'
+import logo5 from './logos/nirvlogo.svg'
+import logo6 from './logos/pllogo.svg'
+
 
 const About = () => {
   const [themeState] = useContext<any>(ThemeContext)
@@ -41,28 +50,26 @@ const About = () => {
 
         <Info />
         <div className={style.sectionFour}>
-          <h1>Our angels</h1>
+          <h1>Our partners</h1>
           <div className={style.angels}>
             <div className={style.angel}>
-              <img src={logo1} alt="logo1" />
+              <img src={logo1} alt="logo1" id="logo1" />
             </div>
             <div className={style.angel}>
-              <img src={logo2} alt="logo2" />
+              <img src={dark === "true" ? logo2w : logo2d} alt="logo2" />
             </div>
             <div className={style.angel}>
               <img src={logo3} alt="logo3" />
             </div>
             <div className={style.angel}>
-              <img src={logo1} alt="logo1" />
+              <img src={dark === "true" ? logo4w : logo4d} alt="logo1" />
+            </div>
+
+            <div className={style.angel}>
+              <img src={logo6} alt="logo1" />
             </div>
             <div className={style.angel}>
-              <img src={logo4} alt="logo4" />
-            </div>
-            <div className={style.angel}>
-              <img src={logo1} alt="logo1" />
-            </div>
-            <div className={style.angel}>
-              <img src={logo5} alt="logo5" />
+              <img src={logo5} alt="logo5" id="logo5" />
             </div>
           </div>
         </div>

@@ -11,6 +11,14 @@ import nArrow from '../assets/arrow-right.svg'
 
 const TopProjects = () => {
     //const [number, setNumber] = useState(1)
+    const [filter, setFilter] = useState({
+        period: '',
+        //chain: ''
+    })
+    const [showDrop, setShowDrop] = useState({
+        period: false,
+        chain: false
+    })
     const [themeState] = useContext<any>(ThemeContext)
     const dark = themeState.dark
     let itemNumber = 1
@@ -45,11 +53,22 @@ const TopProjects = () => {
                         <span>Top Collections</span>{' '}
                     </h1>
                     <div className={style.topProFilters}>
-                        <div className={style.tpFilter}>
-                            <p>7 days</p>
+                        <div className={style.tpFilter} onClick={() => setShowDrop({ ...showDrop, period: !showDrop.period })}>
+                            <p>{filter.period === "" ? 'Last 7 days' : filter.period}</p>
                             <img src={arrow1} alt="filter" />
                         </div>
+
                     </div>
+                    {showDrop.period && (
+                        <div className={`${style.drop2}  animate__animated animate__fadeInUp animate__faster`}
+                            onClick={() => setShowDrop({ ...showDrop, period: !showDrop.period })}
+                        >
+                            <p onClick={() => setFilter({ ...filter, period: "Last 24 hours" })}>Last 24 hours</p>
+                            <p onClick={() => setFilter({ ...filter, period: "Last 7 days" })}>Last 7 days</p>
+                            <p onClick={() => setFilter({ ...filter, period: "Last month" })}>Last month</p>
+
+                        </div>
+                    )}
                     <div className={style.topProContainer}>
                         {/* <div className={style.tpItem}>
                             <div className={style.tpLeft}>
