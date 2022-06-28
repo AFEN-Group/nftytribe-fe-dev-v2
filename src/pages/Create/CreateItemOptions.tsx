@@ -70,7 +70,7 @@ const CreateItemOptions = () => {
                     <p>Ethereum</p>
                   </div>
                   <div
-                    className={style.optBox}
+                    className={`${style.optBox} ${style.disable}`}
                     onClick={() => setChain('binance')}
                   >
                     <img src={Binance} alt="binance" />

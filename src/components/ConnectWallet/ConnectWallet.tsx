@@ -425,12 +425,12 @@ const ConnectWallet = (props: any) => {
                 <div className={style.bodyTxt}>
                   <p className={`${dark === 'true' ? style.b1 : style.b2}`}>
                     Connect with one of our wallet providers or{' '}
-                    <span
+                    {/* <span
                       className={`${dark === 'true' ? 'yellowMain' : 'blueLight'
                         }`}
-                    >
-                      Create
-                    </span>{' '}
+                    > */}
+                    Create{' '}
+                    {/* </span>{' '} */}
                     a new one
                   </p>
                 </div>

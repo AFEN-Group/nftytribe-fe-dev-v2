@@ -39,7 +39,7 @@ declare const window: any
 //const erc721Mintable_address = '0x236DdF1f75c0bA5Eb29a8776Ec1820E5dC41a59a'
 
 const erc721Mintable_address = contracts.erc721MintableAddress
-const erc721Marketplace_address = contracts.erc1155MarketplaceAddress
+const erc721Marketplace_address = contracts.erc721MarketplaceAddress
 const erc1155Mintable_adddress = contracts.erc1155MintableAdddress
 const erc1155Factory_address = contracts.erc1155FactoryAddress
 const erc1155Marketplace_address = contracts.erc1155MarketplaceAddress
@@ -302,7 +302,7 @@ const CreateItems = () => {
               const response = await resp.json()
               console.log(response)
               if (response.success === false) {
-                setMsg({ ...msg, eMsg: 'Sorry an error occured', sMsg: '' })
+                //setMsg({ ...msg, eMsg: 'Sorry an error occured', sMsg: '' })
               }
               setCollectible(response.data)
               setResponse0(response)
@@ -643,7 +643,7 @@ const CreateItems = () => {
               setStep(4)
             } catch (err) {
               console.log(err)
-              setMsg({ ...msg, eMsg: err, sMsg: '' })
+              //setMsg({ ...msg, eMsg: err, sMsg: '' })
               setIsLoading(false)
             }
             //clear all input fields
@@ -704,9 +704,9 @@ const CreateItems = () => {
               const erc1155Mintable_adddress = contracts.erc1155MintableAdddress
               const response = await resp.json()
               console.log(response)
-              if (response.success === false) {
-                setMsg({ ...msg, eMsg: 'Sorry an error occured', sMsg: '' })
-              }
+              // if (response.success === false) {
+              //   setMsg({ ...msg, eMsg: 'Sorry an error occured', sMsg: '' })
+              // }
               setCollectible(response.data)
               setResponse0(response)
 
@@ -1050,7 +1050,7 @@ const CreateItems = () => {
               setStep(4)
             } catch (err) {
               console.log(err)
-              setMsg({ ...msg, eMsg: err, sMsg: '' })
+              //setMsg({ ...msg, eMsg: err, sMsg: '' })
               setIsLoading(false)
             }
             //clear all input fields
@@ -1329,7 +1329,7 @@ const CreateItems = () => {
                 </div>
               </div>
 
-              <div className={style.fieldBx}>
+              {/* <div className={style.fieldBx}>
                 {!showAdvanced ? (
                   <div
                     //className={style.advancedBx}
@@ -1394,7 +1394,7 @@ const CreateItems = () => {
                     </div>
                   </div>
                 )}
-              </div>
+              </div> */}
               <div className={style.submitBx}>
                 <button
                   type="submit"
