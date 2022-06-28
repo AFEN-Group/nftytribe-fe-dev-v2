@@ -89,7 +89,7 @@ const PutOnSaleModal = (props: any) => {
         // const erc721Address = '0x236DdF1f75c0bA5Eb29a8776Ec1820E5dC41a59a'
         // const contract_address = '0xD5582083916dc813f974ce4CA3F27E6977e161cF'
         const erc721Mintable_address = contracts.erc721MintableAddress
-        const erc721Marketplace_address = contracts.erc1155MarketplaceAddress
+        const erc721Marketplace_address = contracts.erc721MarketplaceAddress
         const erc1155Mintable_adddress = contracts.erc1155MintableAdddress
         const erc1155Factory_address = contracts.erc1155FactoryAddress
         const erc1155Marketplace_address = contracts.erc1155MarketplaceAddress

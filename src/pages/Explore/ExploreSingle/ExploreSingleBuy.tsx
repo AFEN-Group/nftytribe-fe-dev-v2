@@ -757,7 +757,7 @@ const ExploreSingleBuy = () => {
                                             <p>Number of copies : {nftDetails.number_of_copies}</p>
                                         )}
                                         <div className={style.Btns}>
-                                            {nftDetails?.wallet_address != walletAddress ? (
+                                            {nftDetails?.owner != walletAddress ? (
                                                 <button
                                                     disabled={
                                                         !isLoaded || isLoading
