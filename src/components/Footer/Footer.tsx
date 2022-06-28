@@ -90,18 +90,18 @@ const Footer = () => {
             </div>
           </div>
           <div className={style.rightBtm}>
-            <Link to="/">
+            {/* <Link to="/">
               <img src={Facebook} alt="facebook" />
-            </Link>
+            </Link> */}
             <Link to="/">
               <img src={IG} alt="instagram" />
             </Link>
-            <Link to="/">
+            {/* <Link to="/">
               <img src={Mail} alt="mail" />
             </Link>
             <Link to="/">
               <img src={Medium} alt="medium" />
-            </Link>
+            </Link> */}
             <Link to="/">
               <img src={Twitter} alt="twitter" />
             </Link>

@@ -148,7 +148,7 @@ const CollectionDetails = () => {
               </div> */}
             </div>
             <div className={style.collectionBody}>
-              {/* <div className={style.mainNav}>
+              <div className={style.mainNav}>
                 <div
                   //className={style.mItemA}
                   className={`${style.mItemA} ${dark === 'true' ? 'yellowTxt' : ''} `}
@@ -158,7 +158,7 @@ const CollectionDetails = () => {
                 <div className={style.mItem}>
                   <p>Activity</p>
                 </div>
-              </div> */}
+              </div>
               {/* <div
                 className={style.exploreCats}
               //className={`${style.exploreCats} animate__animated animate__fadeInUp animate__delay-1s`}
@@ -225,7 +225,7 @@ const CollectionDetails = () => {
                 </div>
               </div> */}
               <div className={style.itemsBody}>
-                <div
+                {/* <div
                   className={`${style.sideBar} ${dark === 'true' ? 'darkGradient' : 'lightGradient'
                     } `}
                   id="sidebar"
@@ -237,10 +237,7 @@ const CollectionDetails = () => {
                         <strong>Filters</strong>
                       </p>
                     </div>
-                    {/* <div className={style.sBItem}>
-                    <p>Price range</p>
-                    <img src={Arrow1} alt="filter" />
-                  </div> */}
+                    
                     <div className={style.sBItem} onClick={() => setFilter("saleType")}>
                       <p>Sale type</p>
                       <img src={filter === 'saleType' ? Arrow2 : Arrow1} alt="filter" />
@@ -253,7 +250,7 @@ const CollectionDetails = () => {
                             <p>Fixed Sale</p>
                           </div>
 
-                          {/* <div className={style.radioBx}> <RadioBtn /></div> */}
+                          
                           <div className={style.pbRadio} onClick={() => setFilterQuery("&marketplace_type=1")}>
                             <input type="radio" name="filter" />
                             <span className={style.checkmark}></span>
@@ -299,18 +296,14 @@ const CollectionDetails = () => {
                       </div>)}
                     <div className={style.sBItem}>
                       <p>Recently added</p>
-                      {/* <AcceptBtn onClick={setDefaults} /> */}
+                      
                       <div className={style.pbRadio} onClick={setDefaults}>
                         <input type="radio" name="filter" />
                         <span className={style.checkmark}></span>
                       </div>
-                      {/* <img src={Arrow1} alt="filter" /> */}
+                      
                     </div>
-                    {/* <div className={style.sBItem} onClick={() => setFilter("collection")}>
-                    <p>Collection</p>
-                    <img src={filter === 'collection' ? Arrow2 : Arrow1} alt="filter" />
-
-                  </div> */}
+                   
                     {filter === "collection" && (
                       <div className={`${dark === "true" ? style.filterBxD : style.filterBxL} animate__animated animate__fadeIn`}
                       >
@@ -322,16 +315,9 @@ const CollectionDetails = () => {
 
                         </div>
                       </div>)}
-                    {/* <div className={style.sBItem}>
-                    <p>Price ascending</p>
-                    <img src={Arrow1} alt="filter" />
+                    
                   </div>
-                  <div className={style.sBItem}>
-                    <p>Price descending</p>
-                    <img src={Arrow1} alt="filter" />
-                  </div> */}
-                  </div>
-                </div>
+                </div> */}
                 <div className={style.itemsContainer}>
                   {collectibles?.length >= 1 ? (
                     <>

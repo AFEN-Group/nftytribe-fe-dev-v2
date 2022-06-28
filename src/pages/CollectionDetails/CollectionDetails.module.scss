@@ -320,9 +320,12 @@
 
 
 .itemsContainer {
-  width: 76%;
+  //width: 76%;
+  width: 100%;
   max-width: 1500px;
-  margin-left: 1em;
+  //margin-left: 1em;
+  //background: pink;
+  margin: 1em auto 2em auto;
 
   .itemsContent {
     // @include flexRegular(row, flex-start);

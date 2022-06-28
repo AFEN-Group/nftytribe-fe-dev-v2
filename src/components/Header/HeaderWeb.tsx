@@ -15,10 +15,14 @@ import Wallet2 from './assets/wallet2.svg'
 // import Light from './assets/light.svg'
 // import Dark from './assets/dark.svg'
 import Profile from './assets/profile.svg'
-import Settings from './assets/settings.svg'
-import Language from './assets/lang.svg'
-import Collection from './assets/collections.svg'
-import Notification from './assets/notifications.svg'
+import Settings from './assets/settings2.svg'
+import Language from './assets/lang2.svg'
+import Collection from './assets/coll2.svg'
+import Profile2 from './assets/pD.svg'
+import Settings2 from './assets/sD.svg'
+import Language2 from './assets/lD.svg'
+import Collection2 from './assets/cD.svg'
+//import Notification from './assets/notifications.svg'
 import Moon from './assets/moon.svg'
 import Sun from './assets/sun.svg'
 //
@@ -309,25 +313,27 @@ const HeaderWeb = (props: any) => {
                     </div> */}
                     <div className={style.dropBody}>
                       <Link to="/profile" className={style.dropItem}>
-                        <img src={Profile} alt="profile" />
+                        <img src={dark === "true" ? Profile2 : Profile} alt="profile" />
                         <p>Profile</p>
                       </Link>
-                      <Link to="/collections" className={style.dropItem}>
-                        <img src={Collection} alt="collection" />
-                        <p>My collections</p>
+                      <Link to="/editProfile" className={style.dropItem}>
+                        <img src={dark === "true" ? Settings2 : Settings} alt="settings" />
+                        <p>Settings</p>
                       </Link>
-                      {/* <Link to="" className={style.dropItem}>
-                        <img src={Language} alt="language" />
+                      <Link to="" className={style.dropItem}>
+                        <img src={dark === "true" ? Language2 : Language} alt="language" />
                         <p>Language</p>
                       </Link>
-                      <Link to="/" className={style.dropItem}>
+                      <Link to="/collections" className={style.dropItem}>
+                        <img src={dark === "true" ? Collection2 : Collection} alt="collection" />
+                        <p>My collections</p>
+                      </Link>
+
+                      {/* <Link to="/" className={style.dropItem}>
                         <img src={Notification} alt="notification" />
                         <p>Notifications</p>
                       </Link> */}
-                      <Link to="/editProfile" className={style.dropItem}>
-                        <img src={Settings} alt="settings" />
-                        <p>Settings</p>
-                      </Link>
+
                     </div>
                   </div>
                 </div>
