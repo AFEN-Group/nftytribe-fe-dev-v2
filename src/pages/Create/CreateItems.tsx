@@ -1241,7 +1241,7 @@ const CreateItems = () => {
                   </div>
                 </>
               )}
-              <p>Choose Collection</p>
+              <p>Choose Collection (Nftytribe collection is chosen by default)</p>
               <div className={style.cfieldBx}>
                 {/* <Link
                   to="/createcollection"

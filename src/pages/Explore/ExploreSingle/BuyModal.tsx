@@ -74,7 +74,7 @@ const BuyModal = (props: any) => {
     const erc721Marketplace_address = contracts.erc721MarketplaceAddress
 
     //const erc721Mintable_address = contracts.erc721MintableAddress // process.env.REACT_APP_ERC721_CONTRACT
-    const contract_address = '0xb6b043610655a356A433aBc0c6BAE46e0AA5C230' //process.env.REACT_APP_MARKETPLACE_CONTRACT
+    //const contract_address = '0xb6b043610655a356A433aBc0c6BAE46e0AA5C230' //process.env.REACT_APP_MARKETPLACE_CONTRACT
     const erc1155Mintable_address = contracts.erc1155MintableAdddress
     const erc1155MarketplaceAddress = contracts.erc1155MarketplaceAddress
 
