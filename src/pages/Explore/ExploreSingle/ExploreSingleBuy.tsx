@@ -361,7 +361,7 @@ const ExploreSingleBuy = () => {
                         }
                         //console.log(web3.utils.toWei(data.price.toString(), 'ether'), 'price', returnvalues.id)
                         const putOffSale = await marketplace_contract.methods
-                            .putOffSale(
+                            .putSaleOff(
                                 //userInput.collection_address || erc1155Mintable_adddress,
                                 data?.collection_address,
                                 parseInt(data?.token_id),
