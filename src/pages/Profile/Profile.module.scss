@@ -23,6 +23,12 @@
   }
 }
 
+.loaderBx {
+  padding: 2em 0;
+  height: 50vh;
+  @include flexRegular(column, center);
+}
+
 .coverBtns {
   position: absolute;
   //background: pink;

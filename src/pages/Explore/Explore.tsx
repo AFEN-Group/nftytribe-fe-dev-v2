@@ -275,7 +275,7 @@ const Explore = () => {
                     {/* <img src={Arrow1} alt="filter" /> */}
                   </div>
                   <form className={style.sBItem}>
-                    <p className='disable_link'>Digital twin</p>
+                    <p className='disable_link'>Physical Item</p>
                     {/* <AcceptBtn onClick={setDefaults} /> */}
                     <div className={style.pbRadio} onClick={setDefaults}>
                       <input type="radio" name="filter" disabled />
@@ -310,6 +310,7 @@ const Explore = () => {
                   </div> */}
                 </div>
               </div>
+
               <div className={style.itemsContainer}>
                 {data?.length >= 1 ? (
                   !isLoading ? (

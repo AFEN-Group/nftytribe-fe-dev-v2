@@ -213,8 +213,8 @@ const UserConnect = () => {
             account: ' ',
           })
           console.log(userInfo.balance, '<<<< wallet balance')
-          //window.location = '/'
-          window.location.reload()
+          window.location = '/'
+          //window.location.reload()
         } catch (err) {
           console.log(err)
         }

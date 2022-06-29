@@ -16,6 +16,7 @@ import { publicRequest } from '../../utils/requestMethods'
 import ItemCard from '../../components/Card/ItemCard'
 import { shortenAddress } from '../../utils/formatting'
 import Filters from './Filters'
+import Loader from '../../components/Loader/Loader'
 
 const Profile = () => {
   //const [tab, setTab] = useState('all')
@@ -30,6 +31,7 @@ const Profile = () => {
   const [query, setQuery] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
   //console.log('auth>>', authState)
 
   useEffect(() => {
@@ -37,10 +39,12 @@ const Profile = () => {
     const getUser = async () => {
       try {
         const result = await publicRequest.get(`/user/${currentAddress}`)
-        console.log('user>>>', result.data.data)
+        console.log('user>>>', result.data)
         setRes(result.data.data)
+        setIsLoading(false)
       } catch (error) {
         console.log(error)
+        setIsLoading(false)
       }
     }
     if (currentAddress) {
@@ -55,15 +59,17 @@ const Profile = () => {
   useEffect(() => {
     const fetchUserNfts = async () => {
       try {
+        setIsLoading(true)
         const result = await publicRequest.get(
           `/user/get-collectibles?wallet_address=${currentAddress}&${query}&page=${currentPage}&size=9`,
         )
         //console.log('res>', result)
         setCollectibles(result.data.data.collectibles)
         setTotalPages(Math.round(result.data.data.total_count / 10))
-        //setIsLoading(false)
+        setIsLoading(false)
       } catch (error) {
         console.log(error)
+        setIsLoading(false)
       }
     }
     if (currentAddress) {
@@ -206,66 +212,72 @@ const Profile = () => {
               <p>Physical Items</p>
             </div> */}
           </div>
+
+
           <div className={style.filtersM}>
             <Filters />
           </div>
-          <div
-            //className={style.items}
-            className={`${style.items} animate__animated animate__fadeInUp animate__delay-2s `}
-          >
-            {collectibles?.length >= 1 ? (
-              <>
-                <div className={style.itemsContent}>
-                  {collectibles?.map((nft: any, i: any) => {
-                    return (
-                      nft?._id && (
-                        <div className={style.itemBx} key={nft._id}>
-                          <ItemCard nftData={nft} />
-                        </div>
+          {isLoading ? (
+            <div className={style.loaderBx}> <Loader /></div>
+
+          ) : (
+            <div
+              //className={style.items}
+              className={`${style.items} animate__animated animate__fadeInUp  `}
+            >
+              {collectibles?.length >= 1 ? (
+                <>
+                  <div className={style.itemsContent}>
+                    {collectibles?.map((nft: any, i: any) => {
+                      return (
+                        nft?._id && (
+                          <div className={style.itemBx} key={nft._id}>
+                            <ItemCard nftData={nft} />
+                          </div>
+                        )
                       )
-                    )
-                  })}
+                    })}
+                  </div>
+                  {totalPages > 1 && (
+                    <div className={style.pagination}>
+                      <div className={style.paginateBtns}>
+                        {currentPage > 1 && (
+                          <button
+                            className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
+                              }`}
+                            onClick={prevPage}
+                          >
+                            {'Prev'}
+                          </button>
+                        )}
+                        {currentPage < totalPages && (
+                          <button
+                            className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
+                              }`}
+                            onClick={nextPage}
+                          >
+                            {'Next'}
+                          </button>
+                        )}
+                      </div>
+                      <p>
+                        Page {currentPage} of {totalPages}
+                      </p>
+                    </div>)}
+                </>
+              ) : (
+                <div className={style.noContent}>
+                  <div className={style.noResults}>
+                    <img src={Sad} alt="sad" />
+                    <h2>No items found</h2>
+                    <Link to="/explore" className={style.explore}>
+                      <p>Explore marketplace</p>
+                      <img src={Arrow} alt="arrow" />
+                    </Link>
+                  </div>
                 </div>
-                {totalPages > 1 && (
-                  <div className={style.pagination}>
-                    <div className={style.paginateBtns}>
-                      {currentPage > 1 && (
-                        <button
-                          className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
-                            }`}
-                          onClick={prevPage}
-                        >
-                          {'Prev'}
-                        </button>
-                      )}
-                      {currentPage < totalPages && (
-                        <button
-                          className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
-                            }`}
-                          onClick={nextPage}
-                        >
-                          {'Next'}
-                        </button>
-                      )}
-                    </div>
-                    <p>
-                      Page {currentPage} of {totalPages}
-                    </p>
-                  </div>)}
-              </>
-            ) : (
-              <div className={style.noContent}>
-                <div className={style.noResults}>
-                  <img src={Sad} alt="sad" />
-                  <h2>No items found</h2>
-                  <Link to="/explore" className={style.explore}>
-                    <p>Explore marketplace</p>
-                    <img src={Arrow} alt="arrow" />
-                  </Link>
-                </div>
-              </div>
-            )}
-            {/* <div className={style.itemContent}>
+              )}
+              {/* <div className={style.itemContent}>
               <div className={style.noResults}>
                 <img src={Sad} alt="sad" />
                 <h2>No items found</h2>
@@ -275,7 +287,7 @@ const Profile = () => {
                 </Link>
               </div>
             </div> */}
-          </div>
+            </div>)}
         </div>
       </Container>
     </>

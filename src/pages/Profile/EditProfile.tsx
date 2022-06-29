@@ -25,16 +25,20 @@ const EditProfile = () => {
   const dark = themeState.dark
   const currentAddress = localStorage.getItem('currentAccount')
   const [authState, setAuthState] = useContext<any>(AuthContext)
-  const user = authState.user
+  const [user, setUser] = useState<any>()
+  //const user = authState.user
+
   //console.log(user)
   //console.log(localStorage.getItem('user'))
-  const [userInput, setUserInput] = useState<any>({
-    name: user?.name || '',
-    email: user?.email || '',
-    bio: user?.bio || '',
-    twitterLink: user?.twitter_username || '',
-    website: user?.custom_url || '',
-  })
+
+  // const [userInput, setUserInput] = useState<any>({
+  //   name: user?.name || '',
+  //   email: user?.email || '',
+  //   bio: user?.bio || '',
+  //   twitterLink: user?.twitter_username || '',
+  //   website: user?.custom_url || '',
+  // })
+
   const [imageFile, setImageFile] = useState<any>({
     file: '',
     location: '',
@@ -46,8 +50,31 @@ const EditProfile = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    //console.log(userInput.name)
+    const getUser = async () => {
+      try {
+        const result = await publicRequest.get(`/user/${currentAddress}`)
+        console.log('get user>>>', result.data.data)
+        console.log("current user >>", currentAddress)
+        setUser(result.data.data)
+        setIsLoading(false)
+      } catch (error) {
+        console.log(error)
+        setIsLoading(false)
+      }
+    }
+    if (currentAddress) {
+      getUser()
+    }
+
   }, [currentAddress])
+
+  const [userInput, setUserInput] = useState<any>({
+    name: '',
+    email: '',
+    bio: '',
+    twitterLink: '',
+    website: '',
+  })
 
   const inputHandler = (event: any) => {
     setUserInput({
@@ -61,6 +88,27 @@ const EditProfile = () => {
         ...coverImage,
         file: e.target.files[0],
       })
+      var form_data = new FormData()
+      form_data.append('upload', e.target.files[0])
+      try {
+        const resp = await fetch(
+          'https://dev.api.nftytribe.io/api/collectibles/upload-image',
+          {
+            method: 'POST',
+            body: form_data,
+          },
+        )
+        const data = await resp.json()
+        //setImageLocation(data.location)
+        setCoverImage({
+          ...coverImage,
+          file: e.target.files[0],
+          location: data.location,
+        })
+        //console.log(data)
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
@@ -99,29 +147,29 @@ const EditProfile = () => {
     try {
       setIsLoading(true)
       //
-      if (coverImage.file) {
-        //console.log("cover image >>>", coverImage.file)
-        const img_data = new FormData()
-        img_data.append('upload', coverImage.file)
-        try {
-          const resp = await fetch(
-            'https://dev.api.nftytribe.io/api/collectibles/upload-image',
-            {
-              method: 'POST',
-              body: img_data,
-            },
-          )
-          const data = await resp.json()
-          //setImageLocation(data.location)
-          setCoverImage({
-            ...coverImage,
-            location: data.location,
-          })
-          // console.log('cover image>>>', data)
-        } catch (error) {
-          console.log(error)
-        }
-      }
+      // if (coverImage.file) {
+      //   //console.log("cover image >>>", coverImage.file)
+      //   const img_data = new FormData()
+      //   img_data.append('upload', coverImage.file)
+      //   try {
+      //     const resp = await fetch(
+      //       'https://dev.api.nftytribe.io/api/collectibles/upload-image',
+      //       {
+      //         method: 'POST',
+      //         body: img_data,
+      //       },
+      //     )
+      //     const data = await resp.json()
+      //     //setImageLocation(data.location)
+      //     setCoverImage({
+      //       ...coverImage,
+      //       location: data.location,
+      //     })
+      //     // console.log('cover image>>>', data)
+      //   } catch (error) {
+      //     console.log(error)
+      //   }
+      // }
       // if (imageFile.file) {
       //   const img_data = new FormData()
       //   img_data.append('upload', imageFile.file)
@@ -147,17 +195,29 @@ const EditProfile = () => {
       console.log('show location>>', imageFile.location)
       console.log('show userInput', userInput)
       const data = userInput
-      data.wallet_adress = user.wallet_address
-      data.cover_image = coverImage.location
-      data.image = imageFile.location
-      data.name = userInput.name
-      data.email = userInput.email
-      data.bio = userInput.bio
-      data.twitter_username = userInput.twitterLink
-      data.bio = userInput.bio
-      data.custom_url = userInput.website
 
-      const updateUserReq = await publicRequest.post(`/user/update-user`, data)
+      // data.cover_image = coverImage.location
+      // data.image = imageFile.location
+      // data.name = userInput.name
+      // data.email = userInput.email
+      // data.bio = userInput.bio
+      // data.twitter_username = userInput.twitterLink
+      // //data.bio = userInput.bio
+      // data.custom_url = userInput.website
+      // data.wallet_adress = "0xA45eF0134e9f2F1f639A0d48C550deBc215CB760"
+
+      const userData = {
+        wallet_address: currentAddress,
+        name: userInput.name || user?.name,
+        email: userInput.email || user?.email,
+        image: imageFile.location || user?.image,
+        cover_image: coverImage.location || user?.cover_image,
+        bio: userInput.bio || user?.bio,
+        twitter_username: userInput.twitterLink || user?.twitter_username,
+        custom_url: userInput.website || user?.custom_url
+      }
+
+      const updateUserReq = await publicRequest.post(`/user/update-user`, userData)
       console.log('result>>', updateUserReq)
       // setAuthState({
       //   ...authState,
@@ -211,15 +271,20 @@ const EditProfile = () => {
           <div
             className={`${style.coverBx2} animate__animated animate__fadeInDown `}
           >
-            {!coverImage.file && (
+            {!coverImage.file && !user?.cover_image && (
+
               <img className={style.cover} src={Cover} alt="cover" />
+            )}
+            {!coverImage.file && user?.cover_image && (
+
+              <img className={style.cover} src={user?.cover_image} alt="cover" />
             )}
             {coverImage.file && (
               <img
                 className={style.cover}
                 src={URL.createObjectURL(coverImage.file)}
                 alt="cover"
-                onClick={closeVerify}
+              //onClick={closeVerify}
               />
             )}
 
@@ -251,11 +316,11 @@ const EditProfile = () => {
                   <img src={dark === 'true' ? Avatar : Av2} alt="avatar" />
                 </div>
               )}
-              {/* {!imageFile.file && !user?.image && (
+              {!imageFile.file && user?.image && (
                 <div className={style.avatar}>
                   <img src={user?.image} alt="avatar" />
                 </div>
-              )} */}
+              )}
 
               {imageFile?.file && (
                 <div className={style.avatar}>
