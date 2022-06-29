@@ -14,6 +14,13 @@
   position: relative;
 }
 
+.loaderBx {
+  //background: pink;
+  width: 100vw;
+  padding: 2em 0;
+  height: 40vh;
+  @include flexRegular(column, center);
+}
 
 .exploreTop {
   text-align: center;
@@ -38,11 +45,7 @@
     }
   }
 
-  .loaderBx {
-    padding: 2em 0;
-    height: 50vh;
-    @include flexRegular(column, center);
-  }
+
 
   .exploreCats {
     margin: 2em auto 1em auto;
@@ -251,10 +254,11 @@
 
   .itemsContent {
     // @include flexRegular(row, flex-start);
-    background: pink;
-    @include gridRegular(.5em);
+    //background: pink;
+    @include gridRegular(1em);
     grid-template-columns: 2fr 2fr 2fr;
     align-items: flex-start;
+
 
     &::-webkit-scrollbar {
       display: none;
