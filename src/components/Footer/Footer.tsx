@@ -51,7 +51,7 @@ const Footer = () => {
           <div className={style.rightBody}>
             <div className={style.rightBlocks}>
               <h2>General</h2>
-              <Link to="/about">
+              <Link to="/about#team">
                 <p>Team</p>
               </Link>
               <a href='https://awake-cornucopia-fbb.notion.site/NftyTribe-FAQs-and-User-guides-06062b612e2d41649c95c9b2baff7502'>

@@ -15,7 +15,7 @@ import m10 from '../assets/member10.svg'
 const Team = () => {
   return (
     <>
-      <div className={style.trending}>
+      <div className={style.trending} id="team">
         <div className={style.trContent}>
           <div className={style.trTop}>
             <h1>

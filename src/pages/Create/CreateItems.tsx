@@ -311,6 +311,7 @@ const CreateItems = () => {
                 },
               )
 
+              const royalties = parseInt(userInput.royalties) * 100
 
               //mint
               const response = await resp.json()
@@ -348,7 +349,7 @@ const CreateItems = () => {
                   ['address', 'uint96', 'uint256', 'string', 'uint256'],
                   [
                     userInput.collection_address || erc721Mintable_address,
-                    userInput.royalties,
+                    royalties,
                     parseInt(nonceData.data.nonce),
                     response.data.file,
                     web3.utils.toWei(data.price, 'ether'),
@@ -397,7 +398,7 @@ const CreateItems = () => {
                 ) {
                   //console.log('hello collection')
                   mint = await erc721Contract.methods
-                    .mint(response.data.file, userInput.royalties)
+                    .mint(response.data.file, royalties)
                     .send({ from: wallet_address, value: mintingCharge })
                   console.log(mint, 'befor')
                   returnvalues = mint.events.Transfer.returnValues
@@ -408,7 +409,7 @@ const CreateItems = () => {
                     userInput.collection_address || erc721Mintable_address,
                   )
                   mint = await erc721collectionContract.methods
-                    .mint(response.data.file, userInput.royalties)
+                    .mint(response.data.file, royalties)
                     .send({ from: wallet_address, value: mintingCharge })
                   console.log(mint, 'befor')
                   returnvalues = mint.events.Transfer.returnValues
@@ -755,7 +756,7 @@ const CreateItems = () => {
                   ['address', 'uint96', 'uint256', 'string', 'uint256'],
                   [
                     userInput.collection_address || erc1155Mintable_adddress,
-                    userInput.royalties,
+                    royalties,
                     parseInt(nonceData.data.nonce),
                     response.data.file,
                     web3.utils.toWei(data.price, 'ether'),
@@ -807,7 +808,7 @@ const CreateItems = () => {
                   //console.log('hello collection')
 
                   mint = await erc1155Contract.methods
-                    .mint(response.data.file, userInput.royalties, userInput.copies)
+                    .mint(response.data.file, royalties, userInput.copies)
                     .send({ from: wallet_address, value: mintingCharge })
                   console.log(mint, 'befor')
                   returnvalues = mint.events.TransferSingle.returnValues
@@ -818,7 +819,7 @@ const CreateItems = () => {
                     userInput.collection_address || erc721Mintable_address,
                   )
                   mint = await erc1155collectionContract.methods
-                    .mint(response.data.file, userInput.royalties, userInput.copies)
+                    .mint(response.data.file, royalties, userInput.copies)
                     .send({ from: wallet_address, value: mintingCharge })
                   console.log(mint, 'befor')
                   returnvalues = mint.events.TransferSingle.returnValues
