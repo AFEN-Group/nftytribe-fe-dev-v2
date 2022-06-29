@@ -38,6 +38,12 @@
     }
   }
 
+  .loaderBx {
+    padding: 2em 0;
+    height: 50vh;
+    @include flexRegular(column, center);
+  }
+
   .exploreCats {
     margin: 2em auto 1em auto;
     width: 65%;
