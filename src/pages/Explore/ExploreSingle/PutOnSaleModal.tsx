@@ -84,9 +84,6 @@ const PutOnSaleModal = (props: any) => {
         const erc1155Factory_address = '0xad1235972331af412613b8a0478d29b07bf70179'
         const erc1155Marketplace_address = '0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd'
 
-        let marketPlaceContract
-        let erc721Contract
-        let web3: any
         if (window.ethereum && wallet_address) {
             if (props.nftDetails?.is_multiple) {
                 try {
@@ -193,15 +190,15 @@ const PutOnSaleModal = (props: any) => {
             if (!props.nftDetails.is_multiple) {
                 try {
                     setIsLoading(true)
-                    let erc721Contract
+                    let erc721_mintable_Contract
                     let marketplace_contract
                     let web3: any
                     if (window.ethereum) {
                         web3 = new Web3(window.ethereum)
 
-                        erc721Contract = new web3.eth.Contract(
+                        erc721_mintable_Contract = new web3.eth.Contract(
                             erc721Abi,
-                            erc721Mintable_address,
+                            props?.nftDetails?.collection_address,
                         )
                         marketplace_contract = new web3.eth.Contract(
                             erc721MarketplaceAbi,
@@ -227,6 +224,16 @@ const PutOnSaleModal = (props: any) => {
                         data.starting_time =
                             new Date(userInput.starting_time).getTime() / 1000
                         data.ending_time = new Date(userInput.ending_time).getTime() / 1000
+                    }
+                    const isApproved = await erc721_mintable_Contract.methods.getApproved(props?.nftDetails?.token_id).call()
+                    if(isApproved?.toLowerCase() != erc721Marketplace_address.toLowerCase()){
+                        try {
+                            const getApproved = await erc721_mintable_Contract.methods.approve(erc721Marketplace_address, props?.nftDetails?.token_id).send({from : userWallet})
+                        } catch (error) {
+                            console.log(error)
+                        }
+                       
+
                     }
                     const putOnSale = await marketplace_contract.methods
                         .putOnSale(
