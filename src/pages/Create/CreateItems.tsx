@@ -69,6 +69,7 @@ const CreateItems = () => {
   const [msg, setMsg] = useState<any>({
     sMsg: '',
     eMsg: '',
+    eMsg2: '',
   })
   const [userInput, setUserInput, userInputRef] = useState<any>({
     chain: '',
@@ -205,11 +206,11 @@ const CreateItems = () => {
   }
   const handleClose = () => {
     setShowModal(false)
-    // setUserInput({
-    //   title: '',
-    //   price: '',
-    // })
-    // setImageFile(null)
+    setUserInput({
+      title: '',
+      price: '',
+    })
+    setImageFile(null)
   }
 
   const onSubmit = async (e: any) => {
@@ -236,11 +237,24 @@ const CreateItems = () => {
         ...msg,
         eMsg: '',
       })
-      setShowModal(true)
-      if (step === 0) {
-        setStep(1)
-        console.log(userInput.is_lazy_mint)
+
+      if (userInput.royalties <= 10) {
+        setMsg({
+          ...msg,
+          eMsg2: '',
+        })
+        if (step === 0) {
+          setShowModal(true)
+          setStep(1)
+          console.log(userInput.is_lazy_mint)
+        }
+      } else {
+        setMsg({
+          ...msg,
+          eMsg2: '* Royalties must be 10% or less *',
+        })
       }
+
     }
   }
 
@@ -334,7 +348,7 @@ const CreateItems = () => {
                   ['address', 'uint96', 'uint256', 'string', 'uint256'],
                   [
                     userInput.collection_address || erc721Mintable_address,
-                    0,
+                    userInput.royalties,
                     parseInt(nonceData.data.nonce),
                     response.data.file,
                     web3.utils.toWei(data.price, 'ether'),
@@ -383,7 +397,7 @@ const CreateItems = () => {
                 ) {
                   //console.log('hello collection')
                   mint = await erc721Contract.methods
-                    .mint(response.data.file, 0)
+                    .mint(response.data.file, userInput.royalties)
                     .send({ from: wallet_address, value: mintingCharge })
                   console.log(mint, 'befor')
                   returnvalues = mint.events.Transfer.returnValues
@@ -394,7 +408,7 @@ const CreateItems = () => {
                     userInput.collection_address || erc721Mintable_address,
                   )
                   mint = await erc721collectionContract.methods
-                    .mint(response.data.file, 0)
+                    .mint(response.data.file, userInput.royalties)
                     .send({ from: wallet_address, value: mintingCharge })
                   console.log(mint, 'befor')
                   returnvalues = mint.events.Transfer.returnValues
@@ -636,6 +650,7 @@ const CreateItems = () => {
               const res = await updateCollectible.json()
 
               console.log(res.data)
+              //set({})
               setIsLoading(false)
               //alert('visit explore page')
               //window.location.replace('/explore')
@@ -740,7 +755,7 @@ const CreateItems = () => {
                   ['address', 'uint96', 'uint256', 'string', 'uint256'],
                   [
                     userInput.collection_address || erc1155Mintable_adddress,
-                    0,
+                    userInput.royalties,
                     parseInt(nonceData.data.nonce),
                     response.data.file,
                     web3.utils.toWei(data.price, 'ether'),
@@ -792,7 +807,7 @@ const CreateItems = () => {
                   //console.log('hello collection')
 
                   mint = await erc1155Contract.methods
-                    .mint(response.data.file, 0, userInput.copies)
+                    .mint(response.data.file, userInput.royalties, userInput.copies)
                     .send({ from: wallet_address, value: mintingCharge })
                   console.log(mint, 'befor')
                   returnvalues = mint.events.TransferSingle.returnValues
@@ -803,7 +818,7 @@ const CreateItems = () => {
                     userInput.collection_address || erc721Mintable_address,
                   )
                   mint = await erc1155collectionContract.methods
-                    .mint(response.data.file, 0, userInput.copies)
+                    .mint(response.data.file, userInput.royalties, userInput.copies)
                     .send({ from: wallet_address, value: mintingCharge })
                   console.log(mint, 'befor')
                   returnvalues = mint.events.TransferSingle.returnValues
@@ -1284,16 +1299,18 @@ const CreateItems = () => {
               </div>
               <div className={style.fieldBx}>
                 <p>Royalties</p>
+
                 {/* <SelectOption
                   inputName="royalties"
                   options={royalties}
                   inputHandler={inputHandler}
                   value={userInput.royalties}
                 /> */}
+
                 <TextInput
                   type="text"
                   inputName="royalties"
-                  holder="Eg 0%, 10%. max;10%"
+                  holder="In % Eg 0, 10. max:10"
                   inputHandler={inputHandler}
                   value={userInput.royalties}
                 />
@@ -1408,6 +1425,16 @@ const CreateItems = () => {
                     <CircularProgress color="inherit" size="20px" />
                   )}
                 </button>
+                {msg.eMsg2 && (
+                  <>
+                    <br />
+
+                    <p className="redtxt">
+                      <strong> {msg.eMsg2} </strong>
+                    </p>
+                  </>
+                )}
+
               </div>
             </div>
           </form>

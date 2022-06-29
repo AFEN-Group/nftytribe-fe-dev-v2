@@ -251,8 +251,8 @@
 
   .itemsContent {
     // @include flexRegular(row, flex-start);
-    //background: pink;
-    @include gridRegular(1em);
+    background: pink;
+    @include gridRegular(.5em);
     grid-template-columns: 2fr 2fr 2fr;
     align-items: flex-start;
 
@@ -267,7 +267,7 @@
     overflow-y: scroll;
     overflow-x: visible;
     height: 100vh;
-    padding-bottom: 1em
+    //padding-bottom: 1em
   }
 
   .noContent {
