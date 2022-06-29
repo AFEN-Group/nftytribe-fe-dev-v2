@@ -310,38 +310,42 @@ const Explore = () => {
                   </div> */}
                 </div>
               </div>
-
-              <div className={style.itemsContainer}>
-                {data?.length >= 1 ? (
-                  !isLoading ? (
-                    <div className={style.itemsContent}>
-                      {data?.map((nft: any, i: any) => {
-                        return (
-                          nft?._id && (
-                            <div className={style.itemBx} key={nft._id}>
-                              <ItemCard nftData={nft} />
-                            </div>
+              {isLoading ? (
+                <div className={style.loaderBx}>
+                  <Loader />
+                </div>
+              ) : (
+                <div className={style.itemsContainer}>
+                  {data?.length >= 1 ? (
+                    !isLoading ? (
+                      <div className={style.itemsContent}>
+                        {data?.map((nft: any, i: any) => {
+                          return (
+                            nft?._id && (
+                              <div className={style.itemBx} key={nft._id}>
+                                <ItemCard nftData={nft} />
+                              </div>
+                            )
                           )
-                        )
-                      })}
-                    </div>) : (
-                    <div className={style.loaderBx}>
-                      <Loader />
-                    </div>
-                  )
-                ) : (
-                  <div className={style.noContent}>
-                    <div className={style.noResults}>
-                      <img src={Sad} alt="sad" />
-                      <h2>No items found</h2>
-                      {/* <Link to="/explore" className={style.exploreM}>
+                        })}
+                      </div>) : (
+                      <div className={style.loaderBx}>
+                        <Loader />
+                      </div>
+                    )
+                  ) : (
+                    <div className={style.noContent}>
+                      <div className={style.noResults}>
+                        <img src={Sad} alt="sad" />
+                        <h2>No items found</h2>
+                        {/* <Link to="/explore" className={style.exploreM}>
                         <p>Explore marketplace</p>
                         <img src={Arrow} alt="arrow" />
                       </Link> */}
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>)}
             </div>
           </div>
         </div>
