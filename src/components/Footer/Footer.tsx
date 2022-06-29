@@ -51,18 +51,18 @@ const Footer = () => {
           <div className={style.rightBody}>
             <div className={style.rightBlocks}>
               <h2>General</h2>
-              <Link to="/">
+              <Link to="/about">
                 <p>Team</p>
               </Link>
-              <Link to="/faq">
+              <a href='https://awake-cornucopia-fbb.notion.site/NftyTribe-FAQs-and-User-guides-06062b612e2d41649c95c9b2baff7502'>
                 <p>FAQ</p>
-              </Link>
-              <Link to="/">
+              </a>
+              <a href='https://awake-cornucopia-fbb.notion.site/NftyTribe-FAQs-and-User-guides-06062b612e2d41649c95c9b2baff7502'>
                 <p>Support</p>
-              </Link>
-              <Link to="/">
+              </a>
+              {/* <Link to="/">
                 <p>Careers</p>
-              </Link>
+              </Link> */}
             </div>
             {/* <div className={style.rightBlocks}>
               <h2>Technology</h2>
@@ -78,15 +78,15 @@ const Footer = () => {
             </div> */}
             <div className={style.rightBlocks}>
               <h2>Community</h2>
-              <Link to="/">
+              {/* <Link to="/">
                 <p>Roadmap</p>
-              </Link>
+              </Link> */}
               <a href="/NftyTribeLitePaper.pdf" download>
                 <p>Litepaper</p>
               </a>
-              <Link to="/">
+              {/* <Link to="/">
                 <p>Blog</p>
-              </Link>
+              </Link> */}
             </div>
           </div>
           <div className={style.rightBtm}>

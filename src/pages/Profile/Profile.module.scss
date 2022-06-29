@@ -122,7 +122,9 @@
 
 .filters {
   margin: 4em auto 2em auto;
-  width: 70%;
+  width: 55%;
+  max-width: 800px;
+  //background: cornsilk;
   @include flexRegular(row, space-between);
 }
 

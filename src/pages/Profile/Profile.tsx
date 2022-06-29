@@ -184,7 +184,7 @@ const Profile = () => {
             >
               <p>Created</p>
             </div>
-            <div
+            {/* <div
               className={
                 query === 'activity=true' && dark === 'true'
                   ? style.darkActive
@@ -195,7 +195,7 @@ const Profile = () => {
               onClick={(e) => setQuery('activity=true')}
             >
               <p>Activity</p>
-            </div>
+            </div> */}
             <div
               className={
                 query === 'sold=true' && dark === 'true'
