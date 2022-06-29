@@ -94,9 +94,6 @@ const PutOnSaleModal = (props: any) => {
         const erc1155Factory_address = contracts.erc1155FactoryAddress
         const erc1155Marketplace_address = contracts.erc1155MarketplaceAddress
 
-        let marketPlaceContract
-        let erc721Contract
-        let web3: any
         if (window.ethereum && wallet_address) {
             if (props?.nftDetails?.is_multiple) {
                 try {
@@ -203,15 +200,15 @@ const PutOnSaleModal = (props: any) => {
             if (!props?.nftDetails?.is_multiple) {
                 try {
                     setIsLoading(true)
-                    let erc721Contract
+                    let erc721_mintable_Contract
                     let marketplace_contract
                     let web3: any
                     if (window.ethereum) {
                         web3 = new Web3(window.ethereum)
 
-                        erc721Contract = new web3.eth.Contract(
+                        erc721_mintable_Contract = new web3.eth.Contract(
                             erc721Abi,
-                            erc721Mintable_address,
+                            props?.nftDetails?.collection_address,
                         )
                         marketplace_contract = new web3.eth.Contract(
                             erc721MarketplaceAbi,
@@ -224,6 +221,15 @@ const PutOnSaleModal = (props: any) => {
 
                     const data = props.nftDetails
 
+                    const isApproved = await erc721_mintable_Contract.methods.getApproved(props?.nftDetails?.token_id).call()
+                    if(isApproved?.toLowerCase() != erc721Marketplace_address.toLowerCase()){
+                        try {
+                            const getApproved = await erc721_mintable_Contract.methods.approve(erc721Marketplace_address, props?.nftDetails?.token_id).send({from : userWallet})
+                        } catch (error) {
+                            console.log(error)
+                        }
+                       
+                    }
 
                     if (userInput.market_type !== '0') {
                         data.on_sale = true
