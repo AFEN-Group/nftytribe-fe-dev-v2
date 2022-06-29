@@ -206,7 +206,7 @@ const ExploreSingleBuy = () => {
                     } catch (err) { }
                 }
 
-                if (!nftDetails.is_multiple) {
+                if (nftDetails && !nftDetails.is_multiple) {
                     const owner = await erc721Contract.methods.ownerOf(id).call()
                     nft.owner_of = owner
                     setNft(nft)
@@ -291,7 +291,7 @@ const ExploreSingleBuy = () => {
     }
 
     const handleSubmit = async () => {
-        if (nftDetails?.on_sale) {
+        if (nftDetails && nftDetails?.on_sale) {
             const wallet_address = localStorage.getItem('currentAccount')
             console.log(nftDetails?.marketplace_type)
             if (wallet_address) {
@@ -306,7 +306,7 @@ const ExploreSingleBuy = () => {
     }
     const handleSale = async (e: any) => {
         e.preventDefault();
-        if (!nftDetails?.on_sale) {
+        if (nftDetails && !nftDetails?.on_sale) {
             //put on sale
             setShowPutOnSale(true)
 
@@ -361,7 +361,7 @@ const ExploreSingleBuy = () => {
                         }
                         //console.log(web3.utils.toWei(data.price.toString(), 'ether'), 'price', returnvalues.id)
                         const putOffSale = await marketplace_contract.methods
-                            .putOffSale(
+                            .putSaleOff(
                                 //userInput.collection_address || erc1155Mintable_adddress,
                                 data?.collection_address,
                                 parseInt(data?.token_id),
@@ -757,7 +757,7 @@ const ExploreSingleBuy = () => {
                                             <p>Number of copies : {nftDetails.number_of_copies}</p>
                                         )}
                                         <div className={style.Btns}>
-                                            {nftDetails?.wallet_address != walletAddress ? (
+                                            {nftDetails?.owner != walletAddress ? (
                                                 <button
                                                     disabled={
                                                         !isLoaded || isLoading

@@ -23,6 +23,7 @@ import create from './assets/create.svg'
 import logo from './assets/logo-sm.svg'
 
 import Web3 from 'web3'
+import contracts from '../../web3-Service/contractAddress'
 import erc721Abi from '../../smart_contracts/erc721Mintable.json'
 import erc721MarketplaceAbi from '../../smart_contracts/erc721Market.json'
 import erc721CollectionAbi from '../../smart_contracts/erc721Collection.json'
@@ -35,11 +36,13 @@ import CreateSteps from './Modals/CreateSteps'
 
 declare const window: any
 
-const erc721Mintable_address = '0x236DdF1f75c0bA5Eb29a8776Ec1820E5dC41a59a'
-const erc721Marketplace_address = '0xD5582083916dc813f974ce4CA3F27E6977e161cF'
-const erc1155Mintable_adddress = '0xCE8e4E1b586dA68F65A386968185ecBE8f222B89'
-const erc1155Factory_address = '0xad1235972331af412613b8a0478d29b07bf70179'
-const erc1155Marketplace_address = '0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd'
+//const erc721Mintable_address = '0x236DdF1f75c0bA5Eb29a8776Ec1820E5dC41a59a'
+
+const erc721Mintable_address = contracts.erc721MintableAddress
+const erc721Marketplace_address = contracts.erc721MarketplaceAddress
+const erc1155Mintable_adddress = contracts.erc1155MintableAdddress
+const erc1155Factory_address = contracts.erc1155FactoryAddress
+const erc1155Marketplace_address = contracts.erc1155MarketplaceAddress
 
 const CreateItems = () => {
   const [themeState] = useContext<any>(ThemeContext)
@@ -66,6 +69,7 @@ const CreateItems = () => {
   const [msg, setMsg] = useState<any>({
     sMsg: '',
     eMsg: '',
+    eMsg2: '',
   })
   const [userInput, setUserInput, userInputRef] = useState<any>({
     chain: '',
@@ -81,6 +85,8 @@ const CreateItems = () => {
     category: '0',
     royalties: 0,
     is_lazy_mint: false,
+    starting_time: 0,
+    ending_time: 1
   })
   const [cardImage, setCardImage] = useState('')
   const [imageFile, setImageFile] = useState<any>(null)
@@ -200,11 +206,11 @@ const CreateItems = () => {
   }
   const handleClose = () => {
     setShowModal(false)
-    // setUserInput({
-    //   title: '',
-    //   price: '',
-    // })
-    // setImageFile(null)
+    setUserInput({
+      title: '',
+      price: '',
+    })
+    setImageFile(null)
   }
 
   const onSubmit = async (e: any) => {
@@ -231,11 +237,24 @@ const CreateItems = () => {
         ...msg,
         eMsg: '',
       })
-      setShowModal(true)
-      if (step === 0) {
-        setStep(1)
-        console.log(userInput.is_lazy_mint)
+
+      if (userInput.royalties <= 10) {
+        setMsg({
+          ...msg,
+          eMsg2: '',
+        })
+        if (step === 0) {
+          setShowModal(true)
+          setStep(1)
+          console.log(userInput.is_lazy_mint)
+        }
+      } else {
+        setMsg({
+          ...msg,
+          eMsg2: '* Royalties must be 10% or less *',
+        })
       }
+
     }
   }
 
@@ -292,28 +311,12 @@ const CreateItems = () => {
                 },
               )
 
-              //upload image
-              // var form_data = new FormData()
-              // form_data.append('upload', imageFile)
-              // try {
-              //   const resp2 = await fetch(
-              //     'https://dev.api.nftytribe.io/api/collectibles/upload-image',
-              //     {
-              //       method: 'POST',
-              //       body: form_data,
-              //     },
-              //   )
-              //   const data = await resp2.json()
-              //   setCardImage(data.location)
-              // } catch (error) {
-              //   console.log(error)
-              // }
 
               //mint
               const response = await resp.json()
               console.log(response)
               if (response.success === false) {
-                setMsg({ ...msg, eMsg: 'Sorry an error occured', sMsg: '' })
+                //setMsg({ ...msg, eMsg: 'Sorry an error occured', sMsg: '' })
               }
               setCollectible(response.data)
               setResponse0(response)
@@ -323,9 +326,6 @@ const CreateItems = () => {
               let web3: any
               if (window.ethereum) {
                 web3 = new Web3(window.ethereum)
-                // const collection_address = userInput.collection_address || erc721Mintable_address    // to use for contract
-                // console.log("address used",collection_address)
-                // console.log("user input",userInput.collection_address)
                 console.log(userInput.collection_address, 'col add')
 
                 erc721Contract = new web3.eth.Contract(
@@ -348,7 +348,7 @@ const CreateItems = () => {
                   ['address', 'uint96', 'uint256', 'string', 'uint256'],
                   [
                     userInput.collection_address || erc721Mintable_address,
-                    0,
+                    userInput.royalties,
                     parseInt(nonceData.data.nonce),
                     response.data.file,
                     web3.utils.toWei(data.price, 'ether'),
@@ -371,8 +371,7 @@ const CreateItems = () => {
                     userInput.collection_address || erc721Mintable_address,
                   file: response.data.file,
                   type: 'mint',
-                  chain_id: 'rinkeby',
-                  price: web3.utils.toWei(data.price, 'ether'),
+                  chain_id: 'rinkeby'
                 }
 
                 console.log(updatableData, 'get upload')
@@ -398,7 +397,7 @@ const CreateItems = () => {
                 ) {
                   //console.log('hello collection')
                   mint = await erc721Contract.methods
-                    .mint(response.data.file, 0)
+                    .mint(response.data.file, userInput.royalties)
                     .send({ from: wallet_address, value: mintingCharge })
                   console.log(mint, 'befor')
                   returnvalues = mint.events.Transfer.returnValues
@@ -409,7 +408,7 @@ const CreateItems = () => {
                     userInput.collection_address || erc721Mintable_address,
                   )
                   mint = await erc721collectionContract.methods
-                    .mint(response.data.file, 0)
+                    .mint(response.data.file, userInput.royalties)
                     .send({ from: wallet_address, value: mintingCharge })
                   console.log(mint, 'befor')
                   returnvalues = mint.events.Transfer.returnValues
@@ -430,7 +429,6 @@ const CreateItems = () => {
                   on_sale: false,
                   type: 'mint',
                   token_id: returnvalues.tokenId,
-                  price: web3.utils.toWei(data.price, 'ether'),
                 }
 
                 const updateCollectible = await fetch(
@@ -523,7 +521,7 @@ const CreateItems = () => {
                 )
                 marketplace_contract = new web3.eth.Contract(
                   erc721MarketplaceAbi,
-                  '0xD5582083916dc813f974ce4CA3F27E6977e161cF',
+                  erc721Marketplace_address,
                 )
               } else {
                 alert('connect to meta mask wallet')
@@ -553,16 +551,25 @@ const CreateItems = () => {
                 // console.log(parseInt(returnvalues?.id), 'hello2')
                 console.log(parseInt(returnvalues?.tokenId), 'hello3')
                 console.log(parseInt(returnValues?.tokenId), 'hello4')
+                console.log(parseInt(returnValues?.tokenId),
+                  web3.utils.toWei(data.price.toString(), 'ether'),
+                  parseInt(data.market_type),
+                  parseInt(data.starting_time),
+                  parseInt(data.ending_time),
+                  userInput.collection_address || erc721Mintable_address)
 
                 if (data.market_type === '2') {
                   data.starting_time =
                     new Date(data.starting_time).getTime() / 1000
                   data.ending_time = new Date(data.ending_time).getTime() / 1000
                 }
+                else {
+                  data.starting_time = 0
+                  data.ending_time = 1
+                }
                 const putOnSale = await marketplace_contract.methods
                   .putOnSale(
                     parseInt(returnValues?.tokenId),
-                    //parseInt(returnvalues.id || returnvalues.tokenId),
                     web3.utils.toWei(data.price.toString(), 'ether'),
                     parseInt(data.market_type),
                     parseInt(data.starting_time),
@@ -643,6 +650,7 @@ const CreateItems = () => {
               const res = await updateCollectible.json()
 
               console.log(res.data)
+              //set({})
               setIsLoading(false)
               //alert('visit explore page')
               //window.location.replace('/explore')
@@ -650,7 +658,7 @@ const CreateItems = () => {
               setStep(4)
             } catch (err) {
               console.log(err)
-              setMsg({ ...msg, eMsg: err, sMsg: '' })
+              //setMsg({ ...msg, eMsg: err, sMsg: '' })
               setIsLoading(false)
             }
             //clear all input fields
@@ -708,12 +716,12 @@ const CreateItems = () => {
 
 
               //mint
-              const erc1155Mintable_adddress = '0xCE8e4E1b586dA68F65A386968185ecBE8f222B89'
+              const erc1155Mintable_adddress = contracts.erc1155MintableAdddress
               const response = await resp.json()
               console.log(response)
-              if (response.success === false) {
-                setMsg({ ...msg, eMsg: 'Sorry an error occured', sMsg: '' })
-              }
+              // if (response.success === false) {
+              //   setMsg({ ...msg, eMsg: 'Sorry an error occured', sMsg: '' })
+              // }
               setCollectible(response.data)
               setResponse0(response)
 
@@ -747,7 +755,7 @@ const CreateItems = () => {
                   ['address', 'uint96', 'uint256', 'string', 'uint256'],
                   [
                     userInput.collection_address || erc1155Mintable_adddress,
-                    0,
+                    userInput.royalties,
                     parseInt(nonceData.data.nonce),
                     response.data.file,
                     web3.utils.toWei(data.price, 'ether'),
@@ -799,7 +807,7 @@ const CreateItems = () => {
                   //console.log('hello collection')
 
                   mint = await erc1155Contract.methods
-                    .mint(response.data.file, 0, userInput.copies)
+                    .mint(response.data.file, userInput.royalties, userInput.copies)
                     .send({ from: wallet_address, value: mintingCharge })
                   console.log(mint, 'befor')
                   returnvalues = mint.events.TransferSingle.returnValues
@@ -810,7 +818,7 @@ const CreateItems = () => {
                     userInput.collection_address || erc721Mintable_address,
                   )
                   mint = await erc1155collectionContract.methods
-                    .mint(response.data.file, 0, userInput.copies)
+                    .mint(response.data.file, userInput.royalties, userInput.copies)
                     .send({ from: wallet_address, value: mintingCharge })
                   console.log(mint, 'befor')
                   returnvalues = mint.events.TransferSingle.returnValues
@@ -934,7 +942,8 @@ const CreateItems = () => {
                 )
                 marketplace_contract = new web3.eth.Contract(
                   erc1155MarketplaceAbi,
-                  '0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd',
+                  //'0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd',
+                  contracts.erc1155MarketplaceAddress
                 )
               } else {
                 alert('connect to meta mask wallet')
@@ -1056,7 +1065,7 @@ const CreateItems = () => {
               setStep(4)
             } catch (err) {
               console.log(err)
-              setMsg({ ...msg, eMsg: err, sMsg: '' })
+              //setMsg({ ...msg, eMsg: err, sMsg: '' })
               setIsLoading(false)
             }
             //clear all input fields
@@ -1247,7 +1256,7 @@ const CreateItems = () => {
                   </div>
                 </>
               )}
-              <p>Choose Collection</p>
+              <p>Choose Collection (Nftytribe collection is chosen by default)</p>
               <div className={style.cfieldBx}>
                 {/* <Link
                   to="/createcollection"
@@ -1290,16 +1299,18 @@ const CreateItems = () => {
               </div>
               <div className={style.fieldBx}>
                 <p>Royalties</p>
+
                 {/* <SelectOption
                   inputName="royalties"
                   options={royalties}
                   inputHandler={inputHandler}
                   value={userInput.royalties}
                 /> */}
+
                 <TextInput
                   type="text"
                   inputName="royalties"
-                  holder="Eg 0%, 10%. max;10%"
+                  holder="In % Eg 0, 10. max:10"
                   inputHandler={inputHandler}
                   value={userInput.royalties}
                 />
@@ -1335,7 +1346,7 @@ const CreateItems = () => {
                 </div>
               </div>
 
-              <div className={style.fieldBx}>
+              {/* <div className={style.fieldBx}>
                 {!showAdvanced ? (
                   <div
                     //className={style.advancedBx}
@@ -1400,7 +1411,7 @@ const CreateItems = () => {
                     </div>
                   </div>
                 )}
-              </div>
+              </div> */}
               <div className={style.submitBx}>
                 <button
                   type="submit"
@@ -1414,6 +1425,16 @@ const CreateItems = () => {
                     <CircularProgress color="inherit" size="20px" />
                   )}
                 </button>
+                {msg.eMsg2 && (
+                  <>
+                    <br />
+
+                    <p className="redtxt">
+                      <strong> {msg.eMsg2} </strong>
+                    </p>
+                  </>
+                )}
+
               </div>
             </div>
           </form>

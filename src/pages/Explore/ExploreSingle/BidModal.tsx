@@ -11,6 +11,7 @@ import { CircularProgress } from '@material-ui/core'
 import { shortenAddress } from '../../../utils/formatting'
 import user from './assets/usericon.svg'
 import Web3 from 'web3'
+import contracts from '../../../web3-Service/contractAddress'
 import marketPlaceAbi from '../../../smart_contracts/erc721Market.json'
 import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
 import TextInput from '../../../components/Inputs/TextInput'
@@ -33,6 +34,7 @@ const BidModal = (props: any) => {
   const [userInput, setUserInput, userInputRef] = useState<any>({
     bid: '',
   })
+  const [err, setErr] = useState<any>()
   const [validated, setValidated] = useState(false)
   const { handleAuctionBid, checkIfBIdTimePasses, collectNft } = useContext(
     ContractContext,
@@ -61,74 +63,84 @@ const BidModal = (props: any) => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
-    setIsLoading(true)
+
     const wallet_address = localStorage.getItem('currentAccount')
     console.log(props.nftDetails?.marketplace_type)
 
-    const erc721Address = '0x236DdF1f75c0bA5Eb29a8776Ec1820E5dC41a59a'
-    const contract_address = '0xD5582083916dc813f974ce4CA3F27E6977e161cF'
+    const erc721Mintable_address = contracts.erc721MintableAddress
+    const erc721Marketplace_address = contracts.erc721MarketplaceAddress
 
     let marketPlaceContract
     let erc721Contract
     let web3: any
     if (window.ethereum && wallet_address) {
-      web3 = new Web3(window.ethereum)
+      const startPrice = Web3.utils.fromWei(props.nftDetails?.price.toString(), 'ether')
+      console.log("bid price", userInput.bid)
+      console.log("actual price", parseFloat(startPrice))
 
-      erc721Contract = new web3.eth.Contract(
-        erc721Abi,
-        props.nftDetails.collection_address || erc721Address,
-      )
+      if (userInput.bid >= parseFloat(startPrice)) {
+        setIsLoading(true)
+        setErr('')
+        web3 = new Web3(window.ethereum)
 
-      marketPlaceContract = new web3.eth.Contract(
-        marketPlaceAbi,
-        contract_address,
-      )
-
-      //   try {
-      //     console.log(marketPlaceContract)
-      //     const brokerage = await marketPlaceContract.methods
-      //       .brokerage('0x0000000000000000000000000000000000000000')
-      //       .call()
-      //     const Bid = await marketPlaceContract.methods
-      //       .auctions(
-      //         props.nftDetails?.collection_address,
-      //         props.nftDetails?.token_id,
-      //       )
-      //       .call()
-      //     console.log(Bid)
-      //     const nextBidAmount =
-      //       parseInt(Bid.currentBid, 10) + parseInt(Bid.currentBid, 10) * 0.0001
-
-      //     const bid = await marketPlaceContract.methods
-      //       .bid(
-      //         props.nftDetails?.token_id,
-      //         props.nftDetails?.collection_address,
-      //         1,
-      //       )
-      //       .send({ from: wallet_address, value: 1 })
-
-      //     return bid
-      //   } catch (error) {
-      //     console.log(error)
-      //     setIsLoading(false)
-      //   }
-      try {
-        const result = await handleAuctionBid(
-          props.nftDetails?.token_id,
-          wallet_address,
-          props.nftDetails?.collection_address,
-          userInput.bid,
+        erc721Contract = new web3.eth.Contract(
+          erc721Abi,
+          props.nftDetails.collection_address || erc721Mintable_address,
         )
-        if (result) {
-          console.log(result)
-          setCompleted(true)
+
+        marketPlaceContract = new web3.eth.Contract(
+          marketPlaceAbi,
+          erc721Marketplace_address,
+        )
+
+        //   try {
+        //     console.log(marketPlaceContract)
+        //     const brokerage = await marketPlaceContract.methods
+        //       .brokerage('0x0000000000000000000000000000000000000000')
+        //       .call()
+        //     const Bid = await marketPlaceContract.methods
+        //       .auctions(
+        //         props.nftDetails?.collection_address,
+        //         props.nftDetails?.token_id,
+        //       )
+        //       .call()
+        //     console.log(Bid)
+        //     const nextBidAmount =
+        //       parseInt(Bid.currentBid, 10) + parseInt(Bid.currentBid, 10) * 0.0001
+
+        //     const bid = await marketPlaceContract.methods
+        //       .bid(
+        //         props.nftDetails?.token_id,
+        //         props.nftDetails?.collection_address,
+        //         1,
+        //       )
+        //       .send({ from: wallet_address, value: 1 })
+
+        //     return bid
+        //   } catch (error) {
+        //     console.log(error)
+        //     setIsLoading(false)
+        //   }
+        try {
+          const result = await handleAuctionBid(
+            props.nftDetails?.token_id,
+            wallet_address,
+            props.nftDetails?.collection_address,
+            userInput.bid,
+          )
+          if (result) {
+            console.log(result)
+            setCompleted(true)
+            setIsLoading(false)
+            return
+          }
           setIsLoading(false)
-          return
+        } catch (err) {
+          console.log(err)
+          setIsLoading(false)
         }
-        setIsLoading(false)
-      } catch (err) {
-        console.log(err)
-        setIsLoading(false)
+      } else {
+        setErr("Bid is less than starting price")
       }
     } else {
       //setShowConnect(true)
@@ -231,6 +243,7 @@ const BidModal = (props: any) => {
                   Cancel
                 </button>
               </div>
+              {err && (<p className='redtxt'>{err}</p>)}
             </form>
           )}
           {completed && (

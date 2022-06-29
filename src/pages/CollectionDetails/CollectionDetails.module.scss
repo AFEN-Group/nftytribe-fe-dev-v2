@@ -16,7 +16,7 @@
 
 .avatar {
   position: relative;
-  background: pink;
+  //background: pink;
   width: 100%;
   @include flexRegular(row, center);
 
@@ -320,9 +320,12 @@
 
 
 .itemsContainer {
-  width: 76%;
+  //width: 76%;
+  width: 100%;
   max-width: 1500px;
-  margin-left: 1em;
+  //margin-left: 1em;
+  //background: pink;
+  margin: 1em auto 2em auto;
 
   .itemsContent {
     // @include flexRegular(row, flex-start);
@@ -405,4 +408,29 @@
       //background: $mainGradient;
     }
   }
+}
+
+@media (max-width: 800px) {
+  .coverBx {
+    //background: pink;
+
+    img {
+      height: 300px;
+      object-fit: cover;
+    }
+  }
+
+  .itemsBody {
+    .sideBar {
+      display: none;
+    }
+  }
+
+  .itemsContainer {
+    width: 95%;
+    //background: pink;
+    //padding: 5em auto;
+    margin: 4em auto;
+  }
+
 }

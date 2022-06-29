@@ -90,10 +90,10 @@ const ItemCard2 = (data: any) => {
                             )}
                             {/* <img src={koala} alt="item" /> */}
                         </div>
-                        <div className={style.cardTop}>
+                        {/* <div className={style.cardTop}>
                             <img src={dots} alt="options" />
                             <img src={like} alt="like" />
-                        </div>
+                        </div> */}
                     </Link>) : (
                     <Link
                         //to={`/explore/22/22`}
@@ -125,10 +125,10 @@ const ItemCard2 = (data: any) => {
                             )}
                             {/* <img src={koala} alt="item" /> */}
                         </div>
-                        <div className={style.cardTop}>
+                        {/* <div className={style.cardTop}>
                             <img src={dots} alt="options" />
                             <img src={like} alt="like" />
-                        </div>
+                        </div> */}
                     </Link>
                 )}
                 {!showFull && (

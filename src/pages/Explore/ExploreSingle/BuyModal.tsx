@@ -10,6 +10,7 @@ import { CircularProgress } from '@material-ui/core'
 import { shortenAddress } from '../../../utils/formatting'
 import user from './assets/usericon.svg'
 import Web3 from 'web3'
+import contracts from '../../../web3-Service/contractAddress'
 import marketPlaceAbi from '../../../smart_contracts/erc721Market.json'
 import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
 import erc1155MintableAbi from "../../../smart_contracts/erc1155Mintable.json"
@@ -69,10 +70,13 @@ const BuyModal = (props: any) => {
     // if (userInputRef.current.quantity > '' && inputQuantity <= itemQuantity) {
     // contract functionality
     //const chain = 'rinkeby'
-    const erc721Address = '0x236DdF1f75c0bA5Eb29a8776Ec1820E5dC41a59a' // process.env.REACT_APP_ERC721_CONTRACT
-    const contract_address = '0xb6b043610655a356A433aBc0c6BAE46e0AA5C230' //process.env.REACT_APP_MARKETPLACE_CONTRACT
-    const erc1155Address = '0xce8e4e1b586da68f65a386968185ecbe8f222b89'
-    const erc1155MarketplaceAddress = '0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd'
+    const erc721Mintable_address = contracts.erc721MintableAddress
+    const erc721Marketplace_address = contracts.erc721MarketplaceAddress
+
+    //const erc721Mintable_address = contracts.erc721MintableAddress // process.env.REACT_APP_ERC721_CONTRACT
+    //const contract_address = '0xb6b043610655a356A433aBc0c6BAE46e0AA5C230' //process.env.REACT_APP_MARKETPLACE_CONTRACT
+    const erc1155Mintable_address = contracts.erc1155MintableAdddress
+    const erc1155MarketplaceAddress = contracts.erc1155MarketplaceAddress
 
     // contract function
     //const marketplace_address = process.env.REACT_APP_MARKETPLACE_CONTRACT
@@ -86,12 +90,12 @@ const BuyModal = (props: any) => {
 
       erc721Contract = new web3.eth.Contract(
         erc721Abi,
-        props.nftDetails.collection_address || erc721Address,
+        props.nftDetails.collection_address || erc721Mintable_address,
       )
 
       marketPlaceContract = new web3.eth.Contract(
         marketPlaceAbi,
-        contract_address,
+        erc721Marketplace_address,
       )
 
       console.log(props.nftDetails, 'helllo')

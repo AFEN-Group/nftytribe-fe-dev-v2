@@ -23,6 +23,12 @@
   }
 }
 
+.loaderBx {
+  padding: 2em 0;
+  height: 50vh;
+  @include flexRegular(column, center);
+}
+
 .coverBtns {
   position: absolute;
   //background: pink;
@@ -265,7 +271,7 @@
 }
 
 .profileInfo {
-  //background: pink;
+
   position: relative;
 }
 
@@ -319,6 +325,7 @@
   width: 100%;
 
   //background: lavender;
+
   p {
     margin-bottom: 0.5em;
   }
@@ -355,6 +362,10 @@
     color: #fff;
     outline: none;
   }
+}
+
+.mgTop5 {
+  margin-top: 4em;
 }
 
 @media (max-width: 1080px) {
@@ -408,4 +419,25 @@
       //background: $mainGradient;
     }
   }
+}
+
+@media (max-width: 800px) {
+  .picBtn {
+    button {
+      width: 80vw;
+    }
+  }
+
+  .editBx {
+    width: 100%;
+
+  }
+
+  .editBtn {
+    button {
+      width: 95vw;
+    }
+  }
+
+
 }

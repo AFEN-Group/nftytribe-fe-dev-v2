@@ -39,50 +39,51 @@ const UserConnect = () => {
           method: 'eth_requestAccounts',
         })
         //if (window.ethereum.chainId === '0x1') {
-        console.log(window.ethereum.chainId)
-        localStorage.setItem('chain', window.ethereum.chainId)
-        localStorage.setItem('currentAccount', accounts[0])
-        setUserInfo({
-          ...userInfo,
-          account: accounts[0],
-          chain: window.ethereum.chainId,
-        })
-        try {
-          const user = {
-            params: {
-              wallet_address: localStorage.getItem('currentAccount'),
-            },
+        if (window.ethereum.chainId === '0x4') {
+          console.log(window.ethereum.chainId)
+          localStorage.setItem('chain', window.ethereum.chainId)
+          localStorage.setItem('currentAccount', accounts[0])
+          setUserInfo({
+            ...userInfo,
+            account: accounts[0],
+            chain: window.ethereum.chainId,
+          })
+          try {
+            const user = {
+              params: {
+                wallet_address: localStorage.getItem('currentAccount'),
+              },
+            }
+            const logUserReq = await publicRequest.post(
+              `/user/create-user`,
+              user,
+            )
+            console.log('user>>', logUserReq.data.data)
+            setAuthState({
+              ...authState,
+              user: logUserReq.data.data,
+              isFetching: false,
+              error: false,
+            })
+            setWalletType("MetaMask")
+            localStorage.setItem("walletType", 'MetaMask')
+            setTimeout(() => {
+              window.location.reload()
+            }, 1000)
+          } catch (err) {
+            console.log(err)
+            setAuthState({
+              ...authState,
+              isFetching: false,
+              error: true,
+            })
           }
-          const logUserReq = await publicRequest.post(
-            `/user/create-user`,
-            user,
-          )
-          console.log('user>>', logUserReq.data.data)
-          setAuthState({
-            ...authState,
-            user: logUserReq.data.data,
-            isFetching: false,
-            error: false,
-          })
-          setWalletType("MetaMask")
-          localStorage.setItem("walletType", 'MetaMask')
-          setTimeout(() => {
-            window.location.reload()
-          }, 1000)
-        } catch (err) {
-          console.log(err)
-          setAuthState({
-            ...authState,
-            isFetching: false,
-            error: true,
-          })
+          //window.location.reload()
+          setWalletError('')
+        } else {
+          setWalletError('Wrong network, please switch to rinkeby testnet!')
         }
-        //window.location.reload()
-        setWalletError('')
-        // } else {
-        //   setWalletError('Wrong network, please switch to ethereum mainnet!')
-        // }
-        // console.log("network1 >> ", window.ethereum.chainId);
+        console.log("network1 >> ", window.ethereum.chainId);
       } catch (err) {
         console.log(err)
       }
@@ -212,7 +213,8 @@ const UserConnect = () => {
             account: ' ',
           })
           console.log(userInfo.balance, '<<<< wallet balance')
-          //window.location = '/'
+          window.location = '/'
+          //window.location.reload()
         } catch (err) {
           console.log(err)
         }
