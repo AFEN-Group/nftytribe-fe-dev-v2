@@ -7,7 +7,7 @@ import axios from 'axios'
 //const TOKEN = user?.tokens?.token
 
 export const publicRequest = axios.create({
-  baseURL: 'https://dev.api.nftytribe.io/api',
+  baseURL: 'https://api.nftytribe.io/api',
 })
 
 // export const userRequest = axios.create({

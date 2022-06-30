@@ -230,7 +230,7 @@ const Explore = () => {
                         <div className={style.filterTxt}>
                           <p>Ethereum</p>
                         </div>
-                        <div className={style.pbRadio} onClick={() => setFilterQuery("&chain=rinkeby")}>
+                        <div className={style.pbRadio} onClick={() => setFilterQuery("&chain=eth")}>
                           <input type="radio" name="filter" />
                           <span className={style.checkmark}></span>
                         </div>

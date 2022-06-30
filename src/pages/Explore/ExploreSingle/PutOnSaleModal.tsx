@@ -156,7 +156,7 @@ const PutOnSaleModal = (props: any) => {
                         file: data.file,
                         transaction_hash: data.transactionHash,
                         type: 'putOnSale',
-                        chain_id: 'rinkeby',
+                        chain_id: 'eth',
 
                         on_sale: true,
                         marketplace_type: data.marketplace_type,
@@ -173,7 +173,7 @@ const PutOnSaleModal = (props: any) => {
 
 
                     const updateCollectible = await fetch(
-                        'https://dev.api.nftytribe.io/api/collectibles/update-collectible',
+                        'https://api.nftytribe.io/api/collectibles/update-collectible',
                         {
                             method: 'PUT',
                             headers: {
@@ -222,13 +222,13 @@ const PutOnSaleModal = (props: any) => {
                     const data = props.nftDetails
 
                     const isApproved = await erc721_mintable_Contract.methods.getApproved(props?.nftDetails?.token_id).call()
-                    if(isApproved?.toLowerCase() != erc721Marketplace_address.toLowerCase()){
+                    if (isApproved?.toLowerCase() != erc721Marketplace_address.toLowerCase()) {
                         try {
-                            const getApproved = await erc721_mintable_Contract.methods.approve(erc721Marketplace_address, props?.nftDetails?.token_id).send({from : userWallet})
+                            const getApproved = await erc721_mintable_Contract.methods.approve(erc721Marketplace_address, props?.nftDetails?.token_id).send({ from: userWallet })
                         } catch (error) {
                             console.log(error)
                         }
-                       
+
                     }
 
                     if (userInput.market_type !== '0') {
@@ -278,7 +278,7 @@ const PutOnSaleModal = (props: any) => {
                             file: data.file,
                             transaction_hash: data.transactionHash,
                             type: 'putOnSale',
-                            chain_id: 'rinkeby',
+                            chain_id: 'eth',
                             //order_type: userInput.market_type,
 
                             on_sale: true,
@@ -296,7 +296,7 @@ const PutOnSaleModal = (props: any) => {
 
 
                         const updateCollectible = await fetch(
-                            'https://dev.api.nftytribe.io/api/collectibles/update-collectible',
+                            'https://api.nftytribe.io/api/collectibles/update-collectible',
                             {
                                 method: 'PUT',
                                 headers: {

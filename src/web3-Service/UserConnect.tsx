@@ -38,8 +38,8 @@ const UserConnect = () => {
         const accounts = await window.ethereum.request({
           method: 'eth_requestAccounts',
         })
-        //if (window.ethereum.chainId === '0x1') {
-        if (window.ethereum.chainId === '0x4') {
+        if (window.ethereum.chainId === '0x1') {
+          //if (window.ethereum.chainId === '0x4') {
           console.log(window.ethereum.chainId)
           localStorage.setItem('chain', window.ethereum.chainId)
           localStorage.setItem('currentAccount', accounts[0])
@@ -81,7 +81,7 @@ const UserConnect = () => {
           //window.location.reload()
           setWalletError('')
         } else {
-          setWalletError('Wrong network, please switch to rinkeby testnet!')
+          setWalletError('Wrong network, please switch to ethereum mainnet!')
         }
         console.log("network1 >> ", window.ethereum.chainId);
       } catch (err) {

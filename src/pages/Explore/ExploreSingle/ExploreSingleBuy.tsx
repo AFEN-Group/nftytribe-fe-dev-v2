@@ -43,7 +43,7 @@ import PutOnSaleModal from './PutOnSaleModal'
 declare const window: any
 
 const erc721Mintable_address = contracts.erc721MintableAddress
-//const erc721Marketplace_address = contracts.erc721MarketplaceAddress
+const erc721Marketplace_address = contracts.erc721MarketplaceAddress
 const erc1155Mintable_adddress = contracts.erc1155MintableAdddress
 
 
@@ -167,7 +167,7 @@ const ExploreSingleBuy = () => {
                 if (nftDetails?.is_multiple) {
                     uri = await erc1155Contract.methods.uri(id).call();
                 }
-                const moralis_uri = `https://deep-index.moralis.io/api/v2/nft/${collectionAddress}/${id}?chain=rinkeby&format=decimal&offset=0&limit=20`
+                const moralis_uri = `https://deep-index.moralis.io/api/v2/nft/${collectionAddress}/${id}?chain=&format=decimal&offset=0&limit=20`
                 const { data } = await axios({
                     method: 'get',
                     url: moralis_uri,
@@ -327,7 +327,7 @@ const ExploreSingleBuy = () => {
                         )
                         marketplace_contract = new web3.eth.Contract(
                             erc1155MarketplaceAbi,
-                            '0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd',
+                            contracts.erc1155MarketplaceAddress,
                         )
                     } else {
                         alert('connect to meta mask wallet')
@@ -361,8 +361,7 @@ const ExploreSingleBuy = () => {
                         }
                         //console.log(web3.utils.toWei(data.price.toString(), 'ether'), 'price', returnvalues.id)
                         const putOffSale = await marketplace_contract.methods
-                            .putSaleOff(
-                                //userInput.collection_address || erc1155Mintable_adddress,
+                            .putOffSale(
                                 data?.collection_address,
                                 parseInt(data?.token_id),
 
@@ -379,7 +378,7 @@ const ExploreSingleBuy = () => {
                             file: data.file,
                             transaction_hash: data.transactionHash,
                             type: 'putOffSale',
-                            chain_id: 'rinkeby',
+                            chain_id: 'eth',
 
                             on_sale: false,
                             marketplace_type: data.marketplace_type,
@@ -402,13 +401,13 @@ const ExploreSingleBuy = () => {
                             file: data.file,
                             transaction_hash: data.transactionHash,
                             type: 'putOffSale',
-                            chain_id: 'rinkeby',
+                            chain_id: 'eth',
                             on_sale: false
                         }
                     }
 
                     const updateCollectible = await fetch(
-                        'https://dev.api.nftytribe.io/api/collectibles/update-collectible',
+                        'https://api.nftytribe.io/api/collectibles/update-collectible',
                         {
                             method: 'PUT',
                             headers: {
@@ -423,7 +422,7 @@ const ExploreSingleBuy = () => {
                     console.log(res.data)
                     setIsLoading(false)
 
-                    //window.location.reload()
+                    window.location.reload()
                     setIsLoading(false)
 
                 } catch (err) {
@@ -447,7 +446,7 @@ const ExploreSingleBuy = () => {
                         )
                         marketplace_contract = new web3.eth.Contract(
                             erc721MarketplaceAbi,
-                            '0xD5582083916dc813f974ce4CA3F27E6977e161cF',
+                            contracts.erc721MarketplaceAddress
                         )
                     } else {
                         alert('connect to meta mask wallet')
@@ -479,7 +478,6 @@ const ExploreSingleBuy = () => {
                         }
                         const putOffSale = await marketplace_contract.methods
                             .putOffSale(
-                                //userInput.collection_address || erc1155Mintable_adddress,
                                 data?.collection_address,
                                 parseInt(data?.token_id),
 
@@ -515,7 +513,7 @@ const ExploreSingleBuy = () => {
                             file: data.file,
                             transaction_hash: data.transactionHash,
                             type: 'putOffSale',
-                            chain_id: 'rinkeby',
+                            chain_id: 'eth',
                             //order_type: data.market_type,
 
                             on_sale: false,
@@ -530,12 +528,12 @@ const ExploreSingleBuy = () => {
                             file: data.file,
                             transaction_hash: data.transactionHash,
                             type: 'putOffSale',
-                            chain_id: 'rinkeby',
+                            chain_id: 'eth',
                         }
                     }
 
                     const updateCollectible = await fetch(
-                        'https://dev.api.nftytribe.io/api/collectibles/update-collectible',
+                        'https://api.nftytribe.io/api/collectibles/update-collectible',
                         {
                             method: 'PUT',
                             headers: {

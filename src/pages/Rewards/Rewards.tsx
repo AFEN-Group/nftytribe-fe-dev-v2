@@ -150,10 +150,11 @@ const Rewards = () => {
           >
             <div className={style.sThreeContent}>
               <div className={style.threeLeft}>
-                <h2>Create,Buy, sell NFTs</h2>
+                <h2>Mint,Buy, sell and earn</h2>
                 <p>
-                  Stake your <span> $AFEN</span> tokens to earn 15% Annual
-                  percentage yield as well as up to 50%+ in trading fees.{' '}
+                  {/* Stake your <span> $AFEN</span> tokens to earn 15% Annual
+                  percentage yield as well as up to 50%+ in trading fees.{' '} */}
+                  Earn 15% directly from trading fees when you mint, buy or sell NFTs on NftyTribe respectvely.
                 </p>
                 <button
                   //className={`${dark === 'true' ? 'yellowBtn' : 'blueBtn'}}`}>
@@ -227,10 +228,9 @@ const Rewards = () => {
                 />
               </div>
               <div className={style.fourRight}>
-                <h2>Token burn</h2>
+                <h2>Periodic token burns</h2>
                 <p>
-                  We’ve adopted the looksrare model and added more rewards on
-                  Nftytribe.
+                  5% of transaction fees geenrated on Nftytribe will be used to buy back $AFEN tokens an consequently burned.
                 </p>
                 <button
                   //className={`${dark === 'true' ? 'yellowBtn' : 'blueBtn'}}`}>

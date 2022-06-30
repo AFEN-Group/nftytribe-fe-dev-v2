@@ -166,7 +166,7 @@ const ExploreSingle = () => {
                 if (nftDetails?.is_multiple) {
                     uri = await erc1155Contract.methods.uri(id).call();
                 }
-                const moralis_uri = `https://deep-index.moralis.io/api/v2/nft/${collectionAddress}/${id}?chain=rinkeby&format=decimal&offset=0&limit=20`
+                const moralis_uri = `https://deep-index.moralis.io/api/v2/nft/${collectionAddress}/${id}?chain=eth&format=decimal&offset=0&limit=20`
                 const { data } = await axios({
                     method: 'get',
                     url: moralis_uri,
@@ -412,7 +412,7 @@ const ExploreSingle = () => {
                             file: data.file,
                             transaction_hash: data.transactionHash,
                             type: 'putOffSale',
-                            chain_id: 'rinkeby',
+                            chain_id: 'eth',
 
                             on_sale: false,
                             marketplace_type: data.marketplace_type,
@@ -435,13 +435,13 @@ const ExploreSingle = () => {
                             file: data.file,
                             transaction_hash: data.transactionHash,
                             type: 'putOffSale',
-                            chain_id: 'rinkeby',
+                            chain_id: 'eth',
                             on_sale: false
                         }
                     }
 
                     const updateCollectible = await fetch(
-                        'https://dev.api.nftytribe.io/api/collectibles/update-collectible',
+                        'https://api.nftytribe.io/api/collectibles/update-collectible',
                         {
                             method: 'PUT',
                             headers: {
@@ -549,7 +549,7 @@ const ExploreSingle = () => {
                             file: data.file,
                             transaction_hash: data.transactionHash,
                             type: 'putOffSale',
-                            chain_id: 'rinkeby',
+                            chain_id: 'eth',
                             //order_type: data.market_type,
 
                             on_sale: false,
@@ -564,12 +564,12 @@ const ExploreSingle = () => {
                             file: data.file,
                             transaction_hash: data.transactionHash,
                             type: 'putOffSale',
-                            chain_id: 'rinkeby',
+                            chain_id: 'eth',
                         }
                     }
 
                     const updateCollectible = await fetch(
-                        'https://dev.api.nftytribe.io/api/collectibles/update-collectible',
+                        'https://api.nftytribe.io/api/collectibles/update-collectible',
                         {
                             method: 'PUT',
                             headers: {

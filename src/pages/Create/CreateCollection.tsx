@@ -62,7 +62,7 @@ const CreateCollection = () => {
       form_data.append('upload', e.target.files[0])
       try {
         const resp = await fetch(
-          'https://dev.api.nftytribe.io/api/collectibles/upload-image',
+          'https://api.nftytribe.io/api/collectibles/upload-image',
           {
             method: 'POST',
             body: form_data,
@@ -106,7 +106,7 @@ const CreateCollection = () => {
     //   }
     // }
     const wallet_address = localStorage.getItem('currentAccount')
-    const chain = 'rinkeby'
+    const chain = 'eth'
     const contract_address = contracts.erc721FactoryAddress
     // console.log(contract_address, '<< contract ?')
     // console.log(wallet_address, '<< wallet ?')

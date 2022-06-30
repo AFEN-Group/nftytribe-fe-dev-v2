@@ -16,12 +16,14 @@ import Container from '../../components/Container/Container'
 import TextInput from '../../components/Inputs/TextInput'
 import TextArea from '../../components/Inputs/TextArea'
 import { publicRequest } from '../../utils/requestMethods'
-import Verification from './Verification/Verification'
+import Verification from './Modals/Verification'
+import UpdateComplete from './Modals/UpdateComplete'
 
 const EditProfile = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [themeState] = useContext<any>(ThemeContext)
   const [showVerify, setShowVerify] = useState(false)
+  const [updated, setUpdated] = useState(false)
   const dark = themeState.dark
   const currentAddress = localStorage.getItem('currentAccount')
   const [authState, setAuthState] = useContext<any>(AuthContext)
@@ -92,7 +94,7 @@ const EditProfile = () => {
       form_data.append('upload', e.target.files[0])
       try {
         const resp = await fetch(
-          'https://dev.api.nftytribe.io/api/collectibles/upload-image',
+          'https://api.nftytribe.io/api/collectibles/upload-image',
           {
             method: 'POST',
             body: form_data,
@@ -242,6 +244,7 @@ const EditProfile = () => {
       //   error: false,
       // })
       setIsLoading(false)
+      setUpdated(true)
     } catch (err) {
       console.log(err)
       setAuthState({
@@ -264,6 +267,7 @@ const EditProfile = () => {
       {showVerify &&
         <Verification closeVerify={closeVerify} />
       }
+      {updated && <UpdateComplete closeVerify={closeVerify} />}
 
       <Container>
         <div className={style.container}>
@@ -398,10 +402,10 @@ const EditProfile = () => {
                     value={userInput.website}
                   />
                 </div>
-                <div className={`${style.inputField} ${style.mgTop5} `}>
+                <div className={`${style.inputField} ${style.mgTop5}  `}>
                   <p>Verification</p>
                   <h4>To get verified and a blue tick</h4>
-                  <button type='button' onClick={() => setShowVerify(true)}>Verify</button>
+                  <button disabled type='button' onClick={() => setShowVerify(true)}>Verify</button>
                 </div>
                 <div className={style.editBtn}>
                   <button

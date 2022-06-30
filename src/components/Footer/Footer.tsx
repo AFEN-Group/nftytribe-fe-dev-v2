@@ -93,18 +93,18 @@ const Footer = () => {
             {/* <Link to="/">
               <img src={Facebook} alt="facebook" />
             </Link> */}
-            <Link to="/">
+            <a href="https://instagram.com/nftytribe">
               <img src={IG} alt="instagram" />
-            </Link>
+            </a>
             {/* <Link to="/">
               <img src={Mail} alt="mail" />
             </Link>
             <Link to="/">
               <img src={Medium} alt="medium" />
             </Link> */}
-            <Link to="/">
+            <a href="https://twitter.com/NftyTribe">
               <img src={Twitter} alt="twitter" />
-            </Link>
+            </a>
           </div>
         </div>
       </div>

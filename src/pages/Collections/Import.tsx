@@ -9,7 +9,8 @@ import Happy from './assets/happy.svg'
 const Import = (props: any) => {
   const [isLoading, setIsLoading] = useState(false)
   const [userInput, setUserInput, userInputRef] = useState<any>({
-    chain: 'rinkeby',
+    //chain: 'rinkeby',
+    chain: 'eth',
     address: '',
   })
   const [isEmpty, setIsEmpty] = useState(true)
@@ -37,7 +38,7 @@ const Import = (props: any) => {
         const wallet_address = localStorage.getItem('currentAccount')
         console.log(wallet_address)
         const data = await fetch(
-          `https://dev.api.nftytribe.io/api/collections/import-collection`,
+          `https://api.nftytribe.io/api/collections/import-collection`,
           {
             method: 'POST',
             body: JSON.stringify({
@@ -103,8 +104,10 @@ const Import = (props: any) => {
                 <div className={style.modalInput}>
                   <p>Blockchain</p>
                   <select name="chain" onChange={inputHandler}>
-                    <option value="rinkeby">Rinkeby</option>
-                    <option value="ropsten">Ropsten</option>
+                    {/* <option value="rinkeby">Rinkeby</option>
+                    <option value="ropsten">Ropsten</option> */}
+                    <option value="eth">Ethereum</option>
+
                   </select>
                 </div>
                 <div className={style.modalInput}>

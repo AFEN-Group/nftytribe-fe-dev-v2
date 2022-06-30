@@ -116,7 +116,7 @@ const CreateItems = () => {
     const getCollections = async () => {
       try {
         const collections = await publicRequest.get(
-          `/collections/user-collection?wallet_address=${wallet_address}&chain_id=rinkeby`,
+          `/collections/user-collection?wallet_address=${wallet_address}&chain_id=eth`,
         )
         console.log(collections.data?.data.collections)
         setUserCollections(collections?.data?.data.collections)
@@ -179,7 +179,7 @@ const CreateItems = () => {
       form_data.append('upload', e.target.files[0])
       try {
         const resp = await fetch(
-          'https://dev.api.nftytribe.io/api/collectibles/upload-image',
+          'https://api.nftytribe.io/api/collectibles/upload-image',
           {
             method: 'POST',
             body: form_data,
@@ -267,7 +267,7 @@ const CreateItems = () => {
     console.log(wallet_address)
     if (wallet_address) {
       //check if wallet is connected
-      const chain = 'rinkeby'
+      const chain = 'eth'
       let returnvalues: any
       if (itemType === 'single') {
         switch (step) {
@@ -293,12 +293,12 @@ const CreateItems = () => {
               let nonceData: any
               if (data.is_lazy_mint) {
                 const getNonce = await fetch(
-                  'https://dev.api.nftytribe.io/api/collectibles/get-nonce',
+                  'https://api.nftytribe.io/api/collectibles/get-nonce',
                 )
                 nonceData = await getNonce.json()
               }
               const resp = await fetch(
-                'https://dev.api.nftytribe.io/api/collectibles/create',
+                'https://api.nftytribe.io/api/collectibles/create',
                 {
                   method: 'POST',
                   headers: {
@@ -307,6 +307,7 @@ const CreateItems = () => {
                   body: JSON.stringify({
                     ...data,
                     nonce: nonceData?.data?.nonce,
+                    price: Web3.utils.toWei(data.price, 'ether'),
                   }),
                 },
               )
@@ -372,13 +373,14 @@ const CreateItems = () => {
                     userInput.collection_address || erc721Mintable_address,
                   file: response.data.file,
                   type: 'mint',
-                  chain_id: 'rinkeby'
+                  chain_id: 'eth',
+                  price: web3.utils.toWei(data.price, 'ether'),
                 }
 
                 console.log(updatableData, 'get upload')
 
                 const updateCollectible = await fetch(
-                  'https://dev.api.nftytribe.io/api/collectibles/update-collectible',
+                  'https://api.nftytribe.io/api/collectibles/update-collectible',
                   {
                     method: 'PUT',
                     headers: {
@@ -433,7 +435,7 @@ const CreateItems = () => {
                 }
 
                 const updateCollectible = await fetch(
-                  'https://dev.api.nftytribe.io/api/collectibles/update-collectible',
+                  'https://api.nftytribe.io/api/collectibles/update-collectible',
                   {
                     method: 'PUT',
                     headers: {
@@ -609,7 +611,7 @@ const CreateItems = () => {
                   file: response0.data.file,
                   transaction_hash: mint.transactionHash,
                   type: 'putOnSale',
-                  chain_id: 'rinkeby',
+                  chain_id: 'eth',
                   order_type: data.market_type,
 
                   on_sale: true,
@@ -633,12 +635,12 @@ const CreateItems = () => {
                   file: response0.data.file,
                   transaction_hash: mint.transactionHash,
                   type: 'putOnSale',
-                  chain_id: 'rinkeby',
+                  chain_id: 'eth',
                 }
               }
 
               const updateCollectible = await fetch(
-                'https://dev.api.nftytribe.io/api/collectibles/update-collectible',
+                'https://api.nftytribe.io/api/collectibles/update-collectible',
                 {
                   method: 'PUT',
                   headers: {
@@ -697,12 +699,12 @@ const CreateItems = () => {
               let nonceData: any
               if (data.is_lazy_mint) {
                 const getNonce = await fetch(
-                  'https://dev.api.nftytribe.io/api/collectibles/get-nonce',
+                  'https://api.nftytribe.io/api/collectibles/get-nonce',
                 )
                 nonceData = await getNonce.json()
               }
               const resp = await fetch(
-                'https://dev.api.nftytribe.io/api/collectibles/create',
+                'https://api.nftytribe.io/api/collectibles/create',
                 {
                   method: 'POST',
                   headers: {
@@ -779,14 +781,14 @@ const CreateItems = () => {
                     userInput.collection_address || erc1155Mintable_adddress,
                   file: response.data.file,
                   type: 'mint',
-                  chain_id: 'rinkeby',
+                  chain_id: 'eth',
                   price: web3.utils.toWei(data.price, 'ether'),
                 }
 
                 console.log(updatableData, 'get upload')
 
                 const updateCollectible = await fetch(
-                  'https://dev.api.nftytribe.io/api/collectibles/update-collectible',
+                  'https://api.nftytribe.io/api/collectibles/update-collectible',
                   {
                     method: 'PUT',
                     headers: {
@@ -845,7 +847,7 @@ const CreateItems = () => {
                 }
 
                 const updateCollectible = await fetch(
-                  'https://dev.api.nftytribe.io/api/collectibles/update-collectible',
+                  'https://api.nftytribe.io/api/collectibles/update-collectible',
                   {
                     method: 'PUT',
                     headers: {
@@ -1017,7 +1019,7 @@ const CreateItems = () => {
                   file: response0.data.file,
                   transaction_hash: mint.transactionHash,
                   type: 'putOnSale',
-                  chain_id: 'rinkeby',
+                  chain_id: 'eth',
                   order_type: data.market_type,
 
                   on_sale: true,
@@ -1041,12 +1043,12 @@ const CreateItems = () => {
                   file: response0.data.file,
                   transaction_hash: mint.transactionHash,
                   type: 'putOnSale',
-                  chain_id: 'rinkeby',
+                  chain_id: 'eth',
                 }
               }
 
               const updateCollectible = await fetch(
-                'https://dev.api.nftytribe.io/api/collectibles/update-collectible',
+                'https://api.nftytribe.io/api/collectibles/update-collectible',
                 {
                   method: 'PUT',
                   headers: {

@@ -148,7 +148,7 @@ const ExploreSingle = () => {
         if (nftDetails.is_multiple) {
           uri = await erc1155Contract.methods.uri(id).call();
         }
-        const moralis_uri = `https://deep-index.moralis.io/api/v2/nft/${collectionAddress}/${id}?chain=rinkeby&format=decimal&offset=0&limit=20`
+        const moralis_uri = `https://deep-index.moralis.io/api/v2/nft/${collectionAddress}/${id}?chain=eth&format=decimal&offset=0&limit=20`
         const { data } = await axios({
           method: 'get',
           url: moralis_uri,

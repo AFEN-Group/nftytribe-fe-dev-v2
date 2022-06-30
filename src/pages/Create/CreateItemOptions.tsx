@@ -124,7 +124,7 @@ const CreateItemOptions = () => {
                   </Link>
                   <Link
                     to={`/createItem/${chain}/multiple`}
-                    className={style.optBox2}
+                    className={`${style.optBox2} ${style.disable}`}
                   >
                     <img className={style.tImg} src={Polygon} alt="single" />
                     <p>Multiple</p>

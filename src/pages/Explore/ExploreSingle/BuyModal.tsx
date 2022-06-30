@@ -103,7 +103,7 @@ const BuyModal = (props: any) => {
       if (props.nftDetails.is_lazy_mint) {
         try {
           const getnftnonce = await fetch(
-            `https://dev.api.nftytribe.io/api/collectibles/nft/${props.nftDetails._id}/get-collectible-nonce`,
+            `https://api.nftytribe.io/api/collectibles/nft/${props.nftDetails._id}/get-collectible-nonce`,
           )
           const nonceData = await getnftnonce.json()
           const mintingCharge = await erc721Contract.methods
@@ -145,14 +145,14 @@ const BuyModal = (props: any) => {
             file: props.nftDetails.file,
             wallet_address: props.nftDetails.wallet_address,
             collection_address: props.nftDetails.collection_address,
-            chain_id: 'rinkeby',
+            chain_id: 'eth',
             type: 'mint',
             transaction_hash: events.Transfer[0].transactionHash,
             on_sale: false,
           }
 
           const collectible = await fetch(
-            `https://dev.api.nftytribe.io/api/collectibles/update-collectible`,
+            `https://api.nftytribe.io/api/collectibles/update-collectible`,
             {
               method: 'PUT',
               headers: {
@@ -170,13 +170,13 @@ const BuyModal = (props: any) => {
             wallet_address: props.nftDetails.wallet_address,
             token_id,
             collection_address: props.nftDetails.collection_address,
-            chain: 'rinkeby',
+            chain_id: 'eth',
             price: props.nftDetails.price,
             transaction_hash: events.Transfer[1].transactionHash,
           }
 
           const buy = await fetch(
-            'https://dev.api.nftytribe.io/api/collectibles/buy',
+            'https://api.nftytribe.io/api/collectibles/buy',
             {
               method: 'POST',
               headers: {
@@ -218,14 +218,14 @@ const BuyModal = (props: any) => {
               props?.nft?.token_address ||
               props?.nftDetails?.collection_address,
             buyer: userWallet,
-            chain: 'rinkeby',
+            chain_id: 'eth',
             transaction_hash: transactionHash,
             price: props?.nft?.amount || props?.nftDetails?.price,
             token_id: props?.nft?.token_id || props?.nftDetails?.token_id,
           }
 
           const buy = await fetch(
-            `https://dev.api.nftytribe.io/api/collectibles/buy`,
+            `https://api.nftytribe.io/api/collectibles/buy`,
             {
               method: 'POST',
               body: JSON.stringify(itemObj),
@@ -290,7 +290,7 @@ const BuyModal = (props: any) => {
             props?.nft?.token_address ||
             props?.nftDetails?.collection_address,
           buyer: userWallet,
-          chain: 'rinkeby',
+          chain_id: 'eth',
           transaction_hash: transactionHash,
           price: props?.nft?.amount || props?.nftDetails?.price,
           token_id: props?.nft?.token_id || props?.nftDetails?.token_id,
@@ -298,7 +298,7 @@ const BuyModal = (props: any) => {
         }
 
         const buyApi = await fetch(
-          `https://dev.api.nftytribe.io/api/collectibles/buy-multiple`,
+          `https://api.nftytribe.io/api/collectibles/buy-multiple`,
           {
             method: 'POST',
             body: JSON.stringify(itemObj),

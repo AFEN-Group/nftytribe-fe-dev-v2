@@ -1,8 +1,8 @@
 // eslint-disable-next-line
 export default {
-  erc721MintableAddress: '0x94D048E1AEC1058BD6c2a32a5d4d7EC2f718623d',
-  erc721FactoryAddress: '0xC6BF837444a5b201D926c8d81aAa6dc1ba71193f',
-  erc721MarketplaceAddress: '0x99a7ba44462BD9d61Fd2b5D700D92F057817be77',
+  erc721MintableAddress: '0x4f87af224cacae32c48dc9a7c51a43ea5c88eec1',
+  erc721FactoryAddress: '0x2acedd4668f44d56449efd87724259763a4ebccd',
+  erc721MarketplaceAddress: '0xb38b1c67fda3711bab364b3c57c6a5101a931395',
 
 
   erc1155MintableAdddress: '0xCE8e4E1b586dA68F65A386968185ecBE8f222B89',
