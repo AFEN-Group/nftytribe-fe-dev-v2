@@ -261,8 +261,12 @@ const ExploreSingle = () => {
                     //const dateToday = Math.floor(Date.now() / 1000)
                     // console.log("today>>>", dateToday)
                     // console.log("end date>>>", dateFuture)
-                    console.log(parseInt(dateFuture),dateToday,parseInt(dateFuture) < dateToday)
+                    console.log(parseInt(dateFuture), dateToday, parseInt(dateFuture) < dateToday)
+                    console.log("end date", parseInt(dateFuture))
+                    console.log("today's date", dateToday)
                     if (parseInt(dateFuture) < dateToday) {
+                        console.log("end date", parseInt(dateFuture))
+                        console.log("today's date", dateToday)
                         setIsBidActive(false)
                     } else {
                         setIsBidActive(true)
@@ -323,7 +327,7 @@ const ExploreSingle = () => {
             console.log('not available')
         }
     }
-    const handleSale = async (e : any) => {
+    const handleSale = async (e: any) => {
         e.preventDefault()
         if (!nftDetails?.on_sale) {
             //put on sale
@@ -496,7 +500,7 @@ const ExploreSingle = () => {
                                 new Date(data.starting_time).getTime() / 1000
                             data.ending_time = new Date(data.ending_time).getTime() / 1000
                         }
-                        console.log(data,'this is data')
+                        console.log(data, 'this is data')
                         const putOffSale = await marketplace_contract.methods
                             .putSaleOff(
                                 //userInput.collection_address || erc1155Mintable_adddress,                               
@@ -836,18 +840,18 @@ const ExploreSingle = () => {
                                                     >
                                                         Bid
                                                     </button>) : (
-                                                        <>
+                                                    <>
                                                         {console.log(isBidActive)}
-                                                    <button
-                                                        disabled={!isLoaded || isBidActive}
-                                                        className={`${style.gradBtn} ${dark === 'true' ? 'darkGradient' : 'lightGradient'
-                                                            } `}
-                                                        onClick={handleSale}
-                                                    >
-                                                        {!nftDetails?.on_sale ?
-                                                            'Put On Sale'
-                                                            : 'Remove from Sale'}
-                                                    </button>
+                                                        <button
+                                                            disabled={!isLoaded || isBidActive}
+                                                            className={`${style.gradBtn} ${dark === 'true' ? 'darkGradient' : 'lightGradient'
+                                                                } `}
+                                                            onClick={handleSale}
+                                                        >
+                                                            {!nftDetails?.on_sale ?
+                                                                'Put On Sale'
+                                                                : 'Remove from Sale'}
+                                                        </button>
                                                     </>
                                                 )}
                                                 {canCollect &&

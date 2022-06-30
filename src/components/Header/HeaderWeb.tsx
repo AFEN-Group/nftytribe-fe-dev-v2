@@ -165,6 +165,7 @@ const HeaderWeb = (props: any) => {
                   <p>Rewards</p>
                 </Link>
               </div>
+
               <div className={style.buttonsBox}>
                 <div className={style.buttons}>
                   <div

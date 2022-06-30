@@ -11,6 +11,7 @@ import m7 from '../assets/member7.svg'
 import m8 from '../assets/member8.svg'
 import m9 from '../assets/member9.svg'
 import m10 from '../assets/member10.svg'
+import Marquee from 'react-fast-marquee'
 
 const Team = () => {
   return (
@@ -23,7 +24,12 @@ const Team = () => {
             </h1>
           </div>
           <div className={style.trBody}>
-            <div className={style.trSlides1}>
+            <Marquee
+              speed={110}
+              pauseOnHover={true}
+              gradient={false}
+              className={style.slidesContainer}
+            >
               <div className={style.trSlide}>
                 <div className={style.teamMember}>
                   <img src={m1} alt="member" />
@@ -49,77 +55,7 @@ const Team = () => {
                   <img src={m5} alt="member" />
                 </div>
               </div>
-
-              <div className={style.trSlide}>
-                <div className={style.teamMember}>
-                  <img src={m1} alt="member" />
-                </div>
-              </div>
-              <div className={style.trSlide}>
-                <div className={style.teamMember}>
-                  <img src={m2} alt="member" />
-                </div>
-              </div>
-              <div className={style.trSlide}>
-                <div className={style.teamMember}>
-                  <img src={m3} alt="member" />
-                </div>
-              </div>
-              <div className={style.trSlide}>
-                <div className={style.teamMember}>
-                  <img src={m4} alt="member" />
-                </div>
-              </div>
-            </div>
-
-            <div className={style.trSlides2}>
-              <div className={style.trSlide}>
-                <div className={style.teamMember}>
-                  <img src={m6} alt="member" />
-                </div>
-              </div>
-              <div className={style.trSlide}>
-                <div className={style.teamMember}>
-                  <img src={m7} alt="member" />
-                </div>
-              </div>
-              <div className={style.trSlide}>
-                <div className={style.teamMember}>
-                  <img src={m8} alt="member" />
-                </div>
-              </div>
-              <div className={style.trSlide}>
-                <div className={style.teamMember}>
-                  <img src={m9} alt="member" />
-                </div>
-              </div>
-              <div className={style.trSlide}>
-                <div className={style.teamMember}>
-                  <img src={m10} alt="member" />
-                </div>
-              </div>
-
-              <div className={style.trSlide}>
-                <div className={style.teamMember}>
-                  <img src={m6} alt="member" />
-                </div>
-              </div>
-              <div className={style.trSlide}>
-                <div className={style.teamMember}>
-                  <img src={m7} alt="member" />
-                </div>
-              </div>
-              <div className={style.trSlide}>
-                <div className={style.teamMember}>
-                  <img src={m8} alt="member" />
-                </div>
-              </div>
-              <div className={style.trSlide}>
-                <div className={style.teamMember}>
-                  <img src={m9} alt="member" />
-                </div>
-              </div>
-            </div>
+            </Marquee>
           </div>
         </div>
       </div>

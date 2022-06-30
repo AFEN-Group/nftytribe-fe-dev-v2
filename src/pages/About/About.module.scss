@@ -325,6 +325,12 @@
   position: relative;
 }
 
+.slidesContainer {
+  margin: 2em 0;
+  padding: 1em;
+  //background: pink;
+}
+
 .trSlides1 {
   margin-top: 1em;
   animation: scrolling3 10s linear infinite;
