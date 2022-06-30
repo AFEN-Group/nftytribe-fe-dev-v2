@@ -231,7 +231,7 @@ const UserConnect = () => {
             ...userInfo,
             chain: ' ',
           })
-          window.location.reload()
+          window.location = '/'
         } catch (err) {
           console.log(err)
         }
