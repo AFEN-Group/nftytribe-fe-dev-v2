@@ -82,6 +82,7 @@ const ExploreSingleBuy = () => {
         seconds: '',
     })
     const [timeDifference, setTimeDifference] = useState<any>()
+    const [showDrop, setShowDrop] = useState(false)
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -701,10 +702,18 @@ const ExploreSingleBuy = () => {
                                             <p>Offers</p>
                                         </div>
                                     </div>
-                                    <div className={style.rightIcons}>
+                                    <div className={style.rightIcons} onClick={() => setShowDrop(!showDrop)}>
                                         {/* <img src={dark === 'true' ? Share2 : Share} alt="share" /> */}
                                         <img src={dark === 'true' ? Dots2 : Dots} alt="dots" />
                                     </div>
+                                    {showDrop && (
+                                        <div className={`${style.drop} ${dark === 'true' ? 'darkTheme' : 'lightTheme'} animate__animated animate__fadeInUp animate__faster`}
+                                            onClick={() => setShowDrop(!showDrop)}
+                                        >
+                                            <p >Share</p>
+                                            <p >Report</p>
+                                        </div>
+                                    )}
                                 </div>
                                 <div className={style.rightTitles}>
                                     <div className={style.userBx}>
@@ -772,7 +781,7 @@ const ExploreSingleBuy = () => {
                                             ) : (
                                                 <button
                                                     disabled={
-                                                        !isLoaded || isLoading
+                                                        !isLoaded || isLoading || nftDetails?.on_sale // remove on sale check
                                                     }
                                                     className={`${style.regBtn} ${dark === 'true' ? 'lightBorder' : 'darkBorder'} 
                                                         ${dark === 'true' ? 'lightTxt' : 'darkTxt'

@@ -432,6 +432,10 @@
     //background: pink;
     //padding: 5em auto;
     margin: 4em auto;
+
+    .itemsContent {
+      @include flexRegular(column, flex-start);
+    }
   }
 
 }
