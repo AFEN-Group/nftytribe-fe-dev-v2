@@ -383,12 +383,57 @@
   width: 26vw;
   flex-shrink: 0;
   margin-left: 4vw;
+  position: relative;
   //background: pink;
+  transition: .2s ease-in;
+
+  .mText {
+    position: absolute;
+    color: #fff;
+    bottom: -13px;
+    //background: rgba(0, 0, 0, 0.103);
+    //opacity: 0;
+    padding: 3em 1em;
+    width: 395px;
+    // height: 295px;
+    transition: .2s ease-in;
+    border-radius: 0 24px 0 24px;
+    left: 1em;
+    //background: pink;
+
+    h3 {
+      font-family: 'Neue-bold';
+      font-size: 1.5em;
+      //font-size: 18px;
+    }
+
+    // &:hover {
+    //   opacity: 1;
+    // }
+  }
+
+
 }
 
 .trSlidesp {
   width: 15vw;
 }
+
+.teamMember {
+  img {
+    width: 395px;
+    height: 295px;
+  }
+}
+
+// .overlay {
+//   background: rgba(0, 0, 0, 0.491);
+//   width: 395px;
+//   height: 295px;
+//   position: absolute;
+// }
+
+
 
 @media (max-width: 1208px) {
   .sectionFour {

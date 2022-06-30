@@ -29,6 +29,7 @@ import erc1155MintableAbi from '../../../smart_contracts/erc1155Mintable.json'
 import erc721MarketplaceAbi from '../../../smart_contracts/erc721Market.json'
 //import erc1155MarketplaceAbi from '../../../smart_contracts/erc1155Market.json'
 import Web3 from 'web3'
+import contracts from '../../../web3-Service/contractAddress'
 // import { shortenAddress } from '../../../utils/formatting'
 
 import Loader from '../../../components/Loader/Loader'
@@ -38,11 +39,15 @@ import { shortenAddress } from '../../../utils/formatting'
 import PutOnSaleModal from './PutOnSaleModal'
 declare const window: any
 
-const erc721Mintable_address = '0x236DdF1f75c0bA5Eb29a8776Ec1820E5dC41a59a'
-const erc721Marketplace_address = '0xD5582083916dc813f974ce4CA3F27E6977e161cF'
-const erc1155Mintable_adddress = '0xCE8e4E1b586dA68F65A386968185ecBE8f222B89'
-const erc1155Factory_address = '0xad1235972331af412613b8a0478d29b07bf70179'
-const erc1155Marketplace_address = '0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd'
+const erc721Mintable_address = contracts.erc721MintableAddress
+//const erc721Marketplace_address = contracts.erc721MarketplaceAddress
+const erc1155Mintable_adddress = contracts.erc1155MintableAdddress
+
+// const erc721Mintable_address = '0x236DdF1f75c0bA5Eb29a8776Ec1820E5dC41a59a'
+// const erc721Marketplace_address = '0xD5582083916dc813f974ce4CA3F27E6977e161cF'
+// const erc1155Mintable_adddress = '0xCE8e4E1b586dA68F65A386968185ecBE8f222B89'
+// const erc1155Factory_address = '0xad1235972331af412613b8a0478d29b07bf70179'
+// const erc1155Marketplace_address = '0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd'
 
 const ExploreSingle = () => {
     const { collectionAddress, id } = useParams()
@@ -264,9 +269,14 @@ const ExploreSingle = () => {
                     console.log(parseInt(dateFuture), dateToday, parseInt(dateFuture) < dateToday)
                     console.log("end date", parseInt(dateFuture))
                     console.log("today's date", dateToday)
-                    if (parseInt(dateFuture) < dateToday) {
-                        console.log("end date", parseInt(dateFuture))
-                        console.log("today's date", dateToday)
+                    // if (parseInt(dateFuture) < dateToday) {
+                    //     console.log("end date", parseInt(dateFuture))
+                    //     console.log("today's date", dateToday)
+                    //     setIsBidActive(false)
+                    // } else {
+                    //     setIsBidActive(true)
+                    // }
+                    if (!checkIfBIdTimePasses) {
                         setIsBidActive(false)
                     } else {
                         setIsBidActive(true)
