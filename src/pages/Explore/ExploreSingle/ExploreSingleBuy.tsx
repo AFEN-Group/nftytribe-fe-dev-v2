@@ -137,9 +137,9 @@ const ExploreSingleBuy = () => {
             } else {
                 await getNftDetails()
                 console.log("nft Details>>", nftDetailsRef.current)
-                let contract_address = '0xd5582083916dc813f974ce4ca3f27e6977e161cf'
+                let contract_address = contracts.erc721MarketplaceAddress
                 if (nftDetailsRef.current?.is_multiple) {
-                    contract_address = "0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd"
+                    contract_address = contracts.erc1155MarketplaceAddress
                 }
 
                 let erc721Contract
