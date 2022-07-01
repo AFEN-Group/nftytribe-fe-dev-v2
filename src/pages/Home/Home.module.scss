@@ -397,6 +397,21 @@
   }
 }
 
+@media (max-width: 1285px) {
+
+  .hero {
+    width: 95%;
+
+  }
+
+  .heroTopContent {
+    .heroTopRight {
+      width: 25%;
+      //background: pink;
+    }
+  }
+}
+
 @media (max-width: 1085px) {
   .hero {
     width: 100%;
@@ -413,7 +428,7 @@
   }
 }
 
-@media (max-width: 970px) {
+@media (max-width: 1083px) {
   .heroTopContent {
     @include flexRegular(column, center);
     //background: pink;

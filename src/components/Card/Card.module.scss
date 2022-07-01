@@ -84,7 +84,17 @@
   }
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 1285px) {
+  .cardImgFeatured {
+    img {
+      width: 37vw;
+      max-width: 400px;
+      height: 410px;
+    }
+  }
+}
+
+@media (max-width: 780px) {
 
   //.cardImg,
   // .cardImg2,

@@ -767,9 +767,37 @@
   .right2 {
     margin-left: 10%;
   }
+
+  .fileBx {
+    //background: pink;
+
+    img {
+      width: 40vw;
+      max-width: 380px;
+    }
+  }
 }
 
 @media (max-width: 680px) {
+
+  .modal,
+  .modalSm {
+    top: 25vh;
+    width: 95vw;
+    min-width: 100px;
+    //background: pink;
+    padding: 5em 1em;
+  }
+
+  .modalTop,
+  .modalTop2 {
+    //background: pink;
+
+    img {
+      top: -3em
+    }
+  }
+
   .createContent {
     // width: 95%;
     @include flexRegular(column, flex-start);
@@ -802,6 +830,13 @@
 
     //@include flexRegular(column, center);
 
+  }
+
+  .fileBx {
+    img {
+      width: 85vw;
+      max-width: 550px;
+    }
   }
 
   .submitBx {

@@ -211,6 +211,15 @@
   /* background: lavender; */
   text-align: center;
 
+  /* scroll */
+  /* ::-webkit-scrollbar {
+  display: none;
+} */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow-y: scroll;
+  overflow-x: visible;
+
   /* background: lavender; */
   margin-top: 6em;
   /* background: #fad744; */

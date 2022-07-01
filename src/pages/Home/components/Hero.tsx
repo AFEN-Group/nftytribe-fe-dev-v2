@@ -228,32 +228,33 @@ const Hero = () => {
                 >
                   Join the tribe
                 </button> */}
-                <Link to="/launchpartners">
+                {currentAccount && (
+                  <Link to="/collections">
+                    <button
+                      className={
+                        dark === 'true'
+                          ? style.lButton1_dark
+                          : style.lButton1_light
+                      }
+                    >
+                      Import Collection
+                    </button>
+                  </Link>)}
+                <Link to="/explore">
+                  {' '}
                   <button
+                    id='show4'
                     className={
                       dark === 'true'
-                        ? style.lButton1_dark
-                        : style.lButton1_light
+                        ? style.lButton2_dark
+                        : style.lButton2_light
                     }
+                    onClick={handleImport}
                   >
-                    Launch with us
+                    Explore Marketplace{' '}
+                    <img src={dark === 'true' ? Arrow1 : Arrow2} alt="" />
                   </button>
                 </Link>
-                {/* <Link to="/collections"> */}
-                {' '}
-                <button
-                  id='show4'
-                  className={
-                    dark === 'true'
-                      ? style.lButton2_dark
-                      : style.lButton2_light
-                  }
-                  onClick={handleImport}
-                >
-                  Import Collection{' '}
-                  <img src={dark === 'true' ? Arrow1 : Arrow2} alt="" />
-                </button>
-                {/* </Link> */}
               </div>
             </div>
           </div>
@@ -266,41 +267,41 @@ const Hero = () => {
                 } `}
             >
               <ul className={style.hb1Content}>
-                <li>Nftytribe public launch is a few days away!! {' >'}</li>
+                <li>Nftytribe beta is live! {' >'}</li>
                 <li></li>
-                <li>Nftytribe coming soon...{'>'}</li>
+                <li>Nftytribe beta is live! {' >'}</li>
                 <li></li>
-                <li>Nftytribe public launch is a few days away!! {' >'}</li>
+                <li>Nftytribe beta is live! {' >'}</li>
                 <li></li>
-                <li>Nftytribe coming soon... {'>'}</li>
+                <li>Nftytribe beta is live! {' >'}</li>
                 <li></li>
-                <li>Nftytribe public launch is a few days away!!{' >'}</li>
+                <li>Nftytribe beta is live! {' >'}</li>
                 <li></li>
-                <li>Nftytribe coming soon...{'>'}</li>
+                <li>Nftytribe beta is live! {' >'}</li>
                 <li></li>
-                <li>Nftytribe public launch is a few days away!! {' >'}</li>
+                <li>Nftytribe beta is live! {' >'}</li>
                 <li></li>
-                <li>Nftytribe coming soon... {'>'}</li>
+                <li>Nftytribe beta is live! {' >'}</li>
                 <li></li>
               </ul>
             </div>
             <div className={style.hBanner2}>
               <ul className={style.hb2Content}>
-                <li>Nftytribe public launch is a few days away!! {' >'}</li>
+                <li>Nftytribe beta is live! {' >'}</li>
                 <li></li>
-                <li>Nftytribe coming soon... {'>'}</li>
+                <li>Nftytribe beta is live! {' >'}</li>
                 <li></li>
-                <li>Nftytribe public launch is a few days away!!{' >'}</li>
+                <li>Nftytribe beta is live! {' >'}</li>
                 <li></li>
-                <li>Nftytribe coming soon... {'>'}</li>
+                <li>Nftytribe beta is live! {' >'}</li>
                 <li></li>
-                <li>Nftytribe public launch is a few days away!! {' >'}</li>
+                <li>Nftytribe beta is live! {' >'}</li>
                 <li></li>
-                <li>Nftytribe coming soon... {'>'}</li>
+                <li>Nftytribe beta is live! {' >'}</li>
                 <li></li>
-                <li>Nftytribe public launch is a few days away!! {' >'}</li>
+                <li>Nftytribe beta is live! {' >'}</li>
                 <li></li>
-                <li>Nftytribe coming soon...{'>'}</li>
+                <li>Nftytribe beta is live! {' >'}</li>
                 <li></li>
               </ul>
             </div>

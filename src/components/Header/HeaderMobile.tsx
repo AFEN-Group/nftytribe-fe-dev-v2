@@ -3,8 +3,8 @@ import style from './Header.module.scss'
 import { useContext, useEffect, useState } from 'react'
 import { ThemeContext } from '../../context/ThemeContext'
 import { Link } from 'react-router-dom'
-import Logo from './assets/logo.svg'
-import Logo2 from './assets/logo-light.svg'
+import Logo from './assets/logoA.svg'
+import Logo2 from './assets/logoA-light.svg'
 import { motion } from 'framer-motion'
 // import Hamburger from './assets/hamburger-dark.svg'
 // import Hamburger2 from './assets/menu2.svg'
@@ -167,6 +167,30 @@ const HeaderMobile = () => {
                         >
                           <Link to="/explore">Explore</Link>
                         </motion.li>
+                        {currentAccount && (
+                          <motion.li
+                            //className={style.disabled}
+                            initial="hidden"
+                            animate="visible"
+                            variants={{
+                              hidden: {
+                                opacity: 0,
+                                scale: 0.2,
+                              },
+                              visible: {
+                                scale: 1,
+                                opacity: 1,
+                                transition: {
+                                  delay: 0.8,
+                                  duration: 0.4,
+                                },
+                              },
+                            }}
+                          >
+                            <Link to="/createOptions">Create</Link>
+
+                          </motion.li>
+                        )}
                         <motion.li
                           //className={style.disabled}
                           initial="hidden"
@@ -188,6 +212,7 @@ const HeaderMobile = () => {
                         >
                           <Link to="/rewards">Rewards</Link>
                         </motion.li>
+
                         <motion.li
                           //className={style.disabled}
                           initial="hidden"
@@ -209,7 +234,54 @@ const HeaderMobile = () => {
                         >
                           <Link to="/about">About</Link>
                         </motion.li>
+                        {currentAccount && (
+                          <>
+                            <motion.li
+                              //className={style.disabled}
+                              initial="hidden"
+                              animate="visible"
+                              variants={{
+                                hidden: {
+                                  opacity: 0,
+                                  scale: 0.2,
+                                },
+                                visible: {
+                                  scale: 1,
+                                  opacity: 1,
+                                  transition: {
+                                    delay: 0.8,
+                                    duration: 0.4,
+                                  },
+                                },
+                              }}
+                            >
+                              <Link to="/profile">Profile</Link>
 
+                            </motion.li>
+                            <motion.li
+                              //className={style.disabled}
+                              initial="hidden"
+                              animate="visible"
+                              variants={{
+                                hidden: {
+                                  opacity: 0,
+                                  scale: 0.2,
+                                },
+                                visible: {
+                                  scale: 1,
+                                  opacity: 1,
+                                  transition: {
+                                    delay: 1,
+                                    duration: 0.4,
+                                  },
+                                },
+                              }}
+                            >
+                              <Link to="/collections">My Collections</Link>
+
+                            </motion.li>
+                          </>
+                        )}
                         <motion.li
                           className={style.connectBtnMobile}
                           initial="hidden"
@@ -229,6 +301,7 @@ const HeaderMobile = () => {
                             },
                           }}
                         >
+
                           {!currentAccount ? (
                             <div
                               className={`${style.btnM} ${dark === 'true' ? 'yellowBtn' : 'blueBtn'

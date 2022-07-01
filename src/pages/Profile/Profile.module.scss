@@ -377,6 +377,14 @@
 }
 
 @media (max-width: 860px) {
+  .coverBx {
+    img {
+      height: 32vh;
+      max-height: 550px;
+      object-fit: cover;
+    }
+  }
+
   .itemsContent {
     @include gridRegular(1.5em);
     grid-template-columns: 2fr 2fr;
