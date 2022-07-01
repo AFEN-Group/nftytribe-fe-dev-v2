@@ -377,11 +377,22 @@
 }
 
 @media (max-width: 860px) {
+
   .coverBx {
     img {
       height: 32vh;
       max-height: 550px;
       object-fit: cover;
+    }
+  }
+
+  .coverBx2 {
+    .cover {
+
+      height: 32vh;
+      max-height: 550px;
+      object-fit: cover;
+
     }
   }
 

@@ -74,7 +74,7 @@ const Hero = () => {
                     <a
                       href='https://awake-cornucopia-fbb.notion.site/Getting-Started-with-NftyTribe-924b743823994844868ad3164115c370'>
                       <div className={style.readMore}>
-                        <p>Read more</p>
+                        <p>Discover</p>
                         <img src={arrow} alt="arrow" />
                       </div>
                     </a>

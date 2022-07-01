@@ -352,27 +352,30 @@
 @media (max-width: 550px) {
   .oneLeft {
     h1 {
-      font-size: 2em;
+      font-size: 1.9em;
+      width: 100%;
+      //background: pink;
     }
 
     p {
-      font-size: .97em;
+      font-size: .95em;
+      width: 100%;
     }
   }
 
   .fourRight {
     h2 {
-      font-size: 1.8em;
+      font-size: 1.7em;
     }
 
     p {
-      font-size: .97em;
+      font-size: .95em;
     }
   }
 
   .sectionTwo {
     h1 {
-      font-size: 2.1em;
+      font-size: 2em;
     }
   }
 
@@ -381,11 +384,11 @@
 
     .twoRight {
       h2 {
-        font-size: 1.8em;
+        font-size: 1.7em;
       }
 
       p {
-        font-size: .97em;
+        font-size: .95em;
       }
     }
 
@@ -408,11 +411,11 @@
 
     .threeLeft {
       h2 {
-        font-size: 1.8em;
+        font-size: 1.7em;
       }
 
       p {
-        font-size: .97em;
+        font-size: .95em;
       }
 
       button {

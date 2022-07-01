@@ -6,9 +6,6 @@ import Happy from './assets/happy.svg'
 //import { Cancel } from '@material-ui/icons'
 
 const UpdateComplete = (props: any) => {
-    const [isLoading, setIsLoading] = useState(false)
-    const [isEmpty, setIsEmpty] = useState(true)
-    const [completed, setCompleted] = useState(false)
 
     return (
         <div>
@@ -25,7 +22,7 @@ const UpdateComplete = (props: any) => {
                         <p>
                             Your profile was updated successfully.
                         </p>
-                        <img src={Close} alt="close" onClick={props.closeVerify} />
+                        <img src={Close} alt="close" onClick={props.closeModal} />
                     </div>
                     <div className={style.modalBody2}>
                         <div className={style.successImg}>

@@ -17,6 +17,7 @@ import ItemCard from '../../components/Card/ItemCard'
 import { shortenAddress } from '../../utils/formatting'
 import Filters from './Filters'
 import Loader from '../../components/Loader/Loader'
+import UpdatePrompt from './Modals/UpdatePrompt'
 
 const Profile = () => {
   //const [tab, setTab] = useState('all')
@@ -32,6 +33,7 @@ const Profile = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
+  const [showModal, setShowModal] = useState<any>()
   //console.log('auth>>', authState)
 
   useEffect(() => {
@@ -39,9 +41,14 @@ const Profile = () => {
     const getUser = async () => {
       try {
         const result = await publicRequest.get(`/user/${currentAddress}`)
-        console.log('user>>>', result.data)
+        console.log('user>>>', result.data.data.email)
         setRes(result.data.data)
         setIsLoading(false)
+        if (!result.data.email || result.data.email === "") {
+          setShowModal(true)
+        } else {
+          setShowModal(false)
+        }
       } catch (error) {
         console.log(error)
         setIsLoading(false)
@@ -87,11 +94,17 @@ const Profile = () => {
       setCurrentPage(currentPage - 1)
     }
   }
+  const closeModal = () => {
+    setShowModal(false)
+  }
 
   return (
     <>
       <Header />
       <Container>
+        {showModal && (
+          <UpdatePrompt closeModal={closeModal} />
+        )}
         <div className={style.container}>
           <div
             className={`${style.coverBx} animate__animated animate__fadeInDown `}

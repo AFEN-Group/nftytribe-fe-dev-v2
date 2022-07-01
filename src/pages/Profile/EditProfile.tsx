@@ -256,7 +256,7 @@ const EditProfile = () => {
     }
   }
 
-  const closeVerify = () => {
+  const closeModal = () => {
     setShowVerify(false)
     //alert("test")
   }
@@ -265,9 +265,9 @@ const EditProfile = () => {
     <>
       <Header />
       {showVerify &&
-        <Verification closeVerify={closeVerify} />
+        <Verification closeVerify={closeModal} />
       }
-      {updated && <UpdateComplete closeVerify={closeVerify} />}
+      {updated && <UpdateComplete closeModal={closeModal} />}
 
       <Container>
         <div className={style.container}>

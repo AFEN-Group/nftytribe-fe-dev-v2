@@ -36,11 +36,11 @@ const Rewards = () => {
           `}>
             <div className={style.sOneContent}>
               <div className={style.oneLeft}>
-                <h1>Earn rewards for every activity on NftyTrybe</h1>
+                <h1>Earn rewards for every activity on NftyTribe</h1>
                 <p>
                   We love our community and we want to make sure we reward all
                   loyal users of the platform with periodic promos they can
-                  participate in
+                  participate in.
                 </p>
               </div>
               <div className={style.oneRight}>
@@ -156,12 +156,14 @@ const Rewards = () => {
                   percentage yield as well as up to 50%+ in trading fees.{' '} */}
                   Earn 15% directly from trading fees when you mint, buy or sell NFTs on NftyTribe respectvely.
                 </p>
-                <button
-                  //className={`${dark === 'true' ? 'yellowBtn' : 'blueBtn'}}`}>
-                  className={`${style.stake} ${dark === 'true' ? 'yellowBtn' : 'blueBtn'}`}>
-                  View current batch
-                  <img src={dark === "true" ? arrow1 : arrow2} alt="view batch" />
-                </button>
+                <Link to="/explore">
+                  <button
+                    //className={`${dark === 'true' ? 'yellowBtn' : 'blueBtn'}}`}>
+                    className={`${style.stake} ${dark === 'true' ? 'yellowBtn' : 'blueBtn'}`}>
+                    Start Trading
+                    <img src={dark === "true" ? arrow1 : arrow2} alt="view batch" />
+                  </button>
+                </Link>
               </div>
               <div className={style.threeRight}>
                 <motion.img

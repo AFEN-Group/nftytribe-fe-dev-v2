@@ -353,9 +353,16 @@
     .modal2 {
         top: 0;
         width: 100vw;
-        height: 90vh;
+        height: 100vh;
         min-width: none;
         max-width: none;
+        padding: 2em;
+    }
+
+    .modalTop {
+        img {
+            top: -10em;
+        }
     }
 
     .modal {
@@ -372,6 +379,8 @@
         overflow-y: auto;
         overflow-x: auto;
     }
+
+
 
     .modalBody,
     .modalBody2 {
