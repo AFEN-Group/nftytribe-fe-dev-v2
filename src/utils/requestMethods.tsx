@@ -1,4 +1,5 @@
 import axios from 'axios'
+import globals from './globalVariables'
 
 //const API_URL = process.env.REACT_APP_API_URL
 //console.log(process.env.REACT_APP_API_URL)
@@ -7,7 +8,8 @@ import axios from 'axios'
 //const TOKEN = user?.tokens?.token
 
 export const publicRequest = axios.create({
-  baseURL: 'https://api.nftytribe.io/api',
+  //baseURL: 'https://api.nftytribe.io/api',
+  baseURL: globals.baseURL,
 })
 
 // export const userRequest = axios.create({

@@ -218,20 +218,21 @@ const ItemCard = (data: any) => {
             </div>
             <div className={style.actionBx}>
               <div className={style.aBcontent}>
-                {!data?.nftData?.is_lazy_mint && (
-                  <div className={style.aleft}>
-                    <img src={eth} alt="eth" />
-                    {data?.nftData?.price ? (
-                      <p>
-                        {' '}
-                        {Web3.utils.fromWei(data?.nftData?.price.toString(), 'ether') ||
-                          '0.00'}{' '}
-                      </p>
-                    ) : (
-                      <p>0.00</p>
-                    )}
-                    {/* <p>2800 Afen</p> */}
-                  </div>)}
+                {/* {!data?.nftData?.is_lazy_mint && ( */}
+                <div className={style.aleft}>
+                  <img src={eth} alt="eth" />
+                  {data?.nftData?.price ? (
+                    <p>
+                      {' '}
+                      {Web3.utils.fromWei(data?.nftData?.price.toString(), 'ether') ||
+                        '0.00'}{' '}
+                    </p>
+                  ) : (
+                    <p>0.00</p>
+                  )}
+                  {/* <p>2800 Afen</p> */}
+                </div>
+                {/* )} */}
                 <div className={style.aright}>
 
                   <p>${usdPrice?.toFixed(2) || '0.00'} </p>

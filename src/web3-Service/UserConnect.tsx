@@ -38,8 +38,9 @@ const UserConnect = () => {
         const accounts = await window.ethereum.request({
           method: 'eth_requestAccounts',
         })
-        if (window.ethereum.chainId === '0x1') {
-          //if (window.ethereum.chainId === '0x4') {
+        //if (window.ethereum.chainId === '0x1' || window.ethereum.chainId === '0x61') { // for both eth and bnb
+        //if (window.ethereum.chainId === '0x4') { // for testnet
+        if (window.ethereum.chainId === '0x1') { // for eth only
           console.log(window.ethereum.chainId)
           localStorage.setItem('chain', window.ethereum.chainId)
           localStorage.setItem('currentAccount', accounts[0])

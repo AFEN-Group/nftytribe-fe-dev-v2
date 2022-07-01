@@ -266,19 +266,19 @@ const Hero = () => {
                 } `}
             >
               <ul className={style.hb1Content}>
-                <li>Nftytribe coming on the 30th of June... {'>'}</li>
+                <li>Nftytribe public launch is a few days away!! {' >'}</li>
                 <li></li>
                 <li>Nftytribe coming soon...{'>'}</li>
                 <li></li>
-                <li>Nftytribe coming on the 30th of June... {'>'}</li>
+                <li>Nftytribe public launch is a few days away!! {' >'}</li>
                 <li></li>
                 <li>Nftytribe coming soon... {'>'}</li>
                 <li></li>
-                <li>Nftytribe coming on the 30th of June...{'>'}</li>
+                <li>Nftytribe public launch is a few days away!!{' >'}</li>
                 <li></li>
                 <li>Nftytribe coming soon...{'>'}</li>
                 <li></li>
-                <li>Nftytribe coming on the 30th of June.. {'>'}</li>
+                <li>Nftytribe public launch is a few days away!! {' >'}</li>
                 <li></li>
                 <li>Nftytribe coming soon... {'>'}</li>
                 <li></li>
@@ -286,19 +286,19 @@ const Hero = () => {
             </div>
             <div className={style.hBanner2}>
               <ul className={style.hb2Content}>
-                <li>Nftytribe coming on the 30th of June... {'>'}</li>
+                <li>Nftytribe public launch is a few days away!! {' >'}</li>
                 <li></li>
                 <li>Nftytribe coming soon... {'>'}</li>
                 <li></li>
-                <li>Nftytribe coming on the 30th of June... {'>'}</li>
+                <li>Nftytribe public launch is a few days away!!{' >'}</li>
                 <li></li>
                 <li>Nftytribe coming soon... {'>'}</li>
                 <li></li>
-                <li>Nftytribe coming on the 30th of June... {'>'}</li>
+                <li>Nftytribe public launch is a few days away!! {' >'}</li>
                 <li></li>
                 <li>Nftytribe coming soon... {'>'}</li>
                 <li></li>
-                <li>Nftytribe coming on the 30th of June... {'>'}</li>
+                <li>Nftytribe public launch is a few days away!! {' >'}</li>
                 <li></li>
                 <li>Nftytribe coming soon...{'>'}</li>
                 <li></li>
