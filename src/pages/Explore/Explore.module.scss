@@ -253,11 +253,13 @@
   margin-left: 1em;
 
   .itemsContent {
+    padding: 0;
     // @include flexRegular(row, flex-start);
     //background: pink;
     @include gridRegular(1em);
     grid-template-columns: 2fr 2fr 2fr;
     align-items: flex-start;
+    justify-content: flex-start;
 
 
     &::-webkit-scrollbar {
@@ -319,12 +321,12 @@
     }
   }
 
-  .itemsContainer {
-    .itemsContent {
-      // background: pink;
-      grid-template-columns: 2fr 2fr;
-    }
-  }
+  //.itemsContainer {
+  // .itemsContent {
+  //   background: pink;
+  //   grid-template-columns: 2fr 2fr;
+  // }
+  //}
 
 }
 
@@ -395,34 +397,47 @@
   }
 
   .itemsContainer {
-    .itemsContent {
+    margin: 0;
+    width: 100%;
 
-      grid-template-columns: 2fr 2fr;
-      align-items: center;
-      justify-content: center;
-      width: 90vw;
-      margin: auto;
+    //@include flexRegular(row, center);
+    .itemsContent {
+      //background: pink;
+      grid-template-columns: 1fr 1fr 1fr;
+      // align-items: center !important;
+      // justify-content: center !important;
+      //padding: 0 0 0 10%;
+      width: 95vw;
+      margin: 0 auto;
       transition: .3s ease-in-out;
     }
   }
 
   @media (max-width: 650px) {
+
+
     .itemsContainer {
       .itemsContent {
         //background: pink;
         grid-template-columns: 1fr;
         margin: auto;
-        padding: auto;
+        padding: 0;
         align-items: center !important;
         justify-content: center !important;
 
         // /* Firefox */
-        // overflow-y: auto;
-        // overflow-x: visible;
+        overflow-y: auto;
+        overflow-x: visible;
         // height: auto;
       }
-    }
 
+      .itemBx {
+        @include flexRegular(row, center);
+        //background: #bcc;
+        padding: 0;
+
+      }
+    }
 
     .filterDrop {
       width: 65%;

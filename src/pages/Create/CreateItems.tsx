@@ -1181,10 +1181,13 @@ const CreateItems = () => {
                 <TextInput
                   type="text"
                   inputName="price"
-                  holder="Enter Price"
+                  holder="Enter ETH Price"
+                  max="12"
                   inputHandler={inputHandler}
                   value={userInput.price}
                 />
+                <div className={style.iDesc}><p>(ETH price)</p></div>
+
               </div>
               <div className={style.fieldBx}>
                 <div className={style.smBtns}>

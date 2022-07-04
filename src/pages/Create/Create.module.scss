@@ -286,10 +286,18 @@
 
 .fieldBx {
   margin-bottom: 1em;
+  position: relative;
 
   p {
     margin-bottom: 0.4em;
   }
+}
+
+
+.iDesc {
+  position: absolute;
+  right: 1em;
+  top: 2.44em;
 }
 
 .cfieldBx {

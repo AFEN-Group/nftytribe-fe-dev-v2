@@ -708,9 +708,9 @@
 @media (max-width: 770px) {
   .trSlide {
     @include flexRegular(row, center);
-    width: 56vw; //
+    width: 64vw; //
     flex-shrink: 0;
-    margin-right: 1vw; //
+    margin-right: 7vw; //
   }
 }
 
@@ -721,6 +721,8 @@
     margin-right: 5vw; //
   }
 }
+
+
 
 // ----- Top Projects
 .topPro {

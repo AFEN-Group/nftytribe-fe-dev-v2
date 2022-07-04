@@ -44,7 +44,7 @@ const Profile = () => {
         console.log('user>>>', result.data.data.email)
         setRes(result.data.data)
         setIsLoading(false)
-        if (!result.data.email || result.data.email === "") {
+        if (!result.data.data.email || result.data.data.email === "") {
           setShowModal(true)
         } else {
           setShowModal(false)
