@@ -1,26 +1,5 @@
 [
     {
-        "inputs": [
-            {
-                "internalType": "string",
-                "name": "_tokenURIPrefix",
-                "type": "string"
-            },
-            {
-                "internalType": "uint96",
-                "name": "_royaltyLimit",
-                "type": "uint96"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_mintingChargePerToken",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-    },
-    {
         "anonymous": false,
         "inputs": [
             {
@@ -43,6 +22,19 @@
             }
         ],
         "name": "ApprovalForAll",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint8",
+                "name": "version",
+                "type": "uint8"
+            }
+        ],
+        "name": "Initialized",
         "type": "event"
     },
     {
@@ -162,6 +154,32 @@
         "type": "fallback"
     },
     {
+        "inputs": [],
+        "name": "USDC",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "WETH",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [
             {
                 "internalType": "address",
@@ -223,6 +241,19 @@
         "type": "function"
     },
     {
+        "inputs": [],
+        "name": "brokerage",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [
             {
                 "internalType": "address",
@@ -269,6 +300,32 @@
         "type": "function"
     },
     {
+        "inputs": [],
+        "name": "contractURI",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "decimalPrecision",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [
             {
                 "internalType": "uint256",
@@ -285,6 +342,69 @@
             }
         ],
         "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "_tokenURIPrefix",
+                "type": "string"
+            },
+            {
+                "internalType": "uint96",
+                "name": "_royaltyLimit",
+                "type": "uint96"
+            },
+            {
+                "internalType": "uint256",
+                "name": "mintingCharge_",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bool",
+                "name": "_chargeInETH",
+                "type": "bool"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_brokerage",
+                "type": "uint256"
+            },
+            {
+                "internalType": "contract IRouter",
+                "name": "_router",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "_WETH",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "_USDC",
+                "type": "address"
+            },
+            {
+                "internalType": "string",
+                "name": "name_",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "symbol_",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "contractURI_",
+                "type": "string"
+            }
+        ],
+        "name": "initialize",
+        "outputs": [],
+        "stateMutability": "nonpayable",
         "type": "function"
     },
     {
@@ -434,6 +554,19 @@
         "type": "function"
     },
     {
+        "inputs": [],
+        "name": "name",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [
             {
                 "internalType": "uint256",
@@ -496,6 +629,19 @@
         "name": "renounceOwnership",
         "outputs": [],
         "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "router",
+        "outputs": [
+            {
+                "internalType": "contract IRouter",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
         "type": "function"
     },
     {
@@ -627,6 +773,45 @@
     {
         "inputs": [
             {
+                "internalType": "uint256",
+                "name": "_brokerage",
+                "type": "uint256"
+            }
+        ],
+        "name": "setBrokerage",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "contractURI_",
+                "type": "string"
+            }
+        ],
+        "name": "setContractURI",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "contract IRouter",
+                "name": "_router",
+                "type": "address"
+            }
+        ],
+        "name": "setRouter",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
                 "internalType": "uint96",
                 "name": "_royaltyLimit",
                 "type": "uint96"
@@ -641,8 +826,13 @@
         "inputs": [
             {
                 "internalType": "uint256",
-                "name": "_mintingChargePerToken",
+                "name": "mintingCharge_",
                 "type": "uint256"
+            },
+            {
+                "internalType": "bool",
+                "name": "_chargeInETH",
+                "type": "bool"
             }
         ],
         "name": "setmintingChargePerToken",
@@ -664,6 +854,19 @@
                 "internalType": "bool",
                 "name": "",
                 "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "symbol",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
             }
         ],
         "stateMutability": "view",

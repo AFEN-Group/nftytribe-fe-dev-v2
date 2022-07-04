@@ -85,23 +85,24 @@ const CreateItems = () => {
     market_type: '1',
     category: '0',
     royalties: 0,
+    copies: 2,
     is_lazy_mint: false,
     starting_time: 0,
     ending_time: 1
   })
   const [cardImage, setCardImage] = useState('')
-  const [imageFile, setImageFile] = useState<any>(null)
+  const [imageFile, setImageFile] = useState<any>('')
   const [userCollections, setUserCollections] = useState([])
 
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
 
-  const royalties = [
-    { value: '0', text: '0%' },
-    { value: '10', text: '10%' },
-    { value: '20', text: '20%' },
-  ]
+  // const royalties = [
+  //   { value: '0', text: '0%' },
+  //   { value: '10', text: '10%' },
+  //   { value: '20', text: '20%' },
+  // ]
   const categories = [
     { value: '', text: 'Select' },
     { value: 'art', text: 'Art' },
@@ -211,7 +212,7 @@ const CreateItems = () => {
       title: '',
       price: '',
     })
-    setImageFile(null)
+    //setImageFile('')
   }
 
   const onSubmit = async (e: any) => {
@@ -228,7 +229,7 @@ const CreateItems = () => {
     // } else {
     //   setValidated(true)
 
-    if (imageFile === null) {
+    if (imageFile === '') {
       setMsg({
         ...msg,
         eMsg: '* Please choose a file! *',
@@ -269,6 +270,7 @@ const CreateItems = () => {
     if (wallet_address) {
       //check if wallet is connected
       const chain = 'eth'
+      const royalties = parseInt(userInput.royalties) * 100
       let returnvalues: any
       if (itemType === 'single') {
         switch (step) {
@@ -287,7 +289,7 @@ const CreateItems = () => {
               data.on_sale = false
             }
             console.log(data, 'recorded')
-
+            const royalties = parseInt(userInput.royalties) * 100
             try {
               setIsLoading(true)
               //db query
@@ -1144,7 +1146,7 @@ const CreateItems = () => {
                       <img src={URL.createObjectURL(imageFile)} alt="nft" />
                       <Cancel
                         className={style.cancel}
-                        onClick={() => setImageFile(null)}
+                        onClick={() => setImageFile('')}
                       />
                     </div>
                   )}

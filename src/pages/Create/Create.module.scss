@@ -403,10 +403,11 @@
   margin: 2em 0;
   @include flexRegular(row, space-between);
   width: 100%;
-  max-width: 450px;
+  max-width: 555px;
   position: relative;
 
   //background: #bcc;
+
   p {
     font-weight: 700;
   }
