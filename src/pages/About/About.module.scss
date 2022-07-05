@@ -302,7 +302,9 @@
 //     font-family: Neue-bold;
 //   }
 // }
-// ----- Team
+
+
+// ----- Team // replace team with trending
 .trending {
   padding: 4em 0 11em 0;
 }
@@ -331,52 +333,6 @@
   //background: pink;
 }
 
-.trSlides1 {
-  margin-top: 1em;
-  animation: scrolling3 10s linear infinite;
-  @include flexRegular(row, flex-start);
-  cursor: pointer;
-
-  //height: 100%;
-  &:hover {
-    animation-play-state: paused;
-  }
-}
-
-.trSlides2 {
-  margin-top: 6em;
-  animation: scrolling3 15s reverse infinite;
-  //animation-direction: alternate;
-  @include flexRegular(row, flex-start);
-  cursor: pointer;
-  height: 100%;
-
-  &:hover {
-    animation-play-state: paused;
-  }
-
-  //background: pink;
-}
-
-@keyframes scrolling3 {
-  0% {
-    transform: translateX(0vw);
-  }
-
-  100% {
-    transform: translateX(-150vw);
-  }
-}
-
-@keyframes scrolling4 {
-  0% {
-    transform: translateX(0vw);
-  }
-
-  100% {
-    transform: translateX(calc(1 * (150vw)));
-  }
-}
 
 .trSlide {
   @include flexRegular(row, center);
@@ -411,8 +367,6 @@
     //   opacity: 1;
     // }
   }
-
-
 }
 
 .trSlidesp {
@@ -421,8 +375,11 @@
 
 .teamMember {
   img {
-    width: 395px;
-    height: 295px;
+    // width: 395px;
+    width: 25vw;
+    min-width: 350px;
+    height: 33vh;
+    min-height: 300px;
   }
 }
 
@@ -446,6 +403,82 @@
     }
   }
 }
+
+// Team section >>
+@media (max-width: 1175px) {
+  .trSlide {
+    @include flexRegular(row, center);
+    width: 30vw; //
+    flex-shrink: 0;
+    margin-right: 2vw; //
+
+  }
+}
+
+@media (max-width: 1024px) {
+  .slidesContainer {
+    margin: 2em 0;
+    padding: 1em;
+
+  }
+
+  .trSlide {
+    @include flexRegular(row, center);
+    width: 36vw; //
+    flex-shrink: 0;
+    margin-right: 2vw; //
+
+  }
+}
+
+@media (max-width: 845px) {
+  .trSlide {
+    @include flexRegular(row, center);
+    width: 42vw; //
+    flex-shrink: 0;
+    margin-right: 7vw; //
+  }
+}
+
+@media (max-width: 777px) {
+  .trSlide {
+    @include flexRegular(row, center);
+    //width: 68vw; //
+    flex-shrink: 0;
+    margin-right: 7vw; //
+
+    .mText {
+      left: 1.5em;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .teamMember {
+    img {
+      width: 90vw;
+      height: 290px;
+    }
+  }
+
+  .trSlide {
+    width: 91vw; //
+    // flex-shrink: 0;
+    margin-right: 5vw; //
+  }
+}
+
+@media (max-width: 336px) {
+  .trSlide {
+    width: 100vw; //
+    // flex-shrink: 0;
+    margin-right: 10vw; //
+  }
+}
+
+
+// <<
+
 
 @media (max-width: 1078px) {
   .faq {
@@ -566,7 +599,7 @@
     padding: 1em;
   }
 
-  .trending {
-    display: none;
-  }
+  // .trending {
+  //   display: none;
+  // }
 }
