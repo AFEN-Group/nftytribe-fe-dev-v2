@@ -20,21 +20,22 @@
   position: fixed;
   z-index: 5;
   height: 100vh;
+
   // padding-left: 1em;
   // padding-right: 0.5em;
   top: 0;
-  right: -30vw;
+  right: -35vw;
   //background: #fff;
   transition: 0.5s ease-in-out;
-  width: 30vw;
-  max-width: 375px;
+  width: 35vw;
+  max-width: 385px;
   //z-index: 1;
 }
 
 .top {
   margin: 1.5em 0 1em 0;
   //background: lavender;
-  padding: 0 2em 1em 2em;
+  padding: 2em 2em 2em 2em;
   @include flexRegular(row, space-between);
 
   p {
@@ -60,8 +61,14 @@
 }
 
 .topLeft {
-  @include flexRegular(row, flex-start);
-  align-items: flex-end;
+  // @include flexRegular(row, center);
+  //align-items: center;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  //background: pink;
+
 
   img {
     margin-right: 1em;
@@ -69,12 +76,17 @@
   }
 
   p {
+    margin-top: 3px;
     font-weight: 600;
     font-size: 20px;
+    font-family: 'Neue-bold';
+    align-self: center;
+
 
     span {
       font-size: 11px;
       font-weight: lighter;
+      align-self: center;
     }
   }
 }
@@ -129,15 +141,17 @@
 .wallets {
   border: 0.2px solid #b9bddf;
   box-sizing: border-box;
+  //padding: .6em 0;
   border-radius: 10px;
   margin: 2.5em 0.2em;
   width: 95%;
+
 }
 
 .wallet {
   cursor: pointer;
   @include flexRegular(row, flex-start);
-  padding: 1.2em 1em;
+  padding: 1.5em 1em;
   //border: 0.2px solid #b9bddf;
   border: 0.2px solid #27272a34;
   transition: 0.2s ease-in;
@@ -187,12 +201,13 @@
 
 .awInfo {
   h3 {
-    font-weight: lighter;
+    font-weight: 500;
   }
 
   p {
-    opacity: 0.6;
+    //opacity: 0.6;
     font-size: 0.75em;
+
   }
 }
 
@@ -295,13 +310,15 @@
 }
 
 .signOut {
-  border: 0.2px solid #b9bddf;
+
   box-sizing: border-box;
-  border-radius: 8px;
+  border: 0.6px solid #b9bddf;
+  border-radius: 0px 14px;
   width: 100%;
   text-align: center;
-  margin: 5em auto 2em auto;
+  margin: 50vh auto 2em auto;
   padding: 0.8em 0;
+  font-weight: 700;
   cursor: pointer;
 }
 

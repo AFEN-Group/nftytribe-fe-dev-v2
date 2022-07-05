@@ -5,7 +5,7 @@ import Web3 from 'web3'
 //import web3 from 'web3-eth'
 import { ThemeContext } from '../../context/ThemeContext'
 import WalletContext from '../../context/WalletContext'
-import { shortenAddress } from '../../utils/formatting'
+import { shortenAddress, shortenAddressSmall } from '../../utils/formatting'
 import style from './ConnectWallet.module.scss'
 
 import Cancel from './assets/x.svg'
@@ -195,7 +195,7 @@ const ConnectWallet = (props: any) => {
                 <div className={style.topLeft}>
                   <img src={dark === 'true' ? User2 : User} alt="user" />{' '}
                   <p className={style.addy}>
-                    {shortenAddress(currentAccount)}
+                    {shortenAddressSmall(currentAccount)}
 
                     <br />
                     <span>
@@ -247,7 +247,7 @@ const ConnectWallet = (props: any) => {
                         <div className={style.awleft}>
                           <img src={walletType === "MetaMask" ? Metamask : Wc} alt="wallet" />
                           <div className={style.awInfo}>
-                            <h3>{shortenAddress(currentAccount)}</h3>
+                            <h3>{shortenAddressSmall(currentAccount)}</h3>
 
                             <p>Ethereum</p>
                           </div>
@@ -257,7 +257,7 @@ const ConnectWallet = (props: any) => {
                             src={dark === 'true' ? Check2 : Check}
                             alt="check"
                           />
-                          <p>0.00</p>
+                          {/* <p>0.00</p> */}
                           {/* <p>{wBalance[0]}</p> */}
                           {/* <p>{web3.utils.toWei(walletBalance.toString(), 'ether')}</p> */}
                         </div>
@@ -277,7 +277,7 @@ const ConnectWallet = (props: any) => {
                         </div> */}
                       {/* </div> */}
                     </div>
-                    <div className={style.swapOptions}>
+                    {/* <div className={style.swapOptions}>
                       <div className={style.swOption}>
                         <img src={Add} alt="add" />
                         <p>Add Funds</p>
@@ -289,7 +289,7 @@ const ConnectWallet = (props: any) => {
                         <img src={SwapH} alt="swap" />
                         <p>Swap</p>
                       </div>
-                    </div>
+                    </div> */}
                   </>
                 )}
 
@@ -445,7 +445,7 @@ const ConnectWallet = (props: any) => {
                     <img src={Wc} alt="wallet-connect" />
                     <p>Wallet Connect</p>
                   </div>
-                  <p className={style.err}>{walletError}</p>
+                  {walletError && (<p className={style.err}>{walletError}</p>)}
                   {/* <div className={style.wallet}>
                     <img src={Coinbase} alt="coinbase" />
                     <p>Coinbase Wallet</p>
