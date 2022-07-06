@@ -309,17 +309,26 @@
   }
 }
 
-.signOut {
+.signOut,
+.signOutM {
 
   box-sizing: border-box;
   border: 0.6px solid #b9bddf;
   border-radius: 0px 14px;
   width: 100%;
   text-align: center;
-  margin: 50vh auto 2em auto;
+
   padding: 0.8em 0;
   font-weight: 700;
   cursor: pointer;
+}
+
+.signOut {
+  margin: 50vh auto 2em auto;
+}
+
+.signOutM {
+  margin: 5em auto 2em auto;
 }
 
 .reviewBtn {

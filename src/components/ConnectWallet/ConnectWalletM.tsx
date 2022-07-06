@@ -261,7 +261,7 @@ const ConnectWalletM = (props: any) => {
                         </div> */}
                                             {/* </div> */}
                                         </div>
-                                        <div className={style.swapOptions}>
+                                        {/* <div className={style.swapOptions}>
                                             <div className={style.swOption}>
                                                 <img src={Add} alt="add" />
                                                 <p>Add Funds</p>
@@ -273,13 +273,13 @@ const ConnectWalletM = (props: any) => {
                                                 <img src={SwapH} alt="swap" />
                                                 <p>Swap</p>
                                             </div>
-                                        </div>
+                                        </div> */}
                                     </>
                                 )}
 
                                 {view === 'wallet' && (
                                     <div
-                                        className={style.signOut}
+                                        className={style.signOutM}
                                         onClick={handleSignOut}
                                     //onClick={() => setCurrentAccount('')}
                                     >
