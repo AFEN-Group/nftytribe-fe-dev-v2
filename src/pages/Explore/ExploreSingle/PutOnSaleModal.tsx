@@ -20,6 +20,8 @@ import erc1155MarketplaceAbi from '../../../smart_contracts/erc1155Market.json'
 import TextInput from '../../../components/Inputs/TextInput'
 import SelectOption from '../../../components/Inputs/SelectOption3'
 import SelectDate from '../../../components/Inputs/SelectDate'
+import globals from '../../../utils/globalVariables'
+
 
 declare const window: any
 
@@ -173,7 +175,7 @@ const PutOnSaleModal = (props: any) => {
 
 
                     const updateCollectible = await fetch(
-                        'https://api.nftytribe.io/api/collectibles/update-collectible',
+                        `${globals.baseURL}/collectibles/update-collectible`,
                         {
                             method: 'PUT',
                             headers: {
@@ -296,7 +298,7 @@ const PutOnSaleModal = (props: any) => {
 
 
                         const updateCollectible = await fetch(
-                            'https://api.nftytribe.io/api/collectibles/update-collectible',
+                            `${globals.baseURL}/collectibles/update-collectible`,
                             {
                                 method: 'PUT',
                                 headers: {

@@ -18,6 +18,7 @@ import erc721FactoryAbi from '../../smart_contracts/erc721Factory.json'
 import erc1155FactoryAbi from '../../smart_contracts/erc1155Factory.json'
 import CollectionModal from './Modals/CollectionModal'
 import SelectOption from '../../components/Inputs/SelectOption'
+import globals from '../../utils/globalVariables'
 
 declare const window: any
 
@@ -81,7 +82,7 @@ const CreateCollection = () => {
       form_data.append('upload', e.target.files[0])
       try {
         const resp = await fetch(
-          'https://api.nftytribe.io/api/collectibles/upload-image',
+          `${globals.baseURL}/collectibles/upload-image`,
           {
             method: 'POST',
             body: form_data,

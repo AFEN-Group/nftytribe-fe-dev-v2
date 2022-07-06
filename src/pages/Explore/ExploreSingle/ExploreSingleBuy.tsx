@@ -21,6 +21,8 @@ import User2 from './assets/user4.svg'
 // import Eye from './assets/eye.svg'
 // import Eye2 from './assets/eye2.svg'
 import Container from '../../../components/Container/Container'
+import globals from '../../../utils/globalVariables'
+
 
 // import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
 import erc1155Abi from '../../../smart_contracts/erc1155Mintable.json'
@@ -408,7 +410,7 @@ const ExploreSingleBuy = () => {
                     }
 
                     const updateCollectible = await fetch(
-                        'https://api.nftytribe.io/api/collectibles/update-collectible',
+                        `${globals.baseURL}/collectibles/update-collectible`,
                         {
                             method: 'PUT',
                             headers: {
@@ -534,7 +536,7 @@ const ExploreSingleBuy = () => {
                     }
 
                     const updateCollectible = await fetch(
-                        'https://api.nftytribe.io/api/collectibles/update-collectible',
+                        `${globals.baseURL}/collectibles/update-collectible`,
                         {
                             method: 'PUT',
                             headers: {

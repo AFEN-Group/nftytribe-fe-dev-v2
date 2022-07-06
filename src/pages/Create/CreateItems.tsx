@@ -16,6 +16,7 @@ import SelectOption from '../../components/Inputs/SelectOption'
 import SelectOption2 from '../../components/Inputs/SelectOption2'
 import icon from './assets/upload.svg'
 import check from './assets/check.svg'
+import globals from '../../utils/globalVariables'
 import arrow1 from './assets/arrowR1.svg'
 import arrow2 from './assets/arrowR2.svg'
 import arrowDown from './assets/arrowd.svg'
@@ -30,7 +31,6 @@ import erc721CollectionAbi from '../../smart_contracts/erc721Collection.json'
 import erc1155MintableAbi from '../../smart_contracts/erc1155Mintable.json'
 import erc1155MarketplaceAbi from '../../smart_contracts/erc1155Market.json'
 import { publicRequest } from '../../utils/requestMethods'
-import globals from '../../utils/globalVariables'
 
 import { ethers } from 'ethers'
 import CreateSteps from './Modals/CreateSteps'
@@ -643,7 +643,7 @@ const CreateItems = () => {
               }
 
               const updateCollectible = await fetch(
-                'https://api.nftytribe.io/api/collectibles/update-collectible',
+                `${globals.baseURL}/collectibles/update-collectible`,
                 {
                   method: 'PUT',
                   headers: {
@@ -702,12 +702,12 @@ const CreateItems = () => {
               let nonceData: any
               if (data.is_lazy_mint) {
                 const getNonce = await fetch(
-                  'https://api.nftytribe.io/api/collectibles/get-nonce',
+                  `${globals.baseURL}/collectibles/get-nonce`,
                 )
                 nonceData = await getNonce.json()
               }
               const resp = await fetch(
-                'https://api.nftytribe.io/api/collectibles/create',
+                `${globals.baseURL}/collectibles/create`,
                 {
                   method: 'POST',
                   headers: {
@@ -791,7 +791,7 @@ const CreateItems = () => {
                 console.log(updatableData, 'get upload')
 
                 const updateCollectible = await fetch(
-                  'https://api.nftytribe.io/api/collectibles/update-collectible',
+                  `${globals.baseURL}collectibles/update-collectible`,
                   {
                     method: 'PUT',
                     headers: {
@@ -850,7 +850,7 @@ const CreateItems = () => {
                 }
 
                 const updateCollectible = await fetch(
-                  'https://api.nftytribe.io/api/collectibles/update-collectible',
+                  `${globals.baseURL}/collectibles/update-collectible`,
                   {
                     method: 'PUT',
                     headers: {
@@ -1051,7 +1051,7 @@ const CreateItems = () => {
               }
 
               const updateCollectible = await fetch(
-                'https://api.nftytribe.io/api/collectibles/update-collectible',
+                `${globals.baseURL}/collectibles/update-collectible`,
                 {
                   method: 'PUT',
                   headers: {

@@ -30,6 +30,8 @@ import erc721MarketplaceAbi from '../../../smart_contracts/erc721Market.json'
 //import erc1155MarketplaceAbi from '../../../smart_contracts/erc1155Market.json'
 import Web3 from 'web3'
 import contracts from '../../../web3-Service/contractAddress'
+import globals from '../../../utils/globalVariables'
+
 // import { shortenAddress } from '../../../utils/formatting'
 
 import Loader from '../../../components/Loader/Loader'
@@ -441,7 +443,7 @@ const ExploreSingle = () => {
                     }
 
                     const updateCollectible = await fetch(
-                        'https://api.nftytribe.io/api/collectibles/update-collectible',
+                        `${globals.baseURL}/collectibles/update-collectible`,
                         {
                             method: 'PUT',
                             headers: {
@@ -569,7 +571,7 @@ const ExploreSingle = () => {
                     }
 
                     const updateCollectible = await fetch(
-                        'https://api.nftytribe.io/api/collectibles/update-collectible',
+                        `${globals.baseURL}/collectibles/update-collectible`,
                         {
                             method: 'PUT',
                             headers: {

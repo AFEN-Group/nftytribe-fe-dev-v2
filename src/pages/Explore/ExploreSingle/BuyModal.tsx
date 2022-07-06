@@ -16,6 +16,8 @@ import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
 import erc1155MintableAbi from "../../../smart_contracts/erc1155Mintable.json"
 import erc1155Marketplace from "../../../smart_contracts/erc1155Market.json"
 import NumberInput from '../../../components/Inputs/NumberInput'
+import globals from '../../../utils/globalVariables'
+
 
 declare const window: any
 
@@ -103,7 +105,7 @@ const BuyModal = (props: any) => {
       if (props.nftDetails.is_lazy_mint) {
         try {
           const getnftnonce = await fetch(
-            `https://api.nftytribe.io/api/collectibles/nft/${props.nftDetails._id}/get-collectible-nonce`,
+            `${globals.baseURL}/collectibles/nft/${props.nftDetails._id}/get-collectible-nonce`,
           )
           const nonceData = await getnftnonce.json()
           const mintingCharge = await erc721Contract.methods
@@ -152,7 +154,7 @@ const BuyModal = (props: any) => {
           }
 
           const collectible = await fetch(
-            `https://api.nftytribe.io/api/collectibles/update-collectible`,
+            `${globals.baseURL}/collectibles/update-collectible`,
             {
               method: 'PUT',
               headers: {
@@ -176,7 +178,7 @@ const BuyModal = (props: any) => {
           }
 
           const buy = await fetch(
-            'https://api.nftytribe.io/api/collectibles/buy',
+            `${globals.baseURL}/collectibles/buy`,
             {
               method: 'POST',
               headers: {
@@ -225,7 +227,7 @@ const BuyModal = (props: any) => {
           }
 
           const buy = await fetch(
-            `https://api.nftytribe.io/api/collectibles/buy`,
+            `${globals.baseURL}/collectibles/buy`,
             {
               method: 'POST',
               body: JSON.stringify(itemObj),
@@ -298,7 +300,7 @@ const BuyModal = (props: any) => {
         }
 
         const buyApi = await fetch(
-          `https://api.nftytribe.io/api/collectibles/buy-multiple`,
+          `${globals.baseURL}/collectibles/buy-multiple`,
           {
             method: 'POST',
             body: JSON.stringify(itemObj),
