@@ -22,6 +22,7 @@ import CollectionDashboard from './pages/CollectionDashboard/CollectionDashboard
 import CreateItemOptions from './pages/Create/CreateItemOptions'
 import CreateItems from './pages/Create/CreateItems'
 import CreateCollection from './pages/Create/CreateCollection'
+import CreateCollectionOptions from './pages/Create/CreateCollectionOptions'
 import Profile from './pages/Profile/Profile'
 import EditProfile from './pages/Profile/EditProfile'
 import Footer from './components/Footer/Footer'
@@ -76,7 +77,11 @@ function App() {
                   element={<CreateItems />}
                 ></Route>
                 <Route
-                  path="/createcollection"
+                  path="/createCollectionOptions"
+                  element={<CreateCollectionOptions />}
+                ></Route>
+                <Route
+                  path="/createcollection/:chain"
                   element={<CreateCollection />}
                 ></Route>
                 <Route path="/profile" element={<Profile />}></Route>

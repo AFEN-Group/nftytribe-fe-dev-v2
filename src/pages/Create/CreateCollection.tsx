@@ -19,6 +19,7 @@ import erc1155FactoryAbi from '../../smart_contracts/erc1155Factory.json'
 import CollectionModal from './Modals/CollectionModal'
 import SelectOption from '../../components/Inputs/SelectOption'
 import globals from '../../utils/globalVariables'
+import { setEmitFlags } from 'typescript'
 
 declare const window: any
 
@@ -71,6 +72,27 @@ const CreateCollection = () => {
     { value: 'erc1155', text: 'erc1155' },
   ]
 
+  // network
+  const [chain, setChain, chainRef] = useState<string>()
+  // erc721 address
+  const [erc721FactoryAddress, setErc721FactoryAddress] = useState<any>('')
+
+  // erc 1155 address
+  const [erc1155FactoryAddress, setErc1155FactoryAddress] = useState<any>('')
+
+  useEffect(() => {
+    const currentChain = localStorage.getItem('chain')
+    if (currentChain === '0x4') {
+      setChain('rinkeby')
+      setErc721FactoryAddress(contracts.erc721FactoryAddress)
+    }
+    if (currentChain === '0x61') {
+      setChain('bsc testnet')
+      setErc721FactoryAddress(contracts.BSC_erc721FactoryAddress)
+    }
+
+  }, [])
+
   const selectMedia = async (e: any) => {
     setIsLoading(true)
     if (e.target.files && e.target.files.length > 0) {
@@ -118,9 +140,9 @@ const CreateCollection = () => {
       })
       setIsLoading(true)
       const wallet_address = localStorage.getItem('currentAccount')
-      const chain = 'eth'
-      const erc721Factory = contracts.erc721FactoryAddress
-      const erc1155Factory = contracts.erc1155FactoryAddress
+      // const chain = 'eth'
+      // const erc721Factory = contracts.erc721FactoryAddress
+      // const erc1155Factory = contracts.erc1155FactoryAddress
       // console.log(contract_address, '<< contract ?')
       // console.log(wallet_address, '<< wallet ?')
       //'0xb1d612aB4FfF891E4A0042d4DF9C1F257eaeBb74'
@@ -131,7 +153,7 @@ const CreateCollection = () => {
         if (userInput.contractOption === "erc721") { // for erc721
           factoryContract = new web3.eth.Contract(
             erc721FactoryAbi,
-            erc721Factory,
+            erc721FactoryAddress,
           )
           try {
             const newCollection = await factoryContract.methods
@@ -178,7 +200,7 @@ const CreateCollection = () => {
         if (userInput.contractOption === "erc1155") {
           factoryContract = new web3.eth.Contract(
             erc1155FactoryAbi,
-            erc1155Factory,
+            erc1155FactoryAddress,
           )
           try {
             const newCollection = await factoryContract.methods

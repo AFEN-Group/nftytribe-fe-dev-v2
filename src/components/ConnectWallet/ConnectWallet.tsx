@@ -50,6 +50,7 @@ const ConnectWallet = (props: any) => {
   const [afenSwap, setAfenSwap] = useState(true)
   //const [currentAccount, setCurrentAccount] = useState('')
   const currentAccount = localStorage.getItem('currentAccount')
+  const currentChain = localStorage.getItem('chain')
   const userObj = localStorage.getItem('user')
   const [walletBalance, setWalletBalance] = useState<any>()
   const numberInputHandler = async (event: any) => {
@@ -249,7 +250,7 @@ const ConnectWallet = (props: any) => {
                           <div className={style.awInfo}>
                             <h3>{shortenAddressSmall(currentAccount)}</h3>
 
-                            <p>Ethereum</p>
+                            <p>{currentChain === '0x4' ? 'Ethereum' : currentChain === "0x61" ? 'Binance' : ''}</p>
                           </div>
                         </div>
                         <div className={style.awRight}>

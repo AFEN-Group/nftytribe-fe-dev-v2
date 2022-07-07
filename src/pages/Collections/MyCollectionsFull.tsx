@@ -71,7 +71,7 @@ const MyCollectionsFull = () => {
               <div
                 className={`${style.bodyBtns} animate__animated animate__fadeInUp animate__delay-1s`}
               >
-                <Link to="/createcollection">
+                <Link to="/createCollectionOptions">
                   {' '}
                   <div
                     //className={style.bodyBtn}

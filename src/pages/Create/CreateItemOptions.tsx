@@ -14,6 +14,8 @@ import Container from '../../components/Container/Container'
 
 const CreateItemOptions = () => {
   const [chain, setChain] = useState('')
+  const currentChain = localStorage.getItem('chain')
+  console.log(currentChain, "<<<<<")
   // const [themeState] = useContext<any>(ThemeContext)
   // const dark = themeState.dark
   useEffect(() => {
@@ -41,6 +43,24 @@ const CreateItemOptions = () => {
     })
 
   }, [])
+
+  const checkNetwork = (network: any) => {
+    if (network === 'eth') {
+      if (currentChain === "0x4") {
+        setChain(network)
+      } else {
+        alert("Switch to ethereum chain")
+      }
+    }
+    if (network === 'binance') {
+      if (currentChain === "0x61") {
+        setChain(network)
+      } else {
+        alert("Switch to binance chain")
+      }
+    }
+  }
+
   console.log(chain)
   return (
     <>
@@ -64,21 +84,21 @@ const CreateItemOptions = () => {
                 <div className={style.optBoxes}>
                   <div
                     className={style.optBox}
-                    onClick={() => setChain('eth')}
+                    onClick={() => checkNetwork('eth')}
                   >
                     <img src={Eth} alt="eth" />
                     <p>Ethereum</p>
                   </div>
                   <div
-                    className={`${style.optBox} ${style.disable}`}
-                    onClick={() => setChain('binance')}
+                    className={`${style.optBox} `}
+                    onClick={() => checkNetwork('binance')}
                   >
                     <img src={Binance} alt="binance" />
                     <p>Binance</p>
                   </div>
                   <div
                     className={`${style.optBox} ${style.disable}`}
-                    onClick={() => setChain('')}
+                  //onClick={() => setChain('')}
                   >
                     <img src={Skale} alt="skale" />
                     <p>Skale</p>
