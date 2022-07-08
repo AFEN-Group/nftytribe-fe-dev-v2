@@ -321,7 +321,7 @@ const Explore = () => {
                       <div className={style.itemsContent}>
                         {data?.map((nft: any, i: any) => {
                           return (
-                            nft?._id && (
+                            (nft?._id && nft?.cardImage) && (
                               <div className={style.itemBx} key={nft._id}>
                                 <ItemCard nftData={nft} />
                               </div>

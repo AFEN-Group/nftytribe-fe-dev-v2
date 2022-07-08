@@ -240,22 +240,22 @@ const CreateItems = () => {
         eMsg: '',
       })
 
-      if (userInput.royalties <= 10) {
-        setMsg({
-          ...msg,
-          eMsg2: '',
-        })
-        if (step === 0) {
-          setShowModal(true)
-          setStep(1)
-          console.log(userInput.is_lazy_mint)
-        }
-      } else {
-        setMsg({
-          ...msg,
-          eMsg2: '* Royalties must be 10% or less *',
-        })
+      // if (userInput.royalties <= 10) {
+      // setMsg({
+      //   ...msg,
+      //   eMsg2: '',
+      // })
+      if (step === 0) {
+        setShowModal(true)
+        setStep(1)
+        console.log(userInput.is_lazy_mint)
       }
+      // } else {
+      //   setMsg({
+      //     ...msg,
+      //     eMsg2: '* Royalties must be 10% or less *',
+      //   })
+      // }
 
     }
   }
@@ -455,8 +455,10 @@ const CreateItems = () => {
               }
             } catch (err) {
               console.log(err)
+              alert('Sorry an error occured')
+              setIsLoading(false)
             }
-            setIsLoading(false)
+
 
             break
 
@@ -506,6 +508,7 @@ const CreateItems = () => {
               setStep(3)
             } catch (err) {
               console.log(err)
+              alert('Sorry an error occured')
               setIsLoading(false)
             }
 
@@ -664,6 +667,7 @@ const CreateItems = () => {
               setStep(4)
             } catch (err) {
               console.log(err)
+              alert('Sorry an error occured')
               //setMsg({ ...msg, eMsg: err, sMsg: '' })
               setIsLoading(false)
             }

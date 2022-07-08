@@ -238,12 +238,12 @@ const Profile = () => {
               //className={style.items}
               className={`${style.items} animate__animated animate__fadeInUp  `}
             >
-              {collectibles?.length >= 1 ? (
+              {collectibles?.length >= 1 && query !== 'sold=true' ? (
                 <>
                   <div className={style.itemsContent}>
                     {collectibles?.map((nft: any, i: any) => {
                       return (
-                        nft?._id && (
+                        (nft?._id && nft?.cardImage) && (
                           <div className={style.itemBx} key={nft._id}>
                             <ItemCard nftData={nft} />
                           </div>
@@ -290,6 +290,7 @@ const Profile = () => {
                   </div>
                 </div>
               )}
+
               {/* <div className={style.itemContent}>
               <div className={style.noResults}>
                 <img src={Sad} alt="sad" />

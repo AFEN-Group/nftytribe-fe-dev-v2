@@ -42,7 +42,7 @@ const Trending = () => {
               >
                 {data?.map((nft: any, i: any) => {
                   return (
-                    nft?._id && (
+                    (nft?._id && nft?.cardImage) && (
                       <div className={style.trSlide} key={nft._id}>
                         <Card2 nftData={nft} />
                       </div>
@@ -61,7 +61,7 @@ const Trending = () => {
               >
                 {data?.map((nft: any, i: any) => {
                   return (
-                    nft?._id && (
+                    (nft?._id && nft?.cardImage) && (
                       <div className={style.trSlide} key={nft._id}>
                         <Card2 nftData={nft} />
                       </div>
