@@ -11,6 +11,8 @@ import style from './ExploreSingle.module.scss'
 import Back from './assets/arrow.svg'
 import Back2 from './assets/arrow2.svg'
 import ItemImg from './assets/kl.png'
+import Twitter from './assets/twitter.svg'
+import Twitter2 from './assets/twitter2.svg'
 import Header from '../../../components/Header/Header'
 import Share from './assets/share.svg'
 import Share2 from './assets/share2.svg'
@@ -21,6 +23,7 @@ import User2 from './assets/user4.svg'
 // import Eye from './assets/eye.svg'
 // import Eye2 from './assets/eye2.svg'
 import Container from '../../../components/Container/Container'
+import { TwitterShareButton } from 'react-share'
 
 // import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
 import erc1155Abi from '../../../smart_contracts/erc1155Mintable.json'
@@ -47,8 +50,8 @@ const erc721Marketplace_address = contracts.erc721MarketplaceAddress
 const erc1155Mintable_adddress = contracts.erc1155MintableAdddress
 
 
-
 const ExploreSingleBuy = () => {
+    const url = window.location.href
     const { collectionAddress, id } = useParams()
     const params = new URLSearchParams(window.location.search)
     const lazy_mint = params.get('lazy_mint')
@@ -83,6 +86,12 @@ const ExploreSingleBuy = () => {
     })
     const [timeDifference, setTimeDifference] = useState<any>()
     const [showDrop, setShowDrop] = useState(false)
+    const [showShare, setShowShare] = useState(false)
+
+    const handleShare = () => {
+        //setShowDrop(false)
+        setShowShare(!showShare)
+    }
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -91,6 +100,7 @@ const ExploreSingleBuy = () => {
         if (wallet_address) {
             setWalletAddress(wallet_address)
         }
+
         const getNftDetails = async () => {
             try {
                 const details = await publicRequest.get(
@@ -703,17 +713,42 @@ const ExploreSingleBuy = () => {
                                         </div>
                                     </div>
                                     <div className={style.rightIcons} onClick={() => setShowDrop(!showDrop)}>
-                                        {/* <img src={dark === 'true' ? Share2 : Share} alt="share" /> */}
-                                        <img src={dark === 'true' ? Dots2 : Dots} alt="dots" />
+                                        <img src={dark === 'true' ? Share2 : Share} alt="share" />
+                                        {/* <img src={dark === 'true' ? Dots2 : Dots} alt="dots" /> */}
                                     </div>
                                     {showDrop && (
-                                        <div className={`${style.drop} ${dark === 'true' ? 'darkTheme' : 'lightTheme'} animate__animated animate__fadeInUp animate__faster`}
-                                            onClick={() => setShowDrop(!showDrop)}
-                                        >
-                                            <p >Share</p>
-                                            <p >Report</p>
-                                        </div>
+                                        <>
+
+                                            <div className={`${style.drop} ${dark === 'true' ? 'darkTheme' : 'lightTheme'} animate__animated animate__fadeInUp animate__faster`}
+                                            //onClick={() => setShowDrop(!showDrop)}
+                                            >
+                                                {/* {!showShare ? ( */}
+                                                {/* <div className={style.dropContent}>
+                                                        <p onClick={() => setShowShare(!showShare)}>
+                                                            Share
+                                                        </p>
+                                                        <p className='disable_link'>Report</p> */}
+                                                {/* </div>) : ( */}
+                                                <div className={style.dropContent2}>
+                                                    <h3>Share NFT</h3>
+                                                    <TwitterShareButton
+                                                        title={"Check out this NFT on Nftytribe"}
+                                                        hashtags={['nftytribe']}
+                                                        url={url}
+
+                                                    >
+                                                        <div className={style.dropItem}>
+                                                            <p>Twitter</p>
+                                                            <img src={`${dark === 'true' ? Twitter2 : Twitter}`} alt="twitter" />
+                                                        </div>
+                                                    </TwitterShareButton>
+                                                </div>
+                                                {/* )} */}
+
+                                            </div>
+                                        </>
                                     )}
+
                                 </div>
                                 <div className={style.rightTitles}>
                                     <div className={style.userBx}>
@@ -770,8 +805,10 @@ const ExploreSingleBuy = () => {
                                                         !isLoaded || isLoading
                                                     }
                                                     className={`${nftDetails?.on_sale ? style.regBtn : style.regBtn2
-                                                        } ${dark === 'true' ? 'lightBorder' : 'darkBorder'} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
-                                                        }`}
+                                                        } ${dark === 'true' ? 'lightBorder' : 'darkBorder'} 
+                                                       
+                                                        ${dark === 'true' ? 'yellowBtn' : 'blueBtn'} 
+                                                        `}
                                                     onClick={handleSubmit}
                                                 >
                                                     {!nftDetails?.on_sale ?

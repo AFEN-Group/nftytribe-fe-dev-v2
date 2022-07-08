@@ -103,16 +103,22 @@
   .drop {
     position: absolute;
     z-index: 4;
-    border-radius: 0px 10px;
+    border-radius: 4px;
     top: 1.5em;
     // top: 43%;
     right: 0;
     box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.15);
-    border: 1px solid #bcc;
-    width: 200px;
-    // min-width: 200px;
-    //background: coral;
+    //border: 1px solid #bcc;
+    border: 1px solid #52525B;
+    width: 230px;
 
+    //color: #52525B;
+  }
+
+  .dropContent {
+    font-family: 'Neue-bold';
+
+    //padding: 1em 0;
     p {
       padding: 1em;
       cursor: pointer;
@@ -126,6 +132,36 @@
         font-weight: 600;
       }
     }
+  }
+
+  .dropContent2 {
+    padding: 1em 0;
+    position: relative;
+
+    h3 {
+      font-family: 'Neue-bold';
+      padding-left: 1em;
+    }
+
+    .dropItem {
+      margin-top: 1.3em;
+
+      &:hover {
+        //transform: scale(1.1);
+        background: rgba(153, 153, 153, 0.194);
+
+      }
+    }
+  }
+
+
+  .dropItem {
+    //background: pink;
+    //position: absolute;
+    width: 230px !important;
+    padding: 1em;
+    @include flexRegular(row, space-between);
+    cursor: pointer;
   }
 
   .rightTitles {
@@ -596,8 +632,14 @@
 }
 
 @media (max-width: 768px) {
+  .content {
+    width: 90%;
+  }
+
   .body {
     @include flexRegular(column, flex-start);
+    align-items: flex-start;
+    //background: pink;
   }
 
   .left,
@@ -607,7 +649,7 @@
   }
 
   .left {
-    ///background: pink;
+    //background: pink;
     @include flexRegular(row, flex-start);
 
     img {
