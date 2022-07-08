@@ -3,7 +3,8 @@
 
 .content {
     @include flexRegular(column, flex-start);
-    padding-top: 10em;
+    padding-top: 13em;
+    padding-bottom: 2em;
 }
 
 .bigTxt {
@@ -15,25 +16,27 @@
 
 .smTxt {
     h3 {
-        margin: 3em 0;
+        margin: 2em 0;
     }
 }
 
-button {
-    @include flexRegular(row, center);
+.content {
+    button {
+        @include flexRegular(row, center);
 
-    cursor: pointer;
-    border: 1.4px solid #52525b;
-    border-radius: 0px 6px;
-    padding: 0.7em;
-    width: 40%;
-    min-width: 190px;
-    margin: auto auto 5em auto;
-    font-weight: 600;
-    transition: 0.3s ease-in-out;
-    height: 45px;
+        cursor: pointer;
+        border: 1.4px solid #52525b;
+        border-radius: 0px 6px;
+        padding: 0.7em;
+        width: 40%;
+        min-width: 190px;
+        margin: auto auto 5em auto;
+        font-weight: 600;
+        transition: 0.3s ease-in-out;
+        height: 45px;
 
-    &:hover {
-        transform: scale(1.11);
+        &:hover {
+            transform: scale(1.11);
+        }
     }
 }

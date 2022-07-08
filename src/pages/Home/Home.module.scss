@@ -88,6 +88,7 @@
     .leftBtns {
       margin-top: 3em;
       @include flexRegular(row, flex-start);
+      //background: pink;
 
       button {
         //background: $mainGradient;
