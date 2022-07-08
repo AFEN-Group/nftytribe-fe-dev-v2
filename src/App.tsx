@@ -84,7 +84,7 @@ function App() {
                 <Route path="/about" element={<About />}></Route>
 
                 <Route path="/rewards" element={<Rewards />}></Route>
-                <Route path="/staking" element={<Staking />}></Route>
+                {/* <Route path="/staking" element={<Staking />}></Route> */}
 
               </Routes>
               <Footer />

@@ -120,13 +120,13 @@ const Rewards = () => {
                 </p>
                 <div className={style.twoBtns}>
                   {/* <a href="https://pancakeswap.finance/swap"> */}
-                  <Link to="/staking">
-                    <button
-                      className={`${style.stake} ${dark === 'true' ? 'yellowBtn' : 'blueBtn'}`}>
-                      Stake Afen
-                      <img src={dark === "true" ? arrow1 : arrow2} alt="buy afen" />
-                    </button>
-                  </Link>
+                  {/* <Link to="/staking"> */}
+                  <button
+                    className={`${style.stake} ${dark === 'true' ? 'yellowBtn' : 'blueBtn'} disable_link`}>
+                    Stake Afen
+                    <img src={dark === "true" ? arrow1 : arrow2} alt="buy afen" />
+                  </button>
+                  {/* </Link> */}
                   {/* </a> */}
                   <button className={`
                   ${style.buyAfen}
