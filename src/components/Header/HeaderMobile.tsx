@@ -2,7 +2,7 @@ import React from 'react'
 import style from './Header.module.scss'
 import { useContext, useEffect, useState } from 'react'
 import { ThemeContext } from '../../context/ThemeContext'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Logo from './assets/logoA.png'
 import Logo2 from './assets/logoA-light.png'
 import { motion } from 'framer-motion'
@@ -18,7 +18,7 @@ const HeaderMobile = () => {
   const currentAccount = localStorage.getItem('currentAccount')
   const [themeState, setThemeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
-  //const navigate = useNavigate()
+  const navigate = useNavigate()
   const [showMenuList, setshowMenuList] = useState(false)
   const [showConnect, setShowConnect] = useState(false)
   const [showMConnect, setShowMConnect] = useState(false)
@@ -59,6 +59,13 @@ const HeaderMobile = () => {
   }
   const handleMConnect = () => {
     setShowMConnect(!showMConnect)
+  }
+  const handleCreate = () => {
+    if (currentAccount) {
+      navigate('/createOptions')
+    } else {
+      setShowMConnect(!showMConnect)
+    }
   }
 
   return (
@@ -130,7 +137,7 @@ const HeaderMobile = () => {
                             scale: 1,
                             opacity: 1,
                             transition: {
-                              delay: 0.4,
+                              delay: 0.3,
                               duration: 0.4,
                             },
                           },
@@ -159,7 +166,7 @@ const HeaderMobile = () => {
                               scale: 1,
                               opacity: 1,
                               transition: {
-                                delay: 0.6,
+                                delay: 0.4,
                                 duration: 0.4,
                               },
                             },
@@ -167,30 +174,35 @@ const HeaderMobile = () => {
                         >
                           <Link to="/explore">Explore</Link>
                         </motion.li>
-                        {currentAccount && (
-                          <motion.li
-                            //className={style.disabled}
-                            initial="hidden"
-                            animate="visible"
-                            variants={{
-                              hidden: {
-                                opacity: 0,
-                                scale: 0.2,
-                              },
-                              visible: {
-                                scale: 1,
-                                opacity: 1,
-                                transition: {
-                                  delay: 0.8,
-                                  duration: 0.4,
-                                },
-                              },
-                            }}
-                          >
-                            <Link to="/createOptions">Create</Link>
+                        {/* {currentAccount && ( */}
 
-                          </motion.li>
-                        )}
+                        <motion.li
+                          //className={style.disabled}
+                          id="show3M"
+                          onClick={handleCreate}
+
+                          initial="hidden"
+                          animate="visible"
+                          variants={{
+                            hidden: {
+                              opacity: 0,
+                              scale: 0.2,
+                            },
+                            visible: {
+                              scale: 1,
+                              opacity: 1,
+                              transition: {
+                                delay: 0.5,
+                                duration: 0.4,
+                              },
+                            },
+                          }}
+                        //onClick={handleCreate}
+                        >
+                          <p>Create</p>
+
+                        </motion.li>
+                        {/* )} */}
                         <motion.li
                           //className={style.disabled}
                           initial="hidden"
@@ -204,7 +216,7 @@ const HeaderMobile = () => {
                               scale: 1,
                               opacity: 1,
                               transition: {
-                                delay: 0.8,
+                                delay: 0.6,
                                 duration: 0.4,
                               },
                             },
@@ -226,7 +238,7 @@ const HeaderMobile = () => {
                               scale: 1,
                               opacity: 1,
                               transition: {
-                                delay: 1,
+                                delay: 0.7,
                                 duration: 0.4,
                               },
                             },
@@ -271,7 +283,7 @@ const HeaderMobile = () => {
                                   scale: 1,
                                   opacity: 1,
                                   transition: {
-                                    delay: 1,
+                                    delay: 0.9,
                                     duration: 0.4,
                                   },
                                 },
@@ -295,7 +307,7 @@ const HeaderMobile = () => {
                               scale: 1,
                               opacity: 1,
                               transition: {
-                                delay: 1.2,
+                                delay: 1,
                                 duration: 0.4,
                               },
                             },
@@ -308,7 +320,7 @@ const HeaderMobile = () => {
                                 }`}
                               //onClick={() => setShowConnect(!showConnect)}
                               onClick={handleMConnect}
-                              id="showIconM"
+                            //id="showIconM"
                             >
                               Connect wallet
                             </div>) : (
@@ -317,7 +329,7 @@ const HeaderMobile = () => {
                                 }`}
                               //onClick={() => setShowConnect(!showConnect)}
                               onClick={handleMConnect}
-                              id="showIconM"
+                            //id="showIconM"
                             >
                               My wallet
                             </div>
