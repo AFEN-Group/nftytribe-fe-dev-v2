@@ -121,18 +121,19 @@ const Rewards = () => {
                 <div className={style.twoBtns}>
                   {/* <a href="https://pancakeswap.finance/swap"> */}
                   {/* <Link to="/staking"> */}
-                  <button
-                    className={`${style.stake} ${dark === 'true' ? 'yellowBtn' : 'blueBtn'} disable_link`}>
-                    Stake Afen
-                    <img src={dark === "true" ? arrow1 : arrow2} alt="buy afen" />
-                  </button>
-                  {/* </Link> */}
-                  {/* </a> */}
+                  <a href='https://www.Afenmarketplace.com/staking'>
+                    <button
+                      className={`${style.stake} ${dark === 'true' ? 'yellowBtn' : 'blueBtn'} `}>
+                      Stake Afen
+                      <img src={dark === "true" ? arrow1 : arrow2} alt="buy afen" />
+                    </button>
+                    {/* </Link> */}
+                  </a>
                   <button className={`
                   ${style.buyAfen}
                   ${dark === 'true' ? 'lightTxt' : 'darkTxt'}
                   ${dark === 'true' ? 'lightBorder' : 'darkBorder'}
-                  `}
+                  disable_link`}
                   >
                     Stake NFTs
                     <img src={dark === "true" ? arrow2 : arrow1} alt="stake" />
