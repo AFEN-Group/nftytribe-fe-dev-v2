@@ -111,7 +111,8 @@ const UserConnect = () => {
           //window.location.reload()
           setWalletError('')
         } else {
-          setWalletError('Wrong network, please switch to ethereum mainnet!')
+          //setWalletError('Wrong network, please switch to ethereum mainnet!')
+          setWalletError('Wrong network, please switch to recommended networks!')
         }
         console.log("network1 >> ", window.ethereum.chainId);
       } catch (err) {

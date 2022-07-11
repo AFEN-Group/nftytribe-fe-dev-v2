@@ -28,8 +28,8 @@ import contracts from '../../web3-Service/contractAddress'
 import erc721Abi from '../../smart_contracts/erc721Mintable.json'
 import erc721MarketplaceAbi from '../../smart_contracts/erc721Market.json'
 import erc721CollectionAbi from '../../smart_contracts/erc721Collection.json'
-import erc1155MintableAbi from '../../smart_contracts/erc1155Mintable.json'
-import erc1155MarketplaceAbi from '../../smart_contracts/erc1155Market.json'
+import erc1155MintableAbi from '../../smart_contracts/erc1155Mintable2.json'
+import erc1155MarketplaceAbi from '../../smart_contracts/erc1155Market2.json'
 import { publicRequest } from '../../utils/requestMethods'
 
 import { ethers } from 'ethers'
@@ -130,12 +130,16 @@ const CreateItems = () => {
       setChainId('rinkeby')
       setErc721MintableAddress(contracts.erc721MintableAddress)
       setErc721MarketplaceAddress(contracts.erc721MarketplaceAddress)
+      setErc1155MintableAddress(contracts.erc1155MintableAdddress)
+      setErc1155MarketplaceAddress(contracts.erc1155MarketplaceAddress)
     }
     if (currentChain === '0x61') {
       setChain('bsc testnet')
       setChainId('bsc testnet')
       setErc721MintableAddress(contracts.BSC_erc721MintableAddress)
       setErc721MarketplaceAddress(contracts.BSC_erc721MarketplaceAddress)
+      setErc1155MintableAddress(contracts.BSC_erc1155MintableAdddress)
+      setErc1155MarketplaceAddress(contracts.BSC_erc1155MarketplaceAdddress)
     }
     console.log(itemType, 'type')
     const getCollections = async () => {
@@ -655,7 +659,7 @@ const CreateItems = () => {
                   file: response0.data.file,
                   transaction_hash: mint.transactionHash,
                   type: 'putOnSale',
-                  chain_id: 'rinkeby',
+                  chain_id: chain,
                   order_type: data.market_type,
 
                   on_sale: true,
@@ -679,7 +683,7 @@ const CreateItems = () => {
                   file: response0.data.file,
                   transaction_hash: mint.transactionHash,
                   type: 'putOnSale',
-                  chain_id: 'rinkeby',
+                  chain_id: chain,
                 }
               }
 
@@ -722,6 +726,7 @@ const CreateItems = () => {
         switch (step) {
           case 1:
             //console.log(collectionChoice)
+            console.log("chain>>>", chainRef.current)
             const data = userInput
             data.wallet_address = wallet_address
             data.chain = chain
@@ -766,7 +771,7 @@ const CreateItems = () => {
               //mint
               const erc1155MintableAddress = contracts.erc1155MintableAdddress
               const response = await resp.json()
-              console.log(response)
+              //console.log("api m>>", response)
               // if (response.success === false) {
               //   setMsg({ ...msg, eMsg: 'Sorry an error occured', sMsg: '' })
               // }
@@ -787,6 +792,7 @@ const CreateItems = () => {
                   erc1155MintableAbi,
                   erc1155MintableAddress,
                 )
+                console.log("chargeee", erc1155MintableAddress)
               } else {
                 alert('connect to meta mask wallet')
                 //setShowConnect(true)
@@ -795,7 +801,7 @@ const CreateItems = () => {
               const mintingChargePerToken = await erc1155Contract.methods
                 .mintingChargePerToken()
                 .call()
-
+              console.log("chargeee2", mintingChargePerToken)
               let mint
               if (data.is_lazy_mint) {
                 //console.log(data.is_lazy_mint)
@@ -826,7 +832,7 @@ const CreateItems = () => {
                     userInput.collection_address || erc1155MintableAddress,
                   file: response.data.file,
                   type: 'mint',
-                  chain_id: 'rinkeby',
+                  chain_id: chain,
                   price: web3.utils.toWei(data.price, 'ether'),
                 }
 
@@ -848,6 +854,7 @@ const CreateItems = () => {
                 setStep(4)
               } else {
                 const mintingCharge = mintingChargePerToken * userInput.copies
+
                 if (
                   userInput.collection_address.toLowerCase() ===
                   erc1155MintableAddress.toLowerCase()
@@ -1064,7 +1071,7 @@ const CreateItems = () => {
                   file: response0.data.file,
                   transaction_hash: mint.transactionHash,
                   type: 'putOnSale',
-                  chain_id: 'rinkeby',
+                  chain_id: chain,
                   order_type: data.market_type,
 
                   on_sale: true,
@@ -1088,7 +1095,7 @@ const CreateItems = () => {
                   file: response0.data.file,
                   transaction_hash: mint.transactionHash,
                   type: 'putOnSale',
-                  chain_id: 'rinkeby',
+                  chain_id: chain,
                 }
               }
 

@@ -794,7 +794,7 @@ const ExploreSingle = () => {
                                                                             auctionData?.currentBid?.toString(),
                                                                             'ether'
                                                                         ) || ''}{' '}
-                                                                        ETH
+                                                                        {nftDetails?.chain === "rinkeby" ? 'ETH' : nftDetails?.chain === "bsc testnet" ? 'BNB' : ''}
 
                                                                     </p>
                                                                 )}
@@ -809,7 +809,7 @@ const ExploreSingle = () => {
                                                                             auctionData?.startingPrice?.toString(),
                                                                             'ether'
                                                                         ) || ''}{' '}
-                                                                        ETH
+                                                                        {nftDetails?.chain === "rinkeby" ? 'ETH' : nftDetails?.chain === "bsc testnet" ? 'BNB' : ''}
 
                                                                     </p>)}
                                                             </div>

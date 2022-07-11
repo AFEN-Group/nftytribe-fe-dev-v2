@@ -85,6 +85,7 @@ const ExploreSingleBuy = () => {
     })
     const [timeDifference, setTimeDifference] = useState<any>()
     const [showDrop, setShowDrop] = useState(false)
+    const [chain, setChain, chainRef] = useState<string>()
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -294,17 +295,31 @@ const ExploreSingleBuy = () => {
     }
 
     const handleSubmit = async () => {
-        if (nftDetails && nftDetails?.on_sale) {
-            const wallet_address = localStorage.getItem('currentAccount')
-            console.log(nftDetails?.marketplace_type)
-            if (wallet_address) {
-                setShowBuy(true)
+        const currentChainId = localStorage.getItem('chain')
+        if (currentChainId === '0x4') {
+            setChain('rinkeby')
+        }
+        if (currentChainId === '0x61') {
+            setChain('bsc testnet')
+        }
+        const itemChain = nftDetails?.chain
+        console.log('me', chainRef.current)
+        console.log('them', itemChain)
+        if (chainRef.current === itemChain)
+            if (nftDetails && nftDetails?.on_sale) {
+                const wallet_address = localStorage.getItem('currentAccount')
+                console.log(nftDetails?.marketplace_type)
+                if (wallet_address) {
+                    setShowBuy(true)
+                } else {
+                    //setShowConnect(true)
+                    alert('Please connect wallet')
+                }
             } else {
-                //setShowConnect(true)
-                alert('Please connect wallet')
+                console.log('not available')
             }
-        } else {
-            console.log('not available')
+        else {
+            alert("Wrong chain!, Please switch to the chain of this NFT")
         }
     }
     const handleSale = async (e: any) => {
@@ -754,10 +769,10 @@ const ExploreSingleBuy = () => {
                                                     <p>
                                                         {Web3.utils.fromWei(parseInt(nftDetails?.price, 10).toString(), 'ether') ||
                                                             ''}{' '}
-                                                        ETH
+                                                        {nftDetails?.chain === "rinkeby" ? 'ETH' : nftDetails?.chain === "bsc testnet" ? 'BNB' : ''}
                                                     </p>
                                                 ) : (
-                                                    <p>0.01 ETH</p>
+                                                    <p>0.00 </p>
                                                 )}
                                             </div>
 

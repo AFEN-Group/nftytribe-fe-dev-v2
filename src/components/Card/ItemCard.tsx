@@ -1,7 +1,8 @@
 import { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { shortenAddress } from '../../utils/formatting'
-import { publicRequest } from '../../utils/requestMethods'
+//import { publicRequest } from '../../utils/requestMethods'
+import { getUsdPrice } from '../../utils/exchangeRate'
 import koala from './assets/kl.png'
 import dots from './assets/dots.svg'
 import like from './assets/like.svg'
@@ -10,6 +11,7 @@ import arrow from './assets/icon.svg'
 import style from './Card.module.scss'
 //import Logo from './assets/logo.svg'
 import eth from './assets/eth.svg'
+import bnb from './assets/binance.svg'
 import Web3 from 'web3'
 import { ThemeContext } from '../../context/ThemeContext'
 
@@ -43,19 +45,21 @@ const ItemCard = (data: any) => {
   //   }
   // }
   useEffect(() => {
-    const getUsdPrice = async () => {
-
-      try {
-        const usdPrice = await publicRequest.get(`https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd`)
-        const usdValue = usdPrice.data.ethereum.usd
-        const ethPrice = Web3.utils.fromWei(data?.nftData?.price.toString(), 'ether')
-        setUsdPrice(parseFloat(ethPrice) * usdValue)
-        //console.log(ethPrice)
-      } catch (error) {
-        console.log(error)
+    const getUsdPriceValue = async () => {
+      if (data?.nftData?.chain === 'rinkeby') {
+        const usdPrice = await getUsdPrice("ethereum")
+        const price = Web3.utils.fromWei(data?.nftData?.price.toString(), 'ether')
+        const convertedPrice = parseFloat(price) * usdPrice.ethereum.usd
+        setUsdPrice(convertedPrice)
+      }
+      if (data?.nftData?.chain === 'bsc testnet') {
+        const usdPrice = await getUsdPrice("binancecoin")
+        const price = Web3.utils.fromWei(data?.nftData?.price.toString(), 'ether')
+        const convertedPrice = parseFloat(price) * usdPrice.binancecoin.usd
+        setUsdPrice(convertedPrice)
       }
     }
-    getUsdPrice()
+    getUsdPriceValue()
   }, [])
   const currentAddress: any = localStorage.getItem('currentAccount')
 
@@ -220,7 +224,7 @@ const ItemCard = (data: any) => {
               <div className={style.aBcontent}>
                 {/* {!data?.nftData?.is_lazy_mint && ( */}
                 <div className={style.aleft}>
-                  <img src={eth} alt="eth" />
+                  <img src={data?.nftData?.chain === 'rinkeby' ? eth : data?.nftData?.chain === 'bsc testnet' ? bnb : ''} alt="chain" />
                   {data?.nftData?.price ? (
                     <p>
                       {' '}
@@ -236,6 +240,8 @@ const ItemCard = (data: any) => {
                 <div className={style.aright}>
 
                   <p>${usdPrice?.toFixed(2) || '0.00'} </p>
+                  {/* <p>{getUsdPrice(data?.nftData?.price.toString())}</p>
+                  <p>{shortenAddress(data?.nftData?.wallet_address)}</p> */}
                 </div>
               </div>
               <div className={style.aleft}></div>
