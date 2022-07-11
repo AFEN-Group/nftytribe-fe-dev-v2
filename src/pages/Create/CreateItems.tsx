@@ -238,10 +238,10 @@ const CreateItems = () => {
   }
   const handleClose = () => {
     setShowModal(false)
-    setUserInput({
-      title: '',
-      price: '',
-    })
+    // setUserInput({
+    //   title: '',
+    //   price: '',
+    // })
     //setImageFile('')
   }
 
@@ -726,7 +726,7 @@ const CreateItems = () => {
         switch (step) {
           case 1:
             //console.log(collectionChoice)
-            console.log("chain>>>", chainRef.current)
+            //console.log("chain>>>", chainRef.current)
             const data = userInput
             data.wallet_address = wallet_address
             data.chain = chain
@@ -769,7 +769,7 @@ const CreateItems = () => {
 
 
               //mint
-              const erc1155MintableAddress = contracts.erc1155MintableAdddress
+              //const erc1155MintableAddress = contracts.erc1155MintableAdddress
               const response = await resp.json()
               //console.log("api m>>", response)
               // if (response.success === false) {
