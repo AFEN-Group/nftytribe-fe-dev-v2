@@ -28,16 +28,23 @@ const Profile = () => {
   ///console.log(user)
   const [collectibles, setCollectibles] = useState<any>()
   const currentAddress: any = localStorage.getItem('currentAccount')
+  const currentChainId = localStorage.getItem('chain')
   const [res, setRes] = useState<any>()
   const [query, setQuery] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
   const [showModal, setShowModal] = useState<any>()
+  const [currentChain, setCurrentChain] = useState<any>()
   //console.log('auth>>', authState)
 
   useEffect(() => {
     window.scrollTo(0, 0)
+    if (currentChainId === '0x4') {
+      setCurrentChain('rinkeby')
+    } else if (currentChain === '0x61') {
+      setCurrentChain('bsc testnet')
+    }
     const getUser = async () => {
       try {
         const result = await publicRequest.get(`/user/${currentAddress}`)
@@ -238,58 +245,60 @@ const Profile = () => {
               //className={style.items}
               className={`${style.items} animate__animated animate__fadeInUp  `}
             >
-              {collectibles?.length >= 1 ? (
-                <>
-                  <div className={style.itemsContent}>
-                    {collectibles?.map((nft: any, i: any) => {
-                      return (
-                        nft?._id && (
-                          <div className={style.itemBx} key={nft._id}>
-                            <ItemCard nftData={nft} />
-                          </div>
+              {collectibles?.length >= 1
+                //&& collectibles?.chain !== currentChain 
+                ? (
+                  <>
+                    <div className={style.itemsContent}>
+                      {collectibles?.map((nft: any, i: any) => {
+                        return (
+                          nft?._id && (
+                            <div className={style.itemBx} key={nft._id}>
+                              <ItemCard nftData={nft} />
+                            </div>
+                          )
                         )
-                      )
-                    })}
+                      })}
+                    </div>
+                    {totalPages > 1 && (
+                      <div className={style.pagination}>
+                        <div className={style.paginateBtns}>
+                          {currentPage > 1 && (
+                            <button
+                              className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
+                                }`}
+                              onClick={prevPage}
+                            >
+                              {'Prev'}
+                            </button>
+                          )}
+                          {currentPage < totalPages && (
+                            <button
+                              className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
+                                }`}
+                              onClick={nextPage}
+                            >
+                              {'Next'}
+                            </button>
+                          )}
+                        </div>
+                        <p>
+                          Page {currentPage} of {totalPages}
+                        </p>
+                      </div>)}
+                  </>
+                ) : (
+                  <div className={style.noContent}>
+                    <div className={style.noResults}>
+                      <img src={Sad} alt="sad" />
+                      <h2>No items found</h2>
+                      <Link to="/explore" className={style.explore}>
+                        <p>Explore marketplace</p>
+                        <img src={Arrow} alt="arrow" />
+                      </Link>
+                    </div>
                   </div>
-                  {totalPages > 1 && (
-                    <div className={style.pagination}>
-                      <div className={style.paginateBtns}>
-                        {currentPage > 1 && (
-                          <button
-                            className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
-                              }`}
-                            onClick={prevPage}
-                          >
-                            {'Prev'}
-                          </button>
-                        )}
-                        {currentPage < totalPages && (
-                          <button
-                            className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
-                              }`}
-                            onClick={nextPage}
-                          >
-                            {'Next'}
-                          </button>
-                        )}
-                      </div>
-                      <p>
-                        Page {currentPage} of {totalPages}
-                      </p>
-                    </div>)}
-                </>
-              ) : (
-                <div className={style.noContent}>
-                  <div className={style.noResults}>
-                    <img src={Sad} alt="sad" />
-                    <h2>No items found</h2>
-                    <Link to="/explore" className={style.explore}>
-                      <p>Explore marketplace</p>
-                      <img src={Arrow} alt="arrow" />
-                    </Link>
-                  </div>
-                </div>
-              )}
+                )}
               {/* <div className={style.itemContent}>
               <div className={style.noResults}>
                 <img src={Sad} alt="sad" />

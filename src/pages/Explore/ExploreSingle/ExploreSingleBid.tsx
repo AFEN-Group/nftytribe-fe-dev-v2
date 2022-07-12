@@ -1,4 +1,5 @@
-import { useState, useEffect, useContext } from 'react'
+import { useEffect, useContext } from 'react'
+import useState from 'react-usestateref'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ThemeContext } from '../../../context/ThemeContext'
 import ContractContext from '../../../context/ContractContext'
@@ -41,9 +42,9 @@ import { shortenAddress } from '../../../utils/formatting'
 import PutOnSaleModal from './PutOnSaleModal'
 declare const window: any
 
-const erc721Mintable_address = contracts.erc721MintableAddress
+//const erc721Mintable_address = contracts.erc721MintableAddress
 //const erc721Marketplace_address = contracts.erc721MarketplaceAddress
-const erc1155Mintable_adddress = contracts.erc1155MintableAdddress
+//const erc1155Mintable_adddress = contracts.erc1155MintableAdddress
 
 // const erc721Mintable_address = '0x236DdF1f75c0bA5Eb29a8776Ec1820E5dC41a59a'
 // const erc721Marketplace_address = '0xD5582083916dc813f974ce4CA3F27E6977e161cF'
@@ -80,6 +81,16 @@ const ExploreSingle = () => {
     const { handleAuctionBid, checkIfBIdTimePasses, collectNft } = useContext(
         ContractContext,
     )
+    // network
+    const [chain, setChain, chainRef] = useState<string>()
+    const [chainId, setChainId, chainIdRef] = useState<string>()
+    // erc721 addresses
+    const [erc721MintableAddress, setErc721MintableAddress] = useState<any>('')
+    const [erc721MarketplaceAddress, setErc721MarketplaceAddress] = useState<any>('')
+    // erc 1155 addresses
+    const [erc1155MintableAddress, setErc1155MintableAddress] = useState<any>('')
+    const [erc1155MarketplaceAddress, setErc1155MarketplaceAddress] = useState<any>('')
+
     const [timeLeft, setTimeLeft] = useState<any>({
         hours: '',
         minutes: '',
@@ -90,7 +101,26 @@ const ExploreSingle = () => {
     useEffect(() => {
         window.scrollTo(0, 0)
         const wallet_address = localStorage.getItem('currentAccount')
+        const currentChainId = localStorage.getItem('chain')
         //console.log(wallet_address)
+        //
+
+        if (currentChainId === '0x4') {
+            setChain('rinkeby')
+            setChainId('rinkeby')
+            setErc721MintableAddress(contracts.erc721MintableAddress)
+            setErc721MarketplaceAddress(contracts.erc721MarketplaceAddress)
+            setErc1155MintableAddress(contracts.erc1155MintableAdddress)
+            setErc1155MarketplaceAddress(contracts.erc1155MarketplaceAddress)
+        }
+        else if (currentChainId === '0x61') {
+            setChain('bsc testnet')
+            setChainId('bsc testnet')
+            setErc721MintableAddress(contracts.BSC_erc721MintableAddress)
+            setErc721MarketplaceAddress(contracts.BSC_erc721MarketplaceAddress)
+            setErc1155MintableAddress(contracts.BSC_erc1155MintableAdddress)
+            setErc1155MarketplaceAddress(contracts.BSC_erc1155MarketplaceAdddress)
+        }
         if (wallet_address) {
             setWalletAddress(wallet_address)
         }
@@ -138,9 +168,9 @@ const ExploreSingle = () => {
                 }
             } else {
                 await getNftDetails()
-                let contract_address = contracts.erc721MarketplaceAddress
+                let contract_address = erc721MarketplaceAddress
                 if (nftDetails?.is_multiple) {
-                    contract_address = contracts.erc1155MarketplaceAddress
+                    contract_address = erc1155MarketplaceAddress
                 }
 
                 let erc721Contract
@@ -358,11 +388,11 @@ const ExploreSingle = () => {
 
                         erc1155Contract = new web3.eth.Contract(
                             erc1155MintableAbi,
-                            erc1155Mintable_adddress,
+                            erc1155MintableAddress,
                         )
                         marketplace_contract = new web3.eth.Contract(
                             erc1155MarketplaceAbi,
-                            '0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd',
+                            erc1155MarketplaceAddress,
                         )
                     } else {
                         alert('connect to meta mask wallet')
@@ -414,7 +444,7 @@ const ExploreSingle = () => {
                             file: data.file,
                             transaction_hash: data.transactionHash,
                             type: 'putOffSale',
-                            chain_id: 'eth',
+                            chain_id: data.chain,
 
                             on_sale: false,
                             marketplace_type: data.marketplace_type,
@@ -437,7 +467,7 @@ const ExploreSingle = () => {
                             file: data.file,
                             transaction_hash: data.transactionHash,
                             type: 'putOffSale',
-                            chain_id: 'eth',
+                            chain_id: data.chain,
                             on_sale: false
                         }
                     }
@@ -478,11 +508,11 @@ const ExploreSingle = () => {
 
                         erc721Contract = new web3.eth.Contract(
                             erc721Abi,
-                            erc721Mintable_address,
+                            erc721MintableAddress,
                         )
                         marketplace_contract = new web3.eth.Contract(
                             erc721MarketplaceAbi,
-                            '0xD5582083916dc813f974ce4CA3F27E6977e161cF',
+                            erc1155MarketplaceAddress,
                         )
                     } else {
                         alert('connect to meta mask wallet')
@@ -551,7 +581,7 @@ const ExploreSingle = () => {
                             file: data.file,
                             transaction_hash: data.transactionHash,
                             type: 'putOffSale',
-                            chain_id: 'eth',
+                            chain_id: data.chain,
                             //order_type: data.market_type,
 
                             on_sale: false,
@@ -566,7 +596,7 @@ const ExploreSingle = () => {
                             file: data.file,
                             transaction_hash: data.transactionHash,
                             type: 'putOffSale',
-                            chain_id: 'eth',
+                            chain_id: data.chain,
                         }
                     }
 

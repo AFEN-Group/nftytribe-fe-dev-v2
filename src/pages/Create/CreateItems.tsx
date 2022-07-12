@@ -133,7 +133,7 @@ const CreateItems = () => {
       setErc1155MintableAddress(contracts.erc1155MintableAdddress)
       setErc1155MarketplaceAddress(contracts.erc1155MarketplaceAddress)
     }
-    if (currentChain === '0x61') {
+    else if (currentChain === '0x61') {
       setChain('bsc testnet')
       setChainId('bsc testnet')
       setErc721MintableAddress(contracts.BSC_erc721MintableAddress)
@@ -1232,7 +1232,7 @@ const CreateItems = () => {
                 <TextInput
                   type="text"
                   inputName="price"
-                  holder="Enter ETH Price"
+                  holder={`Enter ${currentChain === '0x4' ? 'ETH' : currentChain === '0x61' ? 'BNB' : ''} Price`}
                   max="12"
                   inputHandler={inputHandler}
                   value={userInput.price}
