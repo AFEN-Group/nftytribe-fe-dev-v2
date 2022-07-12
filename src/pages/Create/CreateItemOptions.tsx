@@ -74,7 +74,7 @@ const CreateItemOptions = () => {
                   <span id="heroTitle">Choose Blockchain</span>{' '}
                 </h1>
                 <p>
-                  <span id="heroText">Select  the most suitable blockchain to create your single or multiple item (s). You need to sign in to create.
+                  <span id="heroText">Select  the most suitable blockchain to create your single or multiple item(s). You need to sign in to create.
                   </span>{' '}
                 </p>
               </div>
