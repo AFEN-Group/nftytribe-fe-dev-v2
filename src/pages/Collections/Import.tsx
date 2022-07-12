@@ -105,9 +105,9 @@ const Import = (props: any) => {
                 <div className={style.modalInput}>
                   <p>Blockchain</p>
                   <select name="chain" onChange={inputHandler}>
-                    {/* <option value="rinkeby">Rinkeby</option>
-                    <option value="ropsten">Ropsten</option> */}
-                    <option value="eth">Ethereum</option>
+                    <option value="rinkeby">Rinkeby</option>
+                    <option value="bsc testnet">BSC Testnet </option>
+                    {/* <option value="eth">Ethereum</option> */}
 
                   </select>
                 </div>
