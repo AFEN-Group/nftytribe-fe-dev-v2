@@ -1,38 +1,38 @@
-import { useContext } from 'react'
-import { Link } from 'react-router-dom'
-import style from '../Home.module.scss'
-import nArrow from '../assets/arrow-right.svg'
-import { ThemeContext } from '../../../context/ThemeContext'
-import photo from './assets/p2.png'
-import collect from './assets/collect.svg'
-import african from './assets/african.svg'
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import style from "../Home.module.scss";
+import nArrow from "../assets/arrow-right.svg";
+import { ThemeContext } from "../../../context/ThemeContext";
+import photo from "./assets/p2.png";
+import collect from "./assets/collect.svg";
+import african from "./assets/african.svg";
+import { useTranslation } from "react-i18next";
 
 const Marketplace = () => {
-  const [themeState] = useContext<any>(ThemeContext)
-  const dark = themeState.dark
+  const [themeState] = useContext<any>(ThemeContext);
+  const dark = themeState.dark;
+  const { t } = useTranslation();
   return (
     <>
       <div
         //className={style.mk}
 
-        className={`${style.mk} ${dark === 'true' ? 'darkTheme' : 'lightTheme'
-          } `}
-
-      >
-        <div data-aos="fade-up" className={style.mkContent} >
+        className={`${style.mk} ${
+          dark === "true" ? "darkTheme" : "lightTheme"
+        } `}>
+        <div data-aos="fade-up" className={style.mkContent}>
           <div className={style.mkLeft}>
             <div className={style.mkLeftContent}>
-              <h1 >NftyTribe Categories</h1>
-              <p>Browse NFTs by categories on NftyTribe and start trading </p>
+              <h1>{t("nftytribe-categories")}</h1>
+              <p>{t("browse-nft")} </p>
 
               <Link to="/explore" className={`${style.mkBtn} ${style.forW}`}>
-                <p>Explore marketplace</p>
+                <p>{t("explore-marketplace")}</p>
                 <img src={nArrow} alt="more" />
               </Link>
             </div>
           </div>
           <div className={style.mkRight}>
-
             <div className={style.mkBlock1}>
               <Link to="/explore">
                 <div className={`${style.mkimgBx} ${style.forW}`}>
@@ -65,16 +65,15 @@ const Marketplace = () => {
                 </div>
               </Link>
             </div>
-
           </div>
           <Link to="/explore" className={`${style.mkBtn} ${style.forM}`}>
-            <p>Explore marketplace</p>
+            <p>{t("explore-marketplace")}</p>
             <img src={nArrow} alt="more" />
           </Link>
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Marketplace
+export default Marketplace;
