@@ -6,31 +6,44 @@ import { publicRequest } from '../utils/requestMethods'
 //import networks from './networks.json'
 declare const window: any
 
+const chainss: any = {
+  rinkeby: {
+    chainId: `0x${Number(4).toString(16)}`
+  }
+}
 const networks: any = {
   bsc: {
-    chainId: `0x${Number(56).toString(16)}`,
-    chainName: "Binance Smart Chain Mainnet",
+    chainId: `0x${Number(97).toString(16)}`,
+    chainName: "Binance Smart Chain Testnet",
     nativeCurrency: {
       name: "Binance Chain Native Token",
-      symbol: "BNB",
+      symbol: "tBNB",
       decimals: 18
     },
     rpcUrls: [
-      "https://bsc-dataseed1.binance.org",
-      "https://bsc-dataseed2.binance.org",
-      "https://bsc-dataseed3.binance.org",
-      "https://bsc-dataseed4.binance.org",
-      "https://bsc-dataseed1.defibit.io",
-      "https://bsc-dataseed2.defibit.io",
-      "https://bsc-dataseed3.defibit.io",
-      "https://bsc-dataseed4.defibit.io",
-      "https://bsc-dataseed1.ninicoin.io",
-      "https://bsc-dataseed2.ninicoin.io",
-      "https://bsc-dataseed3.ninicoin.io",
-      "https://bsc-dataseed4.ninicoin.io",
-      "wss://bsc-ws-node.nariox.org"
+      "https://data-seed-prebsc-1-s1.binance.org:8545",
+      "https://data-seed-prebsc-2-s1.binance.org:8545",
+      "https://data-seed-prebsc-1-s2.binance.org:8545",
+      "https://data-seed-prebsc-2-s2.binance.org:8545",
+      "https://data-seed-prebsc-1-s3.binance.org:8545",
+      "https://data-seed-prebsc-2-s3.binance.org:8545"
+
     ],
-    blockExplorerUrls: ["https://bscscan.com"]
+    blockExplorerUrls: ["https://testnet.bscscan.com"]
+  },
+  rinkeby: {
+    chainId: `0x${Number(4).toString(16)}`,
+    chainName: "Ethereum Testnet Rinkeby",
+    nativeCurrency: {
+      name: "Rinkeby Ether",
+      symbol: "RIN",
+      decimals: 18
+    },
+    rpcUrls: [
+      "https://rinkeby.infura.io/v3/45b5a21bfa5b4429af59109069821ed3",
+      "wss://rinkeby.infura.io/ws/v3/45b5a21bfa5b4429af59109069821ed3"
+    ],
+    blockExplorerUrls: ["https://rinkeby.etherscan.io"]
   }
 }
 
@@ -124,22 +137,40 @@ const UserConnect = () => {
   }
 
   const handleNetworkSwitch = async (networkName: string) => {
-    const changeNetwork = async (networkName: string) => {
-      try {
-        if (!window.ethereum) throw new Error('No wallet found');
-        await await window.ethereum.request({
-          method: 'wallet_addEthereumChain',
-          params: [
-            {
-              ...networks[networkName]
-            }
-          ]
-        })
-      } catch (err) {
-        console.log(err)
-      }
+
+    try {
+      if (!window.ethereum) throw new Error('No wallet found');
+      await window.ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [
+          {
+            ...networks[networkName]
+          }
+        ]
+      })
+    } catch (err) {
+      console.log(err)
     }
+
   }
+  const handleNetworkSwitch2 = async (networkName: string) => {
+
+    try {
+      if (!window.ethereum) throw new Error('No wallet found');
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [
+          {
+            ...chainss[networkName]
+          }
+        ]
+      })
+    } catch (err) {
+      console.log(err)
+    }
+
+  }
+
 
   const disableEthereum = () => {
     return new Promise(async (resolve, reject) => {
@@ -296,6 +327,8 @@ const UserConnect = () => {
     walletError,
     walletType,
     enableWalletConnect,
+    handleNetworkSwitch,
+    handleNetworkSwitch2,
     disconnectWalletConnect
   }
 }

@@ -11,11 +11,14 @@ import Binance from './assets/binance.svg'
 import Skale from './assets/skale.svg'
 import Solana from './assets/sol.svg'
 import Container from '../../components/Container/Container'
+import Switch from '../../components/Modals/Switch'
 
 const CreateItemOptions = () => {
   const [chain, setChain] = useState('')
   const currentChain = localStorage.getItem('chain')
-  console.log(currentChain, "<<<<<")
+  const [showModal, setShowModal] = useState<any>()
+  const [blockChain, setBlockChain] = useState<any>()
+  //console.log(currentChain, "<<<<<")
   // const [themeState] = useContext<any>(ThemeContext)
   // const dark = themeState.dark
   useEffect(() => {
@@ -49,16 +52,22 @@ const CreateItemOptions = () => {
       if (currentChain === "0x4") {
         setChain(network)
       } else {
-        alert("Switch to ethereum chain")
+        setBlockChain("Ethereum")
+        setShowModal(true)
       }
     }
     if (network === 'binance') {
       if (currentChain === "0x61") {
         setChain(network)
       } else {
-        alert("Switch to binance chain")
+        setBlockChain("Binance")
+        setShowModal(true)
       }
     }
+  }
+
+  const closeModal = () => {
+    setShowModal(false)
   }
 
   console.log(chain)
@@ -66,6 +75,9 @@ const CreateItemOptions = () => {
     <>
       <Header />
       <Container>
+        {showModal && (
+          <Switch closeModal={closeModal} blockChain={blockChain} chain={chain} />
+        )}
         <div className={style.createOptions}>
           {chain === '' ? (
             <div className={style.cOptContent1}>
