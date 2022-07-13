@@ -1,33 +1,35 @@
-import { useState, useEffect, useContext } from 'react'
-import { Link } from 'react-router-dom'
-import { ThemeContext } from '../../context/ThemeContext'
-import { AuthContext } from '../../context/AuthContext'
-import { CircularProgress } from '@material-ui/core'
-import style from './Profile.module.scss'
-import Header from '../../components/Header/Header'
-import Cover from './assets/cover.svg'
-import Avatar from './assets/user3.svg'
-import Av2 from './assets/user5.svg'
+import { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
+import { ThemeContext } from "../../context/ThemeContext";
+import { AuthContext } from "../../context/AuthContext";
+import { CircularProgress } from "@material-ui/core";
+import style from "./Profile.module.scss";
+import Header from "../../components/Header/Header";
+import Cover from "./assets/cover.svg";
+import Avatar from "./assets/user3.svg";
+import Av2 from "./assets/user5.svg";
 // import Edit from './assets/edit.svg'
 // import Sad from './assets/sad.svg'
 // import Arrow from './assets/arrow.svg'
-import Arrow2 from './assets/arrowLeft.svg'
-import Container from '../../components/Container/Container'
-import TextInput from '../../components/Inputs/TextInput'
-import TextArea from '../../components/Inputs/TextArea'
-import { publicRequest } from '../../utils/requestMethods'
-import Verification from './Modals/Verification'
-import UpdateComplete from './Modals/UpdateComplete'
+import Arrow2 from "./assets/arrowLeft.svg";
+import Container from "../../components/Container/Container";
+import TextInput from "../../components/Inputs/TextInput";
+import TextArea from "../../components/Inputs/TextArea";
+import { publicRequest } from "../../utils/requestMethods";
+import Verification from "./Modals/Verification";
+import UpdateComplete from "./Modals/UpdateComplete";
+import { useTranslation } from "react-i18next";
 
 const EditProfile = () => {
-  const [isLoading, setIsLoading] = useState(false)
-  const [themeState] = useContext<any>(ThemeContext)
-  const [showVerify, setShowVerify] = useState(false)
-  const [updated, setUpdated] = useState(false)
-  const dark = themeState.dark
-  const currentAddress = localStorage.getItem('currentAccount')
-  const [authState, setAuthState] = useContext<any>(AuthContext)
-  const [user, setUser] = useState<any>()
+  const [isLoading, setIsLoading] = useState(false);
+  const [themeState] = useContext<any>(ThemeContext);
+  const [showVerify, setShowVerify] = useState(false);
+  const [updated, setUpdated] = useState(false);
+  const dark = themeState.dark;
+  const currentAddress = localStorage.getItem("currentAccount");
+  const [authState, setAuthState] = useContext<any>(AuthContext);
+  const [user, setUser] = useState<any>();
+  const { t } = useTranslation();
   //const user = authState.user
 
   //console.log(user)
@@ -42,112 +44,111 @@ const EditProfile = () => {
   // })
 
   const [imageFile, setImageFile] = useState<any>({
-    file: '',
-    location: '',
-  })
+    file: "",
+    location: "",
+  });
   const [coverImage, setCoverImage] = useState<any>({
-    file: '',
-    location: '',
-  })
+    file: "",
+    location: "",
+  });
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     const getUser = async () => {
       try {
-        const result = await publicRequest.get(`/user/${currentAddress}`)
-        console.log('get user>>>', result.data.data)
-        console.log("current user >>", currentAddress)
-        setUser(result.data.data)
-        setIsLoading(false)
+        const result = await publicRequest.get(`/user/${currentAddress}`);
+        console.log("get user>>>", result.data.data);
+        console.log("current user >>", currentAddress);
+        setUser(result.data.data);
+        setIsLoading(false);
       } catch (error) {
-        console.log(error)
-        setIsLoading(false)
+        console.log(error);
+        setIsLoading(false);
       }
-    }
+    };
     if (currentAddress) {
-      getUser()
+      getUser();
     }
-
-  }, [currentAddress])
+  }, [currentAddress]);
 
   const [userInput, setUserInput] = useState<any>({
-    name: '',
-    email: '',
-    bio: '',
-    twitterLink: '',
-    website: '',
-  })
+    name: "",
+    email: "",
+    bio: "",
+    twitterLink: "",
+    website: "",
+  });
 
   const inputHandler = (event: any) => {
     setUserInput({
       ...userInput,
       [event.target.name]: event.target.value,
-    })
-  }
+    });
+  };
   const selectMedia1 = async (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
       setCoverImage({
         ...coverImage,
         file: e.target.files[0],
-      })
-      var form_data = new FormData()
-      form_data.append('upload', e.target.files[0])
+      });
+      var form_data = new FormData();
+      form_data.append("upload", e.target.files[0]);
       try {
         const resp = await fetch(
-          'https://api.nftytribe.io/api/collectibles/upload-image',
+          "https://api.nftytribe.io/api/collectibles/upload-image",
           {
-            method: 'POST',
+            method: "POST",
             body: form_data,
-          },
-        )
-        const data = await resp.json()
+          }
+        );
+        const data = await resp.json();
         //setImageLocation(data.location)
         setCoverImage({
           ...coverImage,
           file: e.target.files[0],
           location: data.location,
-        })
+        });
         //console.log(data)
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
-  }
+  };
 
   const selectMedia2 = async (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
       setImageFile({
         ...imageFile,
         file: e.target.files[0],
-      })
-      var form_data = new FormData()
-      form_data.append('upload', e.target.files[0])
+      });
+      var form_data = new FormData();
+      form_data.append("upload", e.target.files[0]);
       try {
         const resp = await fetch(
-          'https://dev.api.nftytribe.io/api/collectibles/upload-image',
+          "https://dev.api.nftytribe.io/api/collectibles/upload-image",
           {
-            method: 'POST',
+            method: "POST",
             body: form_data,
-          },
-        )
-        const data = await resp.json()
+          }
+        );
+        const data = await resp.json();
         //setImageLocation(data.location)
         setImageFile({
           ...imageFile,
           file: e.target.files[0],
           location: data.location,
-        })
+        });
         //console.log(data)
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
-  }
+  };
 
   const handleSubmit = async (e: any) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       //
       // if (coverImage.file) {
       //   //console.log("cover image >>>", coverImage.file)
@@ -194,9 +195,9 @@ const EditProfile = () => {
       //     console.log(error)
       //   }
       // }
-      console.log('show location>>', imageFile.location)
-      console.log('show userInput', userInput)
-      const data = userInput
+      console.log("show location>>", imageFile.location);
+      console.log("show userInput", userInput);
+      const data = userInput;
 
       // data.cover_image = coverImage.location
       // data.image = imageFile.location
@@ -216,11 +217,14 @@ const EditProfile = () => {
         cover_image: coverImage.location || user?.cover_image,
         bio: userInput.bio || user?.bio,
         twitter_username: userInput.twitterLink || user?.twitter_username,
-        custom_url: userInput.website || user?.custom_url
-      }
+        custom_url: userInput.website || user?.custom_url,
+      };
 
-      const updateUserReq = await publicRequest.post(`/user/update-user`, userData)
-      console.log('result>>', updateUserReq)
+      const updateUserReq = await publicRequest.post(
+        `/user/update-user`,
+        userData
+      );
+      console.log("result>>", updateUserReq);
       // setAuthState({
       //   ...authState,
       //   user: logUserReq.data.data,
@@ -243,62 +247,60 @@ const EditProfile = () => {
       //   isFetching: false,
       //   error: false,
       // })
-      setIsLoading(false)
-      setUpdated(true)
+      setIsLoading(false);
+      setUpdated(true);
     } catch (err) {
-      console.log(err)
+      console.log(err);
       setAuthState({
         ...authState,
         isFetching: false,
         error: true,
-      })
-      setIsLoading(false)
+      });
+      setIsLoading(false);
     }
-  }
+  };
 
   const closeVerify = () => {
-    setShowVerify(false)
+    setShowVerify(false);
     //alert("test")
-  }
+  };
 
   return (
     <>
       <Header />
-      {showVerify &&
-        <Verification closeVerify={closeVerify} />
-      }
+      {showVerify && <Verification closeVerify={closeVerify} />}
       {updated && <UpdateComplete closeVerify={closeVerify} />}
 
       <Container>
         <div className={style.container}>
-
           <div
-            className={`${style.coverBx2} animate__animated animate__fadeInDown `}
-          >
+            className={`${style.coverBx2} animate__animated animate__fadeInDown `}>
             {!coverImage.file && !user?.cover_image && (
-
               <img className={style.cover} src={Cover} alt="cover" />
             )}
             {!coverImage.file && user?.cover_image && (
-
-              <img className={style.cover} src={user?.cover_image} alt="cover" />
+              <img
+                className={style.cover}
+                src={user?.cover_image}
+                alt="cover"
+              />
             )}
             {coverImage.file && (
               <img
                 className={style.cover}
                 src={URL.createObjectURL(coverImage.file)}
                 alt="cover"
-              //onClick={closeVerify}
+                //onClick={closeVerify}
               />
             )}
 
             <div className={style.coverBtns}>
               <Link to="/profile">
-                {' '}
+                {" "}
                 <img src={Arrow2} className={style.arrow} />
               </Link>
 
-              <button className={dark === 'true' ? style.bl : style.bd}>
+              <button className={dark === "true" ? style.bl : style.bd}>
                 Edit cover photo
               </button>
             </div>
@@ -307,17 +309,16 @@ const EditProfile = () => {
                 type="file"
                 name="img"
                 onChange={selectMedia1}
-              //required
+                //required
               />
             </div>
           </div>
           <div
-            className={`${style.content} animate__animated animate__fadeInUp animate__delay-1s `}
-          >
+            className={`${style.content} animate__animated animate__fadeInUp animate__delay-1s `}>
             <div className={style.profileInfo}>
               {!imageFile.file && !user?.image && (
                 <div className={style.avatar}>
-                  <img src={dark === 'true' ? Avatar : Av2} alt="avatar" />
+                  <img src={dark === "true" ? Avatar : Av2} alt="avatar" />
                 </div>
               )}
               {!imageFile.file && user?.image && (
@@ -339,7 +340,7 @@ const EditProfile = () => {
                     type="file"
                     name="img"
                     onChange={selectMedia2}
-                  //required
+                    //required
                   />
                 </div>
               </div>
@@ -352,7 +353,7 @@ const EditProfile = () => {
               <h2>Edit Profile</h2>
               <form>
                 <div className={style.inputField}>
-                  <p>Username</p>
+                  <p>{t("Username")}</p>
                   <TextInput
                     type="text"
                     inputName="name"
@@ -362,7 +363,7 @@ const EditProfile = () => {
                   />
                 </div>
                 <div className={style.inputField}>
-                  <p>Email address</p>
+                  <p>{t("Email address")}</p>
                   <TextInput
                     type="email"
                     inputName="email"
@@ -372,7 +373,7 @@ const EditProfile = () => {
                   />
                 </div>
                 <div className={style.inputField}>
-                  <p>Bio</p>
+                  <p>{t("Bio")}</p>
                   <TextArea
                     inputName="bio"
                     type="text"
@@ -405,16 +406,20 @@ const EditProfile = () => {
                 <div className={`${style.inputField} ${style.mgTop5}  `}>
                   <p>Verification</p>
                   <h4>To get verified and a blue tick</h4>
-                  <button disabled type='button' onClick={() => setShowVerify(true)}>Verify</button>
+                  <button
+                    disabled
+                    type="button"
+                    onClick={() => setShowVerify(true)}>
+                    Verify
+                  </button>
                 </div>
                 <div className={style.editBtn}>
                   <button
                     type="submit"
                     onClick={handleSubmit}
-                    disabled={isLoading}
-                  >
+                    disabled={isLoading}>
                     {!isLoading ? (
-                      'Update Profile'
+                      "Update Profile"
                     ) : (
                       <CircularProgress color="inherit" size="20px" />
                     )}
@@ -426,7 +431,7 @@ const EditProfile = () => {
         </div>
       </Container>
     </>
-  )
-}
+  );
+};
 
-export default EditProfile
+export default EditProfile;
