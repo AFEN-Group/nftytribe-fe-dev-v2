@@ -41,7 +41,7 @@ const Switch = (props: any) => {
                     className={`${style.modal2} `}
                 >
                     <div className={style.modalTop}>
-                        <h1>Chain Error</h1>
+                        <h1>Wrong Chain</h1>
                         <p>
                             Please switch to <strong>{props.blockChain}</strong> chain
                         </p>
