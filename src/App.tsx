@@ -84,6 +84,7 @@ function App() {
                   {/* <Route path="/staking" element={<Staking />}></Route> */}
                   <Route path="*" element={<NotFound />}></Route>
                 </Routes>
+                <Footer />
               </Router>
             </div>
 
