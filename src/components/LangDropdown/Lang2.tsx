@@ -61,11 +61,11 @@ const Lang2 = () => {
     return (
         <div className="lang-container">
             <div className="wrap2" onClick={setVisible.bind(this, !visible)}>
-                <span>
+                <span className="lIcon">
                     <Language />
                 </span>{" "}
                 {/* {selected.name || 'Language'} */}
-                Language
+                <span className="lTxt">Language</span>
             </div>
             <div className="options" style={{ height: visible ? 230 : 0 }}>
                 {languages.map((data, idx) => (

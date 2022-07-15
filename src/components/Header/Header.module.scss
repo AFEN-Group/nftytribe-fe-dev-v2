@@ -46,7 +46,7 @@
   @include flexRegular(row, flex-start);
 
   .logoBox {
-    width: 33%;
+    width: 28%;
     @include flexRegular(row, flex-start);
 
     img {
@@ -59,14 +59,12 @@
 
   .navBoxL,
   .navBoxD {
-    width: 29%;
+    width: 32%;
     @include flexRegular(row, space-between);
 
     p {
       transition: 0.2s ease-in-out;
       cursor: pointer;
-
-
     }
   }
 
@@ -77,10 +75,33 @@
         transform: scale(1.08);
       }
     }
+
+    .nItem {
+
+      &:hover {
+        color: $blueHover;
+        transform: scale(1.08);
+      }
+    }
+  }
+
+  .nItem {
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+    //@include flexRegular(row, center);
+
   }
 
   .navBoxD {
     p {
+      &:hover {
+        color: #F3BB1C;
+        transform: scale(1.08);
+      }
+    }
+
+    .nItem {
+
       &:hover {
         color: #F3BB1C;
         transform: scale(1.08);

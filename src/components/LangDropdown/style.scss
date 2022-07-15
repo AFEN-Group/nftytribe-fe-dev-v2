@@ -21,6 +21,20 @@
     align-items: center;
   }
 
+  .lTxt {
+    display: flex;
+    grid-gap: 5px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .lIcon {
+    display: flex;
+    grid-gap: 5px;
+    justify-content: center;
+    align-items: center;
+  }
+
   .options {
     position: absolute;
     margin-top: 10px;

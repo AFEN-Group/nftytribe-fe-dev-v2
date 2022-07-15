@@ -165,6 +165,10 @@ const HeaderWeb = (props: any) => {
                 <Link to="/rewards">
                   <p>{t("rewards")}</p>
                 </Link>
+                <div className={style.nItem}>
+                  <LangDropDown />
+                </div>
+
 
               </div>
 
