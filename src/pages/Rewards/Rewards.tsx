@@ -38,12 +38,8 @@ const Rewards = () => {
           `}>
             <div className={style.sOneContent}>
               <div className={style.oneLeft}>
-                <h1>Earn rewards for every activity on NftyTribe</h1>
-                <p>
-                  We love our community and we want to make sure we reward all
-                  loyal users of the platform with periodic promos they can
-                  participate in.
-                </p>
+                <h1>{t("Earn rewards for every activity on NftyTribe")}</h1>
+                <p>{t("We love")}</p>
               </div>
               <div className={style.oneRight}>
                 <motion.img

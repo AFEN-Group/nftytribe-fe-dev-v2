@@ -28,6 +28,7 @@ import Sun from "./assets/sun.svg";
 //
 import ConnectWallet from "../ConnectWallet/ConnectWallet";
 import LangDropDown from "../LangDropdown/Lang2";
+import LangIconDropDown from "../LangDropdown/Lang3";
 import { useTranslation } from "react-i18next";
 
 const HeaderWeb = (props: any) => {
@@ -165,9 +166,9 @@ const HeaderWeb = (props: any) => {
                 <Link to="/rewards">
                   <p>{t("rewards")}</p>
                 </Link>
-                <div className={style.nItem}>
+                {/* <div className={style.nItem}>
                   <LangDropDown />
-                </div>
+                </div> */}
 
 
               </div>
@@ -181,6 +182,9 @@ const HeaderWeb = (props: any) => {
                     id="showIcon">
                     {t("connect wallet")}
                   </div>
+                </div>
+                <div className={style.nItem}>
+                  <LangIconDropDown />
                 </div>
                 <div className={style.themeImg} onClick={handleTheme}>
                   <img src={dark === "true" ? Sun : Moon} alt="change theme" />

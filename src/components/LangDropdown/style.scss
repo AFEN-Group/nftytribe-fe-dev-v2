@@ -21,6 +21,23 @@
     align-items: center;
   }
 
+  .wrap3 {
+    margin-left: 1em;
+    // background: #bccc;
+
+    .lIcon {
+      display: flex;
+      grid-gap: 5px;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        width: 28px;
+        height: 28px;
+      }
+    }
+  }
+
   .lTxt {
     display: flex;
     grid-gap: 5px;
@@ -40,6 +57,7 @@
     margin-top: 10px;
     top: 100%;
     width: 100%;
+    min-width: 105px;
     overflow: hidden;
     transition: 0.3s all;
 

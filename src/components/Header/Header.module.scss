@@ -44,6 +44,9 @@
 
 .content {
   @include flexRegular(row, flex-start);
+  width: 97%;
+  //background: pink;
+  margin: auto;
 
   .logoBox {
     width: 28%;
@@ -130,14 +133,17 @@
       transition: 0.3s ease-in-out;
 
       &:hover {
-        transform: scale(1.11);
+        transform: scale(1.05);
       }
     }
 
-    img {
-      margin-left: 2em;
-      cursor: pointer;
+    .themeImg {
+      img {
+        margin-left: 1em;
+        cursor: pointer;
+      }
     }
+
   }
 
   transition: 0.3s ease-in;
