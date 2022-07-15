@@ -1,5 +1,6 @@
 .lang-container {
   position: relative;
+
   .wrap {
     font-size: 16px;
     border-radius: 5px;
@@ -12,6 +13,14 @@
     justify-content: center;
     align-items: center;
   }
+
+  .wrap2 {
+    display: flex;
+    grid-gap: 5px;
+    justify-content: center;
+    align-items: center;
+  }
+
   .options {
     position: absolute;
     margin-top: 10px;
@@ -19,6 +28,7 @@
     width: 100%;
     overflow: hidden;
     transition: 0.3s all;
+
     span {
       display: block;
       font-size: 14px;

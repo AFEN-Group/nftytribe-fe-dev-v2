@@ -294,7 +294,8 @@
 .dropBody {
 
   //margin: 2em 0;
-  .dropItem {
+  .dropItem,
+  .dropItemL {
     @include flexRegular(row, flex-start);
     margin-bottom: 1.5em;
     transition: 0.1s ease-in;
@@ -307,6 +308,8 @@
       transform: scale(1.1);
     }
   }
+
+
 }
 
 .btnM {

@@ -27,7 +27,7 @@ import Moon from "./assets/moon.svg";
 import Sun from "./assets/sun.svg";
 //
 import ConnectWallet from "../ConnectWallet/ConnectWallet";
-import LangDropDown from "../LangDropdown";
+import LangDropDown from "../LangDropdown/Lang2";
 import { useTranslation } from "react-i18next";
 
 const HeaderWeb = (props: any) => {
@@ -125,20 +125,19 @@ const HeaderWeb = (props: any) => {
     <>
       <div
         className={style.section}
-        // className={`${style.section} ${
-        //   dark === 'true' ? 'darkTheme' : 'lightTheme'
-        // }`}
+      // className={`${style.section} ${
+      //   dark === 'true' ? 'darkTheme' : 'lightTheme'
+      // }`}
       >
         <ConnectWallet
           handleModal={handleModal}
           showConnect={showConnect}
-          //handleClose={handleClose}
+        //handleClose={handleClose}
         />
         <div
           //className={style.container}
-          className={`${style.container} ${
-            dark === "true" ? "darkTheme" : "lightTheme"
-          }`}
+          className={`${style.container} ${dark === "true" ? "darkTheme" : "lightTheme"
+            }`}
           id="container"
           onMouseLeave={() => setShowDropDown("None")}>
           {!currentAccount ? (
@@ -149,9 +148,8 @@ const HeaderWeb = (props: any) => {
 
               <div
                 // className={style.navBox}
-                className={`${
-                  dark === "true" ? style.navBoxD : style.navBoxL
-                }`}>
+                className={`${dark === "true" ? style.navBoxD : style.navBoxL
+                  }`}>
                 {/* <Link to="/">
                   <p>Home</p>
                 </Link> */}
@@ -167,15 +165,14 @@ const HeaderWeb = (props: any) => {
                 <Link to="/rewards">
                   <p>{t("rewards")}</p>
                 </Link>
-                <LangDropDown />
+
               </div>
 
               <div className={style.buttonsBox}>
                 <div className={style.buttons}>
                   <div
-                    className={`${style.btn} ${
-                      dark === "true" ? "yellowBtn" : "blueBtn"
-                    }`}
+                    className={`${style.btn} ${dark === "true" ? "yellowBtn" : "blueBtn"
+                      }`}
                     onClick={() => setShowConnect(!showConnect)}
                     id="showIcon">
                     {t("connect wallet")}
@@ -223,9 +220,8 @@ const HeaderWeb = (props: any) => {
                 {searchTerm?.length >= 3 && searchRes?.length < 1 && (
                   <div
                     //className="animate__animated animate__fadeIn navSearchRes"
-                    className={`animate__animated animate__fadeIn animate__faster  ${
-                      style.searchResults
-                    } ${dark === "true" ? "darkTheme" : "lightTheme"}`}>
+                    className={`animate__animated animate__fadeIn animate__faster  ${style.searchResults
+                      } ${dark === "true" ? "darkTheme" : "lightTheme"}`}>
                     <div>
                       <div className={style.noResult}>
                         <p>{t("not found")}</p>
@@ -236,9 +232,8 @@ const HeaderWeb = (props: any) => {
                 {searchTerm?.length >= 3 && searchRes?.length >= 1 && (
                   <div
                     //className="animate__animated animate__fadeIn navSearchRes"
-                    className={`animate__animated animate__fadeIn animate__faster  ${
-                      style.searchResults
-                    } ${dark === "true" ? "darkTheme" : "lightTheme"}`}>
+                    className={`animate__animated animate__fadeIn animate__faster  ${style.searchResults
+                      } ${dark === "true" ? "darkTheme" : "lightTheme"}`}>
                     <div>
                       {isLoading ? (
                         <div className={style.ld}>
@@ -281,9 +276,8 @@ const HeaderWeb = (props: any) => {
               </div>
               {showDropDown === "Profile" && (
                 <div
-                  className={`animate__animated animate__fadeIn animate__faster  ${
-                    style.dropDown
-                  } ${dark === "true" ? "darkTheme" : "lightTheme"}`}
+                  className={`animate__animated animate__fadeIn animate__faster  ${style.dropDown
+                    } ${dark === "true" ? "darkTheme" : "lightTheme"}`}
                   onMouseLeave={() => setShowDropDown("None")}>
                   <div className={style.dropContent}>
                     {/* <div className={style.dropTop}>
@@ -322,13 +316,6 @@ const HeaderWeb = (props: any) => {
                         />
                         <p>Settings</p>
                       </Link>
-                      <Link to="" className={style.dropItem}>
-                        <img
-                          src={dark === "true" ? Language2 : Language}
-                          alt="language"
-                        />
-                        <p>Language</p>
-                      </Link>
                       <Link to="/collections" className={style.dropItem}>
                         <img
                           src={dark === "true" ? Collection2 : Collection}
@@ -336,6 +323,16 @@ const HeaderWeb = (props: any) => {
                         />
                         <p>My collections</p>
                       </Link>
+                      {/* <Link to="" className={style.dropItem}>
+                        <img
+                          src={dark === "true" ? Language2 : Language}
+                          alt="language"
+                        />
+                        <p>Language</p>
+                      </Link> */}
+                      <div className={style.dropItemL}>
+                        <LangDropDown /></div>
+
 
                       {/* <Link to="/" className={style.dropItem}>
                         <img src={Notification} alt="notification" />

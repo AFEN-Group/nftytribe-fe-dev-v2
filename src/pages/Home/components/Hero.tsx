@@ -14,6 +14,7 @@ import Arrow2 from '../assets/h-arrow2.svg'
 import dot1 from '../assets/yellowdot.svg'
 import dot2 from '../assets/bluedot.svg'
 import ItemSkeleton from '../../../components/Card/ItemSkeleton'
+import { useTranslation } from "react-i18next";
 
 const Hero = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -23,6 +24,7 @@ const Hero = () => {
   const currentAccount = localStorage.getItem('currentAccount')
   const dark = themeState.dark
   const navigate = useNavigate()
+  const { t } = useTranslation();
 
 
   useEffect(() => {
@@ -85,12 +87,11 @@ const Hero = () => {
             <div className={style.heroTopLeft}>
               <div className={style.leftContent}>
                 <div
-                  className={`${style.leftTop} animate__animated animate__slideInDown`}
-                >
-                  <h2>Discover, Create & Trade</h2>
+                  className={`${style.leftTop} animate__animated animate__slideInDown`}>
+                  <h2>{t("discover")}</h2>
                 </div>
                 <h1>
-                  <span id="heroTitle">NFTs on NftyTribe</span>{' '}
+                  <span id="heroTitle">{t("nft-on")}</span>{" "}
                 </h1>
                 {/* <h1>One of a kind NFTs</h1> */}
                 <div className={style.leftBtm}>
@@ -101,7 +102,8 @@ const Hero = () => {
                       next-level experiences in exchanging NFTs. Users can trade
                       NFTs and seamlessly send and receive physical items tied
                       to NFTs.  */}
-                      NftyTribe is a multi-chain NFT marketplace facilitating next-level experiences in exchanging NFTs. Users can trade NFTs and seamlessly send and receive physical items tied to NFTs..
+                      {/* NftyTribe is a multi-chain NFT marketplace facilitating next-level experiences in exchanging NFTs. Users can trade NFTs and seamlessly send and receive physical items tied to NFTs.. */}
+                      {t("description")}
                     </span>
                   </p>
                   <div
@@ -119,7 +121,7 @@ const Hero = () => {
                       onClick={handleImport}
 
                     >
-                      Import Collection
+                      {t("import")}
                     </button>
                     {/* </Link> */}
                     <Link to="/explore">
@@ -131,7 +133,7 @@ const Hero = () => {
                             : style.lButton2_light
                         }
                       >
-                        Explore Marketplace{' '}
+                        {t("explore-marketplace")}{" "}
                         <img src={dark === 'true' ? Arrow1 : Arrow2} alt="" />
                       </button>
                     </Link>
