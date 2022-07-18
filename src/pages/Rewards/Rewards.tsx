@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react'
 import { ThemeContext } from '../../context/ThemeContext'
 import { motion } from 'framer-motion'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Header from '../../components/Header/Header'
 // import Footer from '../../components/Footer/Footer'
 import style from './Rewards.module.scss'
@@ -18,9 +18,17 @@ import arrow2 from './assets/arrow2.svg'
 const Rewards = () => {
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
+  const currentAccount = localStorage.getItem('currentAccount')
+  const navigate = useNavigate()
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
+  const handleStake = () => {
+    if (currentAccount) {
+      navigate('/staking')
+    }
+  }
+
   return (
     <>
       <Header />
@@ -120,13 +128,15 @@ const Rewards = () => {
                 </p>
                 <div className={style.twoBtns}>
                   {/* <a href="https://pancakeswap.finance/swap"> */}
-                  <Link to="/staking">
-                    <button
-                      className={`${style.stake} ${dark === 'true' ? 'yellowBtn' : 'blueBtn'}`}>
-                      Stake Afen
-                      <img src={dark === "true" ? arrow1 : arrow2} alt="buy afen" />
-                    </button>
-                  </Link>
+                  {/* <Link to="/staking"> */}
+                  <button
+                    id="stake"
+                    onClick={handleStake}
+                    className={`${style.stake} ${dark === 'true' ? 'yellowBtn' : 'blueBtn'}`}>
+                    Stake Afen
+                    <img src={dark === "true" ? arrow1 : arrow2} alt="buy afen" />
+                  </button>
+                  {/* </Link> */}
                   {/* </a> */}
                   <button className={`
                   ${style.buyAfen}

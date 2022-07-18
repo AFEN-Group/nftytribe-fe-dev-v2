@@ -211,9 +211,16 @@
     @include flexRegular(column, flex-start);
     //align-items: flex-start;
     //background: pink;
-
+    position: relative;
 
 }
+
+// .inputLabel {
+//     position: absolute;
+//     right: 3em;
+//     top: 1.3em;
+//     font-size: 1.2em;
+// }
 
 .bal {
     text-align: left;

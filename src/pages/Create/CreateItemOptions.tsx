@@ -76,7 +76,7 @@ const CreateItemOptions = () => {
       <Header />
       <Container>
         {showModal && (
-          <Switch closeModal={closeModal} blockChain={blockChain} chain={chain} />
+          <Switch closeModal={closeModal} blockChain={blockChain} />
         )}
         <div className={style.createOptions}>
           {chain === '' ? (
