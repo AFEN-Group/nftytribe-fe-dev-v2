@@ -264,7 +264,7 @@ const Staking = () => {
                           value={userInput.unstake}
                           placeholder="Enter amount"
                         />
-                        <p className={style.inputLabel}>(BSC)</p>
+                        {/* <p className={style.inputLabel}>(BSC)</p> */}
                         <button
                           disabled={isLoading || !validated}
                           onClick={handleWithdraw}>
