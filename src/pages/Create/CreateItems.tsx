@@ -1130,8 +1130,8 @@ const CreateItems = () => {
               <div className={style.leftBody}>
                 <div
                   className={` ${dark === "true"
-                      ? style.fileContainerD
-                      : style.fileContainerL
+                    ? style.fileContainerD
+                    : style.fileContainerL
                     }`}>
                   {!imageFile && (
                     <div className={style.fileTxt}>
@@ -1151,6 +1151,16 @@ const CreateItems = () => {
                     <div className={style.fileBx}>
                       {/* <img src={guy} alt="guy" /> */}
                       <img src={URL.createObjectURL(imageFile)} alt="nft" />
+                      {/* <video
+                        autoPlay
+                        controls
+                        //controlslist="nodownload" 
+                        // loop="" 
+                        preload="auto"
+                        src={imageFile}
+                      //style="width: 100%; height: calc(100% - 50px);"
+                      >
+                      </video> */}
                       <Cancel
                         className={style.cancel}
                         onClick={() => setImageFile('')}

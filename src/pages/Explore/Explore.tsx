@@ -31,16 +31,22 @@ const Explore = () => {
   });
   const [filterQuery, setFilterQuery] = useState("");
   const [query, setQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(0)
   const [isLoading, setIsLoading] = useState(true);
   const getExploreCollectibles = async () => {
     try {
       const explore = await publicRequest.get(
-        `/collectibles/explore/filter?on_sale=true&nft_type=${tab}${filterQuery}`
+        `/collectibles/explore/filter?on_sale=true&nft_type=${tab}${filterQuery}&page=${currentPage}&size=7`
       );
-      const exploreData = explore.data;
+      const exploreData: any = explore.data;
       console.log(exploreData);
       setData(exploreData?.data?.collectibles);
-      //setTotalCount(exploreData?.data?.total_count)
+      //setTotalPages(exploreData?.data?.total_count)
+      const total: any = exploreData?.data?.totalNfts / 10
+      setTotalPages(parseFloat(total))
+
+      console.log(parseFloat(total))
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -51,7 +57,18 @@ const Explore = () => {
   useEffect(() => {
     getExploreCollectibles();
     console.log(filterQuery);
-  }, [tab, filterQuery]);
+  }, [tab, filterQuery, currentPage]);
+  const nextPage = () => {
+    if (currentPage >= 1) {
+      setCurrentPage(currentPage + 1)
+
+    }
+  }
+  const prevPage = () => {
+    if (currentPage <= Math.ceil(totalPages)) {
+      setCurrentPage(currentPage - 1)
+    }
+  }
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -97,8 +114,8 @@ const Explore = () => {
                     tab === "" && dark === "true"
                       ? style.darkActive
                       : tab === "" && dark !== "true"
-                      ? style.lightActive
-                      : style.exploreCat
+                        ? style.lightActive
+                        : style.exploreCat
                   }
                   onClick={(e) => setTab("")}>
                   <p>All</p>
@@ -108,8 +125,8 @@ const Explore = () => {
                     tab === "art" && dark === "true"
                       ? style.darkActive
                       : tab === "art" && dark !== "true"
-                      ? style.lightActive
-                      : style.exploreCat
+                        ? style.lightActive
+                        : style.exploreCat
                   }
                   onClick={(e) => setTab("art")}>
                   <p>Art</p>
@@ -119,8 +136,8 @@ const Explore = () => {
                     tab === "gaming" && dark === "true"
                       ? style.darkActive
                       : tab === "gaming" && dark !== "true"
-                      ? style.lightActive
-                      : style.exploreCat
+                        ? style.lightActive
+                        : style.exploreCat
                   }
                   onClick={(e) => setTab("gaming")}>
                   <p>Gaming</p>
@@ -130,8 +147,8 @@ const Explore = () => {
                     tab === "photography" && dark === "true"
                       ? style.darkActive
                       : tab === "photography" && dark !== "true"
-                      ? style.lightActive
-                      : style.exploreCat
+                        ? style.lightActive
+                        : style.exploreCat
                   }
                   onClick={(e) => setTab("photography")}>
                   <p>Photography</p>
@@ -141,8 +158,8 @@ const Explore = () => {
                     tab === "collectibles" && dark === "true"
                       ? style.darkActive
                       : tab === "collectibles" && dark !== "true"
-                      ? style.lightActive
-                      : style.exploreCat
+                        ? style.lightActive
+                        : style.exploreCat
                   }
                   onClick={(e) => setTab("collectibles")}>
                   <p>Collectibles</p>
@@ -153,8 +170,8 @@ const Explore = () => {
                     tab === "african_art" && dark === "true"
                       ? style.darkActive
                       : tab === "african_art" && dark !== "true"
-                      ? style.lightActive
-                      : style.exploreCat
+                        ? style.lightActive
+                        : style.exploreCat
                   }
                   onClick={(e) => setTab("african_art")}>
                   <p>African Art</p>
@@ -170,9 +187,8 @@ const Explore = () => {
               className={`${style.body} animate__animated animate__fadeInUp animate__delay-2s`}>
               <div
                 //className={style.sideBar}
-                className={`${style.sideBar} ${
-                  dark === "true" ? "darkGradient" : "lightGradient"
-                } `}
+                className={`${style.sideBar} ${dark === "true" ? "darkGradient" : "lightGradient"
+                  } `}
                 id="sidebar">
                 <div className={style.sideBarContent}>
                   <div className={style.sBItemA}>
@@ -195,9 +211,8 @@ const Explore = () => {
                   </div>
                   {filter.saleType && (
                     <form
-                      className={`${
-                        dark === "true" ? style.filterBxD : style.filterBxL
-                      } animate__animated animate__fadeIn`}>
+                      className={`${dark === "true" ? style.filterBxD : style.filterBxL
+                        } animate__animated animate__fadeIn`}>
                       <div className={style.filterItem1}>
                         <div className={style.filterTxt}>
                           <p>Fixed Sale</p>
@@ -237,9 +252,8 @@ const Explore = () => {
                   </div>
                   {filter.blockChain && (
                     <form
-                      className={`${
-                        dark === "true" ? style.filterBxD : style.filterBxL
-                      } animate__animated animate__fadeIn`}>
+                      className={`${dark === "true" ? style.filterBxD : style.filterBxL
+                        } animate__animated animate__fadeIn`}>
                       <div className={style.filterItem1}>
                         <div className={style.filterTxt}>
                           <p>Ethereum</p>
@@ -312,9 +326,8 @@ const Explore = () => {
                   </div> */}
                   {filter.collection && (
                     <div
-                      className={`${
-                        dark === "true" ? style.filterBxD : style.filterBxL
-                      } animate__animated animate__fadeIn`}>
+                      className={`${dark === "true" ? style.filterBxD : style.filterBxL
+                        } animate__animated animate__fadeIn`}>
                       <div className={style.filterItem}>
                         <p>Fixed Sale</p>
                         <div className={style.radio}></div>
@@ -339,17 +352,46 @@ const Explore = () => {
                 <div className={style.itemsContainer}>
                   {data?.length >= 1 ? (
                     !isLoading ? (
-                      <div className={style.itemsContent}>
-                        {data?.map((nft: any, i: any) => {
-                          return (
-                            (nft?._id && nft?.cardImage) && (
-                              <div className={style.itemBx} key={nft._id}>
-                                <ItemCard nftData={nft} />
+                      <>
+                        <div className={style.itemsContent}>
+                          {data?.map((nft: any, i: any) => {
+                            return (
+                              (nft?._id && nft?.cardImage) && (
+                                <div className={style.itemBx} key={nft._id}>
+                                  <ItemCard nftData={nft} />
+                                </div>
+
+                              )
+                            );
+                          })}
+                          {totalPages > 1 && (
+                            <div className={style.pagination}>
+                              <div className={style.paginateBtns}>
+                                {currentPage > 1 && (
+                                  <button
+                                    className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
+                                      }`}
+                                    onClick={prevPage}
+                                  >
+                                    {'Previous'}
+                                  </button>
+                                )}
+                                {currentPage < totalPages && (
+                                  <button
+                                    className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
+                                      }`}
+                                    onClick={nextPage}
+                                  >
+                                    {'Next'}
+                                  </button>
+                                )}
                               </div>
-                            )
-                          );
-                        })}
-                      </div>
+                              <p>
+                                Page {currentPage} of {Math.ceil(totalPages)}
+                              </p>
+                            </div>)}
+                        </div>
+                      </>
                     ) : (
                       <div className={style.loaderBx}>
                         <Loader />
