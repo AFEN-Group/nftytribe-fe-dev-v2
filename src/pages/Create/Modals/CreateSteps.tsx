@@ -6,6 +6,7 @@ import style from '../Create.module.scss'
 import Close from '../assets/close.svg'
 import Happy from '../assets/happy.svg'
 import { CircularProgress } from '@material-ui/core'
+import { motion } from 'framer-motion'
 
 const CreateSteps = (props: any) => {
   //const [err, setErr] = useState(0)
@@ -20,8 +21,27 @@ const CreateSteps = (props: any) => {
         <div className={style.modalContainer}>
           {/* {!props.created && ( */}
           {props.step === 1 && (
-            <div
-              className={`${style.modalSm} animate__animated animate__zoomInUp `}
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: {
+                  opacity: 0,
+                  scale: 0.7,
+                },
+                visible: {
+                  opacity: 1,
+                  scale: 1,
+                  transition: {
+                    duration: 0.1,
+                    //delay: 0.3,
+                    scale: {
+                      duration: .01,
+                    },
+                  },
+                },
+              }}
+              className={`${style.modalSm} `}
             >
               <div className={style.modalTop2}>
                 <h1>Step 1 : Mint your NFT</h1>
@@ -42,7 +62,7 @@ const CreateSteps = (props: any) => {
                   )}
                 </button>
               </div>
-            </div>
+            </motion.div>
           )}
           {props.step === 2 && (
             <div

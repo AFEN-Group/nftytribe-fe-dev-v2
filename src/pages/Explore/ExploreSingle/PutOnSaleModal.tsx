@@ -20,6 +20,7 @@ import erc1155MarketplaceAbi from '../../../smart_contracts/erc1155Market.json'
 import TextInput from '../../../components/Inputs/TextInput'
 import SelectOption from '../../../components/Inputs/SelectOption3'
 import SelectDate from '../../../components/Inputs/SelectDate'
+import { motion } from 'framer-motion'
 
 declare const window: any
 
@@ -336,9 +337,28 @@ const PutOnSaleModal = (props: any) => {
                 ></div>
                 <div className={style.modalContainer}>
                     {!completed && !props.itemCollected && (
-                        <form
+                        <motion.form
+                            initial="hidden"
+                            animate="visible"
+                            variants={{
+                                hidden: {
+                                    opacity: 0,
+                                    scale: 0.7,
+                                },
+                                visible: {
+                                    opacity: 1,
+                                    scale: 1,
+                                    transition: {
+                                        duration: 0.1,
+                                        //delay: 0.3,
+                                        scale: {
+                                            duration: .01,
+                                        },
+                                    },
+                                },
+                            }}
                             onSubmit={handleSubmit}
-                            className={`${style.modalD} animate__animated animate__zoomInUp `}
+                            className={`${style.modalD} `}
                         >
                             <div className={style.modalTop}>
                                 <h1>Put item on sale.</h1>
@@ -451,11 +471,30 @@ const PutOnSaleModal = (props: any) => {
                                     Cancel
                                 </button>
                             </div>
-                        </form>
+                        </motion.form>
                     )}
                     {completed && (
-                        <div
-                            className={`${style.modal} animate__animated animate__zoomInUp `}
+                        <motion.div
+                            initial="hidden"
+                            animate="visible"
+                            variants={{
+                                hidden: {
+                                    opacity: 0,
+                                    scale: 0.7,
+                                },
+                                visible: {
+                                    opacity: 1,
+                                    scale: 1,
+                                    transition: {
+                                        duration: 0.1,
+                                        //delay: 0.3,
+                                        scale: {
+                                            duration: .01,
+                                        },
+                                    },
+                                },
+                            }}
+                            className={`${style.modal} `}
                         >
                             <div className={style.modalTop}>
                                 <h1>Congratulations</h1>
@@ -474,11 +513,30 @@ const PutOnSaleModal = (props: any) => {
                             <Link to="/explore" className={style.modalBtnSingle}>
                                 <button>Back to explore</button>
                             </Link>
-                        </div>
+                        </motion.div>
                     )}
                     {props.itemCollected && (
-                        <div
-                            className={`${style.modal} animate__animated animate__zoomInUp `}
+                        <motion.div
+                            initial="hidden"
+                            animate="visible"
+                            variants={{
+                                hidden: {
+                                    opacity: 0,
+                                    scale: 0.7,
+                                },
+                                visible: {
+                                    opacity: 1,
+                                    scale: 1,
+                                    transition: {
+                                        duration: 0.1,
+                                        //delay: 0.3,
+                                        scale: {
+                                            duration: .01,
+                                        },
+                                    },
+                                },
+                            }}
+                            className={`${style.modal} `}
                         >
                             <div className={style.modalTop}>
                                 <h1>Congratulations</h1>
@@ -496,7 +554,7 @@ const PutOnSaleModal = (props: any) => {
                             <Link to="/explore" className={style.modalBtnSingle}>
                                 <button>Back to explore</button>
                             </Link>
-                        </div>
+                        </motion.div>
                     )}
                     {/* )} */}
                 </div>

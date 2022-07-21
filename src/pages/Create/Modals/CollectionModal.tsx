@@ -5,6 +5,7 @@ import style from '../Create.module.scss'
 import Close from '../assets/close.svg'
 import Happy from '../assets/happy.svg'
 //import { CircularProgress } from '@material-ui/core'
+import { motion } from 'framer-motion'
 
 const CollectionModal = (props: any) => {
   //const [err, setErr] = useState(0)
@@ -17,8 +18,27 @@ const CollectionModal = (props: any) => {
         ></div>
         <div className={style.modalContainer}>
           {/* {!props.created && ( */}
-          <div
-            className={`${style.modal} animate__animated animate__zoomInUp `}
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: {
+                opacity: 0,
+                scale: 0.7,
+              },
+              visible: {
+                opacity: 1,
+                scale: 1,
+                transition: {
+                  duration: 0.1,
+                  //delay: 0.3,
+                  scale: {
+                    duration: .01,
+                  },
+                },
+              },
+            }}
+            className={`${style.modal} `}
           >
             <div className={style.modalTop}>
               <h1>Congratulations</h1>
@@ -37,7 +57,7 @@ const CollectionModal = (props: any) => {
             <Link to="/profile" className={style.modalBtnSingle}>
               <button>View Profile</button>
             </Link>
-          </div>
+          </motion.div>
           {/* )} */}
         </div>
       </div>

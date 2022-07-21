@@ -210,15 +210,16 @@ const CreateItems = () => {
   };
   const handleClose = () => {
     setShowModal(false);
-    setUserInput({
-      title: '',
-      price: '',
-    })
+    // setUserInput({
+    //   title: '',
+    //   price: '',
+    // })
     //setImageFile('')
   }
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
+
     // if (
     //   userInput.title === '' ||
     //   userInput.price === '' ||
@@ -247,11 +248,14 @@ const CreateItems = () => {
       //   ...msg,
       //   eMsg2: '',
       // })
-      if (step === 0) {
+      if (step) {
         setShowModal(true)
-        setStep(1)
+        if (step === 0) {
+          setStep(1)
+        }
         console.log(userInput.is_lazy_mint)
       }
+
       // } else {
       //   setMsg({
       //     ...msg,
