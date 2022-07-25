@@ -417,7 +417,7 @@ const ExploreSingle = () => {
                     }
 
                     let updatableData
-                    if (data.on_sale) {
+                    if (data?.on_sale) {
 
                         if (data.market_type === '2') {
                             data.starting_time =
@@ -873,7 +873,7 @@ const ExploreSingle = () => {
 
 
                                             <>
-                                                {nftDetails?.wallet_address != walletAddress && nftDetails.on_sale ? (
+                                                {nftDetails?.wallet_address != walletAddress && nftDetails?.on_sale ? (
                                                     <button
                                                         disabled={!isLoaded || !isBidActive}
                                                         className={`${style.gradBtn} ${dark === 'true' ? 'darkGradient' : 'lightGradient'

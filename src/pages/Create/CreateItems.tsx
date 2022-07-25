@@ -275,8 +275,9 @@ const CreateItems = () => {
       //   ...msg,
       //   eMsg2: '',
       // })
+      setShowModal(true)
       if (step === 0) {
-        setShowModal(true)
+
         setStep(1)
         console.log(userInput.is_lazy_mint)
       }

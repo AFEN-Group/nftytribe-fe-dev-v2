@@ -7,12 +7,10 @@ const SelectDate = (props: any) => {
     const dark = themeState.dark
     return (
         <div
-            className={style.inputBx} //{props.className}
+            className={`${dark === 'true' ? style.darkDate : style.lightDate} ${style.inputBx}`} //{props.className}
         >
             <input
-                className={`${dark === 'true' ? 'darkTheme' : 'lightTheme'} 
-        
-        `}
+                className={`${dark === 'true' ? 'darkTheme' : 'lightTheme'} ${style.datePick}`}
                 //type={props.type}
                 name={props.inputName}
                 placeholder={props.holder}
