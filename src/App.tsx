@@ -29,6 +29,9 @@ import Footer from "./components/Footer/Footer";
 //import LaunchPartners from './pages/LaunchPartners/LaunchPartners'
 import Rewards from "./pages/Rewards/Rewards";
 import Staking from "./pages/Staking/Staking";
+import NotFound from './pages/NotFound/NotFound'
+import useLanguage, { LanguageContext } from "./context/Language";
+
 import useWeb3 from "./hooks/web3";
 import Web3ContextProvider from "./context/Web3Context";
 
@@ -37,11 +40,12 @@ function App() {
   const web3Object = useWeb3();
   const data: any = UserConnect();
   const methods: any = useContractMethods();
+  const { langState }: { langState: any } = useLanguage();
   useEffect(() => {
     AOS.init();
   }, [AOS]);
   return (
-    <Web3ContextProvider>
+    <LanguageContext.Provider value={langState}>
       <ContractContext.Provider value={methods}>
         <WalletContext.Provider value={data}>
           <>
@@ -91,16 +95,17 @@ function App() {
               </Router>
             </div>
 
-            <div className="app_info">
+            {/* <div className="app_info">
               <p>
                 Mobile version still in progress, please view on larger device.
               </p>
-            </div>
+            </div> */}
           </>
         </WalletContext.Provider>
       </ContractContext.Provider>
-    </Web3ContextProvider>
-  );
+    </LanguageContext.Provider>
+  )
+
 }
 
 export default App;

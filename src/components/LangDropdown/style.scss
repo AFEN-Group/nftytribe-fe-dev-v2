@@ -1,0 +1,76 @@
+.lang-container {
+  position: relative;
+
+  .wrap {
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    padding: 8px 16px;
+    cursor: pointer;
+    display: flex;
+
+    grid-gap: 5px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .wrap2 {
+    display: flex;
+    grid-gap: 5px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .wrap3 {
+    margin-left: 1em;
+    // background: #bccc;
+
+    .lIcon {
+      display: flex;
+      grid-gap: 5px;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        width: 28px;
+        height: 28px;
+      }
+    }
+  }
+
+  .lTxt {
+    display: flex;
+    grid-gap: 5px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .lIcon {
+    display: flex;
+    grid-gap: 5px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .options {
+    position: absolute;
+    margin-top: 10px;
+    top: 100%;
+    width: 100%;
+    min-width: 105px;
+    overflow: hidden;
+    transition: 0.3s all;
+
+    span {
+      display: block;
+      font-size: 14px;
+      margin-top: 10px;
+      background-color: white;
+      padding: 8px 16px;
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+    }
+  }
+}

@@ -1,11 +1,11 @@
 import { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { shortenAddress } from '../../utils/formatting'
-//import { publicRequest } from '../../utils/requestMethods'
+import { publicRequest } from '../../utils/requestMethods'
 import { getUsdPrice } from '../../utils/exchangeRate'
 import koala from './assets/kl.png'
-import dots from './assets/dots.svg'
-import like from './assets/like.svg'
+// import dots from './assets/dots.svg'
+// import like from './assets/like.svg'
 import user from './assets/user3.svg'
 import arrow from './assets/icon.svg'
 import style from './Card.module.scss'
@@ -21,6 +21,7 @@ const ItemCard = (data: any) => {
 
   const [showFull, setShowFull] = useState(false)
   const [usdPrice, setUsdPrice] = useState<any>()
+  const [userName, setUserName] = useState<any>()
   const getImageUrl = (uri: any) => {
     let url
     if (uri.includes('ipfs/')) {
@@ -59,7 +60,21 @@ const ItemCard = (data: any) => {
         setUsdPrice(convertedPrice)
       }
     }
+    const getUser = async () => {
+      //data?.nftData?.owner
+      const ownerAddress = data?.nftData?.owner
+      try {
+        const userInfo: any = await publicRequest.get(`/user/${ownerAddress}`)
+        console.log("userInfo>>", userInfo?.data?.data?.name)
+        setUserName(userInfo?.data?.data?.name)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
     getUsdPriceValue()
+    getUser()
+
   }, [])
   const currentAddress: any = localStorage.getItem('currentAccount')
 
@@ -147,7 +162,7 @@ const ItemCard = (data: any) => {
             <div className={style.userInfo} onClick={() => setShowFull(true)}>
               <img src={user} alt="user" />
               {data.nftData && (
-                <p>{shortenAddress(data?.nftData?.wallet_address)}</p>
+                <p>{userName || shortenAddress(data?.nftData?.wallet_address)}</p>
               )}
               <img src={arrow} alt="arrow" />
             </div>
@@ -171,7 +186,7 @@ const ItemCard = (data: any) => {
                 <div className={style.userBx}>
                   <img src={user} alt="user" />
                   {data.nftData && (
-                    <p>{shortenAddress(data?.nftData?.wallet_address)}</p>
+                    <p>{userName || shortenAddress(data?.nftData?.wallet_address)}</p>
                   )}
                 </div>
               </div>

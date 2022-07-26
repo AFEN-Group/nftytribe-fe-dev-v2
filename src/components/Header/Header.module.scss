@@ -35,7 +35,7 @@
 }
 
 .containerScroll {
-  width: 100%;
+  width: 100% !important;
   border-radius: 0px;
   margin-top: 0 !important;
   box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.357);
@@ -44,9 +44,12 @@
 
 .content {
   @include flexRegular(row, flex-start);
+  width: 97%;
+  //background: pink;
+  margin: auto;
 
   .logoBox {
-    width: 33%;
+    width: 28%;
     @include flexRegular(row, flex-start);
 
     img {
@@ -59,14 +62,12 @@
 
   .navBoxL,
   .navBoxD {
-    width: 29%;
+    width: 32%;
     @include flexRegular(row, space-between);
 
     p {
       transition: 0.2s ease-in-out;
       cursor: pointer;
-
-
     }
   }
 
@@ -77,10 +78,33 @@
         transform: scale(1.08);
       }
     }
+
+    .nItem {
+
+      &:hover {
+        color: $blueHover;
+        transform: scale(1.08);
+      }
+    }
+  }
+
+  .nItem {
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+    //@include flexRegular(row, center);
+
   }
 
   .navBoxD {
     p {
+      &:hover {
+        color: #F3BB1C;
+        transform: scale(1.08);
+      }
+    }
+
+    .nItem {
+
       &:hover {
         color: #F3BB1C;
         transform: scale(1.08);
@@ -109,14 +133,17 @@
       transition: 0.3s ease-in-out;
 
       &:hover {
-        transform: scale(1.11);
+        transform: scale(1.05);
       }
     }
 
-    img {
-      margin-left: 2em;
-      cursor: pointer;
+    .themeImg {
+      img {
+        margin-left: 1em;
+        cursor: pointer;
+      }
     }
+
   }
 
   transition: 0.3s ease-in;
@@ -294,7 +321,8 @@
 .dropBody {
 
   //margin: 2em 0;
-  .dropItem {
+  .dropItem,
+  .dropItemL {
     @include flexRegular(row, flex-start);
     margin-bottom: 1.5em;
     transition: 0.1s ease-in;
@@ -307,6 +335,8 @@
       transform: scale(1.1);
     }
   }
+
+
 }
 
 .btnM {
@@ -340,8 +370,6 @@
     //background: pink;
   }
 
-
-
   .cBtn {
     border: 1.4px solid #52525B;
     border-radius: 0px 6px;
@@ -362,7 +390,7 @@
     border: 1px solid #52525b;
     box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.14);
     border-radius: 0px 8px;
-    padding: 0.5em 1em;
+    padding: 0.3em 1em;
     margin-top: 2em;
     transition: 0.4s ease-in;
   }

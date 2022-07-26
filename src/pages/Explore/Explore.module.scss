@@ -253,7 +253,7 @@
   margin-left: 1em;
 
   .itemsContent {
-    padding: 0;
+    padding: 0 0 1em 0;
     // @include flexRegular(row, flex-start);
     //background: pink;
     @include gridRegular(1em);
@@ -286,6 +286,39 @@
     //width: 285px;
     //background: pink;
     //margin-right: 2em;
+  }
+}
+
+.pagination {
+  //background: pink;
+  padding: 1em auto 3em auto;
+  width: 90%;
+  margin: 2em auto;
+  @include flexRegular(column, center);
+}
+
+.paginateBtns {
+  @include flexRegular(row, center);
+  margin: 2em 0;
+  //background: pink;
+  width: 100%;
+
+  button:nth-child(2) {
+    margin-left: 2em;
+  }
+
+  button {
+    padding: 0.8em 3em;
+    transition: 0.3s ease-in;
+    background: none;
+    outline: none;
+    border: 1px solid gray;
+
+    //color: gray;
+    &:hover {
+      transform: scale(1.08);
+      //background: $mainGradient;
+    }
   }
 }
 

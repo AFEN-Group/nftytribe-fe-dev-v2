@@ -237,6 +237,7 @@ const Profile = () => {
           <div className={style.filtersM}>
             <Filters />
           </div>
+
           {isLoading ? (
             <div className={style.loaderBx}> <Loader /></div>
 
@@ -245,60 +246,59 @@ const Profile = () => {
               //className={style.items}
               className={`${style.items} animate__animated animate__fadeInUp  `}
             >
-              {collectibles?.length >= 1
-                //&& collectibles?.chain !== currentChain 
-                ? (
-                  <>
-                    <div className={style.itemsContent}>
-                      {collectibles?.map((nft: any, i: any) => {
-                        return (
-                          nft?._id && (
-                            <div className={style.itemBx} key={nft._id}>
-                              <ItemCard nftData={nft} />
-                            </div>
-                          )
+              {collectibles?.length >= 1 && query !== 'sold=true' ? (
+                <>
+                  <div className={style.itemsContent}>
+                    {collectibles?.map((nft: any, i: any) => {
+                      return (
+                        (nft?._id && nft?.cardImage) && (
+                          <div className={style.itemBx} key={nft._id}>
+                            <ItemCard nftData={nft} />
+                          </div>
                         )
-                      })}
-                    </div>
-                    {totalPages > 1 && (
-                      <div className={style.pagination}>
-                        <div className={style.paginateBtns}>
-                          {currentPage > 1 && (
-                            <button
-                              className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
-                                }`}
-                              onClick={prevPage}
-                            >
-                              {'Prev'}
-                            </button>
-                          )}
-                          {currentPage < totalPages && (
-                            <button
-                              className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
-                                }`}
-                              onClick={nextPage}
-                            >
-                              {'Next'}
-                            </button>
-                          )}
-                        </div>
-                        <p>
-                          Page {currentPage} of {totalPages}
-                        </p>
-                      </div>)}
-                  </>
-                ) : (
-                  <div className={style.noContent}>
-                    <div className={style.noResults}>
-                      <img src={Sad} alt="sad" />
-                      <h2>No items found</h2>
-                      <Link to="/explore" className={style.explore}>
-                        <p>Explore marketplace</p>
-                        <img src={Arrow} alt="arrow" />
-                      </Link>
-                    </div>
+                      )
+                    })}
                   </div>
-                )}
+                  {totalPages > 1 && (
+                    <div className={style.pagination}>
+                      <div className={style.paginateBtns}>
+                        {currentPage > 1 && (
+                          <button
+                            className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
+                              }`}
+                            onClick={prevPage}
+                          >
+                            {'Prev'}
+                          </button>
+                        )}
+                        {currentPage < totalPages && (
+                          <button
+                            className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
+                              }`}
+                            onClick={nextPage}
+                          >
+                            {'Next'}
+                          </button>
+                        )}
+                      </div>
+                      <p>
+                        Page {currentPage} of {totalPages}
+                      </p>
+                    </div>)}
+                </>
+              ) : (
+                <div className={style.noContent}>
+                  <div className={style.noResults}>
+                    <img src={Sad} alt="sad" />
+                    <h2>No items found</h2>
+                    <Link to="/explore" className={style.explore}>
+                      <p>Explore marketplace</p>
+                      <img src={Arrow} alt="arrow" />
+                    </Link>
+                  </div>
+                </div>
+              )}
+
               {/* <div className={style.itemContent}>
               <div className={style.noResults}>
                 <img src={Sad} alt="sad" />

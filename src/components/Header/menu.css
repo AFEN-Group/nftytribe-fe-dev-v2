@@ -2,15 +2,16 @@
   position: absolute;
   /* top: 3.3em; */
   /* top: 1.6em; */
-  top: 3.3em;
+  top: 3em;
   padding-top: 3em;
   padding-bottom: 0;
   left: 81%;
   z-index: 2;
+  transition: 0.4s ease-in;
 }
 
 .menu-wrap2 {
-  top: 1.6em !important;
+  top: 1.1em !important;
 }
 
 .menu-wrap .toggler {
@@ -257,6 +258,7 @@
   /* font-size: 0.85em; */
   /* filter: invert(5); */
   /* color: #d0f5d1; */
+  color: #F3BB1C;
   transition: 0.1s ease-in-out;
 }
 

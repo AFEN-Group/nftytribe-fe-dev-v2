@@ -88,6 +88,7 @@
     .leftBtns {
       margin-top: 3em;
       @include flexRegular(row, flex-start);
+      //background: pink;
 
       button {
         //background: $mainGradient;
@@ -103,6 +104,7 @@
         transition: 0.3s ease-in-out;
         color: #fff;
         width: 100%;
+        white-space: nowrap;
 
         &:hover {
           transform: scale(1.04);
@@ -119,7 +121,7 @@
         border: none;
         color: #fff;
         width: 85%;
-        max-width: 185px;
+        max-width: 220px;
       }
 
       .lButton1_dark {
@@ -128,7 +130,7 @@
         border: none;
         color: #000;
         width: 85%;
-        max-width: 185px;
+        max-width: 220px;
       }
 
       .lButton2_light {

@@ -34,6 +34,7 @@ import { publicRequest } from '../../utils/requestMethods'
 
 import { ethers } from 'ethers'
 import CreateSteps from './Modals/CreateSteps'
+import { useTranslation } from "react-i18next";
 
 declare const window: any
 
@@ -71,16 +72,16 @@ const CreateItems = () => {
   // const erc1155MarketplaceAddress = contracts.erc1155MarketplaceAddress
 
   const [err, setErr] = useState<any>({
-    title: '',
-    price: '',
-    market_type: '',
-    category: '',
-  })
+    title: "",
+    price: "",
+    market_type: "",
+    category: "",
+  });
   const [msg, setMsg] = useState<any>({
-    sMsg: '',
-    eMsg: '',
-    eMsg2: '',
-  })
+    sMsg: "",
+    eMsg: "",
+    eMsg2: "",
+  });
   const [userInput, setUserInput, userInputRef] = useState<any>({
     chain: '',
     wallet_address: '',
@@ -88,11 +89,11 @@ const CreateItems = () => {
     description: '',
     collection_address: itemType === 'single' ? erc721MintableAddress : erc1155MintableAddress,
     //customCollection: '',
-    nft_type: '',
-    is_multiple: '',
+    nft_type: "",
+    is_multiple: "",
     price: 0,
-    market_type: '1',
-    category: '0',
+    market_type: "1",
+    category: "0",
     royalties: 0,
     copies: 2,
     is_lazy_mint: false,
@@ -105,8 +106,8 @@ const CreateItems = () => {
 
 
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+    window.scrollTo(0, 0);
+  }, []);
 
   // const royalties = [
   //   { value: '0', text: '0%' },
@@ -114,14 +115,14 @@ const CreateItems = () => {
   //   { value: '20', text: '20%' },
   // ]
   const categories = [
-    { value: '', text: 'Select' },
-    { value: 'art', text: 'Art' },
-    { value: 'gaming', text: 'Gaming' },
-    { value: 'photography', text: 'Photography' },
-    { value: 'collectibles', text: 'Collectibles' },
-    { value: 'african_art', text: 'African Art' },
+    { value: "", text: "Select" },
+    { value: "art", text: "Art" },
+    { value: "gaming", text: "Gaming" },
+    { value: "photography", text: "Photography" },
+    { value: "collectibles", text: "Collectibles" },
+    { value: "african_art", text: "African Art" },
     // { value: '5', text: 'Music' },
-  ]
+  ];
   useEffect(() => {
     const wallet_address = localStorage.getItem('currentAccount')
     const currentChain = localStorage.getItem('chain')
@@ -153,20 +154,20 @@ const CreateItems = () => {
         setUserCollections(collections?.data?.data.collections)
         setIsLoading(false)
       } catch (error) {
-        setIsLoading(false)
+        setIsLoading(false);
       }
     }
     getCollections()
   }, [])
 
   const inputHandler = async (event: any) => {
-    setValidated(false)
-    const { name, value } = event.target
-    if (name === 'price' || name === 'royalties' || name === 'copies') {
+    setValidated(false);
+    const { name, value } = event.target;
+    if (name === "price" || name === "royalties" || name === "copies") {
       //const valueFiltered = value.replace(/\D/g, '')
-      let letters = /[a-zA-Z]/
-      let specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,<>\/?~]/
-      let dots = value.match(/\./g)
+      let letters = /[a-zA-Z]/;
+      let specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,<>\/?~]/;
+      let dots = value.match(/\./g);
       //console.log(dots)
       //if (!regex.test(value)) {
       if (
@@ -174,68 +175,68 @@ const CreateItems = () => {
         specialChars.test(value) ||
         dots?.length >= 2
       ) {
-        console.log(value)
+        console.log(value);
       } else {
         setUserInput({
           ...userInput,
           [event.target.name]: value,
-        })
+        });
       }
     } else {
       setUserInput({
         ...userInput,
         [event.target.name]: event.target.value,
-      })
+      });
     }
     if (
-      userInputRef.current.title !== '' &&
-      userInputRef.current.price !== '' &&
-      userInputRef.current.category !== '0' &&
-      userInputRef.current.market_type !== '0'
+      userInputRef.current.title !== "" &&
+      userInputRef.current.price !== "" &&
+      userInputRef.current.category !== "0" &&
+      userInputRef.current.market_type !== "0"
       //&&
       //imageFile !== null
     ) {
-      setValidated(true)
+      setValidated(true);
     }
-  }
+  };
   // const selectMedia = async (e: any) => {
   //   if (e.target.files && e.target.files.length > 0) {
   //     setImageFile(e.target.files[0])
   //   }
   // }
   const selectMedia = async (e: any) => {
-    setIsLoading(true)
+    setIsLoading(true);
     if (e.target.files && e.target.files.length > 0) {
-      setImageFile(e.target.files[0])
-      var form_data = new FormData()
-      form_data.append('upload', e.target.files[0])
+      setImageFile(e.target.files[0]);
+      var form_data = new FormData();
+      form_data.append("upload", e.target.files[0]);
       try {
         const resp = await fetch(
           `${globals.baseURL}/collectibles/upload-image`,
           {
-            method: 'POST',
+            method: "POST",
             body: form_data,
-          },
-        )
-        const data = await resp.json()
-        setCardImage(data.location)
-        console.log(data)
-        setIsLoading(false)
+          }
+        );
+        const data = await resp.json();
+        setCardImage(data.location);
+        console.log(data);
+        setIsLoading(false);
       } catch (error) {
-        console.log(error)
-        setIsLoading(false)
+        console.log(error);
+        setIsLoading(false);
       }
     }
-  }
+  };
 
   const handleLazy = () => {
     setUserInput({
       ...userInput,
       is_lazy_mint: !userInput.is_lazy_mint,
-    })
-    console.log(userInput.is_lazy_mint)
+    });
+    console.log(userInput.is_lazy_mint);
     //console.log("feedback")
-  }
+  };
   const handleClose = () => {
     setShowModal(false)
     // setUserInput({
@@ -246,7 +247,8 @@ const CreateItems = () => {
   }
 
   const onSubmit = async (e: any) => {
-    e.preventDefault()
+    e.preventDefault();
+
     // if (
     //   userInput.title === '' ||
     //   userInput.price === '' ||
@@ -262,8 +264,8 @@ const CreateItems = () => {
     if (imageFile === '') {
       setMsg({
         ...msg,
-        eMsg: '* Please choose a file! *',
-      })
+        eMsg: "* Please choose a file! *",
+      });
     } else {
       setMsg({
         ...msg,
@@ -288,16 +290,22 @@ const CreateItems = () => {
       //   })
       // }
 
+      // } else {
+      //   setMsg({
+      //     ...msg,
+      //     eMsg2: '* Royalties must be 10% or less *',
+      //   })
+      // }
+
     }
-  }
+  };
 
   // create item steps //
   ////
 
   const handleSteps = async () => {
-
-    const wallet_address = localStorage.getItem('currentAccount')
-    console.log(wallet_address)
+    const wallet_address = localStorage.getItem("currentAccount");
+    console.log(wallet_address);
     if (wallet_address) {
       //check if wallet is connected
 
@@ -324,9 +332,9 @@ const CreateItems = () => {
             console.log(chain, 'chain')
             const royalties = parseInt(userInput.royalties) * 100
             try {
-              setIsLoading(true)
+              setIsLoading(true);
               //db query
-              let nonceData: any
+              let nonceData: any;
               if (data.is_lazy_mint) {
                 const getNonce = await fetch(
                   `${globals.baseURL}/collectibles/get-nonce`,
@@ -336,71 +344,71 @@ const CreateItems = () => {
               const resp = await fetch(
                 `${globals.baseURL}/collectibles/create`,
                 {
-                  method: 'POST',
+                  method: "POST",
                   headers: {
-                    'content-type': 'application/json',
+                    "content-type": "application/json",
                   },
                   body: JSON.stringify({
                     ...data,
                     nonce: nonceData?.data?.nonce,
-                    price: Web3.utils.toWei(data.price, 'ether'),
+                    price: Web3.utils.toWei(data.price, "ether"),
                   }),
-                },
-              )
+                }
+              );
 
-              const royalties = parseInt(userInput.royalties) * 100
+              const royalties = parseInt(userInput.royalties) * 100;
 
               //mint
-              const response = await resp.json()
-              console.log(response)
+              const response = await resp.json();
+              console.log(response);
               if (response.success === false) {
                 //setMsg({ ...msg, eMsg: 'Sorry an error occured', sMsg: '' })
               }
-              setCollectible(response.data)
-              setResponse0(response)
+              setCollectible(response.data);
+              setResponse0(response);
 
-              let erc721Contract
-              let erc721collectionContract
-              let web3: any
+              let erc721Contract;
+              let erc721collectionContract;
+              let web3: any;
               if (window.ethereum) {
-                web3 = new Web3(window.ethereum)
-                console.log(userInput.collection_address, 'col add')
+                web3 = new Web3(window.ethereum);
+                console.log(userInput.collection_address, "col add");
 
                 erc721Contract = new web3.eth.Contract(
                   erc721Abi,
                   erc721MintableAddress,
                 )
               } else {
-                alert('connect to meta mask wallet')
+                alert("connect to meta mask wallet");
                 //setShowConnect(true)
               }
 
               const mintingCharge = await erc721Contract.methods
                 .mintingCharge()
-                .call()
+                .call();
 
-              let mint
+              let mint;
               if (data.is_lazy_mint) {
                 //console.log(data.is_lazy_mint)
                 let message = ethers.utils.solidityPack(
-                  ['address', 'uint96', 'uint256', 'string', 'uint256'],
+                  ["address", "uint96", "uint256", "string", "uint256"],
                   [
                     userInput.collection_address || erc721MintableAddress,
                     royalties,
                     parseInt(nonceData.data.nonce),
                     response.data.file,
-                    web3.utils.toWei(data.price, 'ether'),
-                  ],
-                )
+                    web3.utils.toWei(data.price, "ether"),
+                  ]
+                );
 
-                let message_hash = ethers.utils.keccak256(message)
+                let message_hash = ethers.utils.keccak256(message);
 
                 let sign = await web3.eth.personal.sign(
                   message_hash,
                   wallet_address,
-                  '',
-                )
-                console.log(response, 'response')
+                  ""
+                );
+                console.log(response, "response");
                 const updatableData = {
                   signature: sign,
                   is_lazy_mint: true,
@@ -413,22 +421,22 @@ const CreateItems = () => {
                   price: web3.utils.toWei(data.price, 'ether'),
                 }
 
-                console.log(updatableData, 'get upload')
+                console.log(updatableData, "get upload");
 
                 const updateCollectible = await fetch(
                   `${globals.baseURL}/collectibles/update-collectible`,
                   {
-                    method: 'PUT',
+                    method: "PUT",
                     headers: {
-                      'content-type': 'application/json',
+                      "content-type": "application/json",
                     },
                     body: JSON.stringify(updatableData),
-                  },
-                )
-                const res = await updateCollectible.json()
-                console.log(res)
-                setIsLoading(false)
-                setStep(4)
+                  }
+                );
+                const res = await updateCollectible.json();
+                console.log(res);
+                setIsLoading(false);
+                setStep(4);
               } else {
                 if (
                   userInput.collection_address.toLowerCase() ===
@@ -437,10 +445,10 @@ const CreateItems = () => {
                   //console.log('hello collection')
                   mint = await erc721Contract.methods
                     .mint(response.data.file, royalties)
-                    .send({ from: wallet_address, value: mintingCharge })
-                  console.log(mint, 'befor')
-                  returnvalues = mint.events.Transfer.returnValues
-                  console.log(mint, 'hello here',)
+                    .send({ from: wallet_address, value: mintingCharge });
+                  console.log(mint, "befor");
+                  returnvalues = mint.events.Transfer.returnValues;
+                  console.log(mint, "hello here");
                 } else {
                   erc721collectionContract = new web3.eth.Contract(
                     erc721CollectionAbi,
@@ -448,16 +456,16 @@ const CreateItems = () => {
                   )
                   mint = await erc721collectionContract.methods
                     .mint(response.data.file, royalties)
-                    .send({ from: wallet_address, value: mintingCharge })
-                  console.log(mint, 'befor')
-                  returnvalues = mint.events.Transfer.returnValues
-                  console.log(mint, 'hello here')
+                    .send({ from: wallet_address, value: mintingCharge });
+                  console.log(mint, "befor");
+                  returnvalues = mint.events.Transfer.returnValues;
+                  console.log(mint, "hello here");
                 }
 
-                setMint(mint)
+                setMint(mint);
 
-                setReturnValues(returnvalues)
-                const data = userInput
+                setReturnValues(returnvalues);
+                const data = userInput;
                 const updateForMint = {
                   wallet_address: wallet_address,
                   chain_id: chain,
@@ -466,25 +474,25 @@ const CreateItems = () => {
                   file: response.data.file,
                   transaction_hash: mint.transactionHash,
                   on_sale: false,
-                  type: 'mint',
+                  type: "mint",
                   token_id: returnvalues.tokenId,
-                }
+                };
 
                 const updateCollectible = await fetch(
                   `${globals.baseURL}/collectibles/update-collectible`,
                   {
-                    method: 'PUT',
+                    method: "PUT",
                     headers: {
-                      'content-type': 'application/json',
+                      "content-type": "application/json",
                     },
                     body: JSON.stringify(updateForMint),
-                  },
-                )
+                  }
+                );
 
-                const res = await updateCollectible.json()
-                console.log(res)
-                setIsLoading(false)
-                setStep(2)
+                const res = await updateCollectible.json();
+                console.log(res);
+                setIsLoading(false);
+                setStep(2);
               }
             } catch (err) {
 
@@ -494,16 +502,16 @@ const CreateItems = () => {
             }
 
 
-            break
+            break;
 
           case 2:
             //approve
             try {
-              setIsLoading(true)
-              let erc721Contract
-              let web3: any
+              setIsLoading(true);
+              let erc721Contract;
+              let web3: any;
               if (window.ethereum) {
-                web3 = new Web3(window.ethereum)
+                web3 = new Web3(window.ethereum);
 
                 if (
                   userInput.collection_address.toLowerCase() ===
@@ -525,37 +533,38 @@ const CreateItems = () => {
                 //   erc721MarketplaceAddress,
                 // )
               } else {
-                alert('connect to meta mask wallet')
+                alert("connect to meta mask wallet");
                 //setShowConnect(true)
               }
 
               // console.log(parseInt(returnvalues?.tokenId), 'hello')
-              console.log(parseInt(returnValues?.tokenId), 'hello')
+              console.log(parseInt(returnValues?.tokenId), "hello");
               const approve = await erc721Contract.methods
                 .approve(
                   erc721MarketplaceAddress,
                   parseInt(returnValues.tokenId),
                 )
-                .send({ from: wallet_address })
-              console.log(approve, 'else')
-              setIsLoading(false)
-              setStep(3)
+                .send({ from: wallet_address });
+              console.log(approve, "else");
+              setIsLoading(false);
+              setStep(3);
             } catch (err) {
               console.log(err)
+              alert('Sorry an error occured')
               setIsLoading(false)
             }
 
-            break
+            break;
 
           case 3:
             //put on sale
             try {
-              setIsLoading(true)
-              let erc721Contract
-              let marketplace_contract
-              let web3: any
+              setIsLoading(true);
+              let erc721Contract;
+              let marketplace_contract;
+              let web3: any;
               if (window.ethereum) {
-                web3 = new Web3(window.ethereum)
+                web3 = new Web3(window.ethereum);
 
                 erc721Contract = new web3.eth.Contract(
                   erc721Abi,
@@ -566,13 +575,13 @@ const CreateItems = () => {
                   erc721MarketplaceAddress,
                 )
               } else {
-                alert('connect to meta mask wallet')
+                alert("connect to meta mask wallet");
                 //setShowConnect(true)
               }
 
-              const data = userInput
-              data.wallet_address = wallet_address
-              data.chain = chain
+              const data = userInput;
+              data.wallet_address = wallet_address;
+              data.chain = chain;
               data.collection_address =
                 userInput.collection_address || erc721MintableAddress
               data.upload = imageFile
@@ -580,34 +589,35 @@ const CreateItems = () => {
               data.nft_type = userInput.category
               data.cardImage = cardImage
               //returnvalues = mint.events.TransferSingle.returnValues
-              console.log(mint?.events?.TransferSingle, "mint events")
+              console.log(mint?.events?.TransferSingle, "mint events");
 
-              if (data.market_type !== '0') {
-                data.on_sale = true
+              if (data.market_type !== "0") {
+                data.on_sale = true;
               }
 
-              let updatableData
+              let updatableData;
               if (data.on_sale) {
                 // console.log(parseInt(returnValues?.id), 'hello')
                 // returnValues?.tokenId
                 // console.log(parseInt(returnvalues?.id), 'hello2')
-                console.log(parseInt(returnvalues?.tokenId), 'hello3')
-                console.log(parseInt(returnValues?.tokenId), 'hello4')
-                console.log(parseInt(returnValues?.tokenId),
-                  web3.utils.toWei(data.price.toString(), 'ether'),
+                console.log(parseInt(returnvalues?.tokenId), "hello3");
+                console.log(parseInt(returnValues?.tokenId), "hello4");
+                console.log(
+                  parseInt(returnValues?.tokenId),
+                  web3.utils.toWei(data.price.toString(), "ether"),
                   parseInt(data.market_type),
                   parseInt(data.starting_time),
                   parseInt(data.ending_time),
                   userInput.collection_address || erc721MintableAddress)
 
-                if (data.market_type === '2') {
+                if (data.market_type === "2") {
                   data.starting_time =
-                    new Date(data.starting_time).getTime() / 1000
-                  data.ending_time = new Date(data.ending_time).getTime() / 1000
-                }
-                else {
-                  data.starting_time = 0
-                  data.ending_time = 1
+                    new Date(data.starting_time).getTime() / 1000;
+                  data.ending_time =
+                    new Date(data.ending_time).getTime() / 1000;
+                } else {
+                  data.starting_time = 0;
+                  data.ending_time = 1;
                 }
                 console.log({
                   0: parseInt(returnValues?.tokenId),
@@ -621,14 +631,14 @@ const CreateItems = () => {
                 const putOnSale = await marketplace_contract.methods
                   .putOnSale(
                     parseInt(returnValues?.tokenId),
-                    web3.utils.toWei(data.price.toString(), 'ether'),
+                    web3.utils.toWei(data.price.toString(), "ether"),
                     parseInt(data.market_type),
                     parseInt(data.starting_time),
                     parseInt(data.ending_time),
                     userInput.collection_address || erc721MintableAddress,
                     '0x0000000000000000000000000000000000000000',
                   )
-                  .send({ from: wallet_address })
+                  .send({ from: wallet_address });
 
 
                 // const putOnSale = await handlePutOnSale(
@@ -668,13 +678,13 @@ const CreateItems = () => {
                   order_detail: {
                     starting_price: web3.utils.toWei(
                       data.price.toString(),
-                      'ether',
+                      "ether"
                     ),
                     start_time: data.starting_time,
                     expiration_time: data.ending_time,
                   },
-                  price: web3.utils.toWei(data.price.toString(), 'ether'),
-                }
+                  price: web3.utils.toWei(data.price.toString(), "ether"),
+                };
               } else {
                 updatableData = {
                   token_id: returnValues?.tokenId || returnvalues?.id,
@@ -691,39 +701,40 @@ const CreateItems = () => {
               const updateCollectible = await fetch(
                 `${globals.baseURL}/collectibles/update-collectible`,
                 {
-                  method: 'PUT',
+                  method: "PUT",
                   headers: {
-                    'content-type': 'application/json',
+                    "content-type": "application/json",
                   },
                   body: JSON.stringify(updatableData),
-                },
-              )
+                }
+              );
 
-              const res = await updateCollectible.json()
+              const res = await updateCollectible.json();
 
-              console.log(res.data)
+              console.log(res.data);
               //set({})
-              setIsLoading(false)
+              setIsLoading(false);
               //alert('visit explore page')
               //window.location.replace('/explore')
-              setIsLoading(false)
-              setStep(4)
+              setIsLoading(false);
+              setStep(4);
             } catch (err) {
               console.log(err)
               alert('Sorry an error occured')
               //setMsg({ ...msg, eMsg: err, sMsg: '' })
-              setIsLoading(false)
+              setIsLoading(false);
             }
             //clear all input fields
 
             // setShowModal(false)
-            break
+            break;
           case 4:
             //navigate to explore
             //setStep(4)
-            break
+            break;
         }
-      } else if (itemType === 'multiple') { /// for multiple items
+      } else if (itemType === "multiple") {
+        /// for multiple items
         switch (step) {
           case 1:
             //console.log(collectionChoice)
@@ -742,12 +753,12 @@ const CreateItems = () => {
             if (data.market_type != '0') {
               data.on_sale = false
             }
-            console.log(data, 'recorded')
+            console.log(data, "recorded");
 
             try {
-              setIsLoading(true)
+              setIsLoading(true);
               //db query
-              let nonceData: any
+              let nonceData: any;
               if (data.is_lazy_mint) {
                 const getNonce = await fetch(
                   `${globals.baseURL}/collectibles/get-nonce`,
@@ -757,17 +768,16 @@ const CreateItems = () => {
               const resp = await fetch(
                 `${globals.baseURL}/collectibles/create`,
                 {
-                  method: 'POST',
+                  method: "POST",
                   headers: {
-                    'content-type': 'application/json',
+                    "content-type": "application/json",
                   },
                   body: JSON.stringify({
                     ...data,
                     nonce: nonceData?.data?.nonce,
                   }),
-                },
-              )
-
+                }
+              );
 
               //mint
               //const erc1155MintableAddress = contracts.erc1155MintableAdddress
@@ -776,18 +786,18 @@ const CreateItems = () => {
               // if (response.success === false) {
               //   setMsg({ ...msg, eMsg: 'Sorry an error occured', sMsg: '' })
               // }
-              setCollectible(response.data)
-              setResponse0(response)
+              setCollectible(response.data);
+              setResponse0(response);
 
-              let erc1155Contract
-              let erc1155collectionContract
-              let web3: any
+              let erc1155Contract;
+              let erc1155collectionContract;
+              let web3: any;
               if (window.ethereum) {
                 web3 = new Web3(window.ethereum)
                 // const collection_address = userInput.collection_address || erc721MintableAddress    // to use for contract
                 // console.log("address used",collection_address)
                 // console.log("user input",userInput.collection_address)
-                console.log(userInput.collection_address, 'col add')
+                console.log(userInput.collection_address, "col add");
 
                 erc1155Contract = new web3.eth.Contract(
                   erc1155MintableAbi,
@@ -795,7 +805,7 @@ const CreateItems = () => {
                 )
                 console.log("chargeee", erc1155MintableAddress)
               } else {
-                alert('connect to meta mask wallet')
+                alert("connect to meta mask wallet");
                 //setShowConnect(true)
               }
 
@@ -807,24 +817,24 @@ const CreateItems = () => {
               if (data.is_lazy_mint) {
                 //console.log(data.is_lazy_mint)
                 let message = ethers.utils.solidityPack(
-                  ['address', 'uint96', 'uint256', 'string', 'uint256'],
+                  ["address", "uint96", "uint256", "string", "uint256"],
                   [
                     userInput.collection_address || erc1155MintableAddress,
                     royalties,
                     parseInt(nonceData.data.nonce),
                     response.data.file,
-                    web3.utils.toWei(data.price, 'ether'),
-                  ],
-                )
+                    web3.utils.toWei(data.price, "ether"),
+                  ]
+                );
 
-                let message_hash = ethers.utils.keccak256(message)
+                let message_hash = ethers.utils.keccak256(message);
 
                 let sign = await web3.eth.personal.sign(
                   message_hash,
                   wallet_address,
-                  '',
-                )
-                console.log(response, 'response')
+                  ""
+                );
+                console.log(response, "response");
                 const updatableData = {
                   signature: sign,
                   is_lazy_mint: true,
@@ -837,22 +847,22 @@ const CreateItems = () => {
                   price: web3.utils.toWei(data.price, 'ether'),
                 }
 
-                console.log(updatableData, 'get upload')
+                console.log(updatableData, "get upload");
 
                 const updateCollectible = await fetch(
                   `${globals.baseURL}collectibles/update-collectible`,
                   {
-                    method: 'PUT',
+                    method: "PUT",
                     headers: {
-                      'content-type': 'application/json',
+                      "content-type": "application/json",
                     },
                     body: JSON.stringify(updatableData),
-                  },
-                )
-                const res = await updateCollectible.json()
-                console.log(res)
-                setIsLoading(false)
-                setStep(4)
+                  }
+                );
+                const res = await updateCollectible.json();
+                console.log(res);
+                setIsLoading(false);
+                setStep(4);
               } else {
                 const mintingCharge = mintingChargePerToken * userInput.copies
 
@@ -864,10 +874,10 @@ const CreateItems = () => {
 
                   mint = await erc1155Contract.methods
                     .mint(response.data.file, royalties, userInput.copies)
-                    .send({ from: wallet_address, value: mintingCharge })
-                  console.log(mint, 'befor')
-                  returnvalues = mint.events.TransferSingle.returnValues
-                  console.log(returnvalues, 'hello here0')
+                    .send({ from: wallet_address, value: mintingCharge });
+                  console.log(mint, "befor");
+                  returnvalues = mint.events.TransferSingle.returnValues;
+                  console.log(returnvalues, "hello here0");
                 } else {
                   erc1155collectionContract = new web3.eth.Contract(
                     erc1155MintableAbi,
@@ -875,16 +885,16 @@ const CreateItems = () => {
                   )
                   mint = await erc1155collectionContract.methods
                     .mint(response.data.file, royalties, userInput.copies)
-                    .send({ from: wallet_address, value: mintingCharge })
-                  console.log(mint, 'befor')
-                  returnvalues = mint.events.TransferSingle.returnValues
-                  console.log(mint, 'hello here')
+                    .send({ from: wallet_address, value: mintingCharge });
+                  console.log(mint, "befor");
+                  returnvalues = mint.events.TransferSingle.returnValues;
+                  console.log(mint, "hello here");
                 }
 
-                setMint(mint)
+                setMint(mint);
 
-                setReturnValues(returnvalues)
-                const data = userInput
+                setReturnValues(returnvalues);
+                const data = userInput;
                 const updateForMint = {
                   wallet_address: wallet_address,
                   chain_id: chain,
@@ -893,44 +903,44 @@ const CreateItems = () => {
                   file: response.data.file,
                   transaction_hash: mint.transactionHash,
                   on_sale: false,
-                  type: 'mint',
+                  type: "mint",
                   token_id: returnvalues.id,
-                  price: web3.utils.toWei(data.price, 'ether'),
-                  number_of_copies: userInput.copies
-                }
+                  price: web3.utils.toWei(data.price, "ether"),
+                  number_of_copies: userInput.copies,
+                };
 
                 const updateCollectible = await fetch(
                   `${globals.baseURL}/collectibles/update-collectible`,
                   {
-                    method: 'PUT',
+                    method: "PUT",
                     headers: {
-                      'content-type': 'application/json',
+                      "content-type": "application/json",
                     },
                     body: JSON.stringify(updateForMint),
-                  },
-                )
+                  }
+                );
 
-                const res = await updateCollectible.json()
-                console.log(res)
-                setIsLoading(false)
-                setStep(2)
+                const res = await updateCollectible.json();
+                console.log(res);
+                setIsLoading(false);
+                setStep(2);
               }
             } catch (err) {
-              console.log(err)
+              console.log(err);
             }
-            setIsLoading(false)
+            setIsLoading(false);
 
-            break
+            break;
 
           case 2:
             //approve
             //const erc1155MintableAddress = '0xCE8e4E1b586dA68F65A386968185ecBE8f222B89'
             try {
-              setIsLoading(true)
-              let erc1155Contract
-              let web3: any
+              setIsLoading(true);
+              let erc1155Contract;
+              let web3: any;
               if (window.ethereum) {
-                web3 = new Web3(window.ethereum)
+                web3 = new Web3(window.ethereum);
 
                 if (
                   userInput.collection_address.toLowerCase() ===
@@ -952,16 +962,15 @@ const CreateItems = () => {
                 //   erc721MarketplaceAddress,
                 // )
               } else {
-                alert('connect to meta mask wallet')
+                alert("connect to meta mask wallet");
                 //setShowConnect(true)
               }
               const isApproved = await erc1155Contract.methods.isApprovedForAll(wallet_address, erc1155MarketplaceAddress).call();
               console.log(isApproved, 'check')
               if (isApproved) {
-                setIsLoading(false)
-                setStep(3)
-              }
-              else {
+                setIsLoading(false);
+                setStep(3);
+              } else {
                 const approve = await erc1155Contract.methods
                   .setApprovalForAll(
                     erc1155MarketplaceAddress,
@@ -972,25 +981,24 @@ const CreateItems = () => {
                 setIsLoading(false)
                 setStep(3)
               }
-
             } catch (err) {
-              console.log(err)
-              setIsLoading(false)
+              console.log(err);
+              setIsLoading(false);
             }
 
-            break
+            break;
 
           case 3:
             //const erc1155MintableAddress = '0xCE8e4E1b586dA68F65A386968185ecBE8f222B89'
 
             //put on sale
             try {
-              setIsLoading(true)
-              let erc1155Contract
-              let marketplace_contract
-              let web3: any
+              setIsLoading(true);
+              let erc1155Contract;
+              let marketplace_contract;
+              let web3: any;
               if (window.ethereum) {
-                web3 = new Web3(window.ethereum)
+                web3 = new Web3(window.ethereum);
 
                 erc1155Contract = new web3.eth.Contract(
                   erc1155MintableAbi,
@@ -1000,15 +1008,15 @@ const CreateItems = () => {
                   erc1155MarketplaceAbi,
                   //'0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd',
                   contracts.erc1155MarketplaceAddress
-                )
+                );
               } else {
-                alert('connect to meta mask wallet')
+                alert("connect to meta mask wallet");
                 //setShowConnect(true)
               }
 
-              const data = userInput
-              data.wallet_address = wallet_address
-              data.chain = chain
+              const data = userInput;
+              data.wallet_address = wallet_address;
+              data.chain = chain;
               data.collection_address =
                 userInput.collection_address || erc1155MintableAddress
               data.upload = imageFile
@@ -1016,33 +1024,37 @@ const CreateItems = () => {
               data.nft_type = userInput.category
               data.cardImage = cardImage
               //data.price = parseFloat(userInput.price) * parseInt(userInput.copies)
-              returnvalues = mint.events.TransferSingle.returnValues
-              console.log(returnvalues, 'value')
+              returnvalues = mint.events.TransferSingle.returnValues;
+              console.log(returnvalues, "value");
 
-              if (data.market_type !== '0') {
-                data.on_sale = true
+              if (data.market_type !== "0") {
+                data.on_sale = true;
               }
 
-              let updatableData
+              let updatableData;
               if (data.on_sale) {
-
-                if (data.market_type === '2') {
+                if (data.market_type === "2") {
                   data.starting_time =
-                    new Date(data.starting_time).getTime() / 1000
-                  data.ending_time = new Date(data.ending_time).getTime() / 1000
+                    new Date(data.starting_time).getTime() / 1000;
+                  data.ending_time =
+                    new Date(data.ending_time).getTime() / 1000;
                 }
-                console.log(web3.utils.toWei(data.price.toString(), 'ether'), 'price', returnvalues.id)
+                console.log(
+                  web3.utils.toWei(data.price.toString(), "ether"),
+                  "price",
+                  returnvalues.id
+                );
                 const putOnSale = await marketplace_contract.methods
                   .putOnSale(
                     userInput.collection_address || erc1155MintableAddress,
                     parseInt(returnvalues.id),
                     parseInt(userInput.copies),
-                    web3.utils.toWei(data.price.toString(), 'ether'),
-                    '0x0000000000000000000000000000000000000000',
+                    web3.utils.toWei(data.price.toString(), "ether"),
+                    "0x0000000000000000000000000000000000000000"
                   )
-                  .send({ from: wallet_address })
+                  .send({ from: wallet_address });
 
-                console.log(putOnSale)
+                console.log(putOnSale);
                 // const putOnSale = await handlePutOnSale(
                 //   returnValues.tokenId,
                 //   wallet_address,
@@ -1080,13 +1092,13 @@ const CreateItems = () => {
                   order_detail: {
                     starting_price: web3.utils.toWei(
                       data.price.toString(),
-                      'ether',
+                      "ether"
                     ),
                     start_time: data.starting_time,
                     expiration_time: data.ending_time,
                   },
-                  price: web3.utils.toWei(data.price, 'ether'),
-                }
+                  price: web3.utils.toWei(data.price, "ether"),
+                };
               } else {
                 updatableData = {
                   token_id: returnvalues.id,
@@ -1103,47 +1115,47 @@ const CreateItems = () => {
               const updateCollectible = await fetch(
                 `${globals.baseURL}/collectibles/update-collectible`,
                 {
-                  method: 'PUT',
+                  method: "PUT",
                   headers: {
-                    'content-type': 'application/json',
+                    "content-type": "application/json",
                   },
                   body: JSON.stringify(updatableData),
-                },
-              )
+                }
+              );
 
-              const res = await updateCollectible.json()
+              const res = await updateCollectible.json();
 
-              console.log(res.data)
-              setIsLoading(false)
+              console.log(res.data);
+              setIsLoading(false);
               //alert('visit explore page')
               //window.location.replace('/explore')
-              setIsLoading(false)
-              setStep(4)
+              setIsLoading(false);
+              setStep(4);
             } catch (err) {
-              console.log(err)
+              console.log(err);
               //setMsg({ ...msg, eMsg: err, sMsg: '' })
-              setIsLoading(false)
+              setIsLoading(false);
             }
             //clear all input fields
 
             // setShowModal(false)
-            break
+            break;
           case 4:
             //navigate to explore
             //setStep(4)
 
-            break
+            break;
         }
       }
     } else {
-      setShowModal(false)
-      setStep(0)
+      setShowModal(false);
+      setStep(0);
       //setShowConnect(true)
-      alert('Connect to metamask')
+      alert("Connect to metamask");
     }
-  }
+  };
   // create item steps // end
-
+  const { t } = useTranslation();
   return (
     <>
       <Header />
@@ -1158,28 +1170,26 @@ const CreateItems = () => {
       )}
       <Container>
         <div
-          className={`${style.create} animate__animated animate__fadeInLeft`}
-        >
+          className={`${style.create} animate__animated animate__fadeInLeft`}>
           <form className={style.createContent}>
             <div className={style.left}>
               <div className={style.leftTop}>
                 <h2>
-                  Create{' '}
-                  {itemType === 'single' ? 'single item' : 'multiple items'}
+                  Create{" "}
+                  {itemType === "single" ? "single item" : "multiple items"}
                 </h2>
-                <p>Create a single NFT item by minting it now.</p>
+                <p>{t("Create a single")}</p>
               </div>
               <div className={style.leftBody}>
                 <div
-                  className={` ${dark === 'true'
+                  className={` ${dark === "true"
                     ? style.fileContainerD
                     : style.fileContainerL
-                    }`}
-                >
+                    }`}>
                   {!imageFile && (
                     <div className={style.fileTxt}>
                       <img src={icon} alt="upload" />
-                      <h3>Choose file</h3>
+                      <h3>{t("Choose file")}</h3>
                       <p>PNG, GIF, WEBP, Maximum 100mb</p>
                     </div>
                   )}
@@ -1194,6 +1204,16 @@ const CreateItems = () => {
                     <div className={style.fileBx}>
                       {/* <img src={guy} alt="guy" /> */}
                       <img src={URL.createObjectURL(imageFile)} alt="nft" />
+                      {/* <video
+                        autoPlay
+                        controls
+                        //controlslist="nodownload" 
+                        // loop="" 
+                        preload="auto"
+                        src={imageFile}
+                      //style="width: 100%; height: calc(100% - 50px);"
+                      >
+                      </video> */}
                       <Cancel
                         className={style.cancel}
                         onClick={() => setImageFile('')}
@@ -1210,7 +1230,7 @@ const CreateItems = () => {
             </div>
             <div className={style.right}>
               <div className={style.fieldBx}>
-                <p>Title</p>
+                <p>{t("Title")}</p>
                 <TextInput
                   type="text"
                   inputName="title"
@@ -1220,7 +1240,7 @@ const CreateItems = () => {
                 />
               </div>
               <div className={style.fieldBx}>
-                <p>Description</p>
+                <p>{t("Description")}</p>
                 <TextArea
                   inputName="description"
                   holder="Enter Description"
@@ -1229,7 +1249,7 @@ const CreateItems = () => {
                 />
               </div>
               <div className={style.fieldBx}>
-                <p>Price</p>
+                <p>{t("Price")}</p>
                 <TextInput
                   type="text"
                   inputName="price"
@@ -1245,20 +1265,19 @@ const CreateItems = () => {
                 <div className={style.smBtns}>
                   <div
                     className={
-                      userInput.market_type === '1' && dark === 'true'
+                      userInput.market_type === "1" && dark === "true"
                         ? style.sAdark
-                        : userInput.market_type === '1' && dark !== 'true'
+                        : userInput.market_type === "1" && dark !== "true"
                           ? style.sAlight
                           : style.smBtn
                     }
                     onClick={() =>
                       setUserInput({
                         ...userInput,
-                        market_type: '1',
+                        market_type: "1",
                       })
-                    }
-                  >
-                    Fixed price
+                    }>
+                    {t("Fixed price")}
                   </div>
                   {/* <div
                     className={`${style.smBtn} ${
@@ -1268,30 +1287,30 @@ const CreateItems = () => {
                   >
                     Open for bids
                   </div> */}
-                  {itemType !== 'multiple' && (
+                  {itemType !== "multiple" && (
                     <div
                       className={
-                        userInput.market_type === '2' && dark === 'true'
+                        userInput.market_type === "2" && dark === "true"
                           ? style.sAdark
-                          : userInput.market_type === '2' && dark !== 'true'
+                          : userInput.market_type === "2" && dark !== "true"
                             ? style.sAlight
                             : style.smBtn
                       }
                       onClick={() =>
                         setUserInput({
                           ...userInput,
-                          market_type: '2',
+                          market_type: "2",
                         })
-                      }
-                    >
-                      Timed auction
-                    </div>)}
+                      }>
+                      {t("Timed auction")}
+                    </div>
+                  )}
                 </div>
               </div>
-              {userInput.market_type === '2' && (
+              {userInput.market_type === "2" && (
                 <>
                   <div className={style.fieldBx}>
-                    <p>Start Date</p>
+                    <p>{t("Start Date")}</p>
                     <SelectDate
                       type="text"
                       inputName="starting_time"
@@ -1303,7 +1322,7 @@ const CreateItems = () => {
                     />
                   </div>
                   <div className={style.fieldBx}>
-                    <p>End Date</p>
+                    <p>{t("End Date")}</p>
                     <SelectDate
                       type="text"
                       inputName="ending_time"
@@ -1315,7 +1334,9 @@ const CreateItems = () => {
                   </div>
                 </>
               )}
-              <p>Choose Collection (Nftytribe collection is chosen by default)</p>
+              <p>
+                Choose Collection (Nftytribe collection is chosen by default)
+              </p>
               <div className={style.cfieldBx}>
                 {/* <Link
                   to="/createcollection"
@@ -1327,9 +1348,8 @@ const CreateItems = () => {
                   <p>Create</p>
                 </Link> */}
                 <div
-                  className={`${style.collectionFill} ${dark === 'true' ? 'darkGradient' : 'lightGradient'
-                    }`}
-                >
+                  className={`${style.collectionFill} ${dark === "true" ? "darkGradient" : "lightGradient"
+                    }`}>
                   <img src={logo} alt="logo" />
                   {/* <p>Nftytribe</p> */}
                 </div>
@@ -1374,7 +1394,7 @@ const CreateItems = () => {
                   value={userInput.royalties}
                 />
               </div>
-              {itemType === 'multiple' && (
+              {itemType === "multiple" && (
                 <div className={style.fieldBx}>
                   <p>Number of copies</p>
                   <TextInput
@@ -1398,8 +1418,7 @@ const CreateItems = () => {
                         name="lazyMinting"
                       />
                       <span
-                        className={`${style.sliderToggle} ${style.round}`}
-                      ></span>
+                        className={`${style.sliderToggle} ${style.round}`}></span>
                     </label>
                   </div>
                 </div>
@@ -1476,10 +1495,9 @@ const CreateItems = () => {
                   type="submit"
                   onClick={onSubmit}
                   disabled={isLoading || !validated}
-                  className={dark === 'true' ? 'yellowBtn' : 'blueBtn'}
-                >
+                  className={dark === "true" ? "yellowBtn" : "blueBtn"}>
                   {!isLoading ? (
-                    'Create'
+                    "Create"
                   ) : (
                     <CircularProgress color="inherit" size="20px" />
                   )}
@@ -1493,14 +1511,13 @@ const CreateItems = () => {
                     </p>
                   </>
                 )}
-
               </div>
             </div>
           </form>
         </div>
       </Container>
     </>
-  )
-}
+  );
+};
 
-export default CreateItems
+export default CreateItems;

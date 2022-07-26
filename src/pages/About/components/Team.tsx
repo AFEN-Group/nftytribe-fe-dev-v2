@@ -1,27 +1,29 @@
 //import React from 'react'
-import style from '../About.module.scss'
+import style from "../About.module.scss";
 //import Card from '../../../components/Card/ItemCard'
 //import m1 from '../assets/member1.svg'
-import m1 from '../team/01.svg'
-import m2 from '../team/02.svg'
-import m3 from '../team/03.svg'
-import m4 from '../team/04.svg'
-import m5 from '../team/05.svg'
-import m6 from '../team/06.svg'
-import m7 from '../team/07.svg'
-import m8 from '../team/08.svg'
-import m9 from '../team/9.svg'
+import m1 from "../team/01.svg";
+import m2 from "../team/02.svg";
+import m3 from "../team/03.svg";
+import m4 from "../team/04.svg";
+import m5 from "../team/05.svg";
+import m6 from "../team/06.svg";
+import m7 from "../team/07.svg";
+import m8 from "../team/08.svg";
+import m9 from "../team/9.svg";
 //import m10 from '../assets/member10.svg'
-import Marquee from 'react-fast-marquee'
+import Marquee from "react-fast-marquee";
+import { useTranslation } from "react-i18next";
 
 const Team = () => {
+  const { t } = useTranslation();
   return (
     <>
       <div className={style.trending} id="team">
         <div className={style.trContent}>
           <div className={style.trTop}>
             <h1>
-              <span>Meet the team</span>{' '}
+              <span>{t("Meet the team")}</span>{" "}
             </h1>
           </div>
           <div className={style.trBody}>
@@ -29,8 +31,7 @@ const Team = () => {
               speed={110}
               pauseOnHover={true}
               gradient={false}
-              className={style.slidesContainer}
-            >
+              className={style.slidesContainer}>
               <div className={style.trSlide}>
                 <div className={style.teamMember}>
                   <img src={m1} alt="member" />
@@ -38,7 +39,6 @@ const Team = () => {
                     <h3>Deborah-Ojengbede</h3>
                     <p>(CEO, Afen)</p>
                   </div>
-
                 </div>
               </div>
               <div className={style.trSlide}>
@@ -69,7 +69,6 @@ const Team = () => {
                 </div>
                 <div className={style.overlay}></div>
               </div>
-
             </Marquee>
 
             <Marquee
@@ -77,8 +76,7 @@ const Team = () => {
               pauseOnHover={true}
               direction="right"
               gradient={false}
-              className={style.slidesContainer}
-            >
+              className={style.slidesContainer}>
               <div className={style.trSlide}>
                 <div className={style.teamMember}>
                   <img src={m4} alt="member" />
@@ -124,13 +122,12 @@ const Team = () => {
                   </div>
                 </div>
               </div>
-
             </Marquee>
           </div>
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Team
+export default Team;

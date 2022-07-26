@@ -1,29 +1,31 @@
-import { useEffect, useContext } from 'react'
-import { gsap, Expo } from 'gsap'
-import { motion } from 'framer-motion'
-import { ThemeContext } from '../../../context/ThemeContext'
-import { Link } from 'react-router-dom'
+import { useEffect, useContext } from "react";
+import { gsap, Expo } from "gsap";
+import { motion } from "framer-motion";
+import { ThemeContext } from "../../../context/ThemeContext";
+import { Link } from "react-router-dom";
 
-import style from '../About.module.scss'
-import heroImg from '../assets/heroImg.png'
-import arrow from '../assets/arrow1.svg'
+import style from "../About.module.scss";
+import heroImg from "../assets/heroImg.png";
+import arrow from "../assets/arrow1.svg";
+import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 const Hero = () => {
-  const [themeState] = useContext<any>(ThemeContext)
-  const dark = themeState.dark
+  const [themeState] = useContext<any>(ThemeContext);
+  const dark = themeState.dark;
 
   useEffect(() => {
-    const heroTitle = document.getElementById('heroTitle')
-    const heroText = document.getElementById('heroText')
+    const heroTitle = document.getElementById("heroTitle");
+    const heroText = document.getElementById("heroText");
     //const item = document.getElementById('item')
-    const tl = gsap.timeline()
+    const tl = gsap.timeline();
     tl.to(heroTitle, {
       y: 0,
       duration: 1.5,
       //stagger: 0.5,
       //ease: Power3.out,
       ease: Expo.easeInOut,
-    })
+    });
     tl.to(heroText, {
       y: 0,
       duration: 1.5,
@@ -31,14 +33,15 @@ const Hero = () => {
       //stagger: 0.5,
       //ease: Power3.out,
       ease: Expo.easeInOut,
-    })
-  }, [])
+    });
+  }, []);
+  const { t } = useTranslation();
   return (
     <>
       <div
-        className={`${style.heroContainer} ${dark === 'true' ? 'darkTheme' : 'lightTheme'
-          }`}
-      >
+        className={`${style.heroContainer} ${
+          dark === "true" ? "darkTheme" : "lightTheme"
+        }`}>
         <div className={style.hero}>
           <div className={style.heroTopContent}>
             <div className={style.heroTopLeft}>
@@ -49,30 +52,20 @@ const Hero = () => {
                   <h2>Collect, sell & create</h2>
                 </div> */}
                 <h1>
-                  <span id="heroTitle">
-                    Innovating for users benefits and needs
-                  </span>{' '}
+                  <span id="heroTitle">{t("innovation for")}</span>{" "}
                 </h1>
                 {/* <h1>One of a kind NFTs</h1> */}
                 <div className={style.leftBtm}>
                   <p>
-                    <span id="heroText">
-                      {' '}
-                      We introduce NftyTribe, a multi-chain NFT marketplace
-                      facilitating next-level experiences in exchanging
-                      non-fungible tokens. On Nftyribe, users can trade NFTs and
-                      seamlessly send and receive physical items tied to NFTs.{' '}
-                    </span>
+                    <span id="heroText">{t("we intoduce")}</span>
                   </p>
                   <div
                     className={`${style.leftBtns} animate__animated animate__slideInUp`}
-                    id="heroBtns"
-                  >
+                    id="heroBtns">
                     <Link to="/collections">
-                      <button>Import Collection</button>
+                      <button>{t("import")}</button>
                     </Link>
-                    <a
-                      href='https://awake-cornucopia-fbb.notion.site/Getting-Started-with-NftyTribe-924b743823994844868ad3164115c370'>
+                    <a href="https://awake-cornucopia-fbb.notion.site/Getting-Started-with-NftyTribe-924b743823994844868ad3164115c370">
                       <div className={style.readMore}>
                         <p>Discover</p>
                         <img src={arrow} alt="arrow" />
@@ -102,8 +95,7 @@ const Hero = () => {
                       },
                     },
                   },
-                }}
-              >
+                }}>
                 <div className={style.heroImg}>
                   <img src={heroImg} alt="About us" />
                 </div>
@@ -113,7 +105,7 @@ const Hero = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Hero
+export default Hero;

@@ -17,6 +17,7 @@ import erc1155MintableAbi from "../../../smart_contracts/erc1155Mintable.json"
 import erc1155Marketplace from "../../../smart_contracts/erc1155Market.json"
 import NumberInput from '../../../components/Inputs/NumberInput'
 import globals from '../../../utils/globalVariables'
+import { motion } from 'framer-motion'
 
 
 declare const window: any
@@ -363,8 +364,27 @@ const BuyModal = (props: any) => {
         ></div>
         <div className={style.modalContainer}>
           {!completed && (
-            <form
-              className={`${style.modal} animate__animated animate__zoomInUp `}
+            <motion.form
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: {
+                  opacity: 0,
+                  scale: 0.7,
+                },
+                visible: {
+                  opacity: 1,
+                  scale: 1,
+                  transition: {
+                    duration: 0.1,
+                    //delay: 0.3,
+                    scale: {
+                      duration: .01,
+                    },
+                  },
+                },
+              }}
+              className={`${style.modal}  `}
               onSubmit={handleSubmit}
             >
               <div className={style.modalTop}>
@@ -468,11 +488,30 @@ const BuyModal = (props: any) => {
                 </button>
               </div>
               {errorMsg && <p>{errorMsg}</p>}
-            </form>
+            </motion.form>
           )}
           {completed && (
-            <div
-              className={`${style.modal} animate__animated animate__zoomInUp `}
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: {
+                  opacity: 0,
+                  scale: 0.7,
+                },
+                visible: {
+                  opacity: 1,
+                  scale: 1,
+                  transition: {
+                    duration: 0.1,
+                    //delay: 0.3,
+                    scale: {
+                      duration: .01,
+                    },
+                  },
+                },
+              }}
+              className={`${style.modal} `}
             >
               <div className={style.modalTop}>
                 <h1>Congratulations</h1>
@@ -491,7 +530,7 @@ const BuyModal = (props: any) => {
               <Link to="/profile" className={style.modalBtnSingle}>
                 <button>View Profile</button>
               </Link>
-            </div>
+            </motion.div>
           )}
           {/* )} */}
         </div>
