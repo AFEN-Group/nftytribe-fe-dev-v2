@@ -20,7 +20,10 @@ import erc1155MarketplaceAbi from '../../../smart_contracts/erc1155Market.json'
 import TextInput from '../../../components/Inputs/TextInput'
 import SelectOption from '../../../components/Inputs/SelectOption3'
 import SelectDate from '../../../components/Inputs/SelectDate'
+import globals from '../../../utils/globalVariables'
 import { motion } from 'framer-motion'
+import toast from 'react-hot-toast'
+
 
 declare const window: any
 
@@ -114,7 +117,12 @@ const PutOnSaleModal = (props: any) => {
                             erc1155Marketplace_address
                         )
                     } else {
-                        alert('connect to meta mask wallet')
+                        //alert('connect to meta mask wallet')
+                        toast.error(` Please connect wallet`,
+                            {
+                                duration: 3000,
+                            }
+                        )
                         //setShowConnect(true)
                     }
 
@@ -174,7 +182,7 @@ const PutOnSaleModal = (props: any) => {
 
 
                     const updateCollectible = await fetch(
-                        'https://api.nftytribe.io/api/collectibles/update-collectible',
+                        `${globals.baseURL}/collectibles/update-collectible`,
                         {
                             method: 'PUT',
                             headers: {
@@ -216,7 +224,12 @@ const PutOnSaleModal = (props: any) => {
                             erc721Marketplace_address
                         )
                     } else {
-                        alert('connect to meta mask wallet')
+                        //alert('connect to meta mask wallet')
+                        toast.error(` Please connect wallet`,
+                            {
+                                duration: 3000,
+                            }
+                        )
                         //setShowConnect(true)
                     }
 
@@ -297,7 +310,7 @@ const PutOnSaleModal = (props: any) => {
 
 
                         const updateCollectible = await fetch(
-                            'https://api.nftytribe.io/api/collectibles/update-collectible',
+                            `${globals.baseURL}/collectibles/update-collectible`,
                             {
                                 method: 'PUT',
                                 headers: {
@@ -325,7 +338,12 @@ const PutOnSaleModal = (props: any) => {
             }
         } else {
             //setShowConnect(true)
-            alert('Please connect wallet')
+            //alert('Please connect wallet')
+            toast.error(` Please connect wallet`,
+                {
+                    duration: 3000,
+                }
+            )
         }
     }
 

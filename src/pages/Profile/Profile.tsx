@@ -28,16 +28,23 @@ const Profile = () => {
   ///console.log(user)
   const [collectibles, setCollectibles] = useState<any>()
   const currentAddress: any = localStorage.getItem('currentAccount')
+  const currentChainId = localStorage.getItem('chain')
   const [res, setRes] = useState<any>()
   const [query, setQuery] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
   const [showModal, setShowModal] = useState<any>()
+  const [currentChain, setCurrentChain] = useState<any>()
   //console.log('auth>>', authState)
 
   useEffect(() => {
     window.scrollTo(0, 0)
+    if (currentChainId === '0x1') {
+      setCurrentChain('eth')
+    } else if (currentChain === '0x38') {
+      setCurrentChain('bsc')
+    }
     const getUser = async () => {
       try {
         const result = await publicRequest.get(`/user/${currentAddress}`)
@@ -230,6 +237,7 @@ const Profile = () => {
           <div className={style.filtersM}>
             <Filters />
           </div>
+
           {isLoading ? (
             <div className={style.loaderBx}> <Loader /></div>
 

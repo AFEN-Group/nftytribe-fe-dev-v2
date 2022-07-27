@@ -18,6 +18,8 @@ import TextArea from '../../components/Inputs/TextArea'
 import { publicRequest } from '../../utils/requestMethods'
 import Verification from './Modals/Verification'
 import UpdateComplete from './Modals/UpdateComplete'
+import globals from '../../utils/globalVariables'
+
 
 const EditProfile = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -94,7 +96,7 @@ const EditProfile = () => {
       form_data.append('upload', e.target.files[0])
       try {
         const resp = await fetch(
-          'https://api.nftytribe.io/api/collectibles/upload-image',
+          `${globals.baseURL}/collectibles/upload-image`,
           {
             method: 'POST',
             body: form_data,
@@ -124,7 +126,7 @@ const EditProfile = () => {
       form_data.append('upload', e.target.files[0])
       try {
         const resp = await fetch(
-          'https://dev.api.nftytribe.io/api/collectibles/upload-image',
+          `${globals.baseURL}/collectibles/upload-image`,
           {
             method: 'POST',
             body: form_data,

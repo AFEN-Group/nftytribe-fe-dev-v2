@@ -5,16 +5,22 @@ import { gsap, Expo } from "gsap";
 import style from "./Create.module.scss";
 import Header from "../../components/Header/Header";
 //import Flow from './assets/fl.png'
-import Eth from "./assets/eth.svg";
-import Polygon from "./assets/profile.svg";
-import Binance from "./assets/binance.svg";
-import Skale from "./assets/skale.svg";
-import Solana from "./assets/sol.svg";
-import Container from "../../components/Container/Container";
+import Eth from './assets/eth.svg'
+import Polygon from './assets/profile.svg'
+import Binance from './assets/binance.svg'
+import Skale from './assets/skale.svg'
+import Solana from './assets/sol.svg'
+import Container from '../../components/Container/Container'
+import Switch from '../../components/Modals/Switch'
 import { useTranslation } from "react-i18next";
 
+
 const CreateItemOptions = () => {
-  const [chain, setChain] = useState("");
+  const [chain, setChain] = useState('')
+  const currentChain = localStorage.getItem('chain')
+  const [showModal, setShowModal] = useState<any>()
+  const [blockChain, setBlockChain] = useState<any>()
+  //console.log(currentChain, "<<<<<")
   // const [themeState] = useContext<any>(ThemeContext)
   // const dark = themeState.dark
   useEffect(() => {
@@ -39,14 +45,43 @@ const CreateItemOptions = () => {
       y: 0,
       duration: 1.5,
       ease: Expo.easeInOut,
-    });
-  }, []);
-  console.log(chain);
+    })
+
+  }, [])
+
+  const checkNetwork = (network: any) => {
+    if (network === 'eth') {
+      if (currentChain === "0x1") {
+        setChain(network)
+      } else {
+        setBlockChain("Ethereum")
+        setShowModal(true)
+      }
+    }
+    if (network === 'binance') {
+      if (currentChain === "0x38") {
+        setChain(network)
+      } else {
+        setBlockChain("Binance")
+        setShowModal(true)
+      }
+    }
+  }
+
+  const closeModal = () => {
+    setShowModal(false)
+  }
+
+
   const { t } = useTranslation();
+  console.log(chain)
   return (
     <>
       <Header />
       <Container>
+        {showModal && (
+          <Switch closeModal={closeModal} blockChain={blockChain} />
+        )}
         <div className={style.createOptions}>
           {chain === "" ? (
             <div className={style.cOptContent1}>
@@ -56,24 +91,33 @@ const CreateItemOptions = () => {
                 </h1>
                 <p>
                   <span id="heroText">{t("Select the most")}</span>{" "}
-                </p>
-              </div>
+                </p >
+              </div >
               <div
                 className={`${style.cOptBody} animate__animated animate__fadeInUp animate__delay-1s`}>
                 <div className={style.optBoxes}>
-                  <div className={style.optBox} onClick={() => setChain("eth")}>
+                  <div
+                    className={style.optBox}
+                    onClick={() => {
+                      checkNetwork('eth');
+                      //notify()
+                    }
+                    }
+                  >
                     <img src={Eth} alt="eth" />
                     <p>Ethereum</p>
                   </div>
                   <div
-                    className={`${style.optBox} ${style.disable}`}
-                    onClick={() => setChain("binance")}>
+                    className={`${style.optBox} `}
+                    onClick={() => checkNetwork('binance')}
+                  >
                     <img src={Binance} alt="binance" />
                     <p>Binance</p>
                   </div>
                   <div
                     className={`${style.optBox} ${style.disable}`}
-                    onClick={() => setChain("")}>
+                  //onClick={() => setChain('')}
+                  >
                     <img src={Skale} alt="skale" />
                     <p>Skale</p>
                   </div>
@@ -85,8 +129,8 @@ const CreateItemOptions = () => {
                     <p className={style.mg1}>Solana</p>
                   </div>
                 </div>
-              </div>
-            </div>
+              </div >
+            </div >
           ) : (
             <div
               //className={style.cOptContent2}
@@ -110,7 +154,7 @@ const CreateItemOptions = () => {
                   </Link>
                   <Link
                     to={`/createItem/${chain}/multiple`}
-                    className={`${style.optBox2}`}
+                    className={`${style.optBox2} ${style.disable}`}
                   >
                     <img className={style.tImg} src={Polygon} alt="single" />
                     <p>{t("Multiple")}</p>
@@ -119,8 +163,8 @@ const CreateItemOptions = () => {
               </div>
             </div>
           )}
-        </div>
-      </Container>
+        </div >
+      </Container >
     </>
   );
 };

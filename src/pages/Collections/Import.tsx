@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import style from './Collections.module.scss'
 import Close from './assets/close.svg'
 import Happy from './assets/happy.svg'
+import globals from '../../utils/globalVariables'
 //import { CircularProgress } from '@material-ui/core'
 
 const Import = (props: any) => {
@@ -38,7 +39,7 @@ const Import = (props: any) => {
         const wallet_address = localStorage.getItem('currentAccount')
         console.log(wallet_address)
         const data = await fetch(
-          `https://api.nftytribe.io/api/collections/import-collection`,
+          `${globals.baseURL}/collections/import-collection`,
           {
             method: 'POST',
             body: JSON.stringify({
@@ -105,8 +106,9 @@ const Import = (props: any) => {
                   <p>Blockchain</p>
                   <select name="chain" onChange={inputHandler}>
                     {/* <option value="rinkeby">Rinkeby</option>
-                    <option value="ropsten">Ropsten</option> */}
+                    <option value="bsc testnet">BSC Testnet </option> */}
                     <option value="eth">Ethereum</option>
+                    <option value="bsc">Binance</option>
 
                   </select>
                 </div>

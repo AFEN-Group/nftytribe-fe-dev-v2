@@ -1,8 +1,8 @@
-import { useContext, useEffect } from "react";
-import { ThemeContext } from "../../context/ThemeContext";
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import Header from "../../components/Header/Header";
+import { useContext, useEffect } from 'react'
+import { ThemeContext } from '../../context/ThemeContext'
+import { motion } from 'framer-motion'
+import { Link, useNavigate } from 'react-router-dom'
+import Header from '../../components/Header/Header'
 // import Footer from '../../components/Footer/Footer'
 import style from "./Rewards.module.scss";
 //import Shape1 from './assets/shape01.svg'
@@ -17,12 +17,20 @@ import arrow2 from "./assets/arrow2.svg";
 import { useTranslation } from "react-i18next";
 
 const Rewards = () => {
-  const [themeState] = useContext<any>(ThemeContext);
-  const dark = themeState.dark;
+  const [themeState] = useContext<any>(ThemeContext)
+  const dark = themeState.dark
+  const currentAccount = localStorage.getItem('currentAccount')
+  const navigate = useNavigate()
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    window.scrollTo(0, 0)
+  }, [])
+  const handleStake = () => {
+    if (currentAccount) {
+      navigate('/staking')
+    }
+  }
   const { t } = useTranslation();
+
   return (
     <>
       <Header />
@@ -114,14 +122,15 @@ const Rewards = () => {
                 <div className={style.twoBtns}>
                   {/* <a href="https://pancakeswap.finance/swap"> */}
                   {/* <Link to="/staking"> */}
-                  <a href='https://www.Afenmarketplace.com/staking'>
-                    <button
-                      className={`${style.stake} ${dark === 'true' ? 'yellowBtn' : 'blueBtn'} `}>
-                      Stake Afen
-                      <img src={dark === "true" ? arrow1 : arrow2} alt="buy afen" />
-                    </button>
-                    {/* </Link> */}
-                  </a>
+                  <button
+                    id="stake"
+                    onClick={handleStake}
+                    className={`${style.stake} ${dark === 'true' ? 'yellowBtn' : 'blueBtn'}`}>
+                    Stake Afen
+                    <img src={dark === "true" ? arrow1 : arrow2} alt="buy afen" />
+                  </button>
+                  {/* </Link> */}
+                  {/* </a> */}
                   <button className={`
                   ${style.buyAfen}
                   ${dark === 'true' ? 'lightTxt' : 'darkTxt'}

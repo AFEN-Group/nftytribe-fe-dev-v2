@@ -3,7 +3,96 @@ import Web3 from 'web3'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import { AuthContext } from '../context/AuthContext'
 import { publicRequest } from '../utils/requestMethods'
+import toast from 'react-hot-toast'
+//import networks from './networks.json'
 declare const window: any
+
+const chainss: any = {
+  rinkeby: {
+    chainId: `0x${Number(4).toString(16)}`
+  }
+}
+const networks: any = {
+  bsc: {
+    chainId: `0x${Number(97).toString(16)}`,
+    chainName: "Binance Smart Chain Testnet",
+    nativeCurrency: {
+      name: "Binance Chain Native Token",
+      symbol: "tBNB",
+      decimals: 18
+    },
+    rpcUrls: [
+      "https://data-seed-prebsc-1-s1.binance.org:8545",
+      "https://data-seed-prebsc-2-s1.binance.org:8545",
+      "https://data-seed-prebsc-1-s2.binance.org:8545",
+      "https://data-seed-prebsc-2-s2.binance.org:8545",
+      "https://data-seed-prebsc-1-s3.binance.org:8545",
+      "https://data-seed-prebsc-2-s3.binance.org:8545"
+
+    ],
+    blockExplorerUrls: ["https://testnet.bscscan.com"]
+  },
+  bscMain: {
+    chainId: `0x${Number(56).toString(16)}`,
+    chainName: "Binance Smart Chain Mainnet",
+    nativeCurrency: {
+      name: "Binance Chain Native Token",
+      symbol: "BNB",
+      decimals: 18
+    },
+    rpcUrls: [
+      "https://bsc-dataseed1.binance.org",
+      "https://bsc-dataseed2.binance.org",
+      "https://bsc-dataseed3.binance.org",
+      "https://bsc-dataseed4.binance.org",
+      "https://bsc-dataseed1.defibit.io",
+      "https://bsc-dataseed2.defibit.io",
+      "https://bsc-dataseed3.defibit.io",
+      "https://bsc-dataseed4.defibit.io",
+      "https://bsc-dataseed1.ninicoin.io",
+      "https://bsc-dataseed2.ninicoin.io",
+      "https://bsc-dataseed3.ninicoin.io",
+      "https://bsc-dataseed4.ninicoin.io",
+      "wss://bsc-ws-node.nariox.org"
+
+    ],
+    blockExplorerUrls: ["https://bscscan.com"]
+  },
+
+
+  ethereum: {
+    chainId: `0x${Number(1).toString(16)}`,
+    chainName: "Ethereum Mainnet",
+    "nativeCurrency": {
+      "name": "Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    rpcUrls: [
+      "https://mainnet.infura.io/v3/45b5a21bfa5b4429af59109069821ed3",
+      "wss://mainnet.infura.io/ws/v3/45b5a21bfa5b4429af59109069821ed3",
+      "https://api.mycryptoapi.com/eth",
+      "https://cloudflare-eth.com"
+    ],
+    blockExplorerUrls: ["https://etherscan.io"]
+  },
+
+
+  rinkeby: {
+    chainId: `0x${Number(4).toString(16)}`,
+    chainName: "Ethereum Testnet Rinkeby",
+    nativeCurrency: {
+      name: "Rinkeby Ether",
+      symbol: "RIN",
+      decimals: 18
+    },
+    rpcUrls: [
+      "https://rinkeby.infura.io/v3/45b5a21bfa5b4429af59109069821ed3",
+      "wss://rinkeby.infura.io/ws/v3/45b5a21bfa5b4429af59109069821ed3"
+    ],
+    blockExplorerUrls: ["https://rinkeby.etherscan.io"]
+  }
+}
 
 const UserConnect = () => {
   const [web3, setWeb3] = useState<any>(null)
@@ -38,9 +127,10 @@ const UserConnect = () => {
         const accounts = await window.ethereum.request({
           method: 'eth_requestAccounts',
         })
-        //if (window.ethereum.chainId === '0x1' || window.ethereum.chainId === '0x61') { // for both eth and bnb
-        //if (window.ethereum.chainId === '0x4') { // for testnet
-        if (window.ethereum.chainId === '0x1') { // for eth only
+        if (window.ethereum.chainId === '0x1' || window.ethereum.chainId === '0x38') { // for both eth and bnb on mainnet
+          //if (window.ethereum.chainId === '0x4') { // for testnet eth
+          //if (window.ethereum.chainId === '0x61') { // for testnet bsc
+          //if (window.ethereum.chainId === '0x1') { // for eth only
           console.log(window.ethereum.chainId)
           localStorage.setItem('chain', window.ethereum.chainId)
           localStorage.setItem('currentAccount', accounts[0])
@@ -68,6 +158,8 @@ const UserConnect = () => {
             })
             setWalletType("MetaMask")
             localStorage.setItem("walletType", 'MetaMask')
+            toast.success(`Wallet connected successfully.`,
+              { duration: 5000 })
             // setTimeout(() => {
             //   window.location.reload()
             // }, 1000)
@@ -82,7 +174,13 @@ const UserConnect = () => {
           //window.location.reload()
           setWalletError('')
         } else {
-          setWalletError('Wrong network, please switch to ethereum mainnet!')
+          //setWalletError('Wrong network, please switch to ethereum mainnet!')
+          //setWalletError('Wrong network, please switch to recommended networks!')
+          toast.error(`Wrong network, please switch to recommended networks!`,
+            {
+              duration: 5000,
+            }
+          )
         }
         console.log("network1 >> ", window.ethereum.chainId);
       } catch (err) {
@@ -93,6 +191,46 @@ const UserConnect = () => {
     }
   }
 
+  const handleNetworkSwitch = async (networkName: string) => {
+
+    try {
+      if (!window.ethereum) throw new Error('No wallet found');
+      await window.ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [
+          {
+            ...networks[networkName]
+          }
+        ]
+      })
+      toast.success(`Switched Networks.`,
+        { duration: 5000 })
+    } catch (err) {
+      console.log(err)
+    }
+
+  }
+  const handleNetworkSwitch2 = async (networkName: string) => {
+
+    try {
+      if (!window.ethereum) throw new Error('No wallet found');
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [
+          {
+            ...chainss[networkName]
+          }
+        ]
+      })
+      toast.success(`Switched Networks.`,
+        { duration: 5000 })
+    } catch (err) {
+      console.log(err)
+    }
+
+  }
+
+
   const disableEthereum = () => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -102,6 +240,8 @@ const UserConnect = () => {
         localStorage.removeItem('user')
         //window.location = '/'
         //window.location.reload()
+        toast.success(`Disconnected .`,
+          { duration: 3000 })
         resolve(true)
       } catch (error) {
         reject(error)
@@ -142,9 +282,11 @@ const UserConnect = () => {
           })
           setWalletType("WalletConnect")
           localStorage.setItem("walletType", 'WalletConnect')
-          setTimeout(() => {
-            window.location.reload()
-          }, 500)
+          // setTimeout(() => {
+          //   window.location.reload()
+          // }, 500)
+          toast.success(`Wallet connected successfully.`,
+            { duration: 5000 })
         } catch (err) {
           console.log(err)
           setAuthState({
@@ -193,6 +335,8 @@ const UserConnect = () => {
         localStorage.removeItem('chain')
         localStorage.removeItem('user')
         localStorage.removeItem('walletType')
+        // toast.success(`Disconnected .`,
+        //   { duration: 3000 })
         // window.location = '/'
         //window.location.reload()
         resolve(true)
@@ -248,6 +392,8 @@ const UserConnect = () => {
     walletError,
     walletType,
     enableWalletConnect,
+    handleNetworkSwitch,
+    handleNetworkSwitch2,
     disconnectWalletConnect
   }
 }

@@ -22,20 +22,19 @@
     -moz-appearance: none;
   }
 
+  .datePick {
+    padding: 0.2em 2em 0.2em 1em;
+  }
+
   // input[type='datetime-local'] {
   //   -webkit-appearance: none;
   //   -moz-appearance: none;
   // }
-
-  // input[type='date'] {
+  // input[type="date"]::-webkit-inner-spin-button,
+  // input[type="date"]::-webkit-calendar-picker-indicator {
+  //   display: none;
   //   -webkit-appearance: none;
-  //   -moz-appearance: none;
   // }
-  input[type="date"]::-webkit-inner-spin-button,
-  input[type="date"]::-webkit-calendar-picker-indicator {
-    display: none;
-    -webkit-appearance: none;
-  }
 
   .selectDark {
     background-image: url('./assets/select2.svg');
@@ -50,10 +49,16 @@
   }
 }
 
-input[type="date"]::-webkit-inner-spin-button,
-input[type="date"]::-webkit-calendar-picker-indicator {
-  display: none;
-  -webkit-appearance: none;
+.darkDate {
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: invert(100%);
+  }
+}
+
+.lightDate {
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: invert(0%);
+  }
 }
 
 .textBox {

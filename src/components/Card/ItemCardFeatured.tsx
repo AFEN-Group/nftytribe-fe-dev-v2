@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+//import { Link } from 'react-router-dom'
 import { shortenAddress } from '../../utils/formatting'
-import { publicRequest } from '../../utils/requestMethods'
+//import { publicRequest } from '../../utils/requestMethods'
+import { getUsdPrice } from '../../utils/exchangeRate'
 //import koala from './assets/kl.png'
 import anime from './assets/anime.jpeg'
 import dots from './assets/dots.svg'
@@ -40,18 +41,33 @@ const ItemCardFeatured = (data: any) => {
     return url
   }
   useEffect(() => {
-    const getUsdPrice = async () => {
-      try {
-        const usdPrice = await publicRequest.get(`https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd`)
-        const usdValue = usdPrice.data.ethereum.usd
-        const ethPrice = Web3.utils.fromWei(data?.nftData?.price.toString(), 'ether')
-        setUsdPrice(parseFloat(ethPrice) * usdValue)
-        //console.log(ethPrice)
-      } catch (error) {
-        console.log(error)
+    // const getUsdPrice = async () => {
+    //   try {
+    //     const usdPrice = await publicRequest.get(`https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd`)
+    //     const usdValue = usdPrice.data.ethereum.usd
+    //     const ethPrice = Web3.utils.fromWei(data?.nftData?.price.toString(), 'ether')
+    //     setUsdPrice(parseFloat(ethPrice) * usdValue)
+    //     //console.log(ethPrice)
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // }
+    // getUsdPrice()
+    const getUsdPriceValue = async () => {
+      if (data?.nftData?.chain === 'eth') {
+        const usdPrice = await getUsdPrice("ethereum")
+        const price = Web3.utils.fromWei(data?.nftData?.price.toString(), 'ether')
+        const convertedPrice = parseFloat(price) * usdPrice.ethereum.usd
+        setUsdPrice(convertedPrice)
+      }
+      if (data?.nftData?.chain === 'bsc') {
+        const usdPrice = await getUsdPrice("binancecoin")
+        const price = Web3.utils.fromWei(data?.nftData?.price.toString(), 'ether')
+        const convertedPrice = parseFloat(price) * usdPrice.binancecoin.usd
+        setUsdPrice(convertedPrice)
       }
     }
-    getUsdPrice()
+    getUsdPriceValue()
   }, [])
   return (
     // <Link

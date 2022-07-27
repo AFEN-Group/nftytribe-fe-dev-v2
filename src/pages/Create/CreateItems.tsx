@@ -16,6 +16,7 @@ import SelectOption from '../../components/Inputs/SelectOption'
 import SelectOption2 from '../../components/Inputs/SelectOption2'
 import icon from './assets/upload.svg'
 import check from './assets/check.svg'
+import globals from '../../utils/globalVariables'
 import arrow1 from './assets/arrowR1.svg'
 import arrow2 from './assets/arrowR2.svg'
 import arrowDown from './assets/arrowd.svg'
@@ -27,10 +28,10 @@ import contracts from '../../web3-Service/contractAddress'
 import erc721Abi from '../../smart_contracts/erc721Mintable.json'
 import erc721MarketplaceAbi from '../../smart_contracts/erc721Market.json'
 import erc721CollectionAbi from '../../smart_contracts/erc721Collection.json'
-import erc1155MintableAbi from '../../smart_contracts/erc1155Mintable.json'
-import erc1155MarketplaceAbi from '../../smart_contracts/erc1155Market.json'
+import erc1155MintableAbi from '../../smart_contracts/erc1155Mintable2.json'
+import erc1155MarketplaceAbi from '../../smart_contracts/erc1155Market2.json'
 import { publicRequest } from '../../utils/requestMethods'
-import globals from '../../utils/globalVariables'
+import toast from 'react-hot-toast'
 
 import { ethers } from 'ethers'
 import CreateSteps from './Modals/CreateSteps'
@@ -38,30 +39,39 @@ import { useTranslation } from "react-i18next";
 
 declare const window: any
 
-//const erc721Mintable_address = '0x236DdF1f75c0bA5Eb29a8776Ec1820E5dC41a59a'
-
-const erc721Mintable_address = contracts.erc721MintableAddress;
-const erc721Marketplace_address = contracts.erc721MarketplaceAddress;
-const erc1155Mintable_adddress = contracts.erc1155MintableAdddress;
-const erc1155Factory_address = contracts.erc1155FactoryAddress;
-const erc1155Marketplace_address = contracts.erc1155MarketplaceAddress;
-
 const CreateItems = () => {
-  const [themeState] = useContext<any>(ThemeContext);
-  const dark = themeState.dark;
-  const { handlePutOnSale } = useContext(ContractContext);
-  const itemType = useParams().itemType;
-  const [priceType, setPriceType] = useState("fixed");
-  const [showAdvanced, setShowAdvanced] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [step, setStep] = useState(0);
-  const [collection, setCollection] = useState("afen");
-  const [returnValues, setReturnValues] = useState<any>();
-  const [response0, setResponse0] = useState<any>();
-  const [mint, setMint] = useState<any>();
-  const [collectible, setCollectible] = useState();
-  const [validated, setValidated] = useState(false);
+  const [themeState] = useContext<any>(ThemeContext)
+  const dark = themeState.dark
+  const currentChain = localStorage.getItem('chain')
+  const { handlePutOnSale } = useContext(ContractContext)
+  const itemType = useParams().itemType
+  const [priceType, setPriceType] = useState('fixed')
+  const [showAdvanced, setShowAdvanced] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [showModal, setShowModal] = useState(false)
+  const [step, setStep] = useState(0)
+  const [collection, setCollection] = useState('afen')
+  const [returnValues, setReturnValues] = useState<any>()
+  const [response0, setResponse0] = useState<any>()
+  const [mint, setMint] = useState<any>()
+  const [collectible, setCollectible] = useState()
+  const [validated, setValidated] = useState(false)
+  // network
+  const [chain, setChain, chainRef] = useState<string>()
+  const [chainId, setChainId, chainIdRef] = useState<string>()
+  // erc721 addresses
+  const [erc721MintableAddress, setErc721MintableAddress] = useState<any>('')
+  const [erc721MarketplaceAddress, setErc721MarketplaceAddress] = useState<any>('')
+  // erc 1155 addresses
+  const [erc1155MintableAddress, setErc1155MintableAddress] = useState<any>('')
+  const [erc1155MarketplaceAddress, setErc1155MarketplaceAddress] = useState<any>('')
+
+  //const erc721MintableAddress = contracts.BSC_erc721MintableAddress
+  // const erc721MarketplaceAddress = contracts.erc721MarketplaceAddress
+  //const erc1155MintableAddress = contracts.erc1155MintableAdddress
+  // const erc1155FactoryAddress = contracts.erc1155FactoryAddress
+  // const erc1155MarketplaceAddress = contracts.erc1155MarketplaceAddress
+
   const [err, setErr] = useState<any>({
     title: "",
     price: "",
@@ -74,12 +84,11 @@ const CreateItems = () => {
     eMsg2: "",
   });
   const [userInput, setUserInput, userInputRef] = useState<any>({
-    chain: "",
-    wallet_address: "",
-    title: "",
-    description: "",
-    collection_address:
-      itemType === "single" ? erc721Mintable_address : erc1155Mintable_adddress,
+    chain: '',
+    wallet_address: '',
+    title: '',
+    description: '',
+    collection_address: itemType === 'single' ? erc721MintableAddress : erc1155MintableAddress,
     //customCollection: '',
     nft_type: "",
     is_multiple: "",
@@ -95,6 +104,7 @@ const CreateItems = () => {
   const [cardImage, setCardImage] = useState('')
   const [imageFile, setImageFile] = useState<any>('')
   const [userCollections, setUserCollections] = useState([])
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -115,22 +125,42 @@ const CreateItems = () => {
     // { value: '5', text: 'Music' },
   ];
   useEffect(() => {
-    const wallet_address = localStorage.getItem("currentAccount");
-    console.log(itemType, "type");
+    const wallet_address = localStorage.getItem('currentAccount')
+    const currentChain = localStorage.getItem('chain')
+    if (currentChain === '0x1') {
+      setChain('ethereum')
+      setChainId('ethereum')
+      setErc721MintableAddress(contracts.erc721MintableAddress)
+      setErc721MarketplaceAddress(contracts.erc721MarketplaceAddress)
+      setErc1155MintableAddress(contracts.erc1155MintableAdddress)
+      setErc1155MarketplaceAddress(contracts.erc1155MarketplaceAddress)
+    }
+    else if (currentChain === '0x38') {
+      setChain('bsc')
+      setChainId('bsc')
+      setErc721MintableAddress(contracts.BSC_erc721MintableAddress)
+      setErc721MarketplaceAddress(contracts.BSC_erc721MarketplaceAddress)
+      setErc1155MintableAddress(contracts.BSC_erc1155MintableAdddress)
+      setErc1155MarketplaceAddress(contracts.BSC_erc1155MarketplaceAdddress)
+    }
+    console.log(itemType, 'type')
     const getCollections = async () => {
+
       try {
         const collections = await publicRequest.get(
-          `/collections/user-collection?wallet_address=${wallet_address}&chain_id=eth`
-        );
-        console.log(collections.data?.data.collections);
-        setUserCollections(collections?.data?.data.collections);
-        setIsLoading(false);
+          `/collections/user-collection?wallet_address=${wallet_address}&chain_id=${chainIdRef.current}`,
+        )
+        console.log(collections)
+        console.log(collections.data?.data.collections)
+        setUserCollections(collections?.data?.data.collections)
+        setIsLoading(false)
       } catch (error) {
         setIsLoading(false);
       }
-    };
-    getCollections();
-  }, []);
+    }
+    getCollections()
+  }, [])
+
   const inputHandler = async (event: any) => {
     setValidated(false);
     const { name, value } = event.target;
@@ -209,7 +239,7 @@ const CreateItems = () => {
     //console.log("feedback")
   };
   const handleClose = () => {
-    setShowModal(false);
+    setShowModal(false)
     // setUserInput({
     //   title: '',
     //   price: '',
@@ -240,23 +270,28 @@ const CreateItems = () => {
     } else {
       setMsg({
         ...msg,
-        eMsg: "",
-      });
+        eMsg: '',
+      })
 
-      // if (userInput.royalties <= 10) {
+      //if (userInput.royalties <= 10) {
       // setMsg({
       //   ...msg,
       //   eMsg2: '',
       // })
-      if (step) {
-        setShowModal(true)
-        if (step === 0) {
-          setStep(1)
-        }
+      setShowModal(true)
+      if (step === 0) {
+
+        setStep(1)
         console.log(userInput.is_lazy_mint)
       }
       else {
-        alert("Please connect your wallet")
+        //alert("Please connect your wallet")
+        toast.error(`Please connect wallet!`,
+          {
+            duration: 3000,
+          }
+        )
+
       }
 
       // } else {
@@ -277,26 +312,28 @@ const CreateItems = () => {
     console.log(wallet_address);
     if (wallet_address) {
       //check if wallet is connected
-      const chain = 'eth'
+
+
       const royalties = parseInt(userInput.royalties) * 100
       let returnvalues: any
       if (itemType === 'single') {
         switch (step) {
           case 1:
             //console.log(collectionChoice)
-            const data = userInput;
-            data.wallet_address = wallet_address;
-            data.chain = chain;
+            const data = userInput
+            data.wallet_address = wallet_address
+            data.chain = chainRef.current
             data.collection_address =
-              userInput.collection_address || erc721Mintable_address;
-            data.upload = imageFile;
-            data.is_multiple = false;
-            data.nft_type = userInput.category;
-            data.cardImage = cardImage;
-            if (data.market_type != "0") {
-              data.on_sale = false;
+              userInput.collection_address || erc721MintableAddress
+            data.upload = imageFile
+            data.is_multiple = false
+            data.nft_type = userInput.category
+            data.cardImage = cardImage
+            if (data.market_type != '0') {
+              data.on_sale = false
             }
             console.log(data, 'recorded')
+            console.log(chain, 'chain')
             const royalties = parseInt(userInput.royalties) * 100
             try {
               setIsLoading(true);
@@ -343,12 +380,18 @@ const CreateItems = () => {
 
                 erc721Contract = new web3.eth.Contract(
                   erc721Abi,
-                  erc721Mintable_address
-                );
+                  erc721MintableAddress,
+                )
               } else {
-                alert("connect to meta mask wallet");
-                //setShowConnect(true)
+                //alert("connect to meta mask wallet");
+                toast.error(`Please connect wallet!`,
+                  {
+                    duration: 3000,
+                  }
+                )
               }
+              //setShowConnect(true)
+
 
               const mintingCharge = await erc721Contract.methods
                 .mintingCharge()
@@ -360,7 +403,7 @@ const CreateItems = () => {
                 let message = ethers.utils.solidityPack(
                   ["address", "uint96", "uint256", "string", "uint256"],
                   [
-                    userInput.collection_address || erc721Mintable_address,
+                    userInput.collection_address || erc721MintableAddress,
                     royalties,
                     parseInt(nonceData.data.nonce),
                     response.data.file,
@@ -381,12 +424,12 @@ const CreateItems = () => {
                   is_lazy_mint: true,
                   wallet_address,
                   collection_address:
-                    userInput.collection_address || erc721Mintable_address,
+                    userInput.collection_address || erc721MintableAddress,
                   file: response.data.file,
-                  type: "mint",
-                  chain_id: "eth",
-                  price: web3.utils.toWei(data.price, "ether"),
-                };
+                  type: 'mint',
+                  chain_id: chain,
+                  price: web3.utils.toWei(data.price, 'ether'),
+                }
 
                 console.log(updatableData, "get upload");
 
@@ -407,7 +450,7 @@ const CreateItems = () => {
               } else {
                 if (
                   userInput.collection_address.toLowerCase() ===
-                  erc721Mintable_address.toLowerCase()
+                  erc721MintableAddress.toLowerCase()
                 ) {
                   //console.log('hello collection')
                   mint = await erc721Contract.methods
@@ -419,8 +462,8 @@ const CreateItems = () => {
                 } else {
                   erc721collectionContract = new web3.eth.Contract(
                     erc721CollectionAbi,
-                    userInput.collection_address || erc721Mintable_address
-                  );
+                    userInput.collection_address || erc721MintableAddress,
+                  )
                   mint = await erc721collectionContract.methods
                     .mint(response.data.file, royalties)
                     .send({ from: wallet_address, value: mintingCharge });
@@ -437,7 +480,7 @@ const CreateItems = () => {
                   wallet_address: wallet_address,
                   chain_id: chain,
                   collection_address:
-                    data.collection_address || erc721Mintable_address,
+                    data.collection_address || erc721MintableAddress,
                   file: response.data.file,
                   transaction_hash: mint.transactionHash,
                   on_sale: false,
@@ -462,8 +505,14 @@ const CreateItems = () => {
                 setStep(2);
               }
             } catch (err) {
+
               console.log(err)
-              alert('Sorry an error occured')
+              //alert('Sorry an error occured')
+              toast.error(`Sorry an error occured`,
+                {
+                  duration: 3000,
+                }
+              )
               setIsLoading(false)
             }
 
@@ -481,25 +530,31 @@ const CreateItems = () => {
 
                 if (
                   userInput.collection_address.toLowerCase() ===
-                  erc721Mintable_address.toLowerCase()
+                  erc721MintableAddress.toLowerCase()
                 ) {
                   erc721Contract = new web3.eth.Contract(
                     erc721Abi,
-                    erc721Mintable_address
-                  );
+                    erc721MintableAddress,
+                  )
                 } else {
                   erc721Contract = new web3.eth.Contract(
                     erc721CollectionAbi,
-                    userInput.collection_address || erc721Mintable_address
-                  );
+                    userInput.collection_address || erc721MintableAddress,
+                  )
                 }
 
                 // marketplace_contract = new web3.eth.Contract(
                 //   erc721MarketplaceAbi,
-                //   erc721Marketplace_address,
+                //   erc721MarketplaceAddress,
                 // )
               } else {
-                alert("connect to meta mask wallet");
+                //alert("connect to meta mask wallet");
+                toast.error(`Please connect wallet`,
+                  {
+                    duration: 3000,
+                  }
+                )
+
                 //setShowConnect(true)
               }
 
@@ -507,8 +562,8 @@ const CreateItems = () => {
               console.log(parseInt(returnValues?.tokenId), "hello");
               const approve = await erc721Contract.methods
                 .approve(
-                  erc721Marketplace_address,
-                  parseInt(returnValues.tokenId)
+                  erc721MarketplaceAddress,
+                  parseInt(returnValues.tokenId),
                 )
                 .send({ from: wallet_address });
               console.log(approve, "else");
@@ -516,7 +571,12 @@ const CreateItems = () => {
               setStep(3);
             } catch (err) {
               console.log(err)
-              alert('Sorry an error occured')
+              //alert('Sorry an error occured')
+              toast.error(`Sorry an error occured`,
+                {
+                  duration: 3000,
+                }
+              )
               setIsLoading(false)
             }
 
@@ -534,14 +594,19 @@ const CreateItems = () => {
 
                 erc721Contract = new web3.eth.Contract(
                   erc721Abi,
-                  erc721Mintable_address
-                );
+                  erc721MintableAddress,
+                )
                 marketplace_contract = new web3.eth.Contract(
                   erc721MarketplaceAbi,
-                  erc721Marketplace_address
-                );
+                  erc721MarketplaceAddress,
+                )
               } else {
-                alert("connect to meta mask wallet");
+                //alert("connect to meta mask wallet");
+                toast.error(`Please connect wallet!`,
+                  {
+                    duration: 3000,
+                  }
+                )
                 //setShowConnect(true)
               }
 
@@ -549,11 +614,11 @@ const CreateItems = () => {
               data.wallet_address = wallet_address;
               data.chain = chain;
               data.collection_address =
-                userInput.collection_address || erc721Mintable_address;
-              data.upload = imageFile;
-              data.is_multiple = false;
-              data.nft_type = userInput.category;
-              data.cardImage = cardImage;
+                userInput.collection_address || erc721MintableAddress
+              data.upload = imageFile
+              data.is_multiple = false
+              data.nft_type = userInput.category
+              data.cardImage = cardImage
               //returnvalues = mint.events.TransferSingle.returnValues
               console.log(mint?.events?.TransferSingle, "mint events");
 
@@ -574,8 +639,7 @@ const CreateItems = () => {
                   parseInt(data.market_type),
                   parseInt(data.starting_time),
                   parseInt(data.ending_time),
-                  userInput.collection_address || erc721Mintable_address
-                );
+                  userInput.collection_address || erc721MintableAddress)
 
                 if (data.market_type === "2") {
                   data.starting_time =
@@ -586,6 +650,15 @@ const CreateItems = () => {
                   data.starting_time = 0;
                   data.ending_time = 1;
                 }
+                console.log({
+                  0: parseInt(returnValues?.tokenId),
+                  1: web3.utils.toWei(data.price.toString(), 'ether'),
+                  2: parseInt(data.market_type),
+                  3: parseInt(data.starting_time),
+                  4: parseInt(data.ending_time),
+                  5: userInput.collection_address || erc721MintableAddress,
+                  6: '0x0000000000000000000000000000000000000000'
+                })
                 const putOnSale = await marketplace_contract.methods
                   .putOnSale(
                     parseInt(returnValues?.tokenId),
@@ -593,10 +666,11 @@ const CreateItems = () => {
                     parseInt(data.market_type),
                     parseInt(data.starting_time),
                     parseInt(data.ending_time),
-                    userInput.collection_address || erc721Mintable_address,
-                    "0x0000000000000000000000000000000000000000"
+                    userInput.collection_address || erc721MintableAddress,
+                    '0x0000000000000000000000000000000000000000',
                   )
                   .send({ from: wallet_address });
+
 
                 // const putOnSale = await handlePutOnSale(
                 //   returnValues.tokenId,
@@ -623,11 +697,11 @@ const CreateItems = () => {
                   token_id: returnValues?.tokenId || returnvalues?.id,
                   wallet_address,
                   collection_address:
-                    userInput.collection_address || erc721Mintable_address,
+                    userInput.collection_address || erc721MintableAddress,
                   file: response0.data.file,
                   transaction_hash: mint.transactionHash,
-                  type: "putOnSale",
-                  chain_id: "eth",
+                  type: 'putOnSale',
+                  chain_id: chain,
                   order_type: data.market_type,
 
                   on_sale: true,
@@ -647,16 +721,16 @@ const CreateItems = () => {
                   token_id: returnValues?.tokenId || returnvalues?.id,
                   wallet_address,
                   collection_address:
-                    userInput.collection_address || erc721Mintable_address,
+                    userInput.collection_address || erc721MintableAddress,
                   file: response0.data.file,
                   transaction_hash: mint.transactionHash,
-                  type: "putOnSale",
-                  chain_id: "eth",
-                };
+                  type: 'putOnSale',
+                  chain_id: chain,
+                }
               }
 
               const updateCollectible = await fetch(
-                "https://api.nftytribe.io/api/collectibles/update-collectible",
+                `${globals.baseURL}/collectibles/update-collectible`,
                 {
                   method: "PUT",
                   headers: {
@@ -677,7 +751,12 @@ const CreateItems = () => {
               setStep(4);
             } catch (err) {
               console.log(err)
-              alert('Sorry an error occured')
+              //alert('Sorry an error occured')
+              toast.error(`Sorry an error occured`,
+                {
+                  duration: 3000,
+                }
+              )
               //setMsg({ ...msg, eMsg: err, sMsg: '' })
               setIsLoading(false);
             }
@@ -695,19 +774,20 @@ const CreateItems = () => {
         switch (step) {
           case 1:
             //console.log(collectionChoice)
-            const data = userInput;
-            data.wallet_address = wallet_address;
-            data.chain = chain;
+            //console.log("chain>>>", chainRef.current)
+            const data = userInput
+            data.wallet_address = wallet_address
+            data.chain = chain
             data.collection_address =
-              erc1155Mintable_adddress || userInput.collection_address;
-            data.upload = imageFile;
-            data.is_multiple = false;
-            data.nft_type = userInput.category;
-            data.cardImage = cardImage;
-            data.number_of_copies = userInput.copies;
-            data.is_multiple = true;
-            if (data.market_type != "0") {
-              data.on_sale = false;
+              erc1155MintableAddress || userInput.collection_address
+            data.upload = imageFile
+            data.is_multiple = false
+            data.nft_type = userInput.category
+            data.cardImage = cardImage
+            data.number_of_copies = userInput.copies
+            data.is_multiple = true
+            if (data.market_type != '0') {
+              data.on_sale = false
             }
             console.log(data, "recorded");
 
@@ -717,12 +797,12 @@ const CreateItems = () => {
               let nonceData: any;
               if (data.is_lazy_mint) {
                 const getNonce = await fetch(
-                  "https://api.nftytribe.io/api/collectibles/get-nonce"
-                );
-                nonceData = await getNonce.json();
+                  `${globals.baseURL}/collectibles/get-nonce`,
+                )
+                nonceData = await getNonce.json()
               }
               const resp = await fetch(
-                "https://api.nftytribe.io/api/collectibles/create",
+                `${globals.baseURL}/collectibles/create`,
                 {
                   method: "POST",
                   headers: {
@@ -736,10 +816,9 @@ const CreateItems = () => {
               );
 
               //mint
-              const erc1155Mintable_adddress =
-                contracts.erc1155MintableAdddress;
-              const response = await resp.json();
-              console.log(response);
+              //const erc1155MintableAddress = contracts.erc1155MintableAdddress
+              const response = await resp.json()
+              //console.log("api m>>", response)
               // if (response.success === false) {
               //   setMsg({ ...msg, eMsg: 'Sorry an error occured', sMsg: '' })
               // }
@@ -750,32 +829,38 @@ const CreateItems = () => {
               let erc1155collectionContract;
               let web3: any;
               if (window.ethereum) {
-                web3 = new Web3(window.ethereum);
-                // const collection_address = userInput.collection_address || erc721Mintable_address    // to use for contract
+                web3 = new Web3(window.ethereum)
+                // const collection_address = userInput.collection_address || erc721MintableAddress    // to use for contract
                 // console.log("address used",collection_address)
                 // console.log("user input",userInput.collection_address)
                 console.log(userInput.collection_address, "col add");
 
                 erc1155Contract = new web3.eth.Contract(
                   erc1155MintableAbi,
-                  erc1155Mintable_adddress
-                );
+                  erc1155MintableAddress,
+                )
+                console.log("chargeee", erc1155MintableAddress)
               } else {
-                alert("connect to meta mask wallet");
+                //alert("connect to meta mask wallet");
+                toast.error(`Please connect wallet!`,
+                  {
+                    duration: 3000,
+                  }
+                )
                 //setShowConnect(true)
               }
 
               const mintingChargePerToken = await erc1155Contract.methods
                 .mintingChargePerToken()
-                .call();
-
-              let mint;
+                .call()
+              console.log("chargeee2", mintingChargePerToken)
+              let mint
               if (data.is_lazy_mint) {
                 //console.log(data.is_lazy_mint)
                 let message = ethers.utils.solidityPack(
                   ["address", "uint96", "uint256", "string", "uint256"],
                   [
-                    userInput.collection_address || erc1155Mintable_adddress,
+                    userInput.collection_address || erc1155MintableAddress,
                     royalties,
                     parseInt(nonceData.data.nonce),
                     response.data.file,
@@ -796,17 +881,17 @@ const CreateItems = () => {
                   is_lazy_mint: true,
                   wallet_address,
                   collection_address:
-                    userInput.collection_address || erc1155Mintable_adddress,
+                    userInput.collection_address || erc1155MintableAddress,
                   file: response.data.file,
-                  type: "mint",
-                  chain_id: "eth",
-                  price: web3.utils.toWei(data.price, "ether"),
-                };
+                  type: 'mint',
+                  chain_id: chain,
+                  price: web3.utils.toWei(data.price, 'ether'),
+                }
 
                 console.log(updatableData, "get upload");
 
                 const updateCollectible = await fetch(
-                  "https://api.nftytribe.io/api/collectibles/update-collectible",
+                  `${globals.baseURL}collectibles/update-collectible`,
                   {
                     method: "PUT",
                     headers: {
@@ -820,10 +905,11 @@ const CreateItems = () => {
                 setIsLoading(false);
                 setStep(4);
               } else {
-                const mintingCharge = mintingChargePerToken * userInput.copies;
+                const mintingCharge = mintingChargePerToken * userInput.copies
+
                 if (
                   userInput.collection_address.toLowerCase() ===
-                  erc1155Mintable_adddress.toLowerCase()
+                  erc1155MintableAddress.toLowerCase()
                 ) {
                   //console.log('hello collection')
 
@@ -836,8 +922,8 @@ const CreateItems = () => {
                 } else {
                   erc1155collectionContract = new web3.eth.Contract(
                     erc1155MintableAbi,
-                    userInput.collection_address || erc721Mintable_address
-                  );
+                    userInput.collection_address || erc721MintableAddress,
+                  )
                   mint = await erc1155collectionContract.methods
                     .mint(response.data.file, royalties, userInput.copies)
                     .send({ from: wallet_address, value: mintingCharge });
@@ -854,7 +940,7 @@ const CreateItems = () => {
                   wallet_address: wallet_address,
                   chain_id: chain,
                   collection_address:
-                    data.collection_address || erc1155Mintable_adddress,
+                    data.collection_address || erc1155MintableAddress,
                   file: response.data.file,
                   transaction_hash: mint.transactionHash,
                   on_sale: false,
@@ -865,7 +951,7 @@ const CreateItems = () => {
                 };
 
                 const updateCollectible = await fetch(
-                  "https://api.nftytribe.io/api/collectibles/update-collectible",
+                  `${globals.baseURL}/collectibles/update-collectible`,
                   {
                     method: "PUT",
                     headers: {
@@ -889,7 +975,7 @@ const CreateItems = () => {
 
           case 2:
             //approve
-            //const erc1155Mintable_adddress = '0xCE8e4E1b586dA68F65A386968185ecBE8f222B89'
+            //const erc1155MintableAddress = '0xCE8e4E1b586dA68F65A386968185ecBE8f222B89'
             try {
               setIsLoading(true);
               let erc1155Contract;
@@ -899,41 +985,47 @@ const CreateItems = () => {
 
                 if (
                   userInput.collection_address.toLowerCase() ===
-                  erc721Mintable_address.toLowerCase()
+                  erc721MintableAddress.toLowerCase()
                 ) {
                   erc1155Contract = new web3.eth.Contract(
                     erc1155MintableAbi,
-                    erc1155Mintable_adddress
-                  );
+                    erc1155MintableAddress,
+                  )
                 } else {
                   erc1155Contract = new web3.eth.Contract(
                     erc1155MintableAbi,
-                    userInput.collection_address || erc1155Mintable_adddress
-                  );
+                    userInput.collection_address || erc1155MintableAddress,
+                  )
                 }
 
                 // marketplace_contract = new web3.eth.Contract(
                 //   erc721MarketplaceAbi,
-                //   erc721Marketplace_address,
+                //   erc721MarketplaceAddress,
                 // )
               } else {
-                alert("connect to meta mask wallet");
+                //alert("connect to meta mask wallet");
+                toast.error(`Please connect wallet!`,
+                  {
+                    duration: 3000,
+                  }
+                )
                 //setShowConnect(true)
               }
-              const isApproved = await erc1155Contract.methods
-                .isApprovedForAll(wallet_address, erc1155Marketplace_address)
-                .call();
-              console.log(isApproved, "check");
+              const isApproved = await erc1155Contract.methods.isApprovedForAll(wallet_address, erc1155MarketplaceAddress).call();
+              console.log(isApproved, 'check')
               if (isApproved) {
                 setIsLoading(false);
                 setStep(3);
               } else {
                 const approve = await erc1155Contract.methods
-                  .setApprovalForAll(erc1155Marketplace_address, true)
-                  .send({ from: wallet_address });
-                console.log(approve, "else");
-                setIsLoading(false);
-                setStep(3);
+                  .setApprovalForAll(
+                    erc1155MarketplaceAddress,
+                    true,
+                  )
+                  .send({ from: wallet_address })
+                console.log(approve, 'else')
+                setIsLoading(false)
+                setStep(3)
               }
             } catch (err) {
               console.log(err);
@@ -943,7 +1035,7 @@ const CreateItems = () => {
             break;
 
           case 3:
-            //const erc1155Mintable_adddress = '0xCE8e4E1b586dA68F65A386968185ecBE8f222B89'
+            //const erc1155MintableAddress = '0xCE8e4E1b586dA68F65A386968185ecBE8f222B89'
 
             //put on sale
             try {
@@ -956,15 +1048,20 @@ const CreateItems = () => {
 
                 erc1155Contract = new web3.eth.Contract(
                   erc1155MintableAbi,
-                  erc1155Mintable_adddress
-                );
+                  erc1155MintableAddress,
+                )
                 marketplace_contract = new web3.eth.Contract(
                   erc1155MarketplaceAbi,
                   //'0x4b70e3bbcd763fc5ded47244aef613e8e5689bdd',
                   contracts.erc1155MarketplaceAddress
                 );
               } else {
-                alert("connect to meta mask wallet");
+                //alert("connect to meta mask wallet");
+                toast.error(`Please connect wallet!`,
+                  {
+                    duration: 3000,
+                  }
+                )
                 //setShowConnect(true)
               }
 
@@ -972,11 +1069,11 @@ const CreateItems = () => {
               data.wallet_address = wallet_address;
               data.chain = chain;
               data.collection_address =
-                userInput.collection_address || erc1155Mintable_adddress;
-              data.upload = imageFile;
-              data.is_multiple = false;
-              data.nft_type = userInput.category;
-              data.cardImage = cardImage;
+                userInput.collection_address || erc1155MintableAddress
+              data.upload = imageFile
+              data.is_multiple = false
+              data.nft_type = userInput.category
+              data.cardImage = cardImage
               //data.price = parseFloat(userInput.price) * parseInt(userInput.copies)
               returnvalues = mint.events.TransferSingle.returnValues;
               console.log(returnvalues, "value");
@@ -1000,7 +1097,7 @@ const CreateItems = () => {
                 );
                 const putOnSale = await marketplace_contract.methods
                   .putOnSale(
-                    userInput.collection_address || erc1155Mintable_adddress,
+                    userInput.collection_address || erc1155MintableAddress,
                     parseInt(returnvalues.id),
                     parseInt(userInput.copies),
                     web3.utils.toWei(data.price.toString(), "ether"),
@@ -1034,11 +1131,11 @@ const CreateItems = () => {
                   token_id: returnvalues.id,
                   wallet_address,
                   collection_address:
-                    userInput.collection_address || erc1155Mintable_adddress,
+                    userInput.collection_address || erc1155MintableAddress,
                   file: response0.data.file,
                   transaction_hash: mint.transactionHash,
-                  type: "putOnSale",
-                  chain_id: "eth",
+                  type: 'putOnSale',
+                  chain_id: chain,
                   order_type: data.market_type,
 
                   on_sale: true,
@@ -1058,16 +1155,16 @@ const CreateItems = () => {
                   token_id: returnvalues.id,
                   wallet_address,
                   collection_address:
-                    userInput.collection_address || erc1155Mintable_adddress,
+                    userInput.collection_address || erc1155MintableAddress,
                   file: response0.data.file,
                   transaction_hash: mint.transactionHash,
-                  type: "putOnSale",
-                  chain_id: "eth",
-                };
+                  type: 'putOnSale',
+                  chain_id: chain,
+                }
               }
 
               const updateCollectible = await fetch(
-                "https://api.nftytribe.io/api/collectibles/update-collectible",
+                `${globals.baseURL}/collectibles/update-collectible`,
                 {
                   method: "PUT",
                   headers: {
@@ -1106,7 +1203,12 @@ const CreateItems = () => {
       setStep(0);
       console.log("connect")
       //setShowConnect(true)
-      alert("Connect to metamask");
+      //alert("Connect to metamask");
+      toast.error(`Please connect wallet!`,
+        {
+          duration: 3000,
+        }
+      )
     }
   };
   // create item steps // end
@@ -1208,12 +1310,12 @@ const CreateItems = () => {
                 <TextInput
                   type="text"
                   inputName="price"
-                  holder="Enter ETH Price"
+                  holder={`Enter ${currentChain === '0x1' ? 'ETH' : currentChain === '0x38' ? 'BNB' : ''} Price`}
                   max="12"
                   inputHandler={inputHandler}
                   value={userInput.price}
                 />
-                <div className={style.iDesc}><p>(ETH price)</p></div>
+                <div className={style.iDesc}><p>({currentChain === '0x1' ? 'ETH' : currentChain === '0x38' ? 'BNB' : ''} price)</p></div>
 
               </div>
               <div className={style.fieldBx}>
@@ -1310,7 +1412,7 @@ const CreateItems = () => {
                 </div>
                 <p></p>
               </div>
-              {userCollections.length === 1 && (
+              {userCollections?.length >= 1 && (
                 <div className={style.fieldBx}>
                   <p>Choose from created collections</p>
                   <SelectOption2

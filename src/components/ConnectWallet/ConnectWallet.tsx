@@ -24,6 +24,7 @@ import BNB from './assets/bnb.svg'
 import Swap from './assets/swap01.svg'
 import Swap2 from './assets/swap02.svg'
 
+
 declare const window: any
 
 const ConnectWallet = (props: any) => {
@@ -51,6 +52,7 @@ const ConnectWallet = (props: any) => {
   const [afenSwap, setAfenSwap] = useState(true)
   //const [currentAccount, setCurrentAccount] = useState('')
   const currentAccount = localStorage.getItem('currentAccount')
+  const currentChain = localStorage.getItem('chain')
   const userObj = localStorage.getItem('user')
   const [walletBalance, setWalletBalance] = useState<any>()
   const numberInputHandler = async (event: any) => {
@@ -71,6 +73,7 @@ const ConnectWallet = (props: any) => {
     let show3: any = document.getElementById('show3')
     let show3M: any = document.getElementById('show3M')
     let show4: any = document.getElementById('show4')
+    let stake: any = document.getElementById('stake')
     let close: any = document.getElementById('close')
     if (document.getElementById('showBtn')) {
       let btn: any = document.getElementById('showBtn')
@@ -112,6 +115,12 @@ const ConnectWallet = (props: any) => {
       }
       if (document.getElementById('show4')) {
         show4.onclick = function () {
+          t1.reversed(!t1.reversed())
+          overlay.classList.toggle(style.overlay)
+        }
+      }
+      if (document.getElementById('stake')) {
+        stake.onclick = function () {
           t1.reversed(!t1.reversed())
           overlay.classList.toggle(style.overlay)
         }
@@ -160,6 +169,8 @@ const ConnectWallet = (props: any) => {
     enableWalletConnect()
     props.handleModal()
   }
+
+
 
   let web3: any
   web3 = new Web3(window.ethereum)
@@ -260,7 +271,7 @@ const ConnectWallet = (props: any) => {
                           <div className={style.awInfo}>
                             <h3>{shortenAddressSmall(currentAccount)}</h3>
 
-                            <p>Ethereum</p>
+                            <p>{currentChain === '0x1' ? 'Ethereum' : currentChain === "0x38" ? 'Binance' : ''}</p>
                           </div>
                         </div>
                         <div className={style.awRight}>

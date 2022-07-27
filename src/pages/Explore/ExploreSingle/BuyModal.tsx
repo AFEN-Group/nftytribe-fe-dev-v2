@@ -1,4 +1,4 @@
-//import { useState } from 'react'
+import { useEffect } from 'react'
 import useState from 'react-usestateref'
 //import { ThemeContext } from '../../../context/ThemeContext'
 //import useState from 'react-usestateref'
@@ -16,6 +16,7 @@ import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
 import erc1155MintableAbi from "../../../smart_contracts/erc1155Mintable.json"
 import erc1155Marketplace from "../../../smart_contracts/erc1155Market.json"
 import NumberInput from '../../../components/Inputs/NumberInput'
+import globals from '../../../utils/globalVariables'
 import { motion } from 'framer-motion'
 
 
@@ -41,6 +42,34 @@ const BuyModal = (props: any) => {
   })
   const [errorMsg, setErrorMsg] = useState('')
   //const tokens = [{ value: '1', text: 'eth' }]
+  // erc721 addresses
+  const [erc721MintableAddress, setErc721MintableAddress] = useState<any>('')
+  const [erc721MarketplaceAddress, setErc721MarketplaceAddress] = useState<any>('')
+  // erc 1155 addresses
+  const [erc1155MintableAddress, setErc1155MintableAddress] = useState<any>('')
+  const [erc1155MarketplaceAddress, setErc1155MarketplaceAddress] = useState<any>('')
+  const [chainId, setChainId, chainIdRef] = useState<string>()
+  useEffect(() => {
+    //const wallet_address = localStorage.getItem('currentAccount')
+    const currentChain = localStorage.getItem('chain')
+    const itemChain = props?.nftDetails?.chain
+    if (currentChain === '0x1') {
+      // setChain('rinkeby')
+      setChainId('eth')
+      setErc721MintableAddress(contracts.erc721MintableAddress)
+      setErc721MarketplaceAddress(contracts.erc721MarketplaceAddress)
+      setErc1155MintableAddress(contracts.erc1155MintableAdddress)
+      setErc1155MarketplaceAddress(contracts.erc1155MarketplaceAddress)
+    }
+    if (currentChain === '0x38') {
+      // setChain('bsc testnet')
+      setChainId('bsc')
+      setErc721MintableAddress(contracts.BSC_erc721MintableAddress)
+      setErc721MarketplaceAddress(contracts.BSC_erc721MarketplaceAddress)
+      setErc1155MintableAddress(contracts.BSC_erc1155MintableAdddress)
+      setErc1155MarketplaceAddress(contracts.BSC_erc1155MarketplaceAdddress)
+    }
+  }, [])
 
   const inputHandler = async (event: any) => {
     setValidated(false)
@@ -72,13 +101,13 @@ const BuyModal = (props: any) => {
     // if (userInputRef.current.quantity > '' && inputQuantity <= itemQuantity) {
     // contract functionality
     //const chain = 'rinkeby'
-    const erc721Mintable_address = contracts.erc721MintableAddress
-    const erc721Marketplace_address = contracts.erc721MarketplaceAddress
+    // const erc721MintableAddress = contracts.erc721MintableAddress
+    // const erc721MarketplaceAddress = contracts.erc721MarketplaceAddress
 
-    //const erc721Mintable_address = contracts.erc721MintableAddress // process.env.REACT_APP_ERC721_CONTRACT
+    //const erc721MintableAddress = contracts.erc721MintableAddress // process.env.REACT_APP_ERC721_CONTRACT
     //const contract_address = '0xb6b043610655a356A433aBc0c6BAE46e0AA5C230' //process.env.REACT_APP_MARKETPLACE_CONTRACT
-    const erc1155Mintable_address = contracts.erc1155MintableAdddress
-    const erc1155MarketplaceAddress = contracts.erc1155MarketplaceAddress
+    // const erc1155Mintable_address = contracts.erc1155MintableAdddress
+    // const erc1155MarketplaceAddress = contracts.erc1155MarketplaceAddress
 
     // contract function
     //const marketplace_address = process.env.REACT_APP_MARKETPLACE_CONTRACT
@@ -92,12 +121,12 @@ const BuyModal = (props: any) => {
 
       erc721Contract = new web3.eth.Contract(
         erc721Abi,
-        props.nftDetails.collection_address || erc721Mintable_address,
+        props.nftDetails.collection_address || erc721MintableAddress,
       )
 
       marketPlaceContract = new web3.eth.Contract(
         marketPlaceAbi,
-        erc721Marketplace_address,
+        erc721MarketplaceAddress,
       )
 
       console.log(props.nftDetails, 'helllo')
@@ -105,7 +134,7 @@ const BuyModal = (props: any) => {
       if (props.nftDetails.is_lazy_mint) {
         try {
           const getnftnonce = await fetch(
-            `https://api.nftytribe.io/api/collectibles/nft/${props.nftDetails._id}/get-collectible-nonce`,
+            `${globals.baseURL}/collectibles/nft/${props.nftDetails._id}/get-collectible-nonce`,
           )
           const nonceData = await getnftnonce.json()
           const mintingCharge = await erc721Contract.methods
@@ -147,14 +176,14 @@ const BuyModal = (props: any) => {
             file: props.nftDetails.file,
             wallet_address: props.nftDetails.wallet_address,
             collection_address: props.nftDetails.collection_address,
-            chain_id: 'eth',
+            chain_id: chainId,
             type: 'mint',
             transaction_hash: events.Transfer[0].transactionHash,
             on_sale: false,
           }
 
           const collectible = await fetch(
-            `https://api.nftytribe.io/api/collectibles/update-collectible`,
+            `${globals.baseURL}/collectibles/update-collectible`,
             {
               method: 'PUT',
               headers: {
@@ -172,13 +201,13 @@ const BuyModal = (props: any) => {
             wallet_address: props.nftDetails.wallet_address,
             token_id,
             collection_address: props.nftDetails.collection_address,
-            chain_id: 'eth',
+            chain_id: chainId,
             price: props.nftDetails.price,
             transaction_hash: events.Transfer[1].transactionHash,
           }
 
           const buy = await fetch(
-            'https://api.nftytribe.io/api/collectibles/buy',
+            `${globals.baseURL}/collectibles/buy`,
             {
               method: 'POST',
               headers: {
@@ -220,14 +249,14 @@ const BuyModal = (props: any) => {
               props?.nft?.token_address ||
               props?.nftDetails?.collection_address,
             buyer: userWallet,
-            chain_id: 'eth',
+            chain: chainId,
             transaction_hash: transactionHash,
             price: props?.nft?.amount || props?.nftDetails?.price,
             token_id: props?.nft?.token_id || props?.nftDetails?.token_id,
           }
 
           const buy = await fetch(
-            `https://api.nftytribe.io/api/collectibles/buy`,
+            `${globals.baseURL}/collectibles/buy`,
             {
               method: 'POST',
               body: JSON.stringify(itemObj),
@@ -292,7 +321,7 @@ const BuyModal = (props: any) => {
             props?.nft?.token_address ||
             props?.nftDetails?.collection_address,
           buyer: userWallet,
-          chain_id: 'eth',
+          chain_id: chainId,
           transaction_hash: transactionHash,
           price: props?.nft?.amount || props?.nftDetails?.price,
           token_id: props?.nft?.token_id || props?.nftDetails?.token_id,
@@ -300,7 +329,7 @@ const BuyModal = (props: any) => {
         }
 
         const buyApi = await fetch(
-          `https://api.nftytribe.io/api/collectibles/buy-multiple`,
+          `${globals.baseURL}/collectibles/buy-multiple`,
           {
             method: 'POST',
             body: JSON.stringify(itemObj),
@@ -396,13 +425,13 @@ const BuyModal = (props: any) => {
               <div className={style.pricesBx}>
                 <div className={style.pbItem}>
                   <p>Service pay </p>
-                  <p>0.001 ETH</p>
+                  <p>0.001 {props.nftDetails?.chain === "eth" ? 'ETH' : props.nftDetails?.chain === "bsc" ? 'BNB' : ''}</p>
                 </div>
                 <div className={style.pbItem}>
                   <p>Amount </p>
                   <p>
                     {Web3.utils.fromWei(props.nftDetails?.price.toString(), 'ether') || ''}{' '}
-                    ETH
+                    {props.nftDetails?.chain === "eth" ? 'ETH' : props.nftDetails?.chain === "bsc" ? 'BNB' : ''}
                   </p>
                 </div>
                 {props?.nftDetails?.is_multiple && (

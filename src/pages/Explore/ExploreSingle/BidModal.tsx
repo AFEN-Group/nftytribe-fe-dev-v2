@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import useState from 'react-usestateref'
 //import { ThemeContext } from '../../../context/ThemeContext'
 //import useState from 'react-usestateref'
@@ -16,7 +16,7 @@ import marketPlaceAbi from '../../../smart_contracts/erc721Market.json'
 import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
 import TextInput from '../../../components/Inputs/TextInput'
 import { motion } from 'framer-motion'
-
+import toast from 'react-hot-toast'
 declare const window: any
 
 const BidModal = (props: any) => {
@@ -42,6 +42,35 @@ const BidModal = (props: any) => {
   )
   const [completed, setCompleted] = useState(false)
   //const tokens = [{ value: '1', text: 'eth' }]
+  // erc721 addresses
+  const [erc721MintableAddress, setErc721MintableAddress] = useState<any>('')
+  const [erc721MarketplaceAddress, setErc721MarketplaceAddress] = useState<any>('')
+  // erc 1155 addresses
+  const [erc1155MintableAddress, setErc1155MintableAddress] = useState<any>('')
+  const [erc1155MarketplaceAddress, setErc1155MarketplaceAddress] = useState<any>('')
+  const [chainId, setChainId, chainIdRef] = useState<string>()
+
+  useEffect(() => {
+    //const wallet_address = localStorage.getItem('currentAccount')
+    const currentChain = localStorage.getItem('chain')
+    const itemChain = props?.nftDetails?.chain
+    if (currentChain === '0x1') {
+      // setChain('rinkeby')
+      setChainId('eth')
+      setErc721MintableAddress(contracts.erc721MintableAddress)
+      setErc721MarketplaceAddress(contracts.erc721MarketplaceAddress)
+      setErc1155MintableAddress(contracts.erc1155MintableAdddress)
+      setErc1155MarketplaceAddress(contracts.erc1155MarketplaceAddress)
+    }
+    if (currentChain === '0x38') {
+      // setChain('bsc testnet')
+      setChainId('bsc')
+      setErc721MintableAddress(contracts.BSC_erc721MintableAddress)
+      setErc721MarketplaceAddress(contracts.BSC_erc721MarketplaceAddress)
+      setErc1155MintableAddress(contracts.BSC_erc1155MintableAdddress)
+      setErc1155MarketplaceAddress(contracts.BSC_erc1155MarketplaceAdddress)
+    }
+  }, [])
 
   const inputHandler = async (event: any) => {
     setValidated(false)
@@ -68,9 +97,6 @@ const BidModal = (props: any) => {
     const wallet_address = localStorage.getItem('currentAccount')
     console.log(props.nftDetails?.marketplace_type)
 
-    const erc721Mintable_address = contracts.erc721MintableAddress
-    const erc721Marketplace_address = contracts.erc721MarketplaceAddress
-
     let marketPlaceContract
     let erc721Contract
     let web3: any
@@ -86,12 +112,12 @@ const BidModal = (props: any) => {
 
         erc721Contract = new web3.eth.Contract(
           erc721Abi,
-          props.nftDetails.collection_address || erc721Mintable_address,
+          props.nftDetails.collection_address || erc721MintableAddress,
         )
 
         marketPlaceContract = new web3.eth.Contract(
           marketPlaceAbi,
-          erc721Marketplace_address,
+          erc721MarketplaceAddress,
         )
 
         //   try {
@@ -145,7 +171,12 @@ const BidModal = (props: any) => {
       }
     } else {
       //setShowConnect(true)
-      alert('Please connect wallet')
+      //alert('Please connect wallet')
+      toast.error(` Please connect wallet`,
+        {
+          duration: 3000,
+        }
+      )
     }
   }
 

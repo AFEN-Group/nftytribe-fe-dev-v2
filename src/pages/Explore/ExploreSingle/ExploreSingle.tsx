@@ -20,6 +20,7 @@ import User2 from './assets/user4.svg'
 // import Eye from './assets/eye.svg'
 // import Eye2 from './assets/eye2.svg'
 import Container from '../../../components/Container/Container'
+import toast from 'react-hot-toast'
 
 import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
 import erc1155Abi from '../../../smart_contracts/erc1155Mintable.json'
@@ -142,7 +143,12 @@ const ExploreSingle = () => {
           }
 
         } else {
-          alert('connect to meta mask wallet')
+          //alert('connect to meta mask wallet')
+          toast.error(`Please connect wallet!`,
+            {
+              duration: 3000,
+            }
+          )
         }
         let uri = await erc721Contract.methods.tokenURI(id).call()
         if (nftDetails.is_multiple) {
@@ -283,7 +289,13 @@ const ExploreSingle = () => {
         }
       } else {
         //setShowConnect(true)
-        alert('Please connect wallet')
+        //alert('Please connect wallet')
+        toast.error(` Please connect wallet`,
+          {
+            duration: 3000,
+          }
+        )
+
       }
     } else {
       console.log('not available')

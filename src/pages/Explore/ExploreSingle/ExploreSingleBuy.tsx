@@ -23,7 +23,10 @@ import User2 from './assets/user4.svg'
 // import Eye from './assets/eye.svg'
 // import Eye2 from './assets/eye2.svg'
 import Container from '../../../components/Container/Container'
+import globals from '../../../utils/globalVariables'
 import { TwitterShareButton } from 'react-share'
+import toast from 'react-hot-toast'
+
 
 // import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
 import erc1155Abi from '../../../smart_contracts/erc1155Mintable.json'
@@ -31,7 +34,7 @@ import erc1155Abi from '../../../smart_contracts/erc1155Mintable.json'
 import marketPlaceAbi from '../../../smart_contracts/erc721Market.json'
 import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
 import erc721MarketplaceAbi from '../../../smart_contracts/erc721Market.json'
-import erc721CollectionAbi from '../../../smart_contracts/erc721Collection.json'
+//import erc721CollectionAbi from '../../../smart_contracts/erc721Collection.json'
 import erc1155MintableAbi from '../../../smart_contracts/erc1155Mintable.json'
 import erc1155MarketplaceAbi from '../../../smart_contracts/erc1155Market.json'
 import Web3 from 'web3'
@@ -45,9 +48,10 @@ import { shortenAddress } from '../../../utils/formatting'
 import PutOnSaleModal from './PutOnSaleModal'
 declare const window: any
 
-const erc721Mintable_address = contracts.erc721MintableAddress
-const erc721Marketplace_address = contracts.erc721MarketplaceAddress
-const erc1155Mintable_adddress = contracts.erc1155MintableAdddress
+// const erc721Mintable_address = contracts.erc721MintableAddress
+// const erc721Marketplace_address = contracts.erc721MarketplaceAddress
+// const erc1155Mintable_adddress = contracts.erc1155MintableAdddress
+
 
 
 const ExploreSingleBuy = () => {
@@ -79,6 +83,16 @@ const ExploreSingleBuy = () => {
   const { handleAuctionBid, checkIfBIdTimePasses, collectNft } = useContext(
     ContractContext,
   )
+  // network
+  const [chain, setChain, chainRef] = useState<string>()
+  const [chainId, setChainId, chainIdRef] = useState<string>()
+  // erc721 addresses
+  const [erc721MintableAddress, setErc721MintableAddress] = useState<any>('')
+  const [erc721MarketplaceAddress, setErc721MarketplaceAddress] = useState<any>('')
+  // erc 1155 addresses
+  const [erc1155MintableAddress, setErc1155MintableAddress] = useState<any>('')
+  const [erc1155MarketplaceAddress, setErc1155MarketplaceAddress] = useState<any>('')
+
   const [timeLeft, setTimeLeft] = useState<any>({
     hours: '',
     minutes: '',
@@ -86,21 +100,34 @@ const ExploreSingleBuy = () => {
   })
   const [timeDifference, setTimeDifference] = useState<any>()
   const [showDrop, setShowDrop] = useState(false)
-  const [showShare, setShowShare] = useState(false)
 
-  const handleShare = () => {
-    //setShowDrop(false)
-    setShowShare(!showShare)
-  }
 
   useEffect(() => {
     window.scrollTo(0, 0)
     const wallet_address = localStorage.getItem('currentAccount')
+    const currentChainId = localStorage.getItem('chain')
     //console.log(wallet_address)
+    //
+
+    if (currentChainId === '0x1') {
+      setChain('eth')
+      setChainId('eth')
+      setErc721MintableAddress(contracts.erc721MintableAddress)
+      setErc721MarketplaceAddress(contracts.erc721MarketplaceAddress)
+      setErc1155MintableAddress(contracts.erc1155MintableAdddress)
+      setErc1155MarketplaceAddress(contracts.erc1155MarketplaceAddress)
+    }
+    else if (currentChainId === '0x38') {
+      setChain('bsc')
+      setChainId('bsc')
+      setErc721MintableAddress(contracts.BSC_erc721MintableAddress)
+      setErc721MarketplaceAddress(contracts.BSC_erc721MarketplaceAddress)
+      setErc1155MintableAddress(contracts.BSC_erc1155MintableAdddress)
+      setErc1155MarketplaceAddress(contracts.BSC_erc1155MarketplaceAdddress)
+    }
     if (wallet_address) {
       setWalletAddress(wallet_address)
     }
-
     const getNftDetails = async () => {
       try {
         const details = await publicRequest.get(
@@ -148,9 +175,9 @@ const ExploreSingleBuy = () => {
       } else {
         await getNftDetails()
         console.log("nft Details>>", nftDetailsRef.current)
-        let contract_address = contracts.erc721MarketplaceAddress
+        let contract_address = erc721MarketplaceAddress
         if (nftDetailsRef.current?.is_multiple) {
-          contract_address = contracts.erc1155MarketplaceAddress
+          contract_address = erc1155MarketplaceAddress
         }
 
         let erc721Contract
@@ -172,7 +199,12 @@ const ExploreSingleBuy = () => {
           }
 
         } else {
-          alert('connect to meta mask wallet')
+          //alert('connect to meta mask wallet')
+          toast.error(` Please connect wallet`,
+            {
+              duration: 3000,
+            }
+          )
         }
         let uri = await erc721Contract.methods.tokenURI(id).call()
         if (nftDetails?.is_multiple) {
@@ -302,17 +334,41 @@ const ExploreSingleBuy = () => {
   }
 
   const handleSubmit = async () => {
-    if (nftDetails && nftDetails?.on_sale) {
-      const wallet_address = localStorage.getItem('currentAccount')
-      console.log(nftDetails?.marketplace_type)
-      if (wallet_address) {
-        setShowBuy(true)
+    const currentChainId = localStorage.getItem('chain')
+    if (currentChainId === '0x1') {
+      setChain('eth')
+    }
+    if (currentChainId === '0x38') {
+      setChain('bsc')
+    }
+    const itemChain = nftDetails?.chain
+    console.log('me', chainRef.current)
+    console.log('them', itemChain)
+    if (chainRef.current === itemChain)
+      if (nftDetails && nftDetails?.on_sale) {
+        const wallet_address = localStorage.getItem('currentAccount')
+        console.log(nftDetails?.marketplace_type)
+        if (wallet_address) {
+          setShowBuy(true)
+        } else {
+          //setShowConnect(true)
+          //alert('Please connect wallet')
+          toast.error(` Please connect wallet`,
+            {
+              duration: 3000,
+            }
+          )
+        }
       } else {
-        //setShowConnect(true)
-        alert('Please connect wallet')
+        console.log('not available')
       }
-    } else {
-      console.log('not available')
+    else {
+      //alert("Wrong chain!, Please switch to the chain of this NFT")
+      toast.error(` Wrong chain!, Please switch to the chain of this NFT`,
+        {
+          duration: 3000,
+        }
+      )
     }
   }
   const handleSale = async (e: any) => {
@@ -334,14 +390,20 @@ const ExploreSingleBuy = () => {
 
             erc1155Contract = new web3.eth.Contract(
               erc1155MintableAbi,
-              erc1155Mintable_adddress,
+              erc1155MintableAddress,
             )
             marketplace_contract = new web3.eth.Contract(
               erc1155MarketplaceAbi,
-              contracts.erc1155MarketplaceAddress,
+              erc1155MarketplaceAddress,
             )
           } else {
-            alert('connect to meta mask wallet')
+            //alert('connect to meta mask wallet')
+            toast.error(` Please connect wallet`,
+              {
+                duration: 3000,
+              }
+            )
+
             //setShowConnect(true)
           }
 
@@ -389,7 +451,7 @@ const ExploreSingleBuy = () => {
               file: data.file,
               transaction_hash: data.transactionHash,
               type: 'putOffSale',
-              chain_id: 'eth',
+              chain_id: data.chain,
 
               on_sale: false,
               marketplace_type: data.marketplace_type,
@@ -412,13 +474,13 @@ const ExploreSingleBuy = () => {
               file: data.file,
               transaction_hash: data.transactionHash,
               type: 'putOffSale',
-              chain_id: 'eth',
+              chain_id: data.chain,
               on_sale: false
             }
           }
 
           const updateCollectible = await fetch(
-            'https://api.nftytribe.io/api/collectibles/update-collectible',
+            `${globals.baseURL}/collectibles/update-collectible`,
             {
               method: 'PUT',
               headers: {
@@ -438,6 +500,7 @@ const ExploreSingleBuy = () => {
 
         } catch (err) {
           console.log(err)
+
           setIsLoading(false)
         }
       }
@@ -452,14 +515,19 @@ const ExploreSingleBuy = () => {
 
             erc721Contract = new web3.eth.Contract(
               erc721Abi,
-              erc721Mintable_address,
+              erc721MintableAddress,
             )
             marketplace_contract = new web3.eth.Contract(
               erc721MarketplaceAbi,
-              contracts.erc721MarketplaceAddress
+              erc721MarketplaceAddress
             )
           } else {
-            alert('connect to meta mask wallet')
+            //alert('connect to meta mask wallet')
+            toast.error(` Please connect wallet`,
+              {
+                duration: 3000,
+              }
+            )
             //setShowConnect(true)
           }
 
@@ -523,7 +591,7 @@ const ExploreSingleBuy = () => {
               file: data.file,
               transaction_hash: data.transactionHash,
               type: 'putOffSale',
-              chain_id: 'eth',
+              chain_id: data.chain,
               //order_type: data.market_type,
 
               on_sale: false,
@@ -538,12 +606,12 @@ const ExploreSingleBuy = () => {
               file: data.file,
               transaction_hash: data.transactionHash,
               type: 'putOffSale',
-              chain_id: 'eth',
+              chain_id: data.chain,
             }
           }
 
           const updateCollectible = await fetch(
-            'https://api.nftytribe.io/api/collectibles/update-collectible',
+            `${globals.baseURL}/collectibles/update-collectible`,
             {
               method: 'PUT',
               headers: {
@@ -747,7 +815,6 @@ const ExploreSingleBuy = () => {
                       </div>
                     </>
                   )}
-
                 </div>
                 <div className={style.rightTitles}>
                   <div className={style.userBx}>
@@ -786,10 +853,10 @@ const ExploreSingleBuy = () => {
                           <p>
                             {Web3.utils.fromWei(parseInt(nftDetails?.price, 10).toString(), 'ether') ||
                               ''}{' '}
-                            ETH
+                            {nftDetails?.chain === "eth" ? 'ETH' : nftDetails?.chain === "bsc" ? 'BNB' : ''}
                           </p>
                         ) : (
-                          <p>0.01 ETH</p>
+                          <p>0.00 </p>
                         )}
                       </div>
 
@@ -804,10 +871,7 @@ const ExploreSingleBuy = () => {
                             !isLoaded || isLoading
                           }
                           className={`${nftDetails?.on_sale ? style.regBtn : style.regBtn2
-                            } ${dark === 'true' ? 'lightBorder' : 'darkBorder'} 
-                                                       
-                                                        ${dark === 'true' ? 'yellowBtn' : 'blueBtn'} 
-                                                        `}
+                            } ${dark === 'true' ? 'yellowBtn' : 'blueBtn'} `}
                           onClick={handleSubmit}
                         >
                           {!nftDetails?.on_sale ?
