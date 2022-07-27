@@ -29,8 +29,15 @@ const Explore = () => {
     blockChain: false,
     collection: false,
   });
+  // const [mfilter, setMFilter] = useState({
+  //   saleType: '',
+  //   blockChain: '',
+  //   categories: '',
+  // });
+
   const [filterQuery, setFilterQuery] = useState("");
-  const [query, setQuery] = useState("");
+  //const [query, setQuery] = useState("");
+  //const [filter, setFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
   const [isLoading, setIsLoading] = useState(true);

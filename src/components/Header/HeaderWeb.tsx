@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ThemeContext } from "../../context/ThemeContext";
 import { publicRequest } from "../../utils/requestMethods";
 import { CircularProgress } from "@material-ui/core";
+import { gsap, Power3 } from 'gsap'
 import style from "./Header.module.scss";
 import Logo from "./assets/logo.svg";
 import Logo2 from "./assets/logo-light.svg";
@@ -121,6 +122,32 @@ const HeaderWeb = (props: any) => {
   const handleModal = () => {
     setShowConnect(!showConnect);
   };
+  // const t1 = gsap.timeline({ paused: true })
+  // const showCon = () => {
+  //   let overlay: any = document.getElementById('overlay')
+  //   let box: any = document.getElementById('box')
+  //   t1.reversed(!t1.reversed())
+  //   overlay.classList.toggle(style.overlay)
+  //   setShowConnect(!showConnect);
+  //   t1.to(box, 0.001, {
+  //     right: 0,
+  //     ease: Power3.easeInOut,
+  //   })
+  //   t1.reverse()
+  // }
+  // const closeCon = () => {
+  //   let overlay: any = document.getElementById('overlay')
+  //   let box: any = document.getElementById('box')
+  //   t1.reversed(!t1.reversed())
+  //   overlay.classList.toggle(style.overlay)
+  //   setShowConnect(!showConnect);
+  //   t1.to(box, 0.001, {
+  //     right: 0,
+  //     ease: Power3.easeInOut,
+  //   })
+  //   t1.reverse()
+  // }
+
   const { t } = useTranslation();
   return (
     <>
@@ -179,6 +206,7 @@ const HeaderWeb = (props: any) => {
                     className={`${style.btn} ${dark === "true" ? "yellowBtn" : "blueBtn"
                       }`}
                     onClick={() => setShowConnect(!showConnect)}
+                    //onClick={showCon}
                     id="showIcon">
                     {t("connect wallet")}
                   </div>
@@ -275,6 +303,7 @@ const HeaderWeb = (props: any) => {
                   src={dark === "true" ? Wallet2 : Wallet}
                   alt="wallet"
                   onClick={() => setShowConnect(!showConnect)}
+                  //onClick={showCon}
                   onMouseOver={() => setShowDropDown("None")}
                   id="showIcon"
                 />

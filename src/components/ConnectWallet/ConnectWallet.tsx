@@ -46,6 +46,7 @@ const ConnectWallet = (props: any) => {
   const dark = themeState.dark
   // current view
   const [view, setView] = useState('wallet')
+  const [toggleCon, setToggleCon] = useState<any>()
   //swap states
   const [afenSwap, setAfenSwap] = useState(true)
   //const [currentAccount, setCurrentAccount] = useState('')
@@ -59,6 +60,7 @@ const ConnectWallet = (props: any) => {
       [event.target.name]: valueFiltered,
     })
   }
+  // menu with use effect
   useEffect(() => {
     const t1 = gsap.timeline({ paused: true })
     let box: any = document.getElementById('box')
@@ -80,6 +82,7 @@ const ConnectWallet = (props: any) => {
     icon.onclick = function () {
       t1.reversed(!t1.reversed())
       overlay.classList.toggle(style.overlay)
+      //setToggleCon(!toggleCon)
     }
     if (document.getElementById('showIconM')) {
       let iconM: any = document.getElementById('showIconM')
@@ -130,6 +133,7 @@ const ConnectWallet = (props: any) => {
     close.onclick = function () {
       t1.reversed(!t1.reversed())
       overlay.classList.toggle(style.overlay)
+      setToggleCon(!toggleCon)
     }
     //}
     const getBalance = async () => {
@@ -138,10 +142,9 @@ const ConnectWallet = (props: any) => {
       console.log(balance)
     }
     //getBalance()
-  }, [])
-  // const showM = () => {
-  //   const t1 = gsap.timeline({ paused: true })
-  // }
+  }, [toggleCon])
+
+
   const handleSignOut = async () => {
     disableEthereum()
     disconnectWalletConnect()

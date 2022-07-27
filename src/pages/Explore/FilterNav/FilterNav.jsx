@@ -7,6 +7,7 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
 import arrow from '../assets/arrowM.svg'
+import arrow2 from '../assets/arrow-wh.svg'
 
 const FilterNav = () => {
     const [themeState] = useContext(ThemeContext)
@@ -57,9 +58,9 @@ const FilterNav = () => {
                             onClick={(e) => setFilter('Category')}
                         >
                             <p>Categories</p>
+                            {/* <img src={arrow2} alt="" /> */}
 
-
-                            <img src={arrow} alt="arrow" />
+                            <img src={dark === "true" ? arrow2 : arrow} alt="arrow" />
 
                         </div>
                     </div>
@@ -72,7 +73,8 @@ const FilterNav = () => {
                             <p>Sale Type</p>
 
 
-                            <img src={arrow} alt="arrow" />
+                            <img src={dark === "true" ? arrow2 : arrow} alt="arrow" />
+
 
                         </div>
                     </div>
@@ -84,7 +86,8 @@ const FilterNav = () => {
                             <p>Blockchain</p>
 
 
-                            <img src={arrow} alt="arrow" />
+                            <img src={dark === "true" ? arrow2 : arrow} alt="arrow" />
+
 
                         </div>
                     </div>

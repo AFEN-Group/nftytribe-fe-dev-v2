@@ -68,9 +68,9 @@ const UserConnect = () => {
             })
             setWalletType("MetaMask")
             localStorage.setItem("walletType", 'MetaMask')
-            setTimeout(() => {
-              window.location.reload()
-            }, 1000)
+            // setTimeout(() => {
+            //   window.location.reload()
+            // }, 1000)
           } catch (err) {
             console.log(err)
             setAuthState({
@@ -100,7 +100,7 @@ const UserConnect = () => {
         localStorage.removeItem('currentAccount')
         localStorage.removeItem('chain')
         localStorage.removeItem('user')
-        window.location = '/'
+        //window.location = '/'
         //window.location.reload()
         resolve(true)
       } catch (error) {
@@ -193,7 +193,7 @@ const UserConnect = () => {
         localStorage.removeItem('chain')
         localStorage.removeItem('user')
         localStorage.removeItem('walletType')
-        window.location = '/'
+        // window.location = '/'
         //window.location.reload()
         resolve(true)
       } catch (error) {

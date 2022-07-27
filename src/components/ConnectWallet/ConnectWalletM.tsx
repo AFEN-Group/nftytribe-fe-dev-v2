@@ -28,6 +28,7 @@ const ConnectWalletM = (props: any) => {
         value1: '',
         value2: '',
     })
+    const [modalUp, setModalUp] = useState<any>(false)
     //const [userState, setUserState] = useContext<any>(UserContext)
     //const currentAccount = userState.userWallet
     //console.log(currentAccount)
@@ -113,7 +114,7 @@ const ConnectWalletM = (props: any) => {
             overlay.classList.toggle(style.overlay)
         }
         //}
-    }, [])
+    }, [props.showConnect, modalUp])
     // const showM = () => {
     //   const t1 = gsap.timeline({ paused: true })
     // }
@@ -121,6 +122,7 @@ const ConnectWalletM = (props: any) => {
         disableEthereum()
         disconnectWalletConnect()
         props.handleModal()
+        setModalUp(!modalUp)
     }
     const handleSignIn = async () => {
         //props.handleModal()

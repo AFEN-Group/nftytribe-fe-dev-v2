@@ -255,6 +255,9 @@ const CreateItems = () => {
         }
         console.log(userInput.is_lazy_mint)
       }
+      else {
+        alert("Please connect your wallet")
+      }
 
       // } else {
       //   setMsg({
@@ -1101,6 +1104,7 @@ const CreateItems = () => {
     } else {
       setShowModal(false);
       setStep(0);
+      console.log("connect")
       //setShowConnect(true)
       alert("Connect to metamask");
     }
