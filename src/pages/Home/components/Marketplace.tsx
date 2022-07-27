@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import style from "../Home.module.scss";
 import nArrow from "../assets/arrow-right.svg";
 import { ThemeContext } from "../../../context/ThemeContext";
@@ -9,17 +9,22 @@ import african from "./assets/african.svg";
 import { useTranslation } from "react-i18next";
 
 const Marketplace = () => {
+  const navigate = useNavigate()
   const [themeState] = useContext<any>(ThemeContext);
   const dark = themeState.dark;
   const { t } = useTranslation();
+
+  const handleCategory = (category: any) => {
+    localStorage.setItem("category", category)
+    navigate('/explore')
+  }
   return (
     <>
       <div
         //className={style.mk}
 
-        className={`${style.mk} ${
-          dark === "true" ? "darkTheme" : "lightTheme"
-        } `}>
+        className={`${style.mk} ${dark === "true" ? "darkTheme" : "lightTheme"
+          } `}>
         <div data-aos="fade-up" className={style.mkContent}>
           <div className={style.mkLeft}>
             <div className={style.mkLeftContent}>
@@ -34,7 +39,7 @@ const Marketplace = () => {
           </div>
           <div className={style.mkRight}>
             <div className={style.mkBlock1}>
-              <Link to="/explore">
+              <div onClick={() => handleCategory('photography')}>
                 <div className={`${style.mkimgBx} ${style.forW}`}>
                   <div className={style.mkimg1}></div>
                   <p>Photography</p>
@@ -42,8 +47,8 @@ const Marketplace = () => {
                 <div className={`${style.mkimgBx} ${style.forM}`}>
                   <img src={photo} alt="Photography" />
                 </div>
-              </Link>
-              <Link to="/explore">
+              </div>
+              <div onClick={() => handleCategory('collectibles')}>
                 <div className={`${style.mkimgBx} ${style.forW}`}>
                   <div className={style.mkimg2}></div>
                   <p>Collectibles</p>
@@ -51,11 +56,11 @@ const Marketplace = () => {
                 <div className={`${style.mkimgBx} ${style.forM}`}>
                   <img src={collect} alt="Collectibles" />
                 </div>
-              </Link>
+              </div>
             </div>
 
             <div className={style.mkBlock2}>
-              <Link to="/explore">
+              <div onClick={() => handleCategory('african_art')}>
                 <div className={`${style.mkimgBx} ${style.forW}`}>
                   <div className={style.mkimg3}></div>
                   <p>African Art</p>
@@ -63,7 +68,7 @@ const Marketplace = () => {
                 <div className={`${style.mkimgBx} ${style.forM}`}>
                   <img src={african} alt="African Art" />
                 </div>
-              </Link>
+              </div>
             </div>
           </div>
           <Link to="/explore" className={`${style.mkBtn} ${style.forM}`}>

@@ -22,7 +22,7 @@ import { useTranslation } from "react-i18next";
 const Explore = () => {
   const [themeState] = useContext<any>(ThemeContext);
   const dark = themeState.dark;
-  const [tab, setTab] = useState("");
+  const [tab, setTab] = useState(localStorage.getItem("category") || '');
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({
     saleType: false,
@@ -89,12 +89,17 @@ const Explore = () => {
     });
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem('category', '')
+  }, [tab])
+
   const setDefaults = () => {
     setFilterQuery("");
     setTab("");
   };
   const { t } = useTranslation();
   return (
+
     <>
       <Header />
       <Container>
@@ -362,6 +367,7 @@ const Explore = () => {
                                 </div>
 
                               )
+
                             );
                           })}
                           {totalPages > 1 && (

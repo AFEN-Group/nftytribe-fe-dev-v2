@@ -123,9 +123,9 @@ const ConnectWalletM = (props: any) => {
         props.handleModal()
     }
     const handleSignIn = async () => {
-        props.handleModal()
+        //props.handleModal()
         connectToMetaMask()
-        props.handleModal()
+        //props.handleModal()
     }
     const handleSignIn2 = async () => {
         props.handleModal()

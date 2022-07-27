@@ -1008,7 +1008,8 @@
     //background: lavender;
 
     button {
-      max-width: 260px;
+      width: 40vw;
+      max-width: 460px;
     }
   }
 }
@@ -1237,6 +1238,7 @@
   }
 
   .mkBtn {
+    width: 51vw;
     margin: 2em 0;
   }
 }
