@@ -63,12 +63,12 @@ const Switch = (props: any) => {
                                 onClick={() => handleNetworkSwitch("bscMain")}
                             >Switch to Binance </button>
                         )}
-                        {props.blockChain === 'Ethereum' && (
+                        {/* {props.blockChain === 'Ethereum' && (
                             <button
                                 className="blueBtn"
                                 onClick={() => handleNetworkSwitch2("ethereum")}
                             >Switch to Ethereum </button>
-                        )}
+                        )} */}
                     </div>
                     {/* <button>Update</button> */}
                     {/* </Link> */}

@@ -63,7 +63,7 @@ const networks: any = {
   ethereum: {
     chainId: `0x${Number(1).toString(16)}`,
     chainName: "Ethereum Mainnet",
-    "nativeCurrency": {
+    nativeCurrency: {
       "name": "Ether",
       "symbol": "ETH",
       "decimals": 18
@@ -78,20 +78,20 @@ const networks: any = {
   },
 
 
-  rinkeby: {
-    chainId: `0x${Number(4).toString(16)}`,
-    chainName: "Ethereum Testnet Rinkeby",
-    nativeCurrency: {
-      name: "Rinkeby Ether",
-      symbol: "RIN",
-      decimals: 18
-    },
-    rpcUrls: [
-      "https://rinkeby.infura.io/v3/45b5a21bfa5b4429af59109069821ed3",
-      "wss://rinkeby.infura.io/ws/v3/45b5a21bfa5b4429af59109069821ed3"
-    ],
-    blockExplorerUrls: ["https://rinkeby.etherscan.io"]
-  }
+  // rinkeby: {
+  //   chainId: `0x${Number(4).toString(16)}`,
+  //   chainName: "Ethereum Testnet Rinkeby",
+  //   nativeCurrency: {
+  //     name: "Rinkeby Ether",
+  //     symbol: "RIN",
+  //     decimals: 18
+  //   },
+  //   rpcUrls: [
+  //     "https://rinkeby.infura.io/v3/45b5a21bfa5b4429af59109069821ed3",
+  //     "wss://rinkeby.infura.io/ws/v3/45b5a21bfa5b4429af59109069821ed3"
+  //   ],
+  //   blockExplorerUrls: ["https://rinkeby.etherscan.io"]
+  // }
 }
 
 const UserConnect = () => {
@@ -207,6 +207,7 @@ const UserConnect = () => {
         { duration: 5000 })
     } catch (err) {
       console.log(err)
+
     }
 
   }
@@ -224,8 +225,10 @@ const UserConnect = () => {
       })
       toast.success(`Switched Networks.`,
         { duration: 5000 })
-    } catch (err) {
+    } catch (err: any) {
       console.log(err)
+      toast.error(`${err.message}.`,
+        { duration: 5000 })
     }
 
   }
