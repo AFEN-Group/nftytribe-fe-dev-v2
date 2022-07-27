@@ -45,65 +45,68 @@ function App() {
     AOS.init();
   }, [AOS]);
   return (
-    <LanguageContext.Provider value={langState}>
-      <ContractContext.Provider value={methods}>
-        <WalletContext.Provider value={data}>
-          <>
-            <div className="app">
-              <Router>
-                <Routes>
-                  <Route path="/" element={<Home />}></Route>
-                  <Route path="/explore" element={<Explore />}></Route>
-                  {/* <Route
+
+    <Web3ContextProvider>
+      <LanguageContext.Provider value={langState}>
+        <ContractContext.Provider value={methods}>
+          <WalletContext.Provider value={data}>
+            <>
+              <div className="app">
+                <Router>
+                  <Routes>
+                    <Route path="/" element={<Home />}></Route>
+                    <Route path="/explore" element={<Explore />}></Route>
+                    {/* <Route
                   path="/explore/:collectionAddress/:id"
                   element={<ExploreSingle />}
                 ></Route> */}
-                  <Route
-                    path="/exploreBuy/:collectionAddress/:id"
-                    element={<ExploreBuy />}></Route>
-                  <Route
-                    path="/exploreBid/:collectionAddress/:id"
-                    element={<ExploreBid />}></Route>
-                  <Route path="/collections" element={<Collections />}></Route>
+                    <Route
+                      path="/exploreBuy/:collectionAddress/:id"
+                      element={<ExploreBuy />}></Route>
+                    <Route
+                      path="/exploreBid/:collectionAddress/:id"
+                      element={<ExploreBid />}></Route>
+                    <Route path="/collections" element={<Collections />}></Route>
 
-                  <Route
-                    path="/collectionDetails/:collectionId"
-                    element={<CollectionDetails />}></Route>
-                  <Route
-                    path="/collectionDashboard"
-                    element={<CollectionDashboard />}></Route>
-                  <Route
-                    path="/createOptions"
-                    element={<CreateItemOptions />}></Route>
-                  <Route
-                    path="/createItem/:chain/:itemType"
-                    element={<CreateItems />}></Route>
-                  <Route
-                    path="/createCollectionOptions"
-                    element={<CreateCollectionOptions />}></Route>
-                  <Route
-                    path="/createcollection/:chain"
-                    element={<CreateCollection />}></Route>
-                  <Route path="/profile" element={<Profile />}></Route>
-                  <Route path="/editProfile" element={<EditProfile />}></Route>
-                  <Route path="/about" element={<About />}></Route>
+                    <Route
+                      path="/collectionDetails/:collectionId"
+                      element={<CollectionDetails />}></Route>
+                    <Route
+                      path="/collectionDashboard"
+                      element={<CollectionDashboard />}></Route>
+                    <Route
+                      path="/createOptions"
+                      element={<CreateItemOptions />}></Route>
+                    <Route
+                      path="/createItem/:chain/:itemType"
+                      element={<CreateItems />}></Route>
+                    <Route
+                      path="/createCollectionOptions"
+                      element={<CreateCollectionOptions />}></Route>
+                    <Route
+                      path="/createcollection/:chain"
+                      element={<CreateCollection />}></Route>
+                    <Route path="/profile" element={<Profile />}></Route>
+                    <Route path="/editProfile" element={<EditProfile />}></Route>
+                    <Route path="/about" element={<About />}></Route>
 
-                  <Route path="/rewards" element={<Rewards />}></Route>
-                  <Route path="/staking" element={<Staking />}></Route>
-                </Routes>
-                <Footer />
-              </Router>
-            </div>
+                    <Route path="/rewards" element={<Rewards />}></Route>
+                    <Route path="/staking" element={<Staking />}></Route>
+                  </Routes>
+                  <Footer />
+                </Router>
+              </div>
 
-            {/* <div className="app_info">
+              {/* <div className="app_info">
               <p>
                 Mobile version still in progress, please view on larger device.
               </p>
             </div> */}
-          </>
-        </WalletContext.Provider>
-      </ContractContext.Provider>
-    </LanguageContext.Provider>
+            </>
+          </WalletContext.Provider>
+        </ContractContext.Provider>
+      </LanguageContext.Provider>
+    </Web3ContextProvider>
   )
 
 }
