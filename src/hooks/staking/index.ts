@@ -12,6 +12,7 @@ const useStaking = () => {
     gettingStatistics: false,
     errMsg: '',
   });
+  const [loadedStats, setLoadedStats] = useState<any>(false)
   const [responses, setResponses] = useState<{
     stake?: any;
     unstake?: any;
@@ -66,6 +67,7 @@ const useStaking = () => {
       },
       ...(selectedAddress && (await getUserData())),
     });
+    setLoadedStats(true)
   };
 
   const stake = async (amount: string) => {
@@ -89,7 +91,9 @@ const useStaking = () => {
         .send({ from: selectedAddress });
       setLoading({ ...loading, stake: false });
       setResponses({ ...responses, stake: res });
+      setLoadedStats(true)
       return res;
+
     } catch (err) {
       console.log(err);
       setLoading({ ...loading, stake: false });
@@ -179,6 +183,7 @@ const useStaking = () => {
     statistics,
     responses,
     loading,
+    loadedStats,
     stake,
     unstake,
     collectReward,

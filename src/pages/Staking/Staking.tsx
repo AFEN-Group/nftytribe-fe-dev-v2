@@ -69,7 +69,7 @@ const Staking = () => {
   const [themeState] = useContext<any>(ThemeContext);
   const dark = themeState.dark;
   const [option, setOption] = useState("stake");
-  const { statistics, responses, loading, stake, collectReward, unstake } =
+  const { statistics, responses, loading, stake, collectReward, unstake, loadedStats } =
     useStaking();
 
 
@@ -79,7 +79,7 @@ const Staking = () => {
 
   const handleStake = async () => {
     if (userInput.stake !== '') {
-      if (currentChain === "0x61") {
+      if (currentChain === "0x38") {
         //setChain(network)
         setErr("")
         setIsLoading(true)
@@ -148,10 +148,12 @@ const Staking = () => {
                     ${dark === "true" ? style.darkBg : style.lightBg}
                     `}>
             <div className={style.top}>
+              {/* {loadedStats && ( */}
               <div className={style.afenPrice}>
                 <span>1 Afen</span>-
                 <p>${statistics && round(statistics.usdPrice, 4)}</p>
               </div>
+              {/* )} */}
               <div className={style.buyBtn}>
                 <button
                   className={`
@@ -163,6 +165,7 @@ const Staking = () => {
                 </button>
               </div>
             </div>
+            {/* {loadedStats && ( */}
             <div className={style.body}>
               <h2>Statistics</h2>
               <div className={style.statsBx}>
@@ -204,6 +207,7 @@ const Staking = () => {
                                 </div> */}
               </div>
             </div>
+            {/* )} */}
             <div className={style.btm}>
               <div className={style.btmLeft}>
                 <div className={style.btmLeftTabs}>
