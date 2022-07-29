@@ -44,7 +44,8 @@ const Explore = () => {
   const getExploreCollectibles = async () => {
     try {
       const explore = await publicRequest.get(
-        `/collectibles/explore/filter?on_sale=true&nft_type=${tab}${filterQuery}&page=${currentPage}&size=7`
+        `/collectibles/explore/filter?on_sale=true&nft_type=${tab}${filterQuery}&page=${currentPage}`
+        //&size=9
       );
       const exploreData: any = explore.data;
       console.log(exploreData);
@@ -53,7 +54,7 @@ const Explore = () => {
       const total: any = exploreData?.data?.totalNfts / 10
       setTotalPages(parseFloat(total))
 
-      console.log(parseFloat(total))
+      console.log("pages>>> ", parseFloat(total))
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
