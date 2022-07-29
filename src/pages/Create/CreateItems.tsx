@@ -286,11 +286,11 @@ const CreateItems = () => {
       }
       else {
         //alert("Please connect your wallet")
-        toast.error(`Please connect wallet!`,
-          {
-            duration: 3000,
-          }
-        )
+        // toast.error(`Please connect wallet!`,
+        //   {
+        //     duration: 3000,
+        //   }
+        // )
 
       }
 
@@ -850,10 +850,17 @@ const CreateItems = () => {
                 //setShowConnect(true)
               }
 
-              const mintingChargePerToken = await erc1155Contract.methods
-                .mintingChargePerToken()
-                .call()
-              console.log("chargeee2", mintingChargePerToken)
+              // try {
+              //   var mintingChargePerToken = await erc1155Contract.methods
+              //     .mintingChargePerToken()
+              //     .call()
+              //   console.log("chargeee2", mintingChargePerToken)
+              // }
+              // catch (err) {
+              //   console.log(err)
+              // }
+              const mintingChargePerToken = 0
+
               let mint
               if (data.is_lazy_mint) {
                 //console.log(data.is_lazy_mint)
@@ -891,7 +898,7 @@ const CreateItems = () => {
                 console.log(updatableData, "get upload");
 
                 const updateCollectible = await fetch(
-                  `${globals.baseURL}collectibles/update-collectible`,
+                  `${globals.baseURL}/collectibles/update-collectible`,
                   {
                     method: "PUT",
                     headers: {

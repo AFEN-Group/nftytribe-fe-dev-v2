@@ -48,7 +48,7 @@ const CreateCollectionOptions = () => {
 
     const checkNetwork = (network: any) => {
         if (network === 'eth') {
-            if (currentChain === "0x4") {
+            if (currentChain === "0x1") {
                 setChain(network)
                 navigate(`/createCollection/${network}`)
             } else {
@@ -61,7 +61,7 @@ const CreateCollectionOptions = () => {
             }
         }
         if (network === 'binance') {
-            if (currentChain === "0x61") {
+            if (currentChain === "0x38") {
                 setChain(network)
                 navigate(`/createCollection/${network}`)
             } else {
