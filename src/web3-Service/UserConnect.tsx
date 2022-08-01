@@ -78,20 +78,20 @@ const networks: any = {
   },
 
 
-  // rinkeby: {
-  //   chainId: `0x${Number(4).toString(16)}`,
-  //   chainName: "Ethereum Testnet Rinkeby",
-  //   nativeCurrency: {
-  //     name: "Rinkeby Ether",
-  //     symbol: "RIN",
-  //     decimals: 18
-  //   },
-  //   rpcUrls: [
-  //     "https://rinkeby.infura.io/v3/45b5a21bfa5b4429af59109069821ed3",
-  //     "wss://rinkeby.infura.io/ws/v3/45b5a21bfa5b4429af59109069821ed3"
-  //   ],
-  //   blockExplorerUrls: ["https://rinkeby.etherscan.io"]
-  // }
+  rinkeby: {
+    chainId: `0x${Number(4).toString(16)}`,
+    chainName: "Ethereum Testnet Rinkeby",
+    nativeCurrency: {
+      name: "Rinkeby Ether",
+      symbol: "RIN",
+      decimals: 18
+    },
+    rpcUrls: [
+      "https://rinkeby.infura.io/v3/45b5a21bfa5b4429af59109069821ed3",
+      "wss://rinkeby.infura.io/ws/v3/45b5a21bfa5b4429af59109069821ed3"
+    ],
+    blockExplorerUrls: ["https://rinkeby.etherscan.io"]
+  }
 }
 
 const UserConnect = () => {
@@ -360,9 +360,9 @@ const UserConnect = () => {
             ...userInfo,
             account: ' ',
           })
-          console.log(userInfo.balance, '<<<< wallet balance')
-          window.location = '/'
-          //window.location.reload()
+          console.log(userInfo?.balance, '<<<< wallet balance')
+          //window.location = '/'
+          window.location.reload()
         } catch (err) {
           console.log(err)
         }
@@ -379,7 +379,7 @@ const UserConnect = () => {
             ...userInfo,
             chain: ' ',
           })
-          window.location = '/'
+          window.location.reload()
         } catch (err) {
           console.log(err)
         }

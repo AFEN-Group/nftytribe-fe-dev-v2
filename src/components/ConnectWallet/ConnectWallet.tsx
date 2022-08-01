@@ -138,6 +138,7 @@ const ConnectWallet = (props: any) => {
     overlay.onclick = function () {
       t1.reversed(!t1.reversed())
       overlay.classList.toggle(style.overlay)
+      setToggleCon(!toggleCon)
     }
     close.onclick = function () {
       t1.reversed(!t1.reversed())

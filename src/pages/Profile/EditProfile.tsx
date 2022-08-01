@@ -19,12 +19,14 @@ import { publicRequest } from '../../utils/requestMethods'
 import Verification from './Modals/Verification'
 import UpdateComplete from './Modals/UpdateComplete'
 import globals from '../../utils/globalVariables'
+import EnterOtp from './Modals/EnterOtp'
 
 
 const EditProfile = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [themeState] = useContext<any>(ThemeContext)
   const [showVerify, setShowVerify] = useState(false)
+  const [showOtp, setShowOtp] = useState(false)
   const [updated, setUpdated] = useState(false)
   const dark = themeState.dark
   const currentAddress = localStorage.getItem('currentAccount')
@@ -151,29 +153,7 @@ const EditProfile = () => {
     try {
       setIsLoading(true)
       //
-      // if (coverImage.file) {
-      //   //console.log("cover image >>>", coverImage.file)
-      //   const img_data = new FormData()
-      //   img_data.append('upload', coverImage.file)
-      //   try {
-      //     const resp = await fetch(
-      //       'https://dev.api.nftytribe.io/api/collectibles/upload-image',
-      //       {
-      //         method: 'POST',
-      //         body: img_data,
-      //       },
-      //     )
-      //     const data = await resp.json()
-      //     //setImageLocation(data.location)
-      //     setCoverImage({
-      //       ...coverImage,
-      //       location: data.location,
-      //     })
-      //     // console.log('cover image>>>', data)
-      //   } catch (error) {
-      //     console.log(error)
-      //   }
-      // }
+
       // if (imageFile.file) {
       //   const img_data = new FormData()
       //   img_data.append('upload', imageFile.file)
@@ -201,34 +181,39 @@ const EditProfile = () => {
       const data = userInput
 
       // data.cover_image = coverImage.location
-      // data.image = imageFile.location
-      // data.name = userInput.name
-      // data.email = userInput.email
-      // data.bio = userInput.bio
-      // data.twitter_username = userInput.twitterLink
-      // //data.bio = userInput.bio
-      // data.custom_url = userInput.website
-      // data.wallet_adress = "0xA45eF0134e9f2F1f639A0d48C550deBc215CB760"
 
       const userData = {
         wallet_address: currentAddress,
         name: userInput.name || user?.name,
-        email: userInput.email || user?.email,
+        //email: userInput.email || user?.email,
         image: imageFile.location || user?.image,
         cover_image: coverImage.location || user?.cover_image,
         bio: userInput.bio || user?.bio,
         twitter_username: userInput.twitterLink || user?.twitter_username,
         custom_url: userInput.website || user?.custom_url
       }
-
       const updateUserReq = await publicRequest.post(`/user/update-user`, userData)
-      console.log('result>>', updateUserReq)
+
+      if (userInput.email) {
+        try {
+          const updateEmailReq =
+            await publicRequest.get(`/user/generate-email-verification-mail?email=${userInput.email}&wallet_address=${currentAddress}`)
+          console.log(updateEmailReq)
+          setShowOtp(true)
+        } catch (err) {
+          console.log(err)
+        }
+      } else {
+        setUpdated(true)
+      }
+      setIsLoading(false)
       // setAuthState({
       //   ...authState,
       //   user: logUserReq.data.data,
       //   isFetching: false,
       //   error: false,
       // })
+
       // setAuthState({
       //   ...authState,
       //   user: {
@@ -245,8 +230,8 @@ const EditProfile = () => {
       //   isFetching: false,
       //   error: false,
       // })
-      setIsLoading(false)
-      setUpdated(true)
+
+
     } catch (err) {
       console.log(err)
       setAuthState({
@@ -260,7 +245,8 @@ const EditProfile = () => {
 
   const closeModal = () => {
     setShowVerify(false)
-    //alert("test")
+    setUpdated(false)
+    setShowOtp(false)
   }
 
   return (
@@ -270,6 +256,7 @@ const EditProfile = () => {
         <Verification closeVerify={closeModal} />
       }
       {updated && <UpdateComplete closeModal={closeModal} />}
+      {showOtp && <EnterOtp closeModal={closeModal} currentAddress={currentAddress} />}
 
       <Container>
         <div className={style.container}>

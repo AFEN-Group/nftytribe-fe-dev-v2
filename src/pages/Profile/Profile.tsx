@@ -45,6 +45,7 @@ const Profile = () => {
     } else if (currentChain === '0x38') {
       setCurrentChain('bsc')
     }
+
     const getUser = async () => {
       try {
         const result = await publicRequest.get(`/user/${currentAddress}`)
@@ -77,7 +78,7 @@ const Profile = () => {
         const result = await publicRequest.get(
           `/user/get-collectibles?wallet_address=${currentAddress}&${query}&page=${currentPage}&size=9`,
         )
-        //console.log('res>', result)
+        console.log('res>', result)
         setCollectibles(result.data.data.collectibles)
         setTotalPages(Math.round(result.data.data.total_count / 10))
         setIsLoading(false)
@@ -86,14 +87,13 @@ const Profile = () => {
         setIsLoading(false)
       }
     }
-    if (currentAddress) {
-      fetchUserNfts()
-    }
+    //if (currentAddress) {
+    fetchUserNfts()
+    //}
   }, [currentAddress, query, currentPage])
   const nextPage = () => {
     if (currentPage >= 1) {
       setCurrentPage(currentPage + 1)
-      //localStorage.setItem("")
     }
   }
   const prevPage = () => {
