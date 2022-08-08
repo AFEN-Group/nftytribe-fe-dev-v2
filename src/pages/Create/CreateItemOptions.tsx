@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { gsap, Expo } from "gsap";
 //import { ThemeContext } from '../../context/ThemeContext'
+import { AuthContext } from '../../context/AuthContext'
 import style from "./Create.module.scss";
 import Header from "../../components/Header/Header";
 //import Flow from './assets/fl.png'
@@ -12,6 +13,7 @@ import Skale from './assets/skale.svg'
 import Solana from './assets/sol.svg'
 import Container from '../../components/Container/Container'
 import Switch from '../../components/Modals/Switch'
+import UpdatePrompt from '../../components/Modals/UpdatePrompt/UpdatePrompt'
 import { useTranslation } from "react-i18next";
 
 
@@ -19,10 +21,13 @@ const CreateItemOptions = () => {
   const [chain, setChain] = useState('')
   const currentChain = localStorage.getItem('chain')
   const [showModal, setShowModal] = useState<any>()
+  const [showPrompt, setShowPrompt] = useState(false)
   const [blockChain, setBlockChain] = useState<any>()
   //console.log(currentChain, "<<<<<")
   // const [themeState] = useContext<any>(ThemeContext)
   // const dark = themeState.dark
+  const [authState] = useContext<any>(AuthContext)
+  const navigate = useNavigate()
   useEffect(() => {
     window.scrollTo(0, 0);
 
@@ -50,26 +55,34 @@ const CreateItemOptions = () => {
   }, [])
 
   const checkNetwork = (network: any) => {
-    if (network === 'eth') {
-      if (currentChain === "0x1") {
-        setChain(network)
-      } else {
-        setBlockChain("Ethereum")
-        setShowModal(true)
+    const verified = authState.user.email_verified
+    if (verified === 1) {
+      if (network === 'eth') {
+        if (currentChain === "0x1") {
+          setChain(network)
+        } else {
+          setBlockChain("Ethereum")
+          setShowModal(true)
+        }
       }
-    }
-    if (network === 'binance') {
-      if (currentChain === "0x38") {
-        setChain(network)
-      } else {
-        setBlockChain("Binance")
-        setShowModal(true)
+      if (network === 'binance') {
+        if (currentChain === "0x38") {
+          setChain(network)
+        } else {
+          setBlockChain("Binance")
+          setShowModal(true)
+        }
       }
+    } else {
+      setShowPrompt(true)
     }
   }
 
   const closeModal = () => {
     setShowModal(false)
+  }
+  const closePrompt = () => {
+    setShowPrompt(false)
   }
 
 
@@ -82,6 +95,8 @@ const CreateItemOptions = () => {
         {showModal && (
           <Switch closeModal={closeModal} blockChain={blockChain} />
         )}
+        {showPrompt && <UpdatePrompt closePrompt={closePrompt} />}
+
         <div className={style.createOptions}>
           {chain === "" ? (
             <div className={style.cOptContent1}>

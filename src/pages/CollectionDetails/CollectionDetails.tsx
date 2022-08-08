@@ -36,22 +36,28 @@ const CollectionDetails = () => {
   })
   const [collectibles, setCollectibles] = useState([])
   const [collection, setCollection] = useState<any>()
+  const [collectionData, setCollectionData] = useState<any>()
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
   const { collectionId } = useParams()
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 300)
     const getCollectiblesForCollection = async () => {
       console.log(collectionId, 'hello')
       const response = await publicRequest.get(
-        `/collections/${collectionId}/collectibles?nft_type=african_art&on_sale=false`,
+        `/collections/${collectionId}/collectibles?page=${currentPage}&size=6`,
       )
       //const resp = await data.json()
       console.log(response)
+
+      setCollectionData(response?.data?.data)
       setCollection(response?.data?.data.collection)
       setCollectibles(response?.data?.data.collectibles)
-      setTotalPages(Math.round(response.data.data.total_count / 10))
+      const total: any = response.data.data.totalNfts / 6
+      console.log("pages>>>", total)
+      //setTotalPages(Math.round(response.data.data.totalNfts / 10))
+      setTotalPages(parseFloat(total))
 
       //setIsLoading(false)
     }
@@ -64,7 +70,7 @@ const CollectionDetails = () => {
     }
   }
   const prevPage = () => {
-    if (currentPage <= totalPages) {
+    if (currentPage <= Math.ceil(totalPages)) {
       setCurrentPage(currentPage - 1)
     }
   }
@@ -99,7 +105,7 @@ const CollectionDetails = () => {
                   {/* <img src={Edit} alt="edit" /> */}
                 </div>
                 <p>
-                  Welcome to the home of {collection?.title}. Discover items in
+                  Welcome to the {collection?.title} collection. Discover items in
                   this collection.
                   { }
                 </p>
@@ -109,7 +115,7 @@ const CollectionDetails = () => {
                       className={`${style.singleBox} ${dark === 'true' ? 'darkGradient' : ''
                         } `}
                     >
-                      <h3>{collectibles?.length}</h3>
+                      <h3>{collectionData?.totalNfts}</h3>
                       <p>Items</p>
                     </div>
                     <div
@@ -117,7 +123,7 @@ const CollectionDetails = () => {
                       className={`${style.singleBox} ${dark === 'true' ? 'darkGradient' : ''
                         } `}
                     >
-                      <h3>0</h3>
+                      <h3>{collectionData?.totalOwners}</h3>
                       <p>Owners</p>
                     </div>
                   </div>
@@ -135,7 +141,7 @@ const CollectionDetails = () => {
                       className={`${style.singleBox} ${dark === 'true' ? 'darkGradient' : ''
                         } `}
                     >
-                      <h3>0.00</h3>
+                      <h3>---</h3>
                       <p>Vol traded</p>
                     </div>
                   </div>
@@ -154,15 +160,15 @@ const CollectionDetails = () => {
             </div>
             <div className={style.collectionBody}>
               <div className={style.mainNav}>
-                <div
+                {/* <div
                   //className={style.mItemA}
                   className={`${style.mItemA} ${dark === 'true' ? 'yellowTxt' : ''} `}
                 >
                   <p>Items</p>
-                </div>
-                <div className={style.mItem}>
+                </div> */}
+                {/* <div className={style.mItem}>
                   <p>Activity</p>
-                </div>
+                </div> */}
               </div>
               {/* <div
                 className={style.exploreCats}
@@ -272,11 +278,11 @@ const CollectionDetails = () => {
 
                         </div>
                       </form>)}
-                    <div className={style.sBItem} onClick={() => setFilter({ ...filter, blockChain: !filter.blockChain })}>
+                    {/* <div className={style.sBItem} onClick={() => setFilter({ ...filter, blockChain: !filter.blockChain })}>
                       <p>Blockchain</p>
                       <img src={filter.blockChain ? Arrow2 : Arrow1} alt="filter" />
-                    </div>
-                    {filter.blockChain && (
+                    </div> */}
+                    {/* {filter.blockChain && (
                       <form className={`${dark === "true" ? style.filterBxD : style.filterBxL} animate__animated animate__fadeIn`}
                       >
                         <div className={style.filterItem1}>
@@ -317,7 +323,7 @@ const CollectionDetails = () => {
                             <span className={style.checkmark}></span>
                           </div>
                         </div>
-                      </form>)}
+                      </form>)} */}
                     <div className={style.sBItem}>
                       <p>Recently added</p>
 
@@ -363,32 +369,34 @@ const CollectionDetails = () => {
                             )
                           )
                         })}
+                        {totalPages > 1 && (
+                          <div className={style.pagination}>
+                            <div className={style.paginateBtns}>
+                              {currentPage > 1 && (
+                                <button
+                                  className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
+                                    }`}
+                                  onClick={prevPage}
+                                >
+                                  {'Prev'}
+                                </button>
+                              )}
+                              {currentPage < totalPages && (
+                                <button
+                                  className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
+                                    }`}
+                                  onClick={nextPage}
+                                >
+                                  {'Next'}
+                                </button>
+                              )}
+                            </div>
+                            <p>
+                              Page {currentPage} of {Math.ceil(totalPages)}
+                            </p>
+                          </div>)}
                       </div>
-                      <div className={style.pagination}>
-                        <div className={style.paginateBtns}>
-                          {currentPage > 1 && (
-                            <button
-                              className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
-                                }`}
-                              onClick={prevPage}
-                            >
-                              {'Prev'}
-                            </button>
-                          )}
-                          {currentPage < totalPages && (
-                            <button
-                              className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
-                                }`}
-                              onClick={nextPage}
-                            >
-                              {'Next'}
-                            </button>
-                          )}
-                        </div>
-                        {/* <p>
-                          Page {currentPage} of {totalPages}
-                        </p> */}
-                      </div>
+
                     </>
                   ) : (
                     <div className={style.noContent}>

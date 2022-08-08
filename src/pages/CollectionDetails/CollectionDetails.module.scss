@@ -26,6 +26,8 @@
     width: 110px;
     height: 110px;
     border-radius: 50%;
+    //background-size: contain;
+    object-fit: cover;
   }
 }
 
@@ -424,6 +426,16 @@
   .itemsBody {
     .sideBar {
       display: none;
+    }
+  }
+
+  .collInfo {
+    .infoMain {
+      text-align: center;
+
+      p {
+        width: 85%;
+      }
     }
   }
 

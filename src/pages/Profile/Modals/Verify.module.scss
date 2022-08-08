@@ -91,7 +91,33 @@
 
     img {
         position: absolute;
-        right: -3em;
+        right: -5em;
+        top: -1em;
+        cursor: pointer;
+        color: #000 !important;
+    }
+}
+
+.modalTop2 {
+    position: relative;
+    @include flexRegular(column, center);
+
+    h1 {
+        font-family: Neue-bold;
+        font-size: 1.4em;
+        color: #000 !important;
+    }
+
+    p {
+        font-weight: 300;
+        margin: 1em 0;
+        text-align: center;
+        color: #000 !important;
+    }
+
+    img {
+        position: absolute;
+        right: 0;
         top: -1em;
         cursor: pointer;
         color: #000 !important;
@@ -389,8 +415,21 @@
     }
 
     .modalTop {
+        // background: pink;
+
         img {
             top: -10em;
+            right: -2em;
+            //right: 1.2em;
+        }
+    }
+
+    .modalTop2 {
+        // background: pink;
+
+        img {
+            top: -10em;
+            right: 2em;
         }
     }
 
@@ -434,11 +473,7 @@
         }
     }
 
-    .modalTop {
-        img {
-            right: 1.2em;
-        }
-    }
+
 
     .fileContainer {
         width: 98%;

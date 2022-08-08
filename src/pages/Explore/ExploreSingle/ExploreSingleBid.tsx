@@ -2,6 +2,7 @@ import { useEffect, useContext } from 'react'
 import useState from 'react-usestateref'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ThemeContext } from '../../../context/ThemeContext'
+import { AuthContext } from '../../../context/AuthContext'
 import ContractContext from '../../../context/ContractContext'
 import { publicRequest } from '../../../utils/requestMethods'
 //import { format } from 'timeago.js'
@@ -23,6 +24,8 @@ import User2 from './assets/user4.svg'
 // import Eye from './assets/eye.svg'
 // import Eye2 from './assets/eye2.svg'
 import Container from '../../../components/Container/Container'
+import UpdatePrompt from '../../../components/Modals/UpdatePrompt/UpdatePrompt'
+
 import { TwitterShareButton } from 'react-share'
 import toast from 'react-hot-toast'
 
@@ -69,6 +72,7 @@ const ExploreSingle = () => {
     const [isLoading, setIsLoading] = useState(true)
     const [isLoaded, setIsLoaded] = useState(false)
     const [nft, setNft] = useState<any>()
+    const [showPrompt, setShowPrompt] = useState(false)
     const [nftDetails, setNftDetails] = useState<any>()
     const [activities, setActivities] = useState<any>()
     const [auctionData, setAuctionData] = useState<any>()
@@ -79,6 +83,7 @@ const ExploreSingle = () => {
     const [endDate, setEndDate] = useState<any>()
     const [walletAddress, setWalletAddress] = useState('')
     const [itemCollected, setItemCollected] = useState(false)
+    const [authState] = useContext<any>(AuthContext)
     const [themeState] = useContext<any>(ThemeContext)
     const [isBidActive, setIsBidActive] = useState<any>()
     const [canCollect, setCanCollect] = useState<any>()
@@ -104,6 +109,10 @@ const ExploreSingle = () => {
     const [timeDifference, setTimeDifference] = useState<any>()
     const [showDrop, setShowDrop] = useState(false)
     const [showShare, setShowShare] = useState(false)
+
+    const closePrompt = () => {
+        setShowPrompt(false)
+    }
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -368,23 +377,47 @@ const ExploreSingle = () => {
     }
 
     const handleSubmit = async () => {
-        if (nftDetails?.on_sale) {
-            const wallet_address = localStorage.getItem('currentAccount')
-            console.log(nftDetails?.marketplace_type)
-            if (wallet_address) {
-                setShowBid(true)
-            } else {
-                //setShowConnect(true)
-                //alert('Please connect wallet')
-                toast.error(` Please connect wallet`,
+        const verified = authState.user.email_verified
+        if (verified === 1) {
+            const currentChainId = localStorage.getItem('chain')
+            if (currentChainId === '0x1') {
+                setChain('eth')
+            }
+            if (currentChainId === '0x38') {
+                setChain('bsc')
+            }
+            const itemChain = nftDetails?.chain
+            console.log('me', chainRef.current)
+            console.log('them', itemChain)
+            if (chainRef.current === itemChain)
+                if (nftDetails?.on_sale) {
+                    const wallet_address = localStorage.getItem('currentAccount')
+                    console.log(nftDetails?.marketplace_type)
+                    if (wallet_address) {
+                        setShowBid(true)
+                    } else {
+                        //setShowConnect(true)
+                        //alert('Please connect wallet')
+                        toast.error(` Please connect wallet`,
+                            {
+                                duration: 3000,
+                            }
+                        )
+
+                    }
+                } else {
+                    console.log('not available')
+                }
+            else {
+                //alert("Wrong chain!, Please switch to the chain of this NFT")
+                toast.error(` Wrong chain!, Please switch to the chain of this NFT`,
                     {
                         duration: 3000,
                     }
                 )
-
             }
         } else {
-            console.log('not available')
+            setShowPrompt(true)
         }
     }
     const handleSale = async (e: any) => {
@@ -701,6 +734,7 @@ const ExploreSingle = () => {
                     itemCollected={itemCollected}
                 />
             )}
+            {showPrompt && <UpdatePrompt closePrompt={closePrompt} />}
             <Container>
                 <div
                     className={`${style.container} animate__animated animate__fadeInLeft`}

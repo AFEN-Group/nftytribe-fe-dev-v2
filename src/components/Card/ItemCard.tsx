@@ -162,7 +162,7 @@ const ItemCard = (data: any) => {
             <div className={style.userInfo} onClick={() => setShowFull(true)}>
               <img src={user} alt="user" />
               {data.nftData && (
-                <p>{userName || shortenAddress(data?.nftData?.wallet_address)}</p>
+                <p>{userName || shortenAddress(data?.nftData?.owner)}</p>
               )}
               <img src={arrow} alt="arrow" />
             </div>
@@ -186,7 +186,7 @@ const ItemCard = (data: any) => {
                 <div className={style.userBx}>
                   <img src={user} alt="user" />
                   {data.nftData && (
-                    <p>{userName || shortenAddress(data?.nftData?.wallet_address)}</p>
+                    <p>{userName || shortenAddress(data?.nftData?.owner)}</p>
                   )}
                 </div>
               </div>
