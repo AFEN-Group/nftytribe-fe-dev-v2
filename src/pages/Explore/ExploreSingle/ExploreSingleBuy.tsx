@@ -533,7 +533,7 @@ const ExploreSingleBuy = () => {
                 erc721MintableAddress,
               )
               marketplace_contract = new web3.eth.Contract(
-                erc721MarketplaceAbi,
+                marketPlaceAbi,
                 erc721MarketplaceAddress
               )
             } else {
@@ -569,13 +569,18 @@ const ExploreSingleBuy = () => {
                   new Date(data.starting_time).getTime() / 1000
                 data.ending_time = new Date(data.ending_time).getTime() / 1000
               }
-              const putOffSale = await marketplace_contract.methods
-                .putSaleOff(
-                  data?.collection_address,
-                  parseInt(data?.token_id),
+              try {
+                const putOffSale = await marketplace_contract.methods
+                  .putSaleOff(
+                    data?.collection_address,
+                    parseInt(data?.token_id),
 
-                )
-                .send({ from: walletAddress })
+                  )
+                  .send({ from: walletAddress })
+              } catch (err) {
+                console.log("actual err", err)
+              }
+
 
               // const putOnSale = await handlePutOnSale(
               //   returnValues.tokenId,
