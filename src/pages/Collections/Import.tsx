@@ -1,6 +1,7 @@
 //import {useState} from 'react'
 import useState from 'react-usestateref'
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import style from './Collections.module.scss'
 import Close from './assets/close.svg'
 import Happy from './assets/happy.svg'
@@ -89,9 +90,25 @@ const Import = (props: any) => {
         ></div>
         <div className={style.modalContainer}>
           {!imported && (
-            <div
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: {
+                  opacity: 0,
+                  scale: .3,
+                },
+                visible: {
+                  opacity: 1,
+                  scale: 1,
+                  transition: {
+                    type: 'spring',
+                    duration: .1,
+                  },
+                },
+              }}
               //className={style.modal}
-              className={`${style.modal} animate__animated animate__zoomInUp `}
+              className={`${style.modal}  `}
             >
               <div className={style.modalTop}>
                 <h1>Enter Your Contract Address</h1>
@@ -138,7 +155,7 @@ const Import = (props: any) => {
                 {err === 1 && <p className="redtxt">Collection not found!</p>}
                 {err === 2 && <p className="redtxt">Invalid address!</p>}
               </form>
-            </div>
+            </motion.div>
           )}
           {imported && (
             <div

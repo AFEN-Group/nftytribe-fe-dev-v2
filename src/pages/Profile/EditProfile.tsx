@@ -214,23 +214,34 @@ const EditProfile = () => {
       //   error: false,
       // })
 
-      // setAuthState({
-      //   ...authState,
-      //   user: {
-      //     ...authState.user,
-      //     //
-      //     cover_image: coverImage.location,
-      //     image: imageFile.location,
-      //     name: userInput.name,
-      //     email: userInput.email,
-      //     bio: userInput.bio,
-      //     twitter_username: userInput.twitterLink,
-      //     custom_url: userInput.website,
-      //   },
-      //   isFetching: false,
-      //   error: false,
-      // })
-
+      setAuthState({
+        ...authState,
+        user: {
+          ...authState.user,
+          //
+          cover_image: coverImage.location || user?.cover_image,
+          image: imageFile.location || user?.image,
+          name: userInput.name || user?.name,
+          bio: userInput.bio || user?.bio,
+          twitter_username: userInput.twitterLink || user?.twitter_username,
+          custom_url: userInput.website || user?.custom_url
+        },
+        isFetching: false,
+        error: false,
+      })
+      if (userInput.email) {
+        setAuthState({
+          ...authState,
+          user: {
+            ...authState.user,
+            email: userInput.email || user?.email
+          },
+          isFetching: false,
+          error: false,
+        })
+      }
+      console.log("updated user", updateUserReq)
+      console.log("updated auth state", authState.user)
 
     } catch (err) {
       console.log(err)
@@ -259,7 +270,7 @@ const EditProfile = () => {
       {showOtp && <EnterOtp closeModal={closeModal} currentAddress={currentAddress} />}
 
       <Container>
-        <div className={style.container}>
+        <form className={style.container} onSubmit={handleSubmit}>
 
           <div
             className={`${style.coverBx2} animate__animated animate__fadeInDown `}
@@ -290,15 +301,16 @@ const EditProfile = () => {
               <button className={dark === 'true' ? style.bl : style.bd}>
                 Edit cover photo
               </button>
+              <div className={style.fileInput1}>
+                <input
+                  type="file"
+                  name="img"
+                  onChange={selectMedia1}
+                //required
+                />
+              </div>
             </div>
-            <div className={style.fileInput1}>
-              <input
-                type="file"
-                name="img"
-                onChange={selectMedia1}
-              //required
-              />
-            </div>
+
           </div>
           <div
             className={`${style.content} animate__animated animate__fadeInUp animate__delay-1s `}
@@ -339,7 +351,7 @@ const EditProfile = () => {
             </div>
             <div className={style.editBx}>
               <h2>Edit Profile</h2>
-              <form>
+              <div>
                 <div className={style.inputField}>
                   <p>Username</p>
                   <TextInput
@@ -399,7 +411,7 @@ const EditProfile = () => {
                 <div className={style.editBtn}>
                   <button
                     type="submit"
-                    onClick={handleSubmit}
+                    //onClick={handleSubmit}
                     disabled={isLoading}
                   >
                     {!isLoading ? (
@@ -409,10 +421,10 @@ const EditProfile = () => {
                     )}
                   </button>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
-        </div>
+        </form>
       </Container>
     </>
   )

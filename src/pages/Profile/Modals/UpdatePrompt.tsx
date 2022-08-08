@@ -17,7 +17,7 @@ const UpdatePrompt = (props: any) => {
                 <div
                     className={`${style.modal2} animate__animated animate__zoomInUp `}
                 >
-                    <div className={style.modalTop}>
+                    <div className={style.modalTop2}>
                         <h1>Please update your profile</h1>
                         <p>
                             Please update your email address and other information, your email address is mandatory on the platform
