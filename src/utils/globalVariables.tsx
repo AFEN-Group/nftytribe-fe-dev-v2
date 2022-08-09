@@ -1,6 +1,6 @@
 // eslint-disable-next-line
 export default {
-    baseURL: 'https://dev.api.nftytribe.io/api',
+    baseURL: 'https://api.nftytribe.io/api',
     mainnetEth: {
         chain: 'ethereum',
         chainId: '0x1',

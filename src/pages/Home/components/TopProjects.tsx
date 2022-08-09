@@ -47,6 +47,8 @@ const TopProjects = () => {
     }
     return url;
   };
+
+
   return (
     <>
       <div className={style.topPro}>
@@ -107,43 +109,43 @@ const TopProjects = () => {
             {!collections
               ? null
               : collections.map((collection: any, i) => {
-                  return (
-                    collection.title && (
-                      <Link
-                        to={`/collectionDetails/${collection.contract_address}`}
-                        className={style.tpItem}
-                        key={collection._id}>
-                        <div className={style.tpLeft}>
-                          <p>{itemNumber++}</p>
-                          <img
-                            src={`
-                                 ${
-                                   collection?.cover_image?.includes("/ipfs") ||
-                                   collection?.cover_image?.includes("ipfs://")
-                                     ? getImage(collection?.cover_image)
-                                     : collection?.cover_image
-                                     ? collection?.cover_image
-                                     : user
-                                 }
+                return (
+                  collection.title && (
+                    <Link
+                      to={`/collectionDetails/${collection.contract_address}`}
+                      className={style.tpItem}
+                      key={collection._id}>
+                      <div className={style.tpLeft}>
+                        <p>{itemNumber++}</p>
+                        <img
+                          src={`
+                                 ${collection?.cover_image?.includes("/ipfs") ||
+                              collection?.cover_image?.includes("ipfs://")
+                              ? getImage(collection?.cover_image)
+                              : collection?.cover_image
+                                ? collection?.cover_image
+                                : user
+                            }
                                 
                                `}
-                            alt="collection"
-                          />
+                          alt="collection"
+                        />
+                      </div>
+                      <div className={style.tpRight}>
+                        <div className={style.tprInfo}>
+                          <h2>{collection?.title || "Untitled"}</h2>
+                          {/* <p>Floor price: 0</p> */}
+                          <p >Chain : <span style={{ textTransform: 'uppercase' }}>{collection?.chain}</span></p>
                         </div>
-                        <div className={style.tpRight}>
-                          <div className={style.tprInfo}>
-                            <h2>{collection?.title || "Untitled"}</h2>
-                            <p>Floor price: 0</p>
-                          </div>
-                          <div className={style.tprNumbers}>
-                            <p>+30</p>
-                            <p>Vol: 0</p>
-                          </div>
+                        <div className={style.tprNumbers}>
+                          <p>+ --</p>
+                          <p>Vol: 0</p>
                         </div>
-                      </Link>
-                    )
-                  );
-                })}
+                      </div>
+                    </Link>
+                  )
+                );
+              })}
           </div>
           <Link to="/collectionDashboard" className={`${style.tpBtn}`}>
             <button className={`${dark === "true" ? "yellowBtn" : "blueBtn"}`}>
