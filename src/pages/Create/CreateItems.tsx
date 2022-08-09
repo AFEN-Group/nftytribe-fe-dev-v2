@@ -25,6 +25,7 @@ import logo from './assets/logo-sm.svg'
 
 import Web3 from 'web3'
 import contracts from '../../web3-Service/contractAddress'
+
 import erc721Abi from '../../smart_contracts/erc721Mintable.json'
 import erc721MarketplaceAbi from '../../smart_contracts/erc721Market.json'
 import erc721CollectionAbi from '../../smart_contracts/erc721Collection.json'
@@ -127,9 +128,9 @@ const CreateItems = () => {
   useEffect(() => {
     const wallet_address = localStorage.getItem('currentAccount')
     const currentChain = localStorage.getItem('chain')
-    if (currentChain === '0x1') {
-      setChain('ethereum')
-      setChainId('ethereum')
+    if (currentChain === globals.testnetEth.chainId) {
+      setChain(globals.testnetEth.chain)
+      setChainId(globals.testnetEth.chain)
       setErc721MintableAddress(contracts.erc721MintableAddress)
       setErc721MarketplaceAddress(contracts.erc721MarketplaceAddress)
       setErc1155MintableAddress(contracts.erc1155MintableAdddress)

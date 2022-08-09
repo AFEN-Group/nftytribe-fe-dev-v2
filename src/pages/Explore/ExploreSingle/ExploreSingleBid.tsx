@@ -79,8 +79,9 @@ const ExploreSingle = () => {
     //const [showBuy, setShowBuy] = useState(false)
     const [showBid, setShowBid] = useState(false)
     const [showPutOnSale, setShowPutOnSale] = useState(false)
-    const [collectedNft, setCollectedNft] = useState(false)
-    const [endDate, setEndDate] = useState<any>()
+    // const [collectedNft, setCollectedNft] = useState(false)
+    // const [endDate, setEndDate] = useState<any>()
+    const [countX, setCountX] = useState<any>()
     const [walletAddress, setWalletAddress] = useState('')
     const [itemCollected, setItemCollected] = useState(false)
     const [authState] = useContext<any>(AuthContext)
@@ -117,19 +118,18 @@ const ExploreSingle = () => {
     useEffect(() => {
         window.scrollTo(0, 0)
         const wallet_address = localStorage.getItem('currentAccount')
-        const currentChainId = localStorage.getItem('chain')
+        const currentChain = localStorage.getItem('chain')
         //console.log(wallet_address)
-        //
 
-        if (currentChainId === '0x1') {
-            setChain('eth')
-            setChainId('eth')
+        if (currentChain === globals.testnetEth.chainId) {
+            setChain(globals.testnetEth.chain)
+            setChainId(globals.testnetEth.chain)
             setErc721MintableAddress(contracts.erc721MintableAddress)
             setErc721MarketplaceAddress(contracts.erc721MarketplaceAddress)
             setErc1155MintableAddress(contracts.erc1155MintableAdddress)
             setErc1155MarketplaceAddress(contracts.erc1155MarketplaceAddress)
         }
-        else if (currentChainId === '0x38') {
+        else if (currentChain === '0x38') {
             setChain('bsc')
             setChainId('bsc')
             setErc721MintableAddress(contracts.BSC_erc721MintableAddress)
@@ -140,24 +140,26 @@ const ExploreSingle = () => {
         if (wallet_address) {
             setWalletAddress(wallet_address)
         }
+    }, [])
+
+
+    useEffect(() => {
         const getNftDetails = async () => {
             try {
                 const details = await publicRequest.get(
                     `/collectibles/${collectionAddress}/${id}?seller=${seller}`,
                 )
-                console.log('check>>>', details.data)
                 setNftDetails(details?.data?.data?._doc)
+                console.log('deets', nftDetails)
                 setActivities(details?.data?.data?.activities)
-                console.log('<<< cu ', details?.data?.data?.activities)
-                if (!details?.data?.data?._doc?.is_multiple) {
-                    const ifToBeCollected = await checkIfBIdTimePasses(
-                        id,
-                        collectionAddress,
-                    )
-                    setCollectedNft(ifToBeCollected)
-                    console.log('available?>>', ifToBeCollected)
-                }
-
+                // if (!details?.data?.data?._doc?.is_multiple) {
+                //     const ifToBeCollected = await checkIfBIdTimePasses(
+                //         id,
+                //         collectionAddress,
+                //     )
+                //     setCollectedNft(ifToBeCollected)
+                //     //console.log('available?>>', ifToBeCollected)
+                // }
                 setIsLoading(false)
                 setIsLoaded(true)
             } catch (error) {
@@ -171,26 +173,21 @@ const ExploreSingle = () => {
                     const details = await publicRequest.get(
                         `/collectibles/${collectionAddress}/${id}?lazy_mint=true`,
                     )
-                    //console.log(details)
                     const nft = details
                     setNftDetails(nft.data.data._doc)
-                    console.log('show img>>', nft.data.data._doc)
+                    //console.log('show img>>', nft.data.data._doc)
                     //setNftPrice(nft.data._doc.price)
                     setIsLoading(false)
                     setIsLoaded(true)
                 } catch (error) {
-                    console.log(error)
+                    //console.log(error)
                     setIsLoading(false)
                 }
             } else {
                 await getNftDetails()
                 let contract_address = erc721MarketplaceAddress
-                if (nftDetails?.is_multiple) {
-                    contract_address = erc1155MarketplaceAddress
-                }
-
                 let erc721Contract
-                let erc1155Contract
+                //let erc1155Contract
                 let marketPlaceContract
                 if (window.ethereum) {
                     let web3: any = new Web3(window.ethereum)
@@ -199,16 +196,8 @@ const ExploreSingle = () => {
                         marketPlaceAbi,
                         contract_address,
                     )
-                    if (nftDetails?.is_multiple) {
-                        erc1155Contract = new web3.eth.Contract(erc1155Abi, collectionAddress)
-                        marketPlaceContract = new web3.eth.Contract(
-                            erc1155MarketplaceAbi,
-                            contract_address,
-                        )
-                    }
-
                 } else {
-                    //alert('connect to meta mask wallet')
+                    // alert('connect to meta mask wallet')
                     toast.error(` Please connect wallet`,
                         {
                             duration: 3000,
@@ -216,10 +205,10 @@ const ExploreSingle = () => {
                     )
                 }
                 let uri = await erc721Contract.methods.tokenURI(id).call()
-                if (nftDetails?.is_multiple) {
-                    uri = await erc1155Contract.methods.uri(id).call();
-                }
-                const moralis_uri = `https://deep-index.moralis.io/api/v2/nft/${collectionAddress}/${id}?chain=eth&format=decimal&offset=0&limit=20`
+                // if (nftDetails?.is_multiple) {
+                //     uri = await erc1155Contract.methods.uri(id).call();
+                // }
+                const moralis_uri = `https://deep-index.moralis.io/api/v2/nft/${collectionAddress}/${id}?chain=rinkeby&format=decimal&offset=0&limit=20`
                 const { data } = await axios({
                     method: 'get',
                     url: moralis_uri,
@@ -228,9 +217,8 @@ const ExploreSingle = () => {
                         'X-API-Key': `PUX3SuXcL8sop16uK0fMwFsbqiBrZE0ty7buGH0SDV155W6tcoksEiUQaPG5FVMd`,
                     },
                 })
-
                 const nft = data
-                console.log('nft>>', nft)
+                //console.log('nft>>', nft)
                 if (nft.metadata) {
                     nft.metadata = JSON.parse(nft.metadata)
                 } else {
@@ -254,115 +242,160 @@ const ExploreSingle = () => {
                             },
                         })
                         nft.metadata = data
-                        //console.log(data)
+                        ////console.log(data)
                     } catch (err) { }
-                }
-
-                if (!nftDetails?.is_multiple) {
-                    const owner = await erc721Contract.methods.ownerOf(id).call()
-                    nft.owner_of = owner
-                    setNft(nft)
-                    console.log(nft)
-
-                    const auctionInfo = await marketPlaceContract.methods
-                        .auctions(collectionAddress, id)
-                        .call()
-                    console.log('auction Info', auctionInfo)
-                    setAuctionData(auctionInfo)
-                    setIsLoading(false)
-                    setIsLoaded(true)
-
-                    const timestamp = auctionInfo.closingTime
-                    const date = new Date(timestamp * 1000)
-                    const datevalues = [
-                        date.getFullYear(),
-                        date.getMonth() + 1,
-                        date.getDate(),
-                        date.getHours(),
-                        date.getMinutes(),
-                        date.getSeconds(),
-                    ]
-                    setEndDate(datevalues)
-                    console.log('>>', datevalues)
-                    //alert(datevalues) //=>
-
-                    //const timeDiffCalc = (dateFuture: any, dateStart: any) => {
-                    const dateFutureStr = auctionInfo.closingTime.toString()
-                    console.log(dateFutureStr)
-                    const dateFuture = dateFutureStr + '000'
-                    const dateToday = Math.floor(Date.now())
-                    const dateToday2 = Math.floor(Date.now() / 1000)
-
-                    const dateStartStr = auctionInfo.startingTime.toString()
-                    const dateStart = dateStartStr + '000'
-                    let diffInMilliSeconds = Math.abs(parseInt(dateFuture) - dateToday) / 1000
-                    // calculate days
-                    const days = Math.floor(diffInMilliSeconds / 86400)
-                    diffInMilliSeconds -= days * 86400
-                    // calculate hours
-                    const hours = Math.floor(diffInMilliSeconds / 3600) % 24
-                    diffInMilliSeconds -= hours * 3600
-                    // calculate minutes
-                    const minutes = Math.floor(diffInMilliSeconds / 60) % 60
-                    diffInMilliSeconds -= minutes * 60
-                    // calculate minutes
-                    const seconds = Math.floor(diffInMilliSeconds)
-                    setTimeLeft({
-                        hours,
-                        minutes,
-                        seconds,
-                    })
-                    // setMinutesLeft(minutes);
-                    // setSecondsLeft(seconds);
-
-                    //check if bid is still active
-                    //const dateToday = Math.floor(Date.now() / 1000)
-                    // console.log("today>>>", dateToday)
-                    // console.log("end date>>>", dateFuture)
-                    console.log(parseInt(dateFuture), dateToday, parseInt(dateFuture) < dateToday)
-                    console.log("end date", parseInt(dateFuture))
-                    console.log("today's date", dateToday)
-                    // if (parseInt(dateFuture) < dateToday) {
-                    //     console.log("end date", parseInt(dateFuture))
-                    //     console.log("today's date", dateToday)
-                    //     setIsBidActive(false)
-                    // } else {
-                    //     setIsBidActive(true)
-                    // }
-                    if (!checkIfBIdTimePasses) {
-                        setIsBidActive(false)
-                    } else {
-                        setIsBidActive(true)
-                    }
-
-
-                    //check if item can be collected
-                    if (parseInt(dateFuture) < dateToday2 && auctionInfo.highestBidder === walletAddress) {
-                        setCanCollect(true)
-                    } else {
-                        setCanCollect(false)
-                    }
-
-
-                    let difference = ''
-                    if (days > 0) {
-                        difference += days === 1 ? `${days}d, ` : `${days}d, `
-                    }
-
-                    difference += hours === 0 || hours === 1 ? `${hours}h, ` : `${hours}h, `
-
-                    difference +=
-                        minutes === 0 || hours === 1 ? `${minutes}m` : `${minutes}m`
-                    console.log('difference >>', difference)
-                    setTimeDifference(difference)
                 }
 
             }
             //return difference;
         }
+
+        //
+        getNftDetails()
         getTokenDetails()
 
+
     }, [collectionAddress, id, lazy_mint])
+
+    useEffect(() => {
+        const auctionFetch = async () => {
+            setIsLoaded(false)
+            setIsLoading(true)
+
+            let erc721Contract
+            // let erc1155Contract
+            let marketPlaceContract
+            //let contract_address = erc721MarketplaceAddress
+            let web3: any = new Web3(window.ethereum)
+            if (window.ethereum) {
+                web3 = new Web3(window.ethereum);
+
+                erc721Contract = new web3.eth.Contract(
+                    erc721Abi,
+                    collectionAddress,
+                )
+
+                marketPlaceContract = await new web3.eth.Contract(
+                    marketPlaceAbi,
+                    erc721MarketplaceAddress,
+                )
+            } else {
+                // toast.error(`Please connect wallet!`,
+                //   {
+                //     duration: 3000,
+                //   }
+                // )
+            }
+            //erc721Contract = await new web3.eth.Contract(erc721Abi, collectionAddress)
+
+
+            const owner = await erc721Contract.methods.ownerOf(id).call()
+            console.log("ownerr", owner)
+            const auctionInfo = await marketPlaceContract.methods.auctions(collectionAddress, id).call()
+            //alert('ggg')
+            console.log("infoo>>>>", auctionInfo)
+
+            // nft.owner_of = owner
+            //setNft(nft)
+
+            setAuctionData(auctionInfo)
+            setIsLoading(false)
+            setIsLoaded(true)
+
+            const dateFutureStr = auctionInfo.closingTime.toString()
+
+
+            const dateFuture = dateFutureStr + '000'
+            console.log(">>>>", dateFuture)
+            const dateToday = Math.floor(Date.now())
+            console.log("today>>>>", dateToday)
+            const dateToday2 = Math.floor(Date.now() / 1000)
+
+            // const dateStartStr = auctionInfo.startingTime.toString()
+            // const dateStart = dateStartStr + '000'
+            if (parseInt(dateFuture) < dateToday) {
+                //console.log("end date", parseInt(dateFuture))
+                //console.log("today's date", dateToday)
+                setIsBidActive(false)
+            } else {
+                setIsBidActive(true)
+            }
+
+            let diffInMilliSeconds = Math.abs(parseInt(dateFuture) - dateToday) / 1000
+
+            console.log(diffInMilliSeconds)
+
+            //let diffInMilliSeconds = diffInMilliSeconds1 - 1000
+            // calculate days
+            const days = Math.floor(diffInMilliSeconds / 86400)
+            diffInMilliSeconds -= days * 86400
+            // calculate hours
+            const hours = Math.floor(diffInMilliSeconds / 3600) % 24
+            diffInMilliSeconds -= hours * 3600
+            // calculate minutes
+            const minutes = Math.floor(diffInMilliSeconds / 60) % 60
+            diffInMilliSeconds -= minutes * 60
+            // calculate minutes
+            const seconds = Math.floor(diffInMilliSeconds)
+
+            let difference = ''
+            if (days > 0) {
+                difference += days === 1 ? `${days}d, ` : `${days}d, `
+            }
+            if (hours > 0) {
+                difference += hours === 0 || hours === 1 ? `${hours}h, ` : `${hours}h, `
+            }
+
+            difference +=
+                minutes === 0 || hours === 1 ? `${minutes}m` : `${minutes}m `
+
+            // difference +=
+            //     seconds === 0 || hours === 1 ? `${seconds}s` : `${seconds}s`
+
+
+
+            setTimeDifference(difference)
+            // function updateCount() {
+            //     setCountX(countX + 1)
+            // }
+            // setInterval(updateCount, 1000);
+
+            //check if bid is still active
+            //const dateToday = Math.floor(Date.now() / 1000)
+            // //console.log("today>>>", dateToday)
+            // //console.log("end date>>>", dateFuture)
+            //console.log(parseInt(dateFuture), dateToday, parseInt(dateFuture) < dateToday)
+            //console.log("end date", parseInt(dateFuture))
+            //console.log("today's date", dateToday)
+
+
+            // if (!checkIfBIdTimePasses) {
+            //     setIsBidActive(false)
+            // } else {
+            //     setIsBidActive(true)
+            // }
+
+            //check if item can be collected
+            console.log("bidder>>> ", auctionInfo.highestBidder.toLocaleUpperCase())
+            console.log("my wallet>>> ", walletAddress.toLocaleUpperCase())
+            if (auctionInfo.highestBidder.toLocaleUpperCase() === walletAddress.toLocaleUpperCase()) {
+                setCanCollect(true)
+            } else {
+                setCanCollect(false)
+            }
+
+            //}
+            //console.log("show diff>>", timeDifference)
+            //console.log('difference >>', difference)
+            setIsLoaded(true)
+            setIsLoading(false)
+        }
+        auctionFetch()
+
+    }, [collectionAddress, id, erc721MarketplaceAddress, countX])
+
+
+
 
     const getImage = (uri: any) => {
         let url
@@ -378,47 +411,47 @@ const ExploreSingle = () => {
 
     const handleSubmit = async () => {
         const verified = authState.user.email_verified
-        if (verified === 1) {
-            const currentChainId = localStorage.getItem('chain')
-            if (currentChainId === '0x1') {
-                setChain('eth')
-            }
-            if (currentChainId === '0x38') {
-                setChain('bsc')
-            }
-            const itemChain = nftDetails?.chain
-            console.log('me', chainRef.current)
-            console.log('them', itemChain)
-            if (chainRef.current === itemChain)
-                if (nftDetails?.on_sale) {
-                    const wallet_address = localStorage.getItem('currentAccount')
-                    console.log(nftDetails?.marketplace_type)
-                    if (wallet_address) {
-                        setShowBid(true)
-                    } else {
-                        //setShowConnect(true)
-                        //alert('Please connect wallet')
-                        toast.error(` Please connect wallet`,
-                            {
-                                duration: 3000,
-                            }
-                        )
-
-                    }
-                } else {
-                    console.log('not available')
-                }
-            else {
-                //alert("Wrong chain!, Please switch to the chain of this NFT")
-                toast.error(` Wrong chain!, Please switch to the chain of this NFT`,
-                    {
-                        duration: 3000,
-                    }
-                )
-            }
-        } else {
-            setShowPrompt(true)
+        //if (verified === 1) {
+        const currentChainId = localStorage.getItem('chain')
+        if (currentChainId === '0x1') {
+            setChain('eth')
         }
+        if (currentChainId === '0x38') {
+            setChain('bsc')
+        }
+        const itemChain = nftDetails?.chain
+        //console.log('me', chainRef.current)
+        //console.log('them', itemChain)
+        if (chainRef.current === itemChain)
+            if (nftDetails?.on_sale) {
+                const wallet_address = localStorage.getItem('currentAccount')
+                //console.log(nftDetails?.marketplace_type)
+                if (wallet_address) {
+                    setShowBid(true)
+                } else {
+                    //setShowConnect(true)
+                    //alert('Please connect wallet')
+                    toast.error(` Please connect wallet`,
+                        {
+                            duration: 3000,
+                        }
+                    )
+
+                }
+            } else {
+                //console.log('not available')
+            }
+        else {
+            //alert("Wrong chain!, Please switch to the chain of this NFT")
+            toast.error(` Wrong chain!, Please switch to the chain of this NFT`,
+                {
+                    duration: 3000,
+                }
+            )
+        }
+        // } else {
+        //     setShowPrompt(true)
+        // }
     }
     const handleSale = async (e: any) => {
         e.preventDefault()
@@ -466,7 +499,7 @@ const ExploreSingle = () => {
                     // data.cardImage = cardImage
                     //data.price = parseFloat(userInput.price) * parseInt(userInput.copies)
                     //returnvalues = mint.events.TransferSingle.returnValues
-                    //console.log(returnvalues, 'value')
+                    ////console.log(returnvalues, 'value')
 
                     if (data.market_type !== '0') {
                         data.on_sale = true
@@ -480,7 +513,7 @@ const ExploreSingle = () => {
                                 new Date(data.starting_time).getTime() / 1000
                             data.ending_time = new Date(data.ending_time).getTime() / 1000
                         }
-                        //console.log(web3.utils.toWei(data.price.toString(), 'ether'), 'price', returnvalues.id)
+                        ////console.log(web3.utils.toWei(data.price.toString(), 'ether'), 'price', returnvalues.id)
                         const putOffSale = await marketplace_contract.methods
                             .putOffSale(
                                 //userInput.collection_address || erc1155Mintable_adddress,
@@ -489,7 +522,7 @@ const ExploreSingle = () => {
 
                             )
                             .send({ from: walletAddress })
-                        console.log(putOffSale)
+                        //console.log(putOffSale)
 
 
                         updatableData = {
@@ -541,14 +574,14 @@ const ExploreSingle = () => {
 
                     const res = await updateCollectible.json()
 
-                    console.log(res.data)
+                    //console.log(res.data)
                     setIsLoading(false)
 
                     //window.location.reload()
                     setIsLoading(false)
 
                 } catch (err) {
-                    console.log(err)
+                    //console.log(err)
 
                     setIsLoading(false)
                 }
@@ -596,14 +629,14 @@ const ExploreSingle = () => {
 
                     let updatableData
                     if (data.on_sale) {
-                        //console.log(parseInt(returnvalues.token_id), 'hello')
+                        ////console.log(parseInt(returnvalues.token_id), 'hello')
 
                         if (data.market_type === '2') {
                             data.starting_time =
                                 new Date(data.starting_time).getTime() / 1000
                             data.ending_time = new Date(data.ending_time).getTime() / 1000
                         }
-                        console.log(data, 'this is data')
+                        //console.log(data, 'this is data')
                         const putOffSale = await marketplace_contract.methods
                             .putSaleOff(
                                 //userInput.collection_address || erc1155Mintable_adddress,                               
@@ -623,13 +656,13 @@ const ExploreSingle = () => {
                         //   parseInt(data.market_type),
                         // )
                         // if (putOnSale?.error) {
-                        //   console.log(err)
+                        //   //console.log(err)
                         //   setMsg({ ...msg, eMsg: err, sMsg: '' })
                         //   setIsLoading(false)
                         //   return
                         // }
 
-                        //console.log(putOnSale, putOnSale.events, 'sale')
+                        ////console.log(putOnSale, putOnSale.events, 'sale')
 
                         // const expiration_time =
                         //   new Date(data.ending_time).getTime() + 2 * 24 * 3600 * 1000 // * 1000
@@ -674,12 +707,12 @@ const ExploreSingle = () => {
 
                     const res = await updateCollectible.json()
 
-                    console.log(res.data)
+                    //console.log(res.data)
                     setIsLoading(false)
                     window.location.reload()
                     setIsLoading(false)
                 } catch (err) {
-                    console.log(err)
+                    //console.log(err)
 
                     setIsLoading(false)
                 }
@@ -701,7 +734,7 @@ const ExploreSingle = () => {
         )
         setIsLoading(false)
         if (result.data) {
-            console.log(result)
+            //console.log(result)
             setIsLoading(false)
             setItemCollected(true)
             setShowBid(true)
@@ -716,6 +749,7 @@ const ExploreSingle = () => {
         setShowPutOnSale(false)
     }
 
+    console.log("active>>", isBidActive)
     return (
         <>
             <Header />
@@ -978,22 +1012,24 @@ const ExploreSingle = () => {
                                                         Bid
                                                     </button>) : (
                                                     <>
-                                                        {console.log(isBidActive)}
+                                                        {/* {console.log(isBidActive)} */}
                                                         <button
-                                                            disabled={!isLoaded || isBidActive}
+                                                            disabled={!isLoaded || !isBidActive}
                                                             className={`${style.gradBtn} 
                                                             ${dark === 'true' ? 'darkGradient' : 'lightGradient'
                                                                 } `}
                                                             onClick={handleSale}
                                                         >
-                                                            {!nftDetails?.on_sale && nftDetails?.wallet_address === walletAddress ?
+                                                            {!nftDetails?.on_sale ?
                                                                 'Put On Sale'
-                                                                    ? !nftDetails?.on_sale && nftDetails?.wallet_address != walletAddress : 'Not on Sale' ? nftDetails?.on_sale && nftDetails?.wallet_address === walletAddress : 'Remove from Sale' : 'Not on sale'}
+
+
+                                                                : 'Remove from Sale'}
                                                         </button>
                                                     </>
                                                 )}
-                                                {canCollect &&
-                                                    nftDetails?.wallet_address.toLowerCase() ===
+                                                {canCollect && (
+                                                    nftDetails?.wallet_address.toLowerCase() !=
                                                     walletAddress?.toLowerCase() && (
                                                         <button
                                                             style={{ marginLeft: '50px' }}
@@ -1010,7 +1046,8 @@ const ExploreSingle = () => {
                                                                 />
                                                             )}
                                                         </button>
-                                                    )}
+                                                    )
+                                                )}
                                             </>
 
                                         </div>
