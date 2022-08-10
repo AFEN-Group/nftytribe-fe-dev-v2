@@ -11,6 +11,7 @@ import Polygon from './assets/profile.svg'
 import Binance from './assets/binance.svg'
 import Skale from './assets/skale.svg'
 import Solana from './assets/sol.svg'
+import Multiple from './assets/multiple.svg'
 import Container from '../../components/Container/Container'
 import Switch from '../../components/Modals/Switch'
 import UpdatePrompt from '../../components/Modals/UpdatePrompt/UpdatePrompt'
@@ -171,7 +172,7 @@ const CreateItemOptions = () => {
                     to={`/createItem/${chain}/multiple`}
                     className={`${style.optBox2} `}
                   >
-                    <img className={style.tImg} src={Polygon} alt="single" />
+                    <img className={style.tImg} src={Multiple} alt="single" />
                     <p>{t("Multiple")}</p>
                   </Link>
                 </div>
