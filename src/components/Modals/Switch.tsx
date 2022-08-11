@@ -29,14 +29,14 @@ const Switch = (props: any) => {
                     variants={{
                         hidden: {
                             opacity: 0,
-                            scale: .3,
+                            scale: .7,
                         },
                         visible: {
                             opacity: 1,
                             scale: 1,
                             transition: {
                                 type: 'spring',
-                                duration: .1,
+                                duration: -.1,
                             },
                         },
                     }}
