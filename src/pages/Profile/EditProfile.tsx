@@ -58,7 +58,10 @@ const EditProfile = () => {
     window.scrollTo(0, 0)
     const getUser = async () => {
       try {
-        const result = await publicRequest.get(`/user/${currentAddress}`)
+        const result = await publicRequest.get(`/user/${currentAddress}`,{headers:{
+          'content-type':'application/json',
+          'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+        }})
         console.log('get user>>>', result.data.data)
         console.log("current user >>", currentAddress)
         setUser(result.data.data)

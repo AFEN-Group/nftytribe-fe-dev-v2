@@ -213,7 +213,7 @@ const UserConnect = () => {
       console.log('Pls install metamask and try again')
     }
   }
-
+   console.log(Response)
   const handleNetworkSwitch = async (networkName: string) => {
 
     try {

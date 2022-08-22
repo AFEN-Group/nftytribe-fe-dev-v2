@@ -88,7 +88,7 @@ const Profile = () => {
     // if (currentAddress) {
     //   getData({
     //     method:'get',
-    //     url:`user/${currentAddress}`,
+    //     url:`${currentAddress}`,
     //     axiosInstance:Protected(sessionStorage.getItem('token'))
     //   })
     // }
