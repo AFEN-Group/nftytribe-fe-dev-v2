@@ -18,6 +18,9 @@ import { shortenAddress } from '../../utils/formatting'
 import Filters from './Filters'
 import Loader from '../../components/Loader/Loader'
 import UpdatePrompt from './Modals/UpdatePrompt'
+import UseAxios from '../../hooks/AxiosConfig/useAxios'
+import Protected from '../../hooks/AxiosConfig/axiosInstance'
+import { type } from 'os'
 
 const Profile = () => {
   //const [tab, setTab] = useState('all')
@@ -38,6 +41,41 @@ const Profile = () => {
   const [currentChain, setCurrentChain] = useState<any>()
   //console.log('auth>>', authState)
 
+
+
+  const getUser = async () => {
+    if (currentAddress) {
+       await getData({
+        method:'get',
+        url:`user/${currentAddress}`,
+        axiosInstance:Protected(sessionStorage.getItem('token'))
+      })
+    }
+   
+
+  //   try {
+  //     const result = await publicRequest.get(`/user/${currentAddress}`)
+  //     console.log('user>>>', result.data.data.email)
+  //     setRes(result.data.data)
+  //     setIsLoading(false)
+  //     if (!result.data.data.email || result.data.data.email === "") {
+  //       setShowModal(true)
+  //     } else {
+  //       setShowModal(false)
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //     setIsLoading(false)
+  //   }
+  }
+ 
+  useEffect(() => {
+    setCurrentPage(1)
+    //setTotalPages(1)
+  }, [query])
+  const {error:getError,loading:getLoading,Response:response,fetchData:getData}=UseAxios()
+  const {error:Error,loading:Loading,Response:postResponse,fetchData:Data}=UseAxios()
+
   useEffect(() => {
     window.scrollTo(0, 0)
     if (currentChainId === '0x1') {
@@ -45,52 +83,51 @@ const Profile = () => {
     } else if (currentChain === '0x38') {
       setCurrentChain('bsc')
     }
-
-    const getUser = async () => {
-      try {
-        const result = await publicRequest.get(`/user/${currentAddress}`)
-        console.log('user>>>', result.data.data.email)
-        setRes(result.data.data)
-        setIsLoading(false)
-        if (!result.data.data.email || result.data.data.email === "") {
-          setShowModal(true)
-        } else {
-          setShowModal(false)
-        }
-      } catch (error) {
-        console.log(error)
-        setIsLoading(false)
-      }
-    }
-    if (currentAddress) {
-      getUser()
-    }
+    console.log(currentAddress);
+    
+    // if (currentAddress) {
+    //   getData({
+    //     method:'get',
+    //     url:`user/${currentAddress}`,
+    //     axiosInstance:Protected(sessionStorage.getItem('token'))
+    //   })
+    // }
+    getUser()
   }, [currentAddress])
-  useEffect(() => {
-    setCurrentPage(1)
-    //setTotalPages(1)
-  }, [query])
 
+   useEffect(()=>{
+    type data={
+      data?:any
+     }
+     const {data}=response||({} as data)
+    setRes(data?.data);
+   },[response])
+  
   useEffect(() => {
-    const fetchUserNfts = async () => {
-      try {
-        setIsLoading(true)
-        const result = await publicRequest.get(
-          `/user/get-collectibles?wallet_address=${currentAddress}&${query}&page=${currentPage}&size=9`,
-        )
-        console.log('res>', result)
-        setCollectibles(result.data.data.collectibles)
-        setTotalPages(Math.round(result.data.data.total_count / 10))
-        setIsLoading(false)
-      } catch (error) {
-        console.log(error)
-        setIsLoading(false)
-      }
-    }
-    //if (currentAddress) {
-    fetchUserNfts()
-    //}
+    Data({
+     method:'get',
+     url:  `/user/get-collectibles?wallet_address=${currentAddress}&${query}&page=${currentPage}&size=9`,
+     axiosInstance:Protected(sessionStorage.getItem('token'))
+    })
+    
   }, [currentAddress, query, currentPage])
+
+
+ useEffect(()=>{
+     console.log(postResponse);
+     type data={
+      data?:any
+     }
+     const {data}=postResponse||({} as data)
+      setCollectibles(data?.data.collectibles)
+      setTotalPages(Math.round(data?.data.total_count / 10))
+      setIsLoading(Loading)
+  },[postResponse] )
+
+ 
+ 
+ 
+  
   const nextPage = () => {
     if (currentPage >= 1) {
       setCurrentPage(currentPage + 1)

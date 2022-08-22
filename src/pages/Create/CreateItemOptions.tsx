@@ -16,6 +16,7 @@ import Container from '../../components/Container/Container'
 import Switch from '../../components/Modals/Switch'
 import UpdatePrompt from '../../components/Modals/UpdatePrompt/UpdatePrompt'
 import { useTranslation } from "react-i18next";
+import globals from '../../utils/globalVariables'
 
 
 const CreateItemOptions = () => {
@@ -56,27 +57,27 @@ const CreateItemOptions = () => {
   }, [])
 
   const checkNetwork = (network: any) => {
-    const verified = authState.user.email_verified
-    if (verified === 1) {
-      if (network === 'eth') {
-        if (currentChain === "0x1") {
-          setChain(network)
-        } else {
-          setBlockChain("Ethereum")
-          setShowModal(true)
-        }
+    // const verified = authState.user.email_verified
+    //if (verified === 1) {
+    if (network === 'eth') {
+      if (currentChain === globals.testnetEth.chainId) {
+        setChain(network)
+      } else {
+        setBlockChain("Ethereum")
+        setShowModal(true)
       }
-      if (network === 'binance') {
-        if (currentChain === "0x38") {
-          setChain(network)
-        } else {
-          setBlockChain("Binance")
-          setShowModal(true)
-        }
-      }
-    } else {
-      setShowPrompt(true)
     }
+    if (network === 'binance') {
+      if (currentChain === globals.testnetBsc.chainId) {
+        setChain(network)
+      } else {
+        setBlockChain("Binance")
+        setShowModal(true)
+      }
+    }
+    // } else {
+    //   setShowPrompt(true)
+    // }
   }
 
   const closeModal = () => {
@@ -142,7 +143,7 @@ const CreateItemOptions = () => {
                     className={`${style.optBox} ${style.disable}`}
                     onClick={() => setChain("")}>
                     <img src={Solana} alt="sol" />
-                    <p className={style.mg1}>Solana</p>
+                    <p className={style.mg1}>Polygon</p>
                   </div>
                 </div>
               </div >

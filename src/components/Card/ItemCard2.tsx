@@ -64,7 +64,7 @@ const ItemCard2 = (data: any) => {
             }
         }
         getUsdPrice()
-        getUser()
+        //getUser()
     }, [])
     const currentAddress: any = localStorage.getItem('currentAccount')
 

@@ -128,7 +128,7 @@ const CreateItems = () => {
   useEffect(() => {
     const wallet_address = localStorage.getItem('currentAccount')
     const currentChain = localStorage.getItem('chain')
-    if (currentChain === globals.mainnetEth.chainId) {
+    if (currentChain === globals.testnetEth.chainId) {
       setChain(globals.mainnetEth.chain)
       setChainId(globals.mainnetEth.chain)
       setErc721MintableAddress(contracts.erc721MintableAddress)
@@ -136,7 +136,7 @@ const CreateItems = () => {
       setErc1155MintableAddress(contracts.erc1155MintableAdddress)
       setErc1155MarketplaceAddress(contracts.erc1155MarketplaceAddress)
     }
-    else if (currentChain === '0x38') {
+    else if (currentChain === globals.testnetBsc.chainId) {
       setChain('bsc')
       setChainId('bsc')
       setErc721MintableAddress(contracts.BSC_erc721MintableAddress)
@@ -1323,7 +1323,7 @@ const CreateItems = () => {
                   inputHandler={inputHandler}
                   value={userInput.price}
                 />
-                <div className={style.iDesc}><p>({currentChain === '0x1' ? 'ETH' : currentChain === '0x38' ? 'BNB' : ''} price)</p></div>
+                <div className={style.iDesc}><p>({currentChain === globals.testnetEth.chainId ? 'ETH' : currentChain === globals.testnetBsc.chainId ? 'BNB' : ''} price)</p></div>
 
               </div>
               <div className={style.fieldBx}>
