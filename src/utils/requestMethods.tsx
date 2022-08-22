@@ -8,7 +8,6 @@ import globals from './globalVariables'
 //const TOKEN = user?.tokens?.token
 
 export const publicRequest = axios.create({
-  //baseURL: 'https://api.nftytribe.io/api',
   baseURL: globals.baseURL,
 })
 

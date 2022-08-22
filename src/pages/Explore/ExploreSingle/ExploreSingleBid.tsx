@@ -121,9 +121,9 @@ const ExploreSingle = () => {
         const currentChain = localStorage.getItem('chain')
         //console.log(wallet_address)
 
-        if (currentChain === globals.testnetEth.chainId) {
-            setChain(globals.testnetEth.chain)
-            setChainId(globals.testnetEth.chain)
+        if (currentChain === globals.mainnetEth.chainId) {
+            setChain(globals.mainnetEth.chain)
+            setChainId(globals.mainnetEth.chain)
             setErc721MintableAddress(contracts.erc721MintableAddress)
             setErc721MarketplaceAddress(contracts.erc721MarketplaceAddress)
             setErc1155MintableAddress(contracts.erc1155MintableAdddress)

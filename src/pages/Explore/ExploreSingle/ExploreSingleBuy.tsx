@@ -342,8 +342,8 @@ const ExploreSingleBuy = () => {
   }
 
   const handleSubmit = async () => {
-    const verified = authState.user.email_verified
-    if (verified === 1) {
+    const verified = authState?.user?.email_verified
+    if (verified && verified === 1) {
       const currentChainId = localStorage.getItem('chain')
       if (currentChainId === '0x1') {
         setChain('eth')
@@ -385,284 +385,284 @@ const ExploreSingleBuy = () => {
     }
   }
   const handleSale = async (e: any) => {
-    const itemChain = nftDetails?.chain
-    if (chainRef.current === itemChain) {
-      e.preventDefault();
-      if (nftDetails && !nftDetails?.on_sale) {
-        //put on sale
-        setShowPutOnSale(true)
+    //const itemChain = nftDetails?.chain
+    //if (chainRef.current === itemChain) {
+    e.preventDefault();
+    if (nftDetails && !nftDetails?.on_sale) {
+      //put on sale
+      setShowPutOnSale(true)
 
-      } else {
-        //put off sale
-        if (nftDetails?.is_multiple) {
-          try {
-            setIsLoading(true)
-            let erc1155Contract
-            let marketplace_contract
-            let web3: any
-            if (window.ethereum) {
-              web3 = new Web3(window.ethereum)
+    } else {
+      //put off sale
+      if (nftDetails?.is_multiple) {
+        try {
+          setIsLoading(true)
+          let erc1155Contract
+          let marketplace_contract
+          let web3: any
+          if (window.ethereum) {
+            web3 = new Web3(window.ethereum)
 
-              erc1155Contract = new web3.eth.Contract(
-                erc1155MintableAbi,
-                erc1155MintableAddress,
-              )
-              marketplace_contract = new web3.eth.Contract(
-                erc1155MarketplaceAbi,
-                erc1155MarketplaceAddress,
-              )
-            } else {
-              //alert('connect to meta mask wallet')
-              toast.error(` Please connect wallet`,
-                {
-                  duration: 3000,
-                }
-              )
-
-              //setShowConnect(true)
-            }
-
-            const data = nftDetails
-            // data.wallet_address = wallet_address
-            // data.chain = chain
-            // data.collection_address =
-            //   userInput.collection_address || erc1155Mintable_adddress
-            // data.upload = imageFile
-            // data.is_multiple = false
-            // data.nft_type = userInput.category
-            // data.cardImage = cardImage
-            //data.price = parseFloat(userInput.price) * parseInt(userInput.copies)
-            //returnvalues = mint.events.TransferSingle.returnValues
-            //console.log(returnvalues, 'value')
-
-            if (data.market_type !== '0') {
-              data.on_sale = true
-            }
-
-            let updatableData
-            if (data.on_sale) {
-
-              if (data.market_type === '2') {
-                data.starting_time =
-                  new Date(data.starting_time).getTime() / 1000
-                data.ending_time = new Date(data.ending_time).getTime() / 1000
+            erc1155Contract = new web3.eth.Contract(
+              erc1155MintableAbi,
+              erc1155MintableAddress,
+            )
+            marketplace_contract = new web3.eth.Contract(
+              erc1155MarketplaceAbi,
+              erc1155MarketplaceAddress,
+            )
+          } else {
+            //alert('connect to meta mask wallet')
+            toast.error(` Please connect wallet`,
+              {
+                duration: 3000,
               }
-              //console.log(web3.utils.toWei(data.price.toString(), 'ether'), 'price', returnvalues.id)
+            )
+
+            //setShowConnect(true)
+          }
+
+          const data = nftDetails
+          // data.wallet_address = wallet_address
+          // data.chain = chain
+          // data.collection_address =
+          //   userInput.collection_address || erc1155Mintable_adddress
+          // data.upload = imageFile
+          // data.is_multiple = false
+          // data.nft_type = userInput.category
+          // data.cardImage = cardImage
+          //data.price = parseFloat(userInput.price) * parseInt(userInput.copies)
+          //returnvalues = mint.events.TransferSingle.returnValues
+          //console.log(returnvalues, 'value')
+
+          if (data.market_type !== '0') {
+            data.on_sale = true
+          }
+
+          let updatableData
+          if (data.on_sale) {
+
+            if (data.market_type === '2') {
+              data.starting_time =
+                new Date(data.starting_time).getTime() / 1000
+              data.ending_time = new Date(data.ending_time).getTime() / 1000
+            }
+            //console.log(web3.utils.toWei(data.price.toString(), 'ether'), 'price', returnvalues.id)
+            const putOffSale = await marketplace_contract.methods
+              .putOffSale(
+                data?.collection_address,
+                parseInt(data?.token_id),
+
+              )
+              .send({ from: walletAddress })
+            console.log(putOffSale)
+
+
+            updatableData = {
+              token_id: data.token_id,
+              wallet_address: walletAddress,
+              collection_address:
+                data.collection_address,
+              file: data.file,
+              transaction_hash: data.transactionHash,
+              type: 'putOffSale',
+              chain_id: data.chain,
+
+              on_sale: false,
+              marketplace_type: data.marketplace_type,
+              order_detail: {
+                starting_price: web3.utils.toWei(
+                  data.price.toString(),
+                  'ether',
+                ),
+                start_time: data.starting_time,
+                expiration_time: data.ending_time,
+              },
+              price: web3.utils.toWei(data.price.toString(), 'ether'),
+            }
+          } else {
+            updatableData = {
+              token_id: data.token_id,
+              wallet_address: walletAddress,
+              collection_address:
+                data.collection_address,
+              file: data.file,
+              transaction_hash: data.transactionHash,
+              type: 'putOffSale',
+              chain_id: data.chain,
+              on_sale: false
+            }
+          }
+
+          const updateCollectible = await fetch(
+            `${globals.baseURL}/collectibles/update-collectible`,
+            {
+              method: 'PUT',
+              headers: {
+                'content-type': 'application/json',
+              },
+              body: JSON.stringify(updatableData),
+            },
+          )
+
+          const res = await updateCollectible.json()
+
+          console.log(res.data)
+          setIsLoading(false)
+
+          window.location.reload()
+          setIsLoading(false)
+
+        } catch (err) {
+          console.log(err)
+
+          setIsLoading(false)
+        }
+      }
+      if (!nftDetails.is_multiple) {
+        try {
+          setIsLoading(true)
+          let erc721Contract
+          let marketplace_contract
+          let web3: any
+          if (window.ethereum) {
+            web3 = new Web3(window.ethereum)
+
+            erc721Contract = new web3.eth.Contract(
+              erc721Abi,
+              erc721MintableAddress,
+            )
+            marketplace_contract = new web3.eth.Contract(
+              marketPlaceAbi,
+              erc721MarketplaceAddress
+            )
+          } else {
+            //alert('connect to meta mask wallet')
+            toast.error(` Please connect wallet`,
+              {
+                duration: 3000,
+              }
+            )
+            //setShowConnect(true)
+          }
+
+          const data = nftDetails
+          // data.wallet_address = wallet_address
+          // data.chain = chain
+          // data.collection_address =
+          //   userInput.collection_address || erc721Mintable_address
+          // data.upload = imageFile
+          // data.is_multiple = false
+          // data.nft_type = userInput.category
+          // data.cardImage = cardImage
+
+          if (data.market_type !== '0') {
+            data.on_sale = true
+          }
+
+          let updatableData
+          if (data.on_sale) {
+            //console.log(parseInt(returnvalues.token_id), 'hello')
+
+            if (data.market_type === '2') {
+              data.starting_time =
+                new Date(data.starting_time).getTime() / 1000
+              data.ending_time = new Date(data.ending_time).getTime() / 1000
+            }
+            try {
               const putOffSale = await marketplace_contract.methods
-                .putOffSale(
+                .putSaleOff(
                   data?.collection_address,
                   parseInt(data?.token_id),
 
                 )
                 .send({ from: walletAddress })
-              console.log(putOffSale)
-
-
-              updatableData = {
-                token_id: data.token_id,
-                wallet_address: walletAddress,
-                collection_address:
-                  data.collection_address,
-                file: data.file,
-                transaction_hash: data.transactionHash,
-                type: 'putOffSale',
-                chain_id: data.chain,
-
-                on_sale: false,
-                marketplace_type: data.marketplace_type,
-                order_detail: {
-                  starting_price: web3.utils.toWei(
-                    data.price.toString(),
-                    'ether',
-                  ),
-                  start_time: data.starting_time,
-                  expiration_time: data.ending_time,
-                },
-                price: web3.utils.toWei(data.price.toString(), 'ether'),
-              }
-            } else {
-              updatableData = {
-                token_id: data.token_id,
-                wallet_address: walletAddress,
-                collection_address:
-                  data.collection_address,
-                file: data.file,
-                transaction_hash: data.transactionHash,
-                type: 'putOffSale',
-                chain_id: data.chain,
-                on_sale: false
-              }
+            } catch (err) {
+              console.log("actual err", err)
             }
 
-            const updateCollectible = await fetch(
-              `${globals.baseURL}/collectibles/update-collectible`,
-              {
-                method: 'PUT',
-                headers: {
-                  'content-type': 'application/json',
-                },
-                body: JSON.stringify(updatableData),
-              },
-            )
 
-            const res = await updateCollectible.json()
+            // const putOnSale = await handlePutOnSale(
+            //   returnValues.tokenId,
+            //   wallet_address,
+            //   userInput.collection_address,
+            //   web3.utils.toWei(data.price, 'ether'),
+            //   parseInt(data.starting_time),
+            //   parseInt(data.ending_time),
+            //   parseInt(data.market_type),
+            // )
+            // if (putOnSale?.error) {
+            //   console.log(err)
+            //   setMsg({ ...msg, eMsg: err, sMsg: '' })
+            //   setIsLoading(false)
+            //   return
+            // }
 
-            console.log(res.data)
-            setIsLoading(false)
+            //console.log(putOnSale, putOnSale.events, 'sale')
 
-            window.location.reload()
-            setIsLoading(false)
+            // const expiration_time =
+            //   new Date(data.ending_time).getTime() + 2 * 24 * 3600 * 1000 // * 1000
 
-          } catch (err) {
-            console.log(err)
+            updatableData = {
+              token_id: data.token_id,
+              wallet_address: walletAddress,
+              collection_address:
+                data.collection_address,
+              file: data.file,
+              transaction_hash: data.transactionHash,
+              type: 'putOffSale',
+              chain_id: data.chain,
+              //order_type: data.market_type,
 
-            setIsLoading(false)
+              on_sale: false,
+              price: 0,
+            }
+          } else {
+            updatableData = {
+              token_id: data.token_id,
+              wallet_address: walletAddress,
+              collection_address:
+                data.collection_address,
+              file: data.file,
+              transaction_hash: data.transactionHash,
+              type: 'putOffSale',
+              chain_id: data.chain,
+            }
           }
-        }
-        if (!nftDetails.is_multiple) {
-          try {
-            setIsLoading(true)
-            let erc721Contract
-            let marketplace_contract
-            let web3: any
-            if (window.ethereum) {
-              web3 = new Web3(window.ethereum)
 
-              erc721Contract = new web3.eth.Contract(
-                erc721Abi,
-                erc721MintableAddress,
-              )
-              marketplace_contract = new web3.eth.Contract(
-                marketPlaceAbi,
-                erc721MarketplaceAddress
-              )
-            } else {
-              //alert('connect to meta mask wallet')
-              toast.error(` Please connect wallet`,
-                {
-                  duration: 3000,
-                }
-              )
-              //setShowConnect(true)
-            }
-
-            const data = nftDetails
-            // data.wallet_address = wallet_address
-            // data.chain = chain
-            // data.collection_address =
-            //   userInput.collection_address || erc721Mintable_address
-            // data.upload = imageFile
-            // data.is_multiple = false
-            // data.nft_type = userInput.category
-            // data.cardImage = cardImage
-
-            if (data.market_type !== '0') {
-              data.on_sale = true
-            }
-
-            let updatableData
-            if (data.on_sale) {
-              //console.log(parseInt(returnvalues.token_id), 'hello')
-
-              if (data.market_type === '2') {
-                data.starting_time =
-                  new Date(data.starting_time).getTime() / 1000
-                data.ending_time = new Date(data.ending_time).getTime() / 1000
-              }
-              try {
-                const putOffSale = await marketplace_contract.methods
-                  .putSaleOff(
-                    data?.collection_address,
-                    parseInt(data?.token_id),
-
-                  )
-                  .send({ from: walletAddress })
-              } catch (err) {
-                console.log("actual err", err)
-              }
-
-
-              // const putOnSale = await handlePutOnSale(
-              //   returnValues.tokenId,
-              //   wallet_address,
-              //   userInput.collection_address,
-              //   web3.utils.toWei(data.price, 'ether'),
-              //   parseInt(data.starting_time),
-              //   parseInt(data.ending_time),
-              //   parseInt(data.market_type),
-              // )
-              // if (putOnSale?.error) {
-              //   console.log(err)
-              //   setMsg({ ...msg, eMsg: err, sMsg: '' })
-              //   setIsLoading(false)
-              //   return
-              // }
-
-              //console.log(putOnSale, putOnSale.events, 'sale')
-
-              // const expiration_time =
-              //   new Date(data.ending_time).getTime() + 2 * 24 * 3600 * 1000 // * 1000
-
-              updatableData = {
-                token_id: data.token_id,
-                wallet_address: walletAddress,
-                collection_address:
-                  data.collection_address,
-                file: data.file,
-                transaction_hash: data.transactionHash,
-                type: 'putOffSale',
-                chain_id: data.chain,
-                //order_type: data.market_type,
-
-                on_sale: false,
-                price: 0,
-              }
-            } else {
-              updatableData = {
-                token_id: data.token_id,
-                wallet_address: walletAddress,
-                collection_address:
-                  data.collection_address,
-                file: data.file,
-                transaction_hash: data.transactionHash,
-                type: 'putOffSale',
-                chain_id: data.chain,
-              }
-            }
-
-            const updateCollectible = await fetch(
-              `${globals.baseURL}/collectibles/update-collectible`,
-              {
-                method: 'PUT',
-                headers: {
-                  'content-type': 'application/json',
-                },
-                body: JSON.stringify(updatableData),
+          const updateCollectible = await fetch(
+            `${globals.baseURL}/collectibles/update-collectible`,
+            {
+              method: 'PUT',
+              headers: {
+                'content-type': 'application/json',
               },
-            )
+              body: JSON.stringify(updatableData),
+            },
+          )
 
-            const res = await updateCollectible.json()
+          const res = await updateCollectible.json()
 
-            console.log(res.data)
-            setIsLoading(false)
-            window.location.reload()
-            setIsLoading(false)
-          } catch (err) {
-            console.log(err)
+          console.log(res.data)
+          setIsLoading(false)
+          window.location.reload()
+          setIsLoading(false)
+        } catch (err) {
+          console.log(err)
 
-            setIsLoading(false)
-          }
+          setIsLoading(false)
         }
-
       }
-    } else {
-      //alert("Wrong chain!, Please switch to the chain of this NFT")
-      toast.error(` Wrong chain!, Please switch to the chain of this NFT`,
-        {
-          duration: 3000,
-        }
-      )
+
     }
+    // } else {
+    //   //alert("Wrong chain!, Please switch to the chain of this NFT")
+    //   toast.error(` Wrong chain!, Please switch to the chain of this NFT`,
+    //     {
+    //       duration: 3000,
+    //     }
+    //   )
+    // }
   }
 
   // const handleCollect = async (e: any) => {
