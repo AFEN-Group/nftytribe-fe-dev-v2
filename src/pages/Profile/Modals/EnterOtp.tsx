@@ -86,7 +86,9 @@ const EnterOtp = (props: any) => {
                 wallet_address: props.currentAddress
             }
             const enterOtpReq =
-                await publicRequest.post(`/user/update-email`, otpData)
+                await publicRequest.post(`/user/update-email`, otpData,{headers:{
+                    'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+                }})
             console.log(enterOtpReq)
             isUpdated(true)
 

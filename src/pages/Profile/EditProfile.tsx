@@ -105,6 +105,9 @@ const EditProfile = () => {
           {
             method: 'POST',
             body: form_data,
+            headers:{
+              'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+            }
           },
         )
         const data = await resp.json()
@@ -135,6 +138,9 @@ const EditProfile = () => {
           {
             method: 'POST',
             body: form_data,
+            headers:{
+              'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+            }
           },
         )
         const data = await resp.json()
@@ -195,12 +201,17 @@ const EditProfile = () => {
         twitter_username: userInput.twitterLink || user?.twitter_username,
         custom_url: userInput.website || user?.custom_url
       }
-      const updateUserReq = await publicRequest.post(`/user/update-user`, userData)
+
+      const updateUserReq = await publicRequest.post(`/user/update-user`,userData,{headers:{
+        'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+      }} )
 
       if (userInput.email) {
         try {
           const updateEmailReq =
-            await publicRequest.get(`/user/generate-email-verification-mail?email=${userInput.email}&wallet_address=${currentAddress}`)
+            await publicRequest.get(`/user/generate-email-verification-mail?email=${userInput.email}&wallet_address=${currentAddress}`,{headers:{
+              'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+            }})
           console.log(updateEmailReq)
           setShowOtp(true)
         } catch (err) {

@@ -125,8 +125,25 @@ const CreateItems = () => {
     { value: "african_art", text: "African Art" },
     // { value: '5', text: 'Music' },
   ];
+  const wallet_address = localStorage.getItem('currentAccount')
+
+  const getCollections = async () => {
+
+    try {
+      const collections = await publicRequest.get(
+        `/collections/user-collection?wallet_address=${wallet_address}&chain_id=${chainIdRef.current}`,{headers:{
+          'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+        }}
+      )
+      console.log(collections)
+      console.log(collections.data?.data.collections)
+      setUserCollections(collections?.data?.data.collections)
+      setIsLoading(false)
+    } catch (error) {
+      setIsLoading(false);
+    }
+  }
   useEffect(() => {
-    const wallet_address = localStorage.getItem('currentAccount')
     const currentChain = localStorage.getItem('chain')
     if (currentChain === globals.testnetEth.chainId) {
       setChain(globals.mainnetEth.chain)
@@ -145,20 +162,7 @@ const CreateItems = () => {
       setErc1155MarketplaceAddress(contracts.BSC_erc1155MarketplaceAdddress)
     }
     console.log(itemType, 'type')
-    const getCollections = async () => {
-
-      try {
-        const collections = await publicRequest.get(
-          `/collections/user-collection?wallet_address=${wallet_address}&chain_id=${chainIdRef.current}`,
-        )
-        console.log(collections)
-        console.log(collections.data?.data.collections)
-        setUserCollections(collections?.data?.data.collections)
-        setIsLoading(false)
-      } catch (error) {
-        setIsLoading(false);
-      }
-    }
+  
     getCollections()
   }, [])
 
@@ -218,6 +222,9 @@ const CreateItems = () => {
           {
             method: "POST",
             body: form_data,
+            headers:{
+              'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+            }
           }
         );
         const data = await resp.json();
@@ -342,7 +349,9 @@ const CreateItems = () => {
               let nonceData: any;
               if (data.is_lazy_mint) {
                 const getNonce = await fetch(
-                  `${globals.baseURL}/collectibles/get-nonce`,
+                  `${globals.baseURL}/collectibles/get-nonce`,{headers:{
+                    'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+                  }}
                 )
                 nonceData = await getNonce.json()
               }
@@ -352,6 +361,7 @@ const CreateItems = () => {
                   method: "POST",
                   headers: {
                     "content-type": "application/json",
+                    'Authorization':`Bearer ${sessionStorage.getItem('token')}`
                   },
                   body: JSON.stringify({
                     ...data,
@@ -440,6 +450,7 @@ const CreateItems = () => {
                     method: "PUT",
                     headers: {
                       "content-type": "application/json",
+                      'Authorization':`Bearer ${sessionStorage.getItem('token')}`
                     },
                     body: JSON.stringify(updatableData),
                   }
@@ -495,6 +506,8 @@ const CreateItems = () => {
                     method: "PUT",
                     headers: {
                       "content-type": "application/json",
+                      'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+                      
                     },
                     body: JSON.stringify(updateForMint),
                   }
@@ -736,6 +749,7 @@ const CreateItems = () => {
                   method: "PUT",
                   headers: {
                     "content-type": "application/json",
+                    'Authorization':`Bearer ${sessionStorage.getItem('token')}`
                   },
                   body: JSON.stringify(updatableData),
                 }
@@ -798,7 +812,9 @@ const CreateItems = () => {
               let nonceData: any;
               if (data.is_lazy_mint) {
                 const getNonce = await fetch(
-                  `${globals.baseURL}/collectibles/get-nonce`,
+                  `${globals.baseURL}/collectibles/get-nonce`,{headers:{
+                    'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+                  }}
                 )
                 nonceData = await getNonce.json()
               }
@@ -808,6 +824,7 @@ const CreateItems = () => {
                   method: "POST",
                   headers: {
                     "content-type": "application/json",
+                    'Authorization':`Bearer ${sessionStorage.getItem('token')}`
                   },
                   body: JSON.stringify({
                     ...data,
@@ -904,6 +921,7 @@ const CreateItems = () => {
                     method: "PUT",
                     headers: {
                       "content-type": "application/json",
+                      'Authorization':`Bearer ${sessionStorage.getItem('token')}`
                     },
                     body: JSON.stringify(updatableData),
                   }
@@ -964,6 +982,7 @@ const CreateItems = () => {
                     method: "PUT",
                     headers: {
                       "content-type": "application/json",
+                      'Authorization':`Bearer ${sessionStorage.getItem('token')}`
                     },
                     body: JSON.stringify(updateForMint),
                   }
@@ -1177,6 +1196,7 @@ const CreateItems = () => {
                   method: "PUT",
                   headers: {
                     "content-type": "application/json",
+                    'Authorization':`Bearer ${sessionStorage.getItem('token')}`
                   },
                   body: JSON.stringify(updatableData),
                 }
