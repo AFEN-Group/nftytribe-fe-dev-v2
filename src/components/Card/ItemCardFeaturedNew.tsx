@@ -59,7 +59,9 @@ const ItemCardOld = (data: any) => {
             //data?.nftData?.owner
             const ownerAddress = data?.nftData?.owner
             try {
-                const userInfo: any = await publicRequest.get(`/user/${ownerAddress}`)
+                const userInfo: any = await publicRequest.get(`/user/${ownerAddress}`,{headers:{
+                    'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+                }})
                 console.log("userInfo>>", userInfo?.data?.data?.name)
                 setUserName(userInfo?.data?.data?.name)
             } catch (error) {
