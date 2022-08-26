@@ -43,6 +43,19 @@ const ItemCardOld = (data: any) => {
         }
         return url
     }
+    const getUser = async () => {
+        //data?.nftData?.owner
+        const ownerAddress = data?.nftData?.owner
+        try {
+            const userInfo: any = await publicRequest.get(`/user/${ownerAddress}`,{headers:{
+                'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+            }})
+            console.log("userInfo>>", userInfo?.data?.data?.name)
+            setUserName(userInfo?.data?.data?.name)
+        } catch (error) {
+            console.log(error)
+        }
+    }
     useEffect(() => {
         const getUsdPrice = async () => {
             try {
@@ -55,19 +68,7 @@ const ItemCardOld = (data: any) => {
                 console.log(error)
             }
         }
-        const getUser = async () => {
-            //data?.nftData?.owner
-            const ownerAddress = data?.nftData?.owner
-            try {
-                const userInfo: any = await publicRequest.get(`/user/${ownerAddress}`,{headers:{
-                    'Authorization':`Bearer ${sessionStorage.getItem('token')}`
-                }})
-                console.log("userInfo>>", userInfo?.data?.data?.name)
-                setUserName(userInfo?.data?.data?.name)
-            } catch (error) {
-                console.log(error)
-            }
-        }
+       
         getUsdPrice()
         getUser()
     }, [])

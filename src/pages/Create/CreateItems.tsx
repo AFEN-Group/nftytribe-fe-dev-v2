@@ -17,10 +17,6 @@ import SelectOption2 from '../../components/Inputs/SelectOption2'
 import icon from './assets/upload.svg'
 import check from './assets/check.svg'
 import globals from '../../utils/globalVariables'
-import arrow1 from './assets/arrowR1.svg'
-import arrow2 from './assets/arrowR2.svg'
-import arrowDown from './assets/arrowd.svg'
-import create from './assets/create.svg'
 import logo from './assets/logo-sm.svg'
 
 import Web3 from 'web3'
@@ -45,7 +41,7 @@ const CreateItems = () => {
   const dark = themeState.dark
   const currentChain = localStorage.getItem('chain')
   const { handlePutOnSale } = useContext(ContractContext)
-  const itemType = useParams().itemType
+  const {itemType} = useParams()
   const [priceType, setPriceType] = useState('fixed')
   const [showAdvanced, setShowAdvanced] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -126,7 +122,7 @@ const CreateItems = () => {
     // { value: '5', text: 'Music' },
   ];
   const wallet_address = localStorage.getItem('currentAccount')
-
+  
   const getCollections = async () => {
 
     try {
@@ -135,8 +131,8 @@ const CreateItems = () => {
           'Authorization':`Bearer ${sessionStorage.getItem('token')}`
         }}
       )
-      console.log(collections)
-      console.log(collections.data?.data.collections)
+      // console.log(collections)
+      // console.log(collections.data?.data.collections)
       setUserCollections(collections?.data?.data.collections)
       setIsLoading(false)
     } catch (error) {
