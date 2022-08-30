@@ -77,7 +77,7 @@ const CollectionDashboard = () => {
               </h1>
               <p>
                 <span id="heroText">
-                  Top Nfts are ranked according to Volume and floor price.
+                  Top NfTs are ranked according to volume and floor price.
                 </span>
               </p>
 

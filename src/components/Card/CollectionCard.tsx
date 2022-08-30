@@ -32,24 +32,23 @@ const CollectionCard = (data: any) => {
             {data?.nftData?.cardImage !== '' && (
               <img
                 //src={user}
-                src={`${
-                  data?.nftData?.cover_image?.includes('/ipfs') ||
+                src={`${data?.nftData?.cover_image?.includes('/ipfs') ||
                   data?.nftData?.cover_image?.includes('ipfs://')
-                    ? getImage(data?.nftData?.cover_image)
-                    : data?.nftData?.cover_image
+                  ? getImage(data?.nftData?.cover_image)
+                  : data?.nftData?.cover_image
                     ? data?.nftData?.cover_image
                     : user
-                }`}
+                  }`}
                 alt="collection"
                 className={style.user}
               />
             )}
             {data?.nftData?.cardImage === '' && <img src={koala} alt="item" />}
           </div>
-          <div className={style.cardTop}>
+          {/* <div className={style.cardTop}>
             <img src={dots} alt="options" />
             <img src={like} alt="like" />
-          </div>
+          </div> */}
 
           <div
             className={`${style.descBox1} animate__animated animate__fadeIn `}
@@ -59,7 +58,7 @@ const CollectionCard = (data: any) => {
               {data.nftData && (
                 <p>{shortenAddress(data?.nftData?.contract_address)}</p>
               )}
-              <img src={arrow} alt="arrow" />
+              {/* <img src={arrow} alt="arrow" /> */}
             </div>
             <div className={style.itemInfo}>
               <p>{data?.nftData?.title}</p>

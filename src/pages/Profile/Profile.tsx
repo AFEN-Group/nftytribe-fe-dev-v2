@@ -18,6 +18,9 @@ import { shortenAddress } from '../../utils/formatting'
 import Filters from './Filters'
 import Loader from '../../components/Loader/Loader'
 import UpdatePrompt from './Modals/UpdatePrompt'
+import UseAxios from '../../hooks/AxiosConfig/useAxios'
+import Protected from '../../hooks/AxiosConfig/axiosInstance'
+import { type } from 'os'
 
 const Profile = () => {
   //const [tab, setTab] = useState('all')
@@ -38,6 +41,41 @@ const Profile = () => {
   const [currentChain, setCurrentChain] = useState<any>()
   //console.log('auth>>', authState)
 
+
+
+  const getUser = async () => {
+    if (currentAddress) {
+       await getData({
+        method:'get',
+        url:`user/${currentAddress}`,
+        axiosInstance:Protected(sessionStorage.getItem('token'))
+      })
+    }
+   
+
+  //   try {
+  //     const result = await publicRequest.get(`/user/${currentAddress}`)
+  //     console.log('user>>>', result.data.data.email)
+  //     setRes(result.data.data)
+  //     setIsLoading(false)
+  //     if (!result.data.data.email || result.data.data.email === "") {
+  //       setShowModal(true)
+  //     } else {
+  //       setShowModal(false)
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //     setIsLoading(false)
+  //   }
+  }
+ 
+  useEffect(() => {
+    setCurrentPage(1)
+    //setTotalPages(1)
+  }, [query])
+  const {error:getError,loading:getLoading,Response:response,fetchData:getData}=UseAxios()
+  const {error:Error,loading:Loading,Response:postResponse,fetchData:Data}=UseAxios()
+
   useEffect(() => {
     window.scrollTo(0, 0)
     if (currentChainId === '0x1') {
@@ -45,52 +83,51 @@ const Profile = () => {
     } else if (currentChain === '0x38') {
       setCurrentChain('bsc')
     }
-
-    const getUser = async () => {
-      try {
-        const result = await publicRequest.get(`/user/${currentAddress}`)
-        console.log('user>>>', result.data.data.email)
-        setRes(result.data.data)
-        setIsLoading(false)
-        if (!result.data.data.email || result.data.data.email === "") {
-          setShowModal(true)
-        } else {
-          setShowModal(false)
-        }
-      } catch (error) {
-        console.log(error)
-        setIsLoading(false)
-      }
-    }
-    if (currentAddress) {
-      getUser()
-    }
+    console.log(currentAddress);
+    
+    // if (currentAddress) {
+    //   getData({
+    //     method:'get',
+    //     url:`${currentAddress}`,
+    //     axiosInstance:Protected(sessionStorage.getItem('token'))
+    //   })
+    // }
+    getUser()
   }, [currentAddress])
+  console.log(sessionStorage.getItem('token'))
+   useEffect(()=>{
+    type data={
+      data?:any
+     }
+     const {data}=response||({} as data)
+    setRes(data?.data);
+   },[response])
+  
   useEffect(() => {
-    setCurrentPage(1)
-    //setTotalPages(1)
-  }, [query])
-
-  useEffect(() => {
-    const fetchUserNfts = async () => {
-      try {
-        setIsLoading(true)
-        const result = await publicRequest.get(
-          `/user/get-collectibles?wallet_address=${currentAddress}&${query}&page=${currentPage}&size=9`,
-        )
-        console.log('res>', result)
-        setCollectibles(result.data.data.collectibles)
-        setTotalPages(Math.round(result.data.data.total_count / 10))
-        setIsLoading(false)
-      } catch (error) {
-        console.log(error)
-        setIsLoading(false)
-      }
-    }
-    //if (currentAddress) {
-    fetchUserNfts()
-    //}
+    Data({
+     method:'get',
+     url:  `/user/get-collectibles?wallet_address=${currentAddress}&${query}&page=${currentPage}&size=9`,
+     axiosInstance:Protected(sessionStorage.getItem('token'))
+    })
+    
   }, [currentAddress, query, currentPage])
+
+
+ useEffect(()=>{
+     console.log(postResponse);
+     type data={
+      data?:any
+     }
+     const {data}=postResponse||({} as data)
+      setCollectibles(data?.data.collectibles)
+      setTotalPages(Math.round(data?.data.total_count / 10))
+      setIsLoading(Loading)
+  },[postResponse] )
+
+ 
+ 
+ 
+  
   const nextPage = () => {
     if (currentPage >= 1) {
       setCurrentPage(currentPage + 1)
@@ -104,7 +141,33 @@ const Profile = () => {
   const closeModal = () => {
     setShowModal(false)
   }
-
+  // const nft={
+    
+  //     cardImage: "https://afen.sfo3.digitaloceanspaces.com/Azuki-NFT-Main-1657613339833.jpeg",
+  //     chain: "bsc testnet",
+  //     collection_address: "0xE1C075aA57722FbAd50BE4C87737fD9495aA0e1e",
+  //     created_on: "2022-06-30T09:01:28.617Z",
+  //     description: "",
+  //     file: "QmQZuBepmLEh44s9Q12gLVEf2425KG4p7vXQXB55spZGd6",
+  //     is_lazy_mint: false,
+  //     is_multiple: true,
+  //     marketplace_type: 1,
+  //     nft_category: "others",
+  //     nft_type: "art",
+  //     number_of_copies: 3,
+  //     on_sale: true,
+  //     owner: "0x20810f449a750f36345de17d4a35eadad503da90",
+  //     // price: 1000000000000000,
+  //     title: "Azuki Main",
+  //     token_id: "1",
+  //     transaction_hash: "0xd16a033ef5dd4a4ebec45a182c59f02e8ab8142957678757b4424c86cf765ca9",
+  //     updated_on: "2022-06-30T09:01:28.618Z",
+  //     wallet_address: "0x20810f449a750f36345de17d4a35eadad503da90",
+  //     __v: 0,
+  //     _id: "62cd2c96a64879831afb7934"
+      
+    
+  // }
   return (
     <>
       <Header />
@@ -249,6 +312,8 @@ const Profile = () => {
               {collectibles?.length >= 1 && query !== 'sold=true' ? (
                 <>
                   <div className={style.itemsContent}>
+                
+
                     {collectibles?.map((nft: any, i: any) => {
                       return (
                         (nft?._id && nft?.cardImage) && (
@@ -288,6 +353,7 @@ const Profile = () => {
                 </>
               ) : (
                 <div className={style.noContent}>
+                    {/* <ItemCard nftData={nft} /> */}
                   <div className={style.noResults}>
                     <img src={Sad} alt="sad" />
                     <h2>No items found</h2>

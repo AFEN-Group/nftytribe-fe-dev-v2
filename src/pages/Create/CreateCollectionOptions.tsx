@@ -12,6 +12,7 @@ import Skale from './assets/skale.svg'
 import Solana from './assets/sol.svg'
 import Container from '../../components/Container/Container'
 import toast from 'react-hot-toast'
+import globals from '../../utils/globalVariables'
 
 const CreateCollectionOptions = () => {
     const [chain, setChain] = useState('')
@@ -48,7 +49,7 @@ const CreateCollectionOptions = () => {
 
     const checkNetwork = (network: any) => {
         if (network === 'eth') {
-            if (currentChain === "0x1") {
+            if (currentChain === globals.mainnetEth.chainId) {
                 setChain(network)
                 navigate(`/createCollection/${network}`)
             } else {
@@ -61,7 +62,7 @@ const CreateCollectionOptions = () => {
             }
         }
         if (network === 'binance') {
-            if (currentChain === "0x38") {
+            if (currentChain === globals.mainnetBsc.chainId) {
                 setChain(network)
                 navigate(`/createCollection/${network}`)
             } else {

@@ -73,7 +73,7 @@ const ItemCard = (data: any) => {
     }
 
     getUsdPriceValue()
-    getUser()
+    //getUser()
 
   }, [])
   const currentAddress: any = localStorage.getItem('currentAccount')
@@ -131,7 +131,7 @@ const ItemCard = (data: any) => {
                 <img
                   //className={style.imgBg}
                   src={
-                    data?.nftData?.cardImage.includes('/ipfs') ||
+                    data?.nftData?.cardImage?.includes('/ipfs') ||
                       data?.nftData?.cardImage.includes('ipfs://')
                       ? `${getImageUrl(data?.nftData?.cardImage)}`
                       : data?.nftData?.cardImage
@@ -236,7 +236,7 @@ const ItemCard = (data: any) => {
               )}
             </div>
             <div className={style.actionBx}>
-              <div className={style.aBcontent}>
+             {data?.nftData?.price && <div className={style.aBcontent}>
                 {/* {!data?.nftData?.is_lazy_mint && ( */}
                 <div className={style.aleft}>
                   <img src={data?.nftData?.chain === 'eth' ? eth : data?.nftData?.chain === 'bsc' ? bnb : ''} alt="chain" />
@@ -247,18 +247,21 @@ const ItemCard = (data: any) => {
                         '0.00'}{' '}
                     </p>
                   ) : (
-                    <p>0.00</p>
+                    <p></p>
                   )}
                   {/* <p>2800 Afen</p> */}
                 </div>
                 {/* )} */}
                 <div className={style.aright}>
 
-                  <p>${usdPrice?.toFixed(2) || '0.00'} </p>
+                  <p>${usdPrice?.toFixed(2)  } </p>
                   {/* <p>{getUsdPrice(data?.nftData?.price.toString())}</p>
                   <p>{shortenAddress(data?.nftData?.wallet_address)}</p> */}
                 </div>
-              </div>
+              </div>}
+             {!data?.nftData?.price && <div className={style.aBcontent}>
+               <p style={{textAlign:'center',margin:'auto'}}>Not for sale</p>
+              </div>}
               <div className={style.aleft}></div>
             </div>
           </div>

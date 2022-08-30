@@ -4,6 +4,7 @@ import WalletConnectProvider from '@walletconnect/web3-provider'
 import { AuthContext } from '../context/AuthContext'
 import { publicRequest } from '../utils/requestMethods'
 import toast from 'react-hot-toast'
+import UseAxios from '../hooks/AxiosConfig/useAxios'
 //import networks from './networks.json'
 declare const window: any
 
@@ -120,18 +121,20 @@ const UserConnect = () => {
     localStorage.getItem('currentAccount') || undefined,
   )
   const [chain, setChain] = useState()
-
+  const { loading, Response, error, fetchData } = UseAxios()
   const connectToMetaMask = async () => {
     if (window.ethereum) {
+      //console.log(window.ethereum);
+
       try {
         const accounts = await window.ethereum.request({
           method: 'eth_requestAccounts',
         })
         if (window.ethereum.chainId === '0x1' || window.ethereum.chainId === '0x38') { // for both eth and bnb on mainnet
-          //if (window.ethereum.chainId === '0x4') { // for testnet eth
+          // if (window.ethereum.chainId === '0x4' || window.ethereum.chainId === '0x61') { // for both testnet eth and bn
           //if (window.ethereum.chainId === '0x61') { // for testnet bsc
           //if (window.ethereum.chainId === '0x1') { // for eth only
-          console.log(window.ethereum.chainId)
+          // console.log(window.ethereum.chainId)
           localStorage.setItem('chain', window.ethereum.chainId)
           localStorage.setItem('currentAccount', accounts[0])
           setUserInfo({
@@ -139,48 +142,68 @@ const UserConnect = () => {
             account: accounts[0],
             chain: window.ethereum.chainId,
           })
-          try {
-            const user = {
-              params: {
-                wallet_address: localStorage.getItem('currentAccount'),
-              },
-            }
-            const logUserReq = await publicRequest.post(
-              `/user/create-user`,
-              user,
-            )
-            console.log('user>>', logUserReq.data.data)
-            setAuthState({
-              ...authState,
-              user: logUserReq.data.data,
-              isFetching: false,
-              error: false,
-            })
-            setWalletType("MetaMask")
-            localStorage.setItem("walletType", 'MetaMask')
-            toast.success(`Wallet connected successfully.`,
-              { duration: 5000 })
-            // setTimeout(() => {
-            //   window.location.reload()
-            // }, 1000)
-          } catch (err) {
-            console.log(err)
-            setAuthState({
-              ...authState,
-              isFetching: false,
-              error: true,
-            })
+          const user = {
+            params: {
+              wallet_address: localStorage.getItem('currentAccount'),
+            },
           }
+          await fetchData({
+            method: 'post',
+            url: '/user/create-user',
+            axiosInstance: publicRequest,
+            requestConfig: {
+              ...user
+            }
+
+          })
+          console.log("resp>>", Response)
+          setWalletType("MetaMask")
+          localStorage.setItem("walletType", 'MetaMask')
+
+          // const {token}=Response?
+
+          // try {
+          //   const user = {
+          //     params: {
+          //       wallet_address: localStorage.getItem('currentAccount'),
+          //     },
+          //   }
+          //   const logUserReq = await publicRequest.post(
+          //     `/user/create-user`,
+          //     user,
+          //   )
+          //   console.log('user>>', logUserReq.data.data)
+          //   setAuthState({
+          //     ...authState,
+          //     user: logUserReq.data.data,
+          //     isFetching: false,
+          //     error: false,
+          //   })
+          //   setWalletType("MetaMask")
+          //   localStorage.setItem("walletType", 'MetaMask')
+          //   toast.success(`Wallet connected successfully.`,
+          //     { duration: 5000 })
+          //   // setTimeout(() => {
+          //   //   window.location.reload()
+          //   // }, 1000)
+          // } catch (err) {
+          //   console.log(err)
+          //   setAuthState({
+          //     ...authState,
+          //     isFetching: false,
+          //     error: true,
+          //   })
+          // }
           //window.location.reload()
           setWalletError('')
         } else {
-          //setWalletError('Wrong network, please switch to ethereum mainnet!')
-          //setWalletError('Wrong network, please switch to recommended networks!')
           toast.error(`Wrong network, please switch to recommended networks!`,
             {
               duration: 5000,
             }
           )
+          //console.log(window.ethereum.chainId);
+
         }
         console.log("network1 >> ", window.ethereum.chainId);
       } catch (err) {
@@ -190,7 +213,7 @@ const UserConnect = () => {
       console.log('Pls install metamask and try again')
     }
   }
-
+  console.log(Response)
   const handleNetworkSwitch = async (networkName: string) => {
 
     try {

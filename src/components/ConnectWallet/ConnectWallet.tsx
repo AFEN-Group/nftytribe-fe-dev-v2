@@ -23,6 +23,7 @@ import Afen from './assets/afen.svg'
 import BNB from './assets/bnb.svg'
 import Swap from './assets/swap01.svg'
 import Swap2 from './assets/swap02.svg'
+import globals from '../../utils/globalVariables'
 
 
 declare const window: any
@@ -272,7 +273,7 @@ const ConnectWallet = (props: any) => {
                           <div className={style.awInfo}>
                             <h3>{shortenAddressSmall(currentAccount)}</h3>
 
-                            <p>{currentChain === '0x1' ? 'Ethereum' : currentChain === "0x38" ? 'Binance' : ''}</p>
+                            <p>{currentChain === globals.mainnetEth.chainId ? 'Ethereum' : currentChain === globals.mainnetBsc.chainId ? 'Binance' : ''}</p>
                           </div>
                         </div>
                         <div className={style.awRight}>

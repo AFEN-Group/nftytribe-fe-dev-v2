@@ -37,7 +37,7 @@ const UpdatePrompt = (props: any) => {
                     <div className={style.modalTop}>
                         <h1>Update your email</h1>
                         <p>
-                            Please update and verify your email address, your email address is mandatory on the platform.
+                            Please update and verify your email address.
                         </p>
                         <img src={Close} alt="close" onClick={props.closePrompt} />
                     </div>
