@@ -252,7 +252,7 @@ const Explore = () => {
                           <span className={style.checkmark}></span>
                         </div>
                       </div>
-                      <div className={style.filterItem}>
+                      {/* <div className={style.filterItem}>
                         <div className={style.filterTxt}>
                           <p>Lazy Mint</p>
                         </div>
@@ -262,7 +262,7 @@ const Explore = () => {
                           <input type="radio" name="filter" />
                           <span className={style.checkmark}></span>
                         </div>
-                      </div>
+                      </div> */}
                     </form>
                   )}
                   <div
