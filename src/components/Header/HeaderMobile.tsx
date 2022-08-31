@@ -24,23 +24,23 @@ const HeaderMobile = () => {
   const [showConnect, setShowConnect] = useState(false)
   const [showMConnect, setShowMConnect] = useState(false)
 
-  useEffect(() => {
-    // When the user scrolls down Xpx from the top of the page, add styles to the navbar
-    window.onscroll = function () {
-      scrollFunction();
-    };
-    const scrollFunction = () => {
-      const header: any = document.getElementById("containerM");
-      const wrap: any = document.getElementById("menuwrap");
-      if (window.scrollY > 50) {
-        header.classList.add(style.containerScroll);
-        wrap.classList.add("menu-wrap2");
-      } else {
-        header.classList.remove(style.containerScroll);
-        wrap.classList.remove("menu-wrap2");
-      }
-    };
-  }, []);
+  // useEffect(() => {
+  //   // When the user scrolls down Xpx from the top of the page, add styles to the navbar
+  //   window.onscroll = function () {
+  //     scrollFunction();
+  //   };
+  //   const scrollFunction = () => {
+  //     const header: any = document.getElementById("containerM");
+  //     const wrap: any = document.getElementById("menuwrap");
+  //     if (window.scrollY > 50) {
+  //       header.classList.add(style.containerScroll);
+  //       wrap.classList.add("menu-wrap2");
+  //     } else {
+  //       header.classList.remove(style.containerScroll);
+  //       wrap.classList.remove("menu-wrap2");
+  //     }
+  //   };
+  // }, []);
 
   const handleTheme = () => {
     // change theme

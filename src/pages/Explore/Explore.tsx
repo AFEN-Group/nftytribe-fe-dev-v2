@@ -46,6 +46,7 @@ const Explore = () => {
     try {
       const explore = await publicRequest.get(
         `/collectibles/explore/filter?on_sale=true&nft_type=${tab}${filterQuery}&page=${currentPage}`
+        //`/collectibles/explore/filter?lazy_mint=true&marketplace_type=1&page=${currentPage}`
         //&size=9
       );
       const exploreData: any = explore.data;
@@ -251,6 +252,17 @@ const Explore = () => {
                           <span className={style.checkmark}></span>
                         </div>
                       </div>
+                      {/* <div className={style.filterItem}>
+                        <div className={style.filterTxt}>
+                          <p>Lazy Mint</p>
+                        </div>
+                        <div
+                          className={style.pbRadio}
+                          onClick={() => setFilterQuery("&marketplace_type=2")}>
+                          <input type="radio" name="filter" />
+                          <span className={style.checkmark}></span>
+                        </div>
+                      </div> */}
                     </form>
                   )}
                   <div

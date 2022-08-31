@@ -124,6 +124,33 @@
     }
 }
 
+.modalTop3 {
+    position: relative;
+    @include flexRegular(column, center);
+    background: pink;
+
+    h1 {
+        font-family: Neue-bold;
+        font-size: 1.4em;
+        color: #000 !important;
+    }
+
+    p {
+        font-weight: 300;
+        margin: 1em 0;
+        text-align: center;
+        color: #000 !important;
+    }
+
+    img {
+        position: absolute;
+        right: -20em;
+        top: -11em;
+        cursor: pointer;
+        color: #000 !important;
+    }
+}
+
 .modalBody,
 .modalBody2 {
     .modalInput {
@@ -432,6 +459,8 @@
             right: 2em;
         }
     }
+
+
 
     .modal {
         padding: 16vh 1em 3em 1em;
