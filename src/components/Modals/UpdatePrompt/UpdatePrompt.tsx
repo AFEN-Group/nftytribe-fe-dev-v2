@@ -34,7 +34,7 @@ const UpdatePrompt = (props: any) => {
                     }}
                     className={`${style.modal2}  `}
                 >
-                    <div className={style.modalTop}>
+                    <div className={style.modalTop2}>
                         <h1>Update your email</h1>
                         <p>
                             Please update and verify your email address.
