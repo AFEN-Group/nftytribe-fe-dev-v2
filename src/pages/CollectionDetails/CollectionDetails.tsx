@@ -83,7 +83,7 @@ const CollectionDetails = () => {
   
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Container>
         <div className={style.container}>
           <div

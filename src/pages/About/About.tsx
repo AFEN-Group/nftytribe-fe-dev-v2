@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
-import Header from "../../components/Header/Header";
+// import Header from "../../components/Header/Header";
 import Hero from "./components/Hero";
 import style from "./About.module.scss";
 import vidImg from "./assets/vidImg.svg";
@@ -33,7 +33,7 @@ const About = () => {
   const { t } = useTranslation();
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Hero />
       <Container>
         <div className={style.sectionTwo}>

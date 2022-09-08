@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import { Cancel } from '@material-ui/icons'
 import { CircularProgress } from '@material-ui/core'
 import Container from '../../components/Container/Container'
-import Header from '../../components/Header/Header'
+// import Header from '../../components/Header/Header'
 import style from './Create.module.scss'
 import TextInput from '../../components/Inputs/TextInput'
 import SelectDate from '../../components/Inputs/SelectDate'
@@ -1239,7 +1239,7 @@ const CreateItems = () => {
   const { t } = useTranslation();
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       {showModal && (
         <CreateSteps
           handleClose={handleClose}

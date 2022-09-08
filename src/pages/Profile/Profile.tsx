@@ -170,7 +170,7 @@ const Profile = () => {
   // }
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Container>
         {showModal && (
           <UpdatePrompt closeModal={closeModal} />

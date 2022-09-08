@@ -4,7 +4,7 @@ import { AuthContext } from '../../context/AuthContext'
 import { gsap, Expo } from 'gsap'
 import { useNavigate } from 'react-router-dom'
 import { publicRequest } from '../../utils/requestMethods'
-import Header from '../../components/Header/Header'
+// import Header from '../../components/Header/Header'
 import style from './Collections.module.scss'
 import Import from './Import'
 import Container from '../../components/Container/Container'
@@ -83,7 +83,7 @@ const MyCollectionsFull = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       {showImport && <Import closeImport={closeImport} />}
       {showPrompt && <UpdatePrompt closePrompt={closePrompt} />}
       <Container>

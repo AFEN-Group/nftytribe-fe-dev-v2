@@ -752,7 +752,7 @@ const ExploreSingle = () => {
     console.log("active>>", isBidActive)
     return (
         <>
-            <Header />
+            {/* <Header /> */}
             {showPutOnSale && (
                 <PutOnSaleModal
                     handleClose={handleClose}

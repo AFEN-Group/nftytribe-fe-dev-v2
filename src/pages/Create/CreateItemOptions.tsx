@@ -92,7 +92,7 @@ const CreateItemOptions = () => {
   console.log(chain)
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Container>
         {showModal && (
           <Switch closeModal={closeModal} blockChain={blockChain} />

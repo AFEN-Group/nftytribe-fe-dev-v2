@@ -7,22 +7,22 @@ import Marquee from "react-fast-marquee";
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 
-const Trending = () => {
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    const getExploreCollectibles = async () => {
-      try {
-        const explore = await publicRequest.get(`/collectibles/explore`);
-        const exploreData = explore.data;
-        console.log(exploreData);
-        setData(exploreData?.data?.collectibles);
-        //setIsLoading(false)
-      } catch (error) {
-        //setIsLoading(false)
-      }
-    };
-    getExploreCollectibles();
-  }, []);
+const Trending = ({data}:any) => {
+  // const [data, setData] = useState([]);
+  // useEffect(() => {
+  //   const getExploreCollectibles = async () => {
+  //     try {
+  //       const explore = await publicRequest.get(`/collectibles/explore`);
+  //       const exploreData = explore.data;
+  //       console.log(exploreData);
+  //       setData(exploreData?.data?.collectibles);
+  //       //setIsLoading(false)
+  //     } catch (error) {
+  //       //setIsLoading(false)
+  //     }
+  //   };
+  //   getExploreCollectibles();
+  // }, []);
   const { t } = useTranslation();
   return (
     <>

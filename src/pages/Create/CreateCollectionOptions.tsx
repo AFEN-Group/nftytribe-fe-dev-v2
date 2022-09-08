@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { gsap, Expo } from 'gsap'
 //import { ThemeContext } from '../../context/ThemeContext'
 import style from './Create.module.scss'
-import Header from '../../components/Header/Header'
+// import Header from '../../components/Header/Header'
 //import Flow from './assets/fl.png'
 import Eth from './assets/eth.svg'
 import Polygon from './assets/profile.svg'
@@ -79,7 +79,7 @@ const CreateCollectionOptions = () => {
     console.log(chain)
     return (
         <>
-            <Header />
+            {/* <Header /> */}
             <Container>
                 <div className={style.createOptions}>
                     {/* {chain === '' ? ( */}

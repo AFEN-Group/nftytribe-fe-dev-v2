@@ -10,7 +10,7 @@ const NotFound = () => {
     const dark = themeState.dark
     return (
         <>
-            <Header />
+            {/* <Header /> */}
             <div
 
                 className={`${style.content} ${dark === 'true' ? 'darkTheme' : 'lightTheme'

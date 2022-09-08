@@ -4,7 +4,7 @@ import { ThemeContext } from '../../context/ThemeContext'
 import { AuthContext } from '../../context/AuthContext'
 import { CircularProgress } from '@material-ui/core'
 import style from './Profile.module.scss'
-import Header from '../../components/Header/Header'
+// import Header from '../../components/Header/Header'
 import Cover from './assets/cover.svg'
 import Avatar from './assets/user3.svg'
 import Av2 from './assets/user5.svg'
@@ -256,7 +256,7 @@ const EditProfile = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       {showVerify &&
         <Verification closeVerify={closeModal} />
       }

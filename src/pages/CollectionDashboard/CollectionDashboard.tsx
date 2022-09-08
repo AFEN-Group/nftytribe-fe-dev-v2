@@ -67,7 +67,7 @@ const CollectionDashboard = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Container>
         <div className={style.container}>
           <div className={style.content}>
