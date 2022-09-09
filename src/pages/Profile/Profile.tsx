@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { ThemeContext } from '../../context/ThemeContext'
 import { AuthContext } from '../../context/AuthContext'
@@ -168,6 +168,32 @@ const Profile = () => {
       
     
   // }
+
+  const interDemo = useRef(null);
+
+  const callBack = (entries:any) => {
+    console.log(entries);
+    
+    const [entry] = entries;
+    if(entry.isIntersecting) nextPage();
+  };
+  let options = {
+    root: null,
+    rootMargin: "0px",
+    threshold: 0.3,
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(callBack, options);
+    const target = interDemo.current;
+    if (target) observer.observe(target);
+
+    return () => {
+      if (target) {
+        observer.unobserve(target);
+      }
+    };
+  }, [interDemo]);
   return (
     <>
       {/* <Header /> */}
@@ -324,7 +350,7 @@ const Profile = () => {
                       )
                     })}
                   </div>
-                  {totalPages > 1 && (
+                  {/* {totalPages > 1 && (
                     <div className={style.pagination}>
                       <div className={style.paginateBtns}>
                         {currentPage > 1 && (
@@ -349,7 +375,7 @@ const Profile = () => {
                       <p>
                         Page {currentPage} of {totalPages}
                       </p>
-                    </div>)}
+                    </div>)} */}
                 </>
               ) : (
                 <div className={style.noContent}>
@@ -364,7 +390,7 @@ const Profile = () => {
                   </div>
                 </div>
               )}
-
+           
               {/* <div className={style.itemContent}>
               <div className={style.noResults}>
                 <img src={Sad} alt="sad" />
@@ -376,6 +402,8 @@ const Profile = () => {
               </div>
             </div> */}
             </div>)}
+            <div ref={interDemo}></div>
+
         </div>
       </Container>
     </>
