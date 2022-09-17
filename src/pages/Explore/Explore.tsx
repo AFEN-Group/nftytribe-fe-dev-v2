@@ -1,10 +1,10 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { Link } from "react-router-dom";
 import { gsap, Expo } from "gsap";
 import { ThemeContext } from "../../context/ThemeContext";
 import { publicRequest } from "../../utils/requestMethods";
 
-import Header from "../../components/Header/Header";
+// import Header from "../../components/Header/Header";
 import style from "./Explore.module.scss";
 import Filter from "./assets/Filter.svg";
 import Arrow1 from "./assets/arrowdown.svg";
@@ -24,7 +24,7 @@ const Explore = () => {
   const [themeState] = useContext<any>(ThemeContext);
   const dark = themeState.dark;
   const [tab, setTab] = useState(localStorage.getItem("category") || '');
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any>([]);
   const [filter, setFilter] = useState({
     saleType: false,
     blockChain: false,
@@ -50,7 +50,7 @@ const Explore = () => {
       );
       const exploreData: any = explore.data;
       console.log(exploreData);
-      setData(exploreData?.data?.collectibles);
+      setData([...data,...exploreData?.data?.collectibles]);
       //setTotalPages(exploreData?.data?.total_count)
       const total: any = exploreData?.data?.totalNfts / 10
       setTotalPages(parseFloat(total))
@@ -78,6 +78,32 @@ const Explore = () => {
       setCurrentPage(currentPage - 1)
     }
   }
+
+  const interDemo = useRef(null);
+
+  const callBack = (entries:any) => {
+    console.log(entries);
+    
+    const [entry] = entries;
+    if(entry.isIntersecting) nextPage();
+  };
+  let options = {
+    root: null,
+    rootMargin: "0px",
+    threshold: 0.3,
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(callBack, options);
+    const target = interDemo.current;
+    if (target) observer.observe(target);
+
+    return () => {
+      if (target) {
+        observer.unobserve(target);
+      }
+    };
+  }, [interDemo]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -110,7 +136,7 @@ const Explore = () => {
   return (
 
     <>
-      <Header />
+      {/* <Header /> */}
       <Container>
         <div className={style.explore}>
           <div className={style.exploreContent}>
@@ -176,7 +202,7 @@ const Explore = () => {
                         : style.exploreCat
                   }
                   onClick={(e) => setTab("collectibles")}>
-                  <p>Collectibles</p>
+                  <p >Collectibles</p>
                 </div>
 
                 <div
@@ -375,8 +401,8 @@ const Explore = () => {
 
                             );
                           })}
-                          {totalPages > 1 && (
-                            <div className={style.pagination}>
+                          {/* {totalPages > 1 && (
+                            <div  className={style.pagination}>
                               <div className={style.paginateBtns}>
                                 {currentPage > 1 && (
                                   <button
@@ -400,7 +426,7 @@ const Explore = () => {
                               <p>
                                 Page {currentPage} of {Math.ceil(totalPages)}
                               </p>
-                            </div>)}
+                            </div>)} */}
                         </div>
                       </>
                     ) : (
@@ -420,9 +446,11 @@ const Explore = () => {
                       </div>
                     </div>
                   )}
+               
                 </div>
               )}
             </div>
+            <div ref={interDemo}></div>
           </div>
         </div>
       </Container>

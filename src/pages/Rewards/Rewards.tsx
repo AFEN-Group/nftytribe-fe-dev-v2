@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react'
 import { ThemeContext } from '../../context/ThemeContext'
 import { motion } from 'framer-motion'
 import { Link, useNavigate } from 'react-router-dom'
-import Header from '../../components/Header/Header'
+// import Header from '../../components/Header/Header'
 // import Footer from '../../components/Footer/Footer'
 import style from "./Rewards.module.scss";
 //import Shape1 from './assets/shape01.svg'
@@ -33,7 +33,7 @@ const Rewards = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div
         className={`${style.container} ${dark === "true" ? "darkTheme" : "lightTheme"
           }`}>

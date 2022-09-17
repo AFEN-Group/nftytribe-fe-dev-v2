@@ -3,7 +3,7 @@ import useState from 'react-usestateref'
 import { ThemeContext } from "../../context/ThemeContext";
 //import { motion } from 'framer-motion'
 import { Link } from "react-router-dom";
-import Header from "../../components/Header/Header";
+// import Header from "../../components/Header/Header";
 import style from "./Staking.module.scss";
 import { round } from "mathjs";
 import arrow1 from "./assets/arrow1.svg";
@@ -129,7 +129,7 @@ const Staking = () => {
   //   console.log(statistics);
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       {showModal && (
         <Switch closeModal={closeModal} blockChain={blockChain} />
       )}

@@ -1,10 +1,10 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { ThemeContext } from '../../context/ThemeContext'
 import { AuthContext } from '../../context/AuthContext'
 import { CircularProgress } from '@material-ui/core'
 import style from './Profile.module.scss'
-import Header from '../../components/Header/Header'
+// import Header from '../../components/Header/Header'
 import Cover from './assets/cover.svg'
 import Avatar from './assets/user3.svg'
 import Av2 from './assets/user5.svg'
@@ -33,7 +33,8 @@ const EditProfile = () => {
   const [authState, setAuthState] = useContext<any>(AuthContext)
   const [user, setUser] = useState<any>()
   //const user = authState.user
-
+  // console.log(authState);
+  
   //console.log(user)
   //console.log(localStorage.getItem('user'))
 
@@ -44,7 +45,7 @@ const EditProfile = () => {
   //   twitterLink: user?.twitter_username || '',
   //   website: user?.custom_url || '',
   // })
-
+  useMemo(()=>setUser(authState.user),[authState])
   const [imageFile, setImageFile] = useState<any>({
     file: '',
     location: '',
@@ -54,25 +55,7 @@ const EditProfile = () => {
     location: '',
   })
 
-  useEffect(() => {
-    window.scrollTo(0, 0)
-    const getUser = async () => {
-      try {
-        const result = await publicRequest.get(`/user/${currentAddress}`)
-        console.log('get user>>>', result.data.data)
-        console.log("current user >>", currentAddress)
-        setUser(result.data.data)
-        setIsLoading(false)
-      } catch (error) {
-        console.log(error)
-        setIsLoading(false)
-      }
-    }
-    if (currentAddress) {
-      getUser()
-    }
-
-  }, [currentAddress])
+ 
 
   const [userInput, setUserInput] = useState<any>({
     name: '',
@@ -102,6 +85,9 @@ const EditProfile = () => {
           {
             method: 'POST',
             body: form_data,
+            headers:{
+              'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+            }
           },
         )
         const data = await resp.json()
@@ -132,6 +118,9 @@ const EditProfile = () => {
           {
             method: 'POST',
             body: form_data,
+            headers:{
+              'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+            }
           },
         )
         const data = await resp.json()
@@ -192,12 +181,17 @@ const EditProfile = () => {
         twitter_username: userInput.twitterLink || user?.twitter_username,
         custom_url: userInput.website || user?.custom_url
       }
-      const updateUserReq = await publicRequest.post(`/user/update-user`, userData)
+
+      const updateUserReq = await publicRequest.post(`/user/update-user`,userData,{headers:{
+        'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+      }} )
 
       if (userInput.email) {
         try {
           const updateEmailReq =
-            await publicRequest.get(`/user/generate-email-verification-mail?email=${userInput.email}&wallet_address=${currentAddress}`)
+            await publicRequest.get(`/user/generate-email-verification-mail?email=${userInput.email}&wallet_address=${currentAddress}`,{headers:{
+              'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+            }})
           console.log(updateEmailReq)
           setShowOtp(true)
         } catch (err) {
@@ -262,7 +256,7 @@ const EditProfile = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       {showVerify &&
         <Verification closeVerify={closeModal} />
       }
@@ -357,7 +351,7 @@ const EditProfile = () => {
                   <TextInput
                     type="text"
                     inputName="name"
-                    holder="Enter username"
+                    holder={user?.name?user?.name:"Enter username"}
                     inputHandler={inputHandler}
                     value={userInput.name}
                   />
@@ -367,7 +361,7 @@ const EditProfile = () => {
                   <TextInput
                     type="email"
                     inputName="email"
-                    holder="Enter email e.g youremail@example.com"
+                    holder={user?.email?user?.email:"Enter email e.g youremail@example.com"}
                     inputHandler={inputHandler}
                     value={userInput.email}
                   />
@@ -378,7 +372,7 @@ const EditProfile = () => {
                     inputName="bio"
                     type="text"
                     inputHandler={inputHandler}
-                    holder="Tell the world about yourself! It starts here"
+                    holder={user?.bio?user?.bio:"Tell the world about yourself! It starts here"}
                     value={userInput.bio}
                   />
                 </div>

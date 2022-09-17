@@ -79,9 +79,11 @@ const CollectionDetails = () => {
     setFilterQuery('')
     setTab("")
   }
+
+  
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Container>
         <div className={style.container}>
           <div
@@ -360,6 +362,8 @@ const CollectionDetails = () => {
                   {collectibles?.length >= 1 ? (
                     <>
                       <div className={style.itemsContent}>
+                      {/* <ItemCard nftData={nft} /> */}
+
                         {collectibles?.map((nft: any, i: any) => {
                           return (
                             nft?._id && (

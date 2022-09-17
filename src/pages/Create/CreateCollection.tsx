@@ -274,7 +274,7 @@ const CreateCollection = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       {showModal && (
         <CollectionModal
           closeModal={closeModal}

@@ -16,34 +16,18 @@ import dot2 from '../assets/bluedot.svg'
 import ItemSkeleton from '../../../components/Card/ItemSkeleton'
 import { useTranslation } from "react-i18next";
 
-const Hero = () => {
-  const [isLoading, setIsLoading] = useState(true)
-  const [items, setItems] = useState([])
-  const [featured, setFeatured] = useState()
+const Hero = (props:any) => {
+  // const [isLoading, setIsLoading] = useState(true)
+ 
   const [themeState] = useContext<any>(ThemeContext)
   const currentAccount = localStorage.getItem('currentAccount')
   const dark = themeState.dark
   const navigate = useNavigate()
   const { t } = useTranslation();
 
-
-  useEffect(() => {
-    const getExploreCollectibles = async () => {
-      try {
-        const explore = await publicRequest.get(`/collectibles/explore`)
-        const exploreData = explore.data
-        console.log(exploreData)
-        setItems(exploreData?.data?.collectibles)
-        setFeatured(exploreData?.data?.collectibles[0])
-        console.log(exploreData?.data?.collectibles[0])
-        //setTotalCount(exploreData?.data?.total_count)
-        setIsLoading(false)
-      } catch (error) {
-        //setIsLoading(false)
-      }
-    }
-    getExploreCollectibles()
-  }, [])
+  console.log(props.isLoading);
+  
+ 
 
   useEffect(() => {
     const heroTitle = document.getElementById('heroTitle')
@@ -216,7 +200,7 @@ const Hero = () => {
                   },
                 }}
               >
-                {isLoading ? <ItemSkeleton /> : <ItemCard nftData={featured} />}
+                {props.isLoading ? <ItemSkeleton /> : <ItemCard nftData={props.featured} />}
               </motion.div>
               <div
                 className={`${style.leftBtns} ${style.forM} animate__animated animate__slideInUp`}

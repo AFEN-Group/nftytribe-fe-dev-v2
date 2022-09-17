@@ -138,8 +138,8 @@ const TopProjects = () => {
                           <p >Chain : <span style={{ textTransform: 'uppercase' }}>{collection?.chain}</span></p>
                         </div>
                         <div className={style.tprNumbers}>
-                          <p>+ --</p>
-                          <p>Vol: 0</p>
+                          {/* <p>+ --</p>
+                          <p>Vol: 0</p> */}
                         </div>
                       </div>
                     </Link>

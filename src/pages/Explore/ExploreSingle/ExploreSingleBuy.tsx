@@ -693,7 +693,7 @@ const ExploreSingleBuy = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       {showBuy && (
         <BuyModal
           handleClose={handleClose}

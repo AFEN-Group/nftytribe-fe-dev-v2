@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { gsap, Expo } from 'gsap'
 //import { ThemeContext } from '../../context/ThemeContext'
 import style from './Create.module.scss'
-import Header from '../../components/Header/Header'
+// import Header from '../../components/Header/Header'
 //import Flow from './assets/fl.png'
 import Eth from './assets/eth.svg'
 import Polygon from './assets/profile.svg'
@@ -12,6 +12,7 @@ import Skale from './assets/skale.svg'
 import Solana from './assets/sol.svg'
 import Container from '../../components/Container/Container'
 import toast from 'react-hot-toast'
+import globals from '../../utils/globalVariables'
 
 const CreateCollectionOptions = () => {
     const [chain, setChain] = useState('')
@@ -48,7 +49,7 @@ const CreateCollectionOptions = () => {
 
     const checkNetwork = (network: any) => {
         if (network === 'eth') {
-            if (currentChain === "0x1") {
+            if (currentChain === globals.testnetEth.chainId) {
                 setChain(network)
                 navigate(`/createCollection/${network}`)
             } else {
@@ -61,7 +62,7 @@ const CreateCollectionOptions = () => {
             }
         }
         if (network === 'binance') {
-            if (currentChain === "0x38") {
+            if (currentChain === globals.testnetBsc.chainId) {
                 setChain(network)
                 navigate(`/createCollection/${network}`)
             } else {
@@ -78,7 +79,7 @@ const CreateCollectionOptions = () => {
     console.log(chain)
     return (
         <>
-            <Header />
+            {/* <Header /> */}
             <Container>
                 <div className={style.createOptions}>
                     {/* {chain === '' ? ( */}

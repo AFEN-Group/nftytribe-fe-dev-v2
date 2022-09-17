@@ -35,6 +35,7 @@ import { Toaster } from 'react-hot-toast'
 
 import useWeb3 from "./hooks/web3";
 import Web3ContextProvider from "./context/Web3Context";
+import Header from "./components/Header/Header";
 
 function App() {
   const AOS = require("aos");
@@ -55,6 +56,7 @@ function App() {
               <div className="app">
                 <Toaster />
                 <Router>
+                  <Header/>
                   <Routes>
 
                     <Route path="/" element={<Home />}></Route>

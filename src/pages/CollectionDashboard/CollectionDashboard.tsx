@@ -12,6 +12,7 @@ import user from './assets/user.svg'
 import Container from '../../components/Container/Container'
 import { publicRequest } from '../../utils/requestMethods'
 //import nArrow from './assets/arrow-right.svg'
+import { shortenAddress } from '../../utils/formatting'
 
 const CollectionDashboard = () => {
   const [themeState] = useContext<any>(ThemeContext)
@@ -28,6 +29,10 @@ const CollectionDashboard = () => {
   })
 
   const [collections, setCollections] = useState([])
+  const getCollections = async () => {
+    const resp = await publicRequest.get(`/collections`)
+    setCollections(resp.data.data)
+  }
   useEffect(() => {
     window.scrollTo(0, 0)
     getCollections()
@@ -49,10 +54,6 @@ const CollectionDashboard = () => {
     })
   }, [])
 
-  const getCollections = async () => {
-    const resp = await publicRequest.get(`/collections`)
-    setCollections(resp.data.data)
-  }
 
   const getImage = (uri: any) => {
     let url
@@ -66,7 +67,7 @@ const CollectionDashboard = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Container>
         <div className={style.container}>
           <div className={style.content}>
@@ -76,7 +77,7 @@ const CollectionDashboard = () => {
               </h1>
               <p>
                 <span id="heroText">
-                  Top Nfts are ranked according to Volume and floor price.
+                  Top NfTs are ranked according to volume and floor price.
                 </span>
               </p>
 
@@ -109,7 +110,7 @@ const CollectionDashboard = () => {
                   onClick={() => setShowDrop({ ...showDrop, chain: !showDrop.chain })}
                 >
                   <p onClick={() => setFilter({ ...filter, chain: "Eth" })}>Ethereum</p>
-                  <p className='disable_link2'>Binance</p>
+                  <p className=''>Binance</p>
                   <p className='disable_link2'>Skale</p>
                   <p className='disable_link2'>Solana</p>
                 </div>
@@ -131,22 +132,18 @@ const CollectionDashboard = () => {
             >
               <div className={style.tpTableTitles}>
                 <p>Collection</p>
-                <div>
-                  <p>Volume</p>
-                </div>
                 {/* <div>
-                  <p>24hr %</p>
-                </div>
-                <div>
-                  <p>7d %</p>
+                  <p>Volume</p>
                 </div> */}
                 <div>
+                  <p>Chain</p></div>
+                {/* </div>
                   <p>Floor price</p>
-                </div>
-                {/* <div>
+                </div> */}
+                <div>
                   <p>Owners</p>
                 </div>
-                <div>
+                {/*<div>
                   <p>Items</p>
                 </div> */}
               </div>
@@ -187,7 +184,8 @@ const CollectionDashboard = () => {
                           </div>
                           <div className={style.itemAlign}>
                             {/* <p>61,555</p> */}
-                            <p>0</p>
+                            {/* <p>0</p> */}
+                            <p style={{ textTransform: 'uppercase' }}>{collection?.chain}</p>
                           </div>
                           {/* <div className={style.itemAlign}>
                               <p>
@@ -201,7 +199,7 @@ const CollectionDashboard = () => {
                             </div> */}
                           <div className={style.itemAlign}>
 
-                            <p>0</p>
+                            <p>{shortenAddress(collection?.contract_address)}</p>
                           </div>
                           {/* <div className={style.itemAlign}>
                             
