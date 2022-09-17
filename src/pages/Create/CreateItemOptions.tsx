@@ -60,7 +60,7 @@ const CreateItemOptions = () => {
     // const verified = authState.user.email_verified
     //if (verified === 1) {
     if (network === 'eth') {
-      if (currentChain === globals.testnetEth.chainId) {
+      if (currentChain === globals.mainnetEth.chainId) {
         setChain(network)
       } else {
         setBlockChain("Ethereum")
@@ -68,7 +68,7 @@ const CreateItemOptions = () => {
       }
     }
     if (network === 'binance') {
-      if (currentChain === globals.testnetBsc.chainId) {
+      if (currentChain === globals.mainnetBsc.chainId) {
         setChain(network)
       } else {
         setBlockChain("Binance")

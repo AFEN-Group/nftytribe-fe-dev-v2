@@ -326,17 +326,20 @@
 
     .modal,
     .modal2 {
-        top: 0;
-        width: 100vw;
-        height: 100vh;
+        top: 5vh;
+        width: 85vw !important;
+        height: 90vh;
         min-width: none;
         max-width: none;
         padding: 2em;
     }
 
     .modalTop {
+
+        //background: lavender;
         img {
-            top: -10em;
+            top: 5em;
+            right: 3.5em !important;
         }
     }
 

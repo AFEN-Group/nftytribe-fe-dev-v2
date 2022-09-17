@@ -273,7 +273,7 @@ const ConnectWallet = (props: any) => {
                           <div className={style.awInfo}>
                             <h3>{shortenAddressSmall(currentAccount)}</h3>
 
-                            <p>{currentChain === globals.testnetEth.chainId ? 'Ethereum' : currentChain === globals.testnetBsc.chainId ? 'Binance' : ''}</p>
+                            <p>{currentChain === globals.mainnetEth.chainId ? 'Ethereum' : currentChain === globals.mainnetBsc.chainId ? 'Binance' : ''}</p>
                           </div>
                         </div>
                         <div className={style.awRight}>

@@ -49,7 +49,7 @@ const CreateCollectionOptions = () => {
 
     const checkNetwork = (network: any) => {
         if (network === 'eth') {
-            if (currentChain === globals.testnetEth.chainId) {
+            if (currentChain === globals.mainnetEth.chainId) {
                 setChain(network)
                 navigate(`/createCollection/${network}`)
             } else {
@@ -62,7 +62,7 @@ const CreateCollectionOptions = () => {
             }
         }
         if (network === 'binance') {
-            if (currentChain === globals.testnetBsc.chainId) {
+            if (currentChain === globals.mainnetBsc.chainId) {
                 setChain(network)
                 navigate(`/createCollection/${network}`)
             } else {

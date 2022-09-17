@@ -14,6 +14,7 @@ import useStaking from "../../hooks/staking";
 //import Loader from '../../components/Loader/Loader'
 import { CircularProgress } from '@material-ui/core'
 import Switch from '../../components/Modals/Switch'
+import toast from 'react-hot-toast'
 
 const Staking = () => {
   // useEffect(() => {
@@ -76,54 +77,70 @@ const Staking = () => {
   const closeModal = () => {
     setShowModal(false)
   }
-
+  const walletAddress: any = localStorage.getItem('currentAccount')
   const handleStake = async () => {
-    if (userInput.stake !== '') {
-      if (currentChain === "0x38") {
-        //setChain(network)
-        setErr("")
-        setIsLoading(true)
-        try {
-          const stakeFunction = await stake(userInput.stake)
-          console.log(stakeFunction)
-        } catch (err) {
-          console.log(err)
-        }
-
-        setIsLoading(false)
-      } else {
-        setBlockChain("Binance")
-        setShowModal(true)
-      }
-    } else {
-      setErr('Please enter a value')
-    }
-  }
-
-  const handleWithdraw = async () => {
-    if (userInput.unstake !== '' && Number(userInput.unstake) !== 0) {
-      if (userInput.unstake <= statistics.unstakable) {
-        if (currentChain === "0x61") {
+    if (walletAddress) {
+      if (userInput.stake !== '') {
+        if (currentChain === "0x38") {
           //setChain(network)
           setErr("")
           setIsLoading(true)
           try {
-            const unstakeFunction = await unstake(userInput.unstake)
-            console.log(unstakeFunction)
-            //console.log(loading.errMsg)
+            const stakeFunction = await stake(userInput.stake)
+            console.log(stakeFunction)
           } catch (err) {
             console.log(err)
           }
+
           setIsLoading(false)
         } else {
           setBlockChain("Binance")
           setShowModal(true)
         }
       } else {
-        setErr('You have some stakes locked!')
+        setErr('Please enter a value')
       }
     } else {
-      setErr('Please enter a value')
+      toast.error(`Please connect your wallet`,
+        {
+          duration: 5000,
+        }
+      )
+    }
+  }
+
+  const handleWithdraw = async () => {
+    if (walletAddress) {
+      if (userInput.unstake !== '' && Number(userInput.unstake) !== 0) {
+        if (userInput.unstake <= statistics.unstakable) {
+          if (currentChain === "0x61") {
+            //setChain(network)
+            setErr("")
+            setIsLoading(true)
+            try {
+              const unstakeFunction = await unstake(userInput.unstake)
+              console.log(unstakeFunction)
+              //console.log(loading.errMsg)
+            } catch (err) {
+              console.log(err)
+            }
+            setIsLoading(false)
+          } else {
+            setBlockChain("Binance")
+            setShowModal(true)
+          }
+        } else {
+          setErr('You have some stakes locked!')
+        }
+      } else {
+        setErr('Please enter a value')
+      }
+    } else {
+      toast.error(`Please connect your wallet`,
+        {
+          duration: 5000,
+        }
+      )
     }
   }
   //   console.log(statistics);

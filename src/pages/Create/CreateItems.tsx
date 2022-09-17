@@ -41,7 +41,7 @@ const CreateItems = () => {
   const dark = themeState.dark
   const currentChain = localStorage.getItem('chain')
   const { handlePutOnSale } = useContext(ContractContext)
-  const {itemType} = useParams()
+  const { itemType } = useParams()
   const [priceType, setPriceType] = useState('fixed')
   const [showAdvanced, setShowAdvanced] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -122,14 +122,16 @@ const CreateItems = () => {
     // { value: '5', text: 'Music' },
   ];
   const wallet_address = localStorage.getItem('currentAccount')
-  
+
   const getCollections = async () => {
 
     try {
       const collections = await publicRequest.get(
-        `/collections/user-collection?wallet_address=${wallet_address}&chain_id=${chainIdRef.current}`,{headers:{
-          'Authorization':`Bearer ${sessionStorage.getItem('token')}`
-        }}
+        `/collections/user-collection?wallet_address=${wallet_address}&chain_id=${chainIdRef.current}`, {
+        headers: {
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+        }
+      }
       )
       // console.log(collections)
       // console.log(collections.data?.data.collections)
@@ -141,7 +143,7 @@ const CreateItems = () => {
   }
   useEffect(() => {
     const currentChain = localStorage.getItem('chain')
-    if (currentChain === globals.testnetEth.chainId) {
+    if (currentChain === globals.mainnetEth.chainId) {
       setChain(globals.mainnetEth.chain)
       setChainId(globals.mainnetEth.chain)
       setErc721MintableAddress(contracts.erc721MintableAddress)
@@ -149,7 +151,7 @@ const CreateItems = () => {
       setErc1155MintableAddress(contracts.erc1155MintableAdddress)
       setErc1155MarketplaceAddress(contracts.erc1155MarketplaceAddress)
     }
-    else if (currentChain === globals.testnetBsc.chainId) {
+    else if (currentChain === globals.mainnetBsc.chainId) {
       setChain('bsc')
       setChainId('bsc')
       setErc721MintableAddress(contracts.BSC_erc721MintableAddress)
@@ -158,7 +160,7 @@ const CreateItems = () => {
       setErc1155MarketplaceAddress(contracts.BSC_erc1155MarketplaceAdddress)
     }
     console.log(itemType, 'type')
-  
+
     getCollections()
   }, [])
 
@@ -218,8 +220,8 @@ const CreateItems = () => {
           {
             method: "POST",
             body: form_data,
-            headers:{
-              'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+            headers: {
+              'Authorization': `Bearer ${sessionStorage.getItem('token')}`
             }
           }
         );
@@ -345,9 +347,11 @@ const CreateItems = () => {
               let nonceData: any;
               if (data.is_lazy_mint) {
                 const getNonce = await fetch(
-                  `${globals.baseURL}/collectibles/get-nonce`,{headers:{
-                    'Authorization':`Bearer ${sessionStorage.getItem('token')}`
-                  }}
+                  `${globals.baseURL}/collectibles/get-nonce`, {
+                  headers: {
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                  }
+                }
                 )
                 nonceData = await getNonce.json()
               }
@@ -357,7 +361,7 @@ const CreateItems = () => {
                   method: "POST",
                   headers: {
                     "content-type": "application/json",
-                    'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
                   },
                   body: JSON.stringify({
                     ...data,
@@ -446,7 +450,7 @@ const CreateItems = () => {
                     method: "PUT",
                     headers: {
                       "content-type": "application/json",
-                      'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+                      'Authorization': `Bearer ${sessionStorage.getItem('token')}`
                     },
                     body: JSON.stringify(updatableData),
                   }
@@ -502,8 +506,8 @@ const CreateItems = () => {
                     method: "PUT",
                     headers: {
                       "content-type": "application/json",
-                      'Authorization':`Bearer ${sessionStorage.getItem('token')}`
-                      
+                      'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+
                     },
                     body: JSON.stringify(updateForMint),
                   }
@@ -745,7 +749,7 @@ const CreateItems = () => {
                   method: "PUT",
                   headers: {
                     "content-type": "application/json",
-                    'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
                   },
                   body: JSON.stringify(updatableData),
                 }
@@ -808,9 +812,11 @@ const CreateItems = () => {
               let nonceData: any;
               if (data.is_lazy_mint) {
                 const getNonce = await fetch(
-                  `${globals.baseURL}/collectibles/get-nonce`,{headers:{
-                    'Authorization':`Bearer ${sessionStorage.getItem('token')}`
-                  }}
+                  `${globals.baseURL}/collectibles/get-nonce`, {
+                  headers: {
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                  }
+                }
                 )
                 nonceData = await getNonce.json()
               }
@@ -820,7 +826,7 @@ const CreateItems = () => {
                   method: "POST",
                   headers: {
                     "content-type": "application/json",
-                    'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
                   },
                   body: JSON.stringify({
                     ...data,
@@ -917,7 +923,7 @@ const CreateItems = () => {
                     method: "PUT",
                     headers: {
                       "content-type": "application/json",
-                      'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+                      'Authorization': `Bearer ${sessionStorage.getItem('token')}`
                     },
                     body: JSON.stringify(updatableData),
                   }
@@ -978,7 +984,7 @@ const CreateItems = () => {
                     method: "PUT",
                     headers: {
                       "content-type": "application/json",
-                      'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+                      'Authorization': `Bearer ${sessionStorage.getItem('token')}`
                     },
                     body: JSON.stringify(updateForMint),
                   }
@@ -1192,7 +1198,7 @@ const CreateItems = () => {
                   method: "PUT",
                   headers: {
                     "content-type": "application/json",
-                    'Authorization':`Bearer ${sessionStorage.getItem('token')}`
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
                   },
                   body: JSON.stringify(updatableData),
                 }
@@ -1339,7 +1345,7 @@ const CreateItems = () => {
                   inputHandler={inputHandler}
                   value={userInput.price}
                 />
-                <div className={style.iDesc}><p>({currentChain === globals.testnetEth.chainId ? 'ETH' : currentChain === globals.testnetBsc.chainId ? 'BNB' : ''} price)</p></div>
+                <div className={style.iDesc}><p>({currentChain === globals.mainnetEth.chainId ? 'ETH' : currentChain === globals.mainnetBsc.chainId ? 'BNB' : ''} price)</p></div>
 
               </div>
               <div className={style.fieldBx}>
