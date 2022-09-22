@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import { shortenAddress } from '../../utils/formatting'
 import { publicRequest } from '../../utils/requestMethods'
 import koala from './assets/kl.png'
-// import dots from './assets/dots.svg'
-// import like from './assets/like.svg'
+import dots from './assets/dots.svg'
+import like from './assets/like.svg'
 import user from './assets/user3.svg'
 import arrow from './assets/icon.svg'
 import style from './Card.module.scss'
@@ -105,10 +105,10 @@ const ItemCard2 = (data: any) => {
                             )}
                             {/* <img src={koala} alt="item" /> */}
                         </div>
-                        {/* <div className={style.cardTop}>
-                            <img src={dots} alt="options" />
+                        <div className={style.cardTop}>
+                            {/* <img src={dots} alt="options" /> */}
                             <img src={like} alt="like" />
-                        </div> */}
+                        </div>
                     </Link>) : (
                     <Link
                         //to={`/explore/22/22`}
@@ -140,10 +140,10 @@ const ItemCard2 = (data: any) => {
                             )}
                             {/* <img src={koala} alt="item" /> */}
                         </div>
-                        {/* <div className={style.cardTop}>
+                        <div className={style.cardTop}>
                             <img src={dots} alt="options" />
                             <img src={like} alt="like" />
-                        </div> */}
+                        </div>
                     </Link>
                 )}
                 {!showFull && (

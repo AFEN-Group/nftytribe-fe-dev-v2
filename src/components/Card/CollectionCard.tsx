@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { shortenAddress } from '../../utils/formatting'
 import koala from './assets/kl.png'
 import dots from './assets/dots.svg'
@@ -24,8 +24,12 @@ const CollectionCard = (data: any) => {
     }
     return url
   }
+  const navigate=useNavigate()
+  const open=()=>{
+    navigate(`/collectionDetails/${data?.nftData?.contract_address}`)
+  }
   return (
-    <Link to={`/collectionDetails/${data?.nftData?.contract_address}`}>
+    <div onClick={open}>
       <div className={style.card}>
         <div className={style.cardContent}>
           <div className={style.cardImg}>
@@ -45,10 +49,10 @@ const CollectionCard = (data: any) => {
             )}
             {data?.nftData?.cardImage === '' && <img src={koala} alt="item" />}
           </div>
-          {/* <div className={style.cardTop}>
-            <img src={dots} alt="options" />
+          <div onClick={(e)=>e.stopPropagation()} className={style.cardTop}>
+            {/* <img src={dots} alt="options" /> */}
             <img src={like} alt="like" />
-          </div> */}
+          </div>
 
           <div
             className={`${style.descBox1} animate__animated animate__fadeIn `}
@@ -66,7 +70,7 @@ const CollectionCard = (data: any) => {
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   )
 }
 

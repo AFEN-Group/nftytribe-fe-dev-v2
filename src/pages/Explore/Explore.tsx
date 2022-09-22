@@ -51,7 +51,10 @@ const Explore = () => {
       );
       const exploreData: any = explore.data;
       console.log(exploreData);
-      setData([...data,...exploreData?.data?.collectibles]);
+      if(filterQuery) setData([...exploreData?.data?.collectibles])
+      else{setData([...data,...exploreData?.data?.collectibles])}
+      
+      ;
       //setTotalPages(exploreData?.data?.total_count)
       const total: any = exploreData?.data?.totalNfts / 10
       setTotalPages(parseFloat(total))

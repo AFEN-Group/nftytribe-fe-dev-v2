@@ -153,10 +153,10 @@ const ItemCardOld = (data: any) => {
                             )}
                             {/* <img src={koala} alt="item" /> */}
                         </div>
-                        {/* <div className={style.cardTop}>
-                            <img src={dots} alt="options" />
+                        <div className={style.cardTop}>
+                            {/* <img src={dots} alt="options" /> */}
                             <img src={like} alt="like" />
-                        </div> */}
+                        </div>
                     </Link>) : (
                     <Link
                         //to={`/explore/22/22`}
