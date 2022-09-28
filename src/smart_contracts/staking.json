@@ -14,7 +14,8 @@
           "internalType": "uint256",
           "name": "_unstakeLockPeriod",
           "type": "uint256"
-        }
+        },
+        { "internalType": "address", "name": "_burnAddress", "type": "address" }
       ],
       "stateMutability": "nonpayable",
       "type": "constructor"
@@ -152,6 +153,13 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "burnAddress",
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         { "internalType": "address", "name": "_stakeHolder", "type": "address" }
       ],
@@ -273,6 +281,15 @@
         { "internalType": "uint256", "name": "_APY", "type": "uint256" }
       ],
       "name": "setAPY",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "address", "name": "_burnAddress", "type": "address" }
+      ],
+      "name": "setBurnAddress",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

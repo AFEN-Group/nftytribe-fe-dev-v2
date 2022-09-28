@@ -38,11 +38,13 @@ const useStaking = () => {
   };
   const getStatistics = async () => {
     const { stakingContract } = contracts;
-
+     console.log(stakingContract.methods);
+     
     const stats = await Promise.all([
       chain(await stakingContract.methods.APY().call())
         .divide(1000)
         .done(),
+
       web3.utils.fromWei(await stakingContract.methods.totalStaked().call()),
       (
         await axios({
@@ -51,8 +53,10 @@ const useStaking = () => {
         })
       ).data.usdPrice,
     ]);
-
+   
     const [apy, totalStakedInVault, usdPrice] = stats;
+   
+
     const tvl = chain(totalStakedInVault).multiply(usdPrice).done();
     const stake = 100;
     const earn = chain(stake).multiply(apy).divide(100).done();

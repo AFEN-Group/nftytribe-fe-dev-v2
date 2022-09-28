@@ -5,6 +5,7 @@ import Web3 from "web3";
 
 const stakingContractData = require("../../smart_contracts/staking.json");
 declare const window: any;
+
 const useWeb3 = () => {
   const [web3, setWeb3] = useState<Web3>();
   const [contracts, setContracts] = useState<object>({});
@@ -52,22 +53,25 @@ const useWeb3 = () => {
     //initialize web3, mainly should be called in here with options for meta that will be added soon
     //either to init with meta or wallet connect
   };
-
+  
   const initializeContracts = () => {
     //initialize your web3 contracts here
     if (web3) {
       const stakingContract: any = new web3.eth.Contract(
         stakingContractData.abi,
         stakingContractData.contractAddress,
-        {
-          from: selectedAddress,
-        }
+        // {
+        //   from: selectedAddress,
+        // }
       );
       console.log("setting");
       setContracts({ ...contracts, stakingContract });
     }
+  
+    
   };
-
+  //  console.log(contracts,stakingContractData);
+   
   //listeners
   useEffect(() => {
     if (window.ethereum) {
@@ -90,7 +94,7 @@ const useWeb3 = () => {
 
   useEffect(() => {
     //re initialize contracts once connection web3 is initialized or re initialized
-    console.log(web3);
+    // console.log(web3);
     if (web3) {
       initializeContracts();
     }

@@ -201,7 +201,7 @@ const Staking = () => {
                   </div>
                   <div className={style.statSingle}>
                     <h3>Afen staked in vault</h3>
-                    <p>{statistics?.totalStakedInVault}</p>
+                    <p>{ statistics && round(statistics?.totalStakedInVault,2)}</p>
                   </div>
                   <div className={`${style.statSingle} ${style.lst}`}>
                     <h3>TVL (USDT)</h3>
