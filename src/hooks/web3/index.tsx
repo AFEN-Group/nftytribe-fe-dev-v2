@@ -30,20 +30,24 @@ const useWeb3 = () => {
   };
 
   const initializeWeb3 = async () => {
-    if (window.ethereum) {
+    const walletType=localStorage.getItem('walletType')
+    console.log(window.ethereum && walletType!=='trustWallet',window.trustwallet && walletType==='trustWallet');
+    
+    if (window.ethereum && walletType!=='trustWallet') {
+
       //will have to check if window.eth or wallet connect to initialize web3 in the future
       const web3: any = new Web3(window.ethereum);
       setWeb3(web3);
       setSelectedAddress((await web3.eth.getAccounts())[0]);
     }
-    if (window.trustwallet) {
+   else if (window.trustwallet && walletType==='trustWallet' ) {
       //will have to check if window.eth or wallet connect to initialize web3 in the future
       const web3: any = new Web3(window.trustwallet);
       setWeb3(web3);
       setSelectedAddress((await window.trustwallet.enable())[0]);
     }
   };
-
+  console.log(localStorage.getItem('walletType'))
   const handleChange = async ({
     accountChange = false,
   }: {

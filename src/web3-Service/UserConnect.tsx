@@ -313,9 +313,9 @@ const UserConnect = () => {
     }
   }
   const disconnectSafePal= async()=>{
-    if(window.safePal.isConnected){
+    if(window?.safepal?.isConnected){
       delete window.web3
-    delete window.safePal
+    delete window.safepal
     await  window.safepal.disconnect()
     }
   }

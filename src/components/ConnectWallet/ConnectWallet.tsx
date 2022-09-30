@@ -483,7 +483,7 @@ const ConnectWallet = (props: any) => {
                     a new one
                   </p>
                 </div>
-
+             
                 <div className={style.wallets}>
                   <div className={style.wallet} onClick={handleSignIn}>
                     <img src={Metamask} alt="metamask" />
