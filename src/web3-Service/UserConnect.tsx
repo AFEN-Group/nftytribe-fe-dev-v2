@@ -5,6 +5,7 @@ import { AuthContext } from '../context/AuthContext'
 import { publicRequest } from '../utils/requestMethods'
 import toast from 'react-hot-toast'
 import UseAxios from '../hooks/AxiosConfig/useAxios'
+import { disconnect } from 'process'
 //import networks from './networks.json'
 declare const window: any
 
@@ -213,7 +214,111 @@ const UserConnect = () => {
       console.log('Pls install metamask and try again')
     }
   }
-  console.log(Response)
+  const connectTrustwallet=async()=>{
+    if(window.trustwallet){
+      const account= await window.trustwallet.enable()
+      if (window.trustwallet._chainId === '0x1' || window.trustwallet._chainId === '0x38') { // for both eth and bnb on mainnet
+        // if (window.ethereum.chainId === '0x4' || window.ethereum.chainId === '0x61') { // for both testnet eth and bn
+        //if (window.ethereum.chainId === '0x61') { // for testnet bsc
+        //if (window.ethereum.chainId === '0x1') { // for eth only
+        // console.log(window.ethereum.chainId)
+        localStorage.setItem('chain', window.trustwallet._chainId)
+        localStorage.setItem('currentAccount', account[0])
+        setUserInfo({
+          ...userInfo,
+          account: account[0],
+          chain: window.trustwallet._chainId,
+        })
+        const user = {
+          params: {
+            wallet_address: localStorage.getItem('currentAccount'),
+          },
+        }
+        await fetchData({
+          method: 'post',
+          url: '/user/create-user',
+          axiosInstance: publicRequest,
+          requestConfig: {
+            ...user
+          }
+
+        })
+        console.log("resp>>", Response)
+        setWalletType("trustWallet")
+        localStorage.setItem("walletType", 'trustWallet')
+
+      
+        setWalletError('')
+      } else {
+        toast.error(`Wrong network, please switch to recommended networks!`,
+          {
+            duration: 5000,
+          }
+        )
+        //console.log(window.ethereum.chainId);
+
+      }
+    }
+    else{
+      console.log('install trustwallet')
+    }
+  }
+
+  const connectSafePal = async()=>{
+    if(window.safepal && !window.safepal.isConnected){
+      //  await window.safepal.connect()
+      const account =await window.safepalProvider.enable()
+      if (window.safepalProvider.chainId === '0x1' || window.safepalProvider.chainId === '0x38') { // for both eth and bnb on mainnet
+        // if (window.ethereum.chainId === '0x4' || window.ethereum.chainId === '0x61') { // for both testnet eth and bn
+        //if (window.ethereum.chainId === '0x61') { // for testnet bsc
+        //if (window.ethereum.chainId === '0x1') { // for eth only
+        // console.log(window.ethereum.chainId)
+        localStorage.setItem('chain', window.safepalProvider.chainId)
+        localStorage.setItem('currentAccount', account[0])
+        setUserInfo({
+          ...userInfo,
+          account: account[0],
+          chain: window.ethereum.chainId,
+        })
+        const user = {
+          params: {
+            wallet_address: localStorage.getItem('currentAccount'),
+          },
+        }
+        await fetchData({
+          method: 'post',
+          url: '/user/create-user',
+          axiosInstance: publicRequest,
+          requestConfig: {
+            ...user
+          }
+
+        })
+        console.log("resp>>", Response)
+        setWalletType("MetaMask")
+        localStorage.setItem("walletType", 'safePal')
+
+     
+        setWalletError('')
+      } else {
+        toast.error(`Wrong network, please switch to recommended networks!`,
+          {
+            duration: 5000,
+          }
+        )
+        //console.log(window.ethereum.chainId);
+
+      }
+      
+    }
+  }
+  const disconnectSafePal= async()=>{
+    if(window.safePal.isConnected){
+      delete window.web3
+    delete window.safePal
+    await  window.safepal.disconnect()
+    }
+  }
   const handleNetworkSwitch = async (networkName: string) => {
 
     try {
@@ -420,7 +525,10 @@ const UserConnect = () => {
     enableWalletConnect,
     handleNetworkSwitch,
     handleNetworkSwitch2,
-    disconnectWalletConnect
+    disconnectWalletConnect,
+    connectTrustwallet,
+    connectSafePal,
+    disconnectSafePal
   }
 }
 

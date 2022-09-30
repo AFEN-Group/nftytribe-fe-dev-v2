@@ -14,6 +14,8 @@ import User from './assets/profile.svg'
 import User2 from './assets/profile2.svg'
 import Metamask from './assets/metamask.svg'
 import Wc from './assets/wc.svg'
+import TWT from './assets/TWT.png'
+import SPL from './assets/SafePal_logo.jpg'
 //import Coinbase from './assets/coinbase.svg'
 import Check from './assets/check.svg'
 import Check2 from './assets/check2.svg'
@@ -41,8 +43,11 @@ const ConnectWallet = (props: any) => {
     disableEthereum,
     walletError,
     //walletType,
+    connectSafePal,
     enableWalletConnect,
-    disconnectWalletConnect
+    connectTrustwallet,
+    disconnectWalletConnect,
+    disconnectSafePal
   } = useContext<any>(WalletContext)
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
@@ -160,18 +165,38 @@ const ConnectWallet = (props: any) => {
     disableEthereum()
     disconnectWalletConnect()
     props.handleModal()
+    disconnectSafePal()
+
   }
   const handleSignIn = async () => {
     props.handleModal()
     connectToMetaMask()
     props.handleModal()
+    disconnectSafePal()
+
   }
   const handleSignIn2 = async () => {
     props.handleModal()
     enableWalletConnect()
     props.handleModal()
-  }
+    disconnectSafePal()
 
+  }
+  const connectTrustWallet= async ()=>{
+    disableEthereum()
+    disconnectWalletConnect()
+    props.handleModal()
+    connectTrustwallet()
+    disconnectSafePal()
+
+  }
+  const connectsafepal= async ()=>{
+    disableEthereum()
+    disconnectWalletConnect()
+    props.handleModal()
+    connectSafePal()
+
+  }
 
 
   let web3: any
@@ -269,7 +294,7 @@ const ConnectWallet = (props: any) => {
                     <div className={style.wallets}>
                       <div className={style.activeWallet}>
                         <div className={style.awleft}>
-                          <img src={walletType === "MetaMask" ? Metamask : Wc} alt="wallet" />
+                          <img style={{width:'40px'}} src={walletType === "MetaMask" ? Metamask :"trustWallet"?TWT: Wc} alt="wallet" />
                           <div className={style.awInfo}>
                             <h3>{shortenAddressSmall(currentAccount)}</h3>
 
@@ -468,6 +493,14 @@ const ConnectWallet = (props: any) => {
                   <div className={style.wallet} onClick={handleSignIn2}>
                     <img src={Wc} alt="wallet-connect" />
                     <p>Wallet Connect</p>
+                  </div>
+                  <div className={style.wallet} onClick={connectTrustWallet} >
+                    <img style={{width:'40px'}} src={TWT} alt="wallet-connect" />
+                    <p>Trust Wallet</p>
+                  </div>
+                  <div className={style.wallet} onClick={connectsafepal}>
+                    <img style={{width:'40px'}} src={SPL} alt="wallet-connect" />
+                    <p>Safe Pal</p>
                   </div>
                   {walletError && (<p className={style.err}>{walletError}</p>)}
                   {/* <div className={style.wallet}>
