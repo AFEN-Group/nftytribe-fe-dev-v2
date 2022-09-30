@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Web3 from "web3";
 
 const stakingContractData = require("../../smart_contracts/staking.json");
+const afenContract= require('../../smart_contracts/afenToken.json')
 declare const window: any;
 
 const useWeb3 = () => {
@@ -35,6 +36,12 @@ const useWeb3 = () => {
       setWeb3(web3);
       setSelectedAddress((await web3.eth.getAccounts())[0]);
     }
+    if (window.trustwallet) {
+      //will have to check if window.eth or wallet connect to initialize web3 in the future
+      const web3: any = new Web3(window.trustwallet);
+      setWeb3(web3);
+      setSelectedAddress((await window.trustwallet.enable())[0]);
+    }
   };
 
   const handleChange = async ({
@@ -64,8 +71,12 @@ const useWeb3 = () => {
         //   from: selectedAddress,
         // }
       );
+      const afencontract: any= new web3.eth.Contract(
+        afenContract.abi,
+        afenContract.contractAddress
+      )
       console.log("setting");
-      setContracts({ ...contracts, stakingContract });
+      setContracts({ ...contracts, stakingContract,afencontract });
     }
   
     

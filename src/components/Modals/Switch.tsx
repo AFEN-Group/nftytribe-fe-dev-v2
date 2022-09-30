@@ -70,6 +70,8 @@ const Switch = (props: any) => {
                             >Switch to Ethereum </button>
                         )} */}
                     </div>
+
+                    <p style={{fontSize:'12px',marginTop:'12px'}}>Having any Issue? Do well to watch our <a style={{fontWeight:'bolder'}} href="" target={'_blank'}> Staking Tutorial 😊</a></p>
                     {/* <button>Update</button> */}
                     {/* </Link> */}
                 </motion.div>

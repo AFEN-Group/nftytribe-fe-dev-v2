@@ -37,8 +37,9 @@ const useStaking = () => {
     };
   };
   const getStatistics = async () => {
-    const { stakingContract } = contracts;
-     console.log(stakingContract.methods);
+    const { stakingContract ,afencontract} = contracts;
+    
+     console.log(afencontract.methods);
      
     const stats = await Promise.all([
       chain(await stakingContract.methods.APY().call())
@@ -52,10 +53,12 @@ const useStaking = () => {
           method: "get",
         })
       ).data.usdPrice,
+      web3.utils.fromWei(await afencontract.methods.balanceOf(selectedAddress).call())
     ]);
    
-    const [apy, totalStakedInVault, usdPrice] = stats;
-   
+    const [apy, totalStakedInVault, usdPrice,balance] = stats;
+    //  console.log(balance);
+     
 
     const tvl = chain(totalStakedInVault).multiply(usdPrice).done();
     const stake = 100;
@@ -65,6 +68,7 @@ const useStaking = () => {
       totalStakedInVault,
       tvl,
       usdPrice,
+      balance,
       hint: {
         stake,
         earn,

@@ -187,14 +187,14 @@ const Staking = () => {
               <h2>Statistics</h2>
               <div className={style.statsBx}>
                 <div className={style.statItems}>
-                  <div className={style.statSingle}>
+                  {/* <div className={style.statSingle}>
                     <h3>Stake</h3>
                     <p>{statistics?.hint.stake} Afen</p>
                   </div>
                   <div className={style.statSingle}>
                     <h3>Earn</h3>
                     <p>{statistics && round(statistics.hint.earn, 1)} Afen</p>
-                  </div>
+                  </div> */}
                   <div className={style.statSingle}>
                     <h3>Est APY</h3>
                     <p>{statistics && round(statistics.apy, 1)}%</p>
@@ -233,6 +233,7 @@ const Staking = () => {
                     className={option === "stake" ? style.active : ""}>
                     Stake
                   </p>
+             
                   <p
                     onClick={() => setOption("withdraw")}
                     className={`${style.mgLeft} ${option === "withdraw" ? style.active : ""
@@ -242,7 +243,20 @@ const Staking = () => {
                 </div>
                 <div className={style.btmBx1}>
                   {option === "stake" && (
+                    <>
+                      <p className={style.bal}>
+                        wallet balance:{" "}
+                        <span>
+                          {" "}
+                          {statistics &&
+                            statistics?.unstakable &&
+                            round(statistics.balance, 3)}{" "}
+                          Afen
+                        </span>
+                      </p>
                     <div className={style.box1Content}>
+              
+
                       <input
                         type="text"
                         onChange={handleInput}
@@ -264,6 +278,7 @@ const Staking = () => {
                         <p className="redtxt">{err}</p>
                       )}
                     </div>
+                    </>
                   )}
                   {option === "withdraw" && (
                     <>
