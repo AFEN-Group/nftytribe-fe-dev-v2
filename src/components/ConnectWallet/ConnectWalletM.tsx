@@ -24,6 +24,8 @@ import Afen from './assets/afen.svg'
 import BNB from './assets/bnb.svg'
 import Swap from './assets/swap01.svg'
 import Swap2 from './assets/swap02.svg'
+import globals from '../../utils/globalVariables'
+
 
 const ConnectWalletM = (props: any) => {
     const [userInput, setUserInput] = useState<any>({
@@ -181,7 +183,8 @@ const ConnectWalletM = (props: any) => {
     //   window.location.reload()
     // }
     const walletType = localStorage.getItem("walletType")
-
+  const currentChain = localStorage.getItem('chain')
+    
 
     return (
         <>
@@ -270,7 +273,7 @@ const ConnectWalletM = (props: any) => {
                                                     <div className={style.awInfo}>
                                                         <h3>{shortenAddress(currentAccount)}</h3>
 
-                                                        <p>Ethereum</p>
+                                                        <p>{currentChain === globals.mainnetEth.chainId ? 'Ethereum' : currentChain === globals.mainnetBsc.chainId ? 'Binance' : ''}</p>
                                                     </div>
                                                 </div>
                                                 <div className={style.awRight}>
@@ -464,14 +467,14 @@ const ConnectWalletM = (props: any) => {
                                         <img src={Wc} alt="wallet-connect" />
                                         <p>Wallet Connect</p>
                                     </div>
-                                    <div className={style.wallet} onClick={connectTrustWallet}>
+                                    {/* <div className={style.wallet} onClick={connectTrustWallet}>
                                         <img style={{width:'40px'}}src={TWT} alt="wallet-connect" />
                                         <p>Trust wallet</p>
                                     </div>
                                     <div className={style.wallet} onClick={connectsafepal}>
                                         <img style={{width:'40px'}} src={SPL} alt="wallet-connect" />
                                         <p>SafePal</p>
-                                    </div>
+                                    </div> */}
                                     <p className={style.err}>{walletError}</p>
                                     {/* <div className={style.wallet}>
                     <img src={Coinbase} alt="coinbase" />
