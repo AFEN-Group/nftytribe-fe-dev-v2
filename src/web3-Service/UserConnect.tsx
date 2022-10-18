@@ -119,7 +119,7 @@ const UserConnect = () => {
     infuraId: "45b5a21bfa5b4429af59109069821ed3",
   })
   const [currentAccount, setCurrentAccount] = useState<any>(
-    localStorage.getItem('currentAccount') || undefined,
+    sessionStorage.getItem('currentAccount') || undefined,
   )
   const [chain, setChain] = useState()
   const { loading, Response, error, fetchData } = UseAxios()
@@ -136,8 +136,8 @@ const UserConnect = () => {
           //if (window.ethereum.chainId === '0x61') { // for testnet bsc
           //if (window.ethereum.chainId === '0x1') { // for eth only
           // console.log(window.ethereum.chainId)
-          localStorage.setItem('chain', window.ethereum.chainId)
-          localStorage.setItem('currentAccount', accounts[0])
+          sessionStorage.setItem('chain', window.ethereum.chainId)
+          sessionStorage.setItem('currentAccount', accounts[0])
           setUserInfo({
             ...userInfo,
             account: accounts[0],
@@ -145,7 +145,7 @@ const UserConnect = () => {
           })
           const user = {
             params: {
-              wallet_address: localStorage.getItem('currentAccount'),
+              wallet_address: sessionStorage.getItem('currentAccount'),
             },
           }
           await fetchData({
@@ -159,43 +159,9 @@ const UserConnect = () => {
           })
           console.log("resp>>", Response)
           setWalletType("MetaMask")
-          localStorage.setItem("walletType", 'MetaMask')
+          sessionStorage.setItem("walletType", 'MetaMask')
 
-          // const {token}=Response?
-
-          // try {
-          //   const user = {
-          //     params: {
-          //       wallet_address: localStorage.getItem('currentAccount'),
-          //     },
-          //   }
-          //   const logUserReq = await publicRequest.post(
-          //     `/user/create-user`,
-          //     user,
-          //   )
-          //   console.log('user>>', logUserReq.data.data)
-          //   setAuthState({
-          //     ...authState,
-          //     user: logUserReq.data.data,
-          //     isFetching: false,
-          //     error: false,
-          //   })
-          //   setWalletType("MetaMask")
-          //   localStorage.setItem("walletType", 'MetaMask')
-          //   toast.success(`Wallet connected successfully.`,
-          //     { duration: 5000 })
-          //   // setTimeout(() => {
-          //   //   window.location.reload()
-          //   // }, 1000)
-          // } catch (err) {
-          //   console.log(err)
-          //   setAuthState({
-          //     ...authState,
-          //     isFetching: false,
-          //     error: true,
-          //   })
-          // }
-          //window.location.reload()
+        
           setWalletError('')
         } else {
           toast.error(`Wrong network, please switch to recommended networks!`,
@@ -219,11 +185,11 @@ const UserConnect = () => {
       const account= await window.trustwallet.enable()
       if (window.trustwallet._chainId === '0x1' || window.trustwallet._chainId === '0x38') { // for both eth and bnb on mainnet
         // if (window.ethereum.chainId === '0x4' || window.ethereum.chainId === '0x61') { // for both testnet eth and bn
-        //if (window.ethereum.chainId === '0x61') { // for testnet bsc
+        // if (window.ethereum.chainId === '0x61') { // for testnet bsc
         //if (window.ethereum.chainId === '0x1') { // for eth only
         // console.log(window.ethereum.chainId)
-        localStorage.setItem('chain', window.trustwallet._chainId)
-        localStorage.setItem('currentAccount', account[0])
+        sessionStorage.setItem('chain', window.trustwallet._chainId)
+        sessionStorage.setItem('currentAccount', account[0])
         setUserInfo({
           ...userInfo,
           account: account[0],
@@ -231,7 +197,7 @@ const UserConnect = () => {
         })
         const user = {
           params: {
-            wallet_address: localStorage.getItem('currentAccount'),
+            wallet_address: sessionStorage.getItem('currentAccount'),
           },
         }
         await fetchData({
@@ -245,7 +211,7 @@ const UserConnect = () => {
         })
         console.log("resp>>", Response)
         setWalletType("trustWallet")
-        localStorage.setItem("walletType", 'trustWallet')
+        sessionStorage.setItem("walletType", 'trustWallet')
 
       
         setWalletError('')
@@ -273,8 +239,8 @@ const UserConnect = () => {
         //if (window.ethereum.chainId === '0x61') { // for testnet bsc
         //if (window.ethereum.chainId === '0x1') { // for eth only
         // console.log(window.ethereum.chainId)
-        localStorage.setItem('chain', window.safepalProvider.chainId)
-        localStorage.setItem('currentAccount', account[0])
+        sessionStorage.setItem('chain', window.safepalProvider.chainId)
+        sessionStorage.setItem('currentAccount', account[0])
         setUserInfo({
           ...userInfo,
           account: account[0],
@@ -282,7 +248,7 @@ const UserConnect = () => {
         })
         const user = {
           params: {
-            wallet_address: localStorage.getItem('currentAccount'),
+            wallet_address: sessionStorage.getItem('currentAccount'),
           },
         }
         await fetchData({
@@ -296,7 +262,7 @@ const UserConnect = () => {
         })
         console.log("resp>>", Response)
         setWalletType("MetaMask")
-        localStorage.setItem("walletType", 'safePal')
+        sessionStorage.setItem("walletType", 'safePal')
 
      
         setWalletError('')
@@ -366,9 +332,9 @@ const UserConnect = () => {
     return new Promise(async (resolve, reject) => {
       try {
         delete window.web3
-        localStorage.removeItem('currentAccount')
-        localStorage.removeItem('chain')
-        localStorage.removeItem('user')
+        sessionStorage.removeItem('currentAccount')
+        sessionStorage.removeItem('chain')
+        sessionStorage.removeItem('user')
         //window.location = '/'
         //window.location.reload()
         toast.success(`Disconnected .`,
@@ -386,7 +352,7 @@ const UserConnect = () => {
       console.log("enable", provider)
       if (provider.chainId === 1) {
         console.log("guyyy")
-        localStorage.setItem('currentAccount', provider.accounts[0])
+        sessionStorage.setItem('currentAccount', provider.accounts[0])
         setUserInfo({
           ...userInfo,
           account: provider.accounts[0],
@@ -397,7 +363,7 @@ const UserConnect = () => {
 
           const user = {
             params: {
-              wallet_address: localStorage.getItem('currentAccount'),
+              wallet_address: sessionStorage.getItem('currentAccount'),
             },
           }
           const logUserReq = await publicRequest.post(
@@ -412,7 +378,7 @@ const UserConnect = () => {
             error: false,
           })
           setWalletType("WalletConnect")
-          localStorage.setItem("walletType", 'WalletConnect')
+          sessionStorage.setItem("walletType", 'WalletConnect')
           // setTimeout(() => {
           //   window.location.reload()
           // }, 500)
@@ -437,8 +403,8 @@ const UserConnect = () => {
       // Subscribe to accounts change
       provider.on('accountsChanged', (accounts: any) => {
         console.log(accounts)
-        localStorage.setItem('currentAccount', accounts[0])
-        setCurrentAccount(localStorage.getItem('currentAccount'))
+        sessionStorage.setItem('currentAccount', accounts[0])
+        setCurrentAccount(sessionStorage.getItem('currentAccount'))
         console.log("account was set>>>", currentAccount)
       })
 
@@ -446,7 +412,7 @@ const UserConnect = () => {
       provider.on('chainChanged', (chainId: any) => {
         console.log('chainId>>>>', chainId)
         setChain(chainId)
-        localStorage.setItem('chain', chainId)
+        sessionStorage.setItem('chain', chainId)
       })
 
       // Subscribe to session disconnection
@@ -462,10 +428,10 @@ const UserConnect = () => {
     return new Promise(async (resolve, reject) => {
       try {
         await provider.disconnect()
-        localStorage.removeItem('currentAccount')
-        localStorage.removeItem('chain')
-        localStorage.removeItem('user')
-        localStorage.removeItem('walletType')
+        sessionStorage.removeItem('currentAccount')
+        sessionStorage.removeItem('chain')
+        sessionStorage.removeItem('user')
+        sessionStorage.removeItem('walletType')
         // toast.success(`Disconnected .`,
         //   { duration: 3000 })
         // window.location = '/'
@@ -481,9 +447,9 @@ const UserConnect = () => {
     const onWalletChange = async () => {
       window.ethereum.on('accountsChanged', (accounts: string) => {
         try {
-          localStorage.removeItem('currentAccount')
-          localStorage.removeItem('chain')
-          //localStorage.removeItem('user')
+          sessionStorage.removeItem('currentAccount')
+          sessionStorage.removeItem('chain')
+          //sessionStorage.removeItem('user')
           setUserInfo({
             ...userInfo,
             account: ' ',
@@ -500,9 +466,9 @@ const UserConnect = () => {
       window.ethereum.on('chainChanged', (chainId: string) => {
         //console.log()
         try {
-          localStorage.removeItem('currentAccount')
-          localStorage.removeItem('chain')
-          //localStorage.removeItem('user')
+          sessionStorage.removeItem('currentAccount')
+          sessionStorage.removeItem('chain')
+          //sessionStorage.removeItem('user')
           setUserInfo({
             ...userInfo,
             chain: ' ',

@@ -46,6 +46,12 @@ function App() {
   useEffect(() => {
     AOS.init();
   }, [AOS]);
+
+
+
+  useEffect(()=>{
+    
+  },[])
   return (
 
     <Web3ContextProvider>

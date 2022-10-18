@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import style from "../Home.module.scss";
 //import Card from '../../../components/Card/ItemCardDefault'
-import Card2 from "../../../components/Card/ItemCard2";
+import ItemCard from "../../../components/Card/ItemCard";
 import { publicRequest } from "../../../utils/requestMethods";
 import Marquee from "react-fast-marquee";
 import { t } from "i18next";
@@ -45,7 +45,7 @@ const Trending = ({data}:any) => {
                   return (
                     (nft?._id && nft?.cardImage) && (
                       <div className={style.trSlide} key={nft._id}>
-                        <Card2 nftData={nft} />
+                        <ItemCard nftData={nft} />
                       </div>
                     )
                   );
@@ -63,7 +63,7 @@ const Trending = ({data}:any) => {
                   return (
                     (nft?._id && nft?.cardImage) && (
                       <div className={style.trSlide} key={nft._id}>
-                        <Card2 nftData={nft} />
+                        <ItemCard nftData={nft} />
                       </div>
                     )
                   );

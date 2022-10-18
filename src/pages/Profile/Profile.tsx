@@ -51,22 +51,7 @@ const Profile = () => {
         axiosInstance:Protected(sessionStorage.getItem('token'))
       })
     }
-   
-
-  //   try {
-  //     const result = await publicRequest.get(`/user/${currentAddress}`)
-  //     console.log('user>>>', result.data.data.email)
-  //     setRes(result.data.data)
-  //     setIsLoading(false)
-  //     if (!result.data.data.email || result.data.data.email === "") {
-  //       setShowModal(true)
-  //     } else {
-  //       setShowModal(false)
-  //     }
-  //   } catch (error) {
-  //     console.log(error)
-  //     setIsLoading(false)
-  //   }
+  
   }
  
   useEffect(() => {
@@ -141,33 +126,7 @@ const Profile = () => {
   const closeModal = () => {
     setShowModal(false)
   }
-  // const nft={
-    
-  //     cardImage: "https://afen.sfo3.digitaloceanspaces.com/Azuki-NFT-Main-1657613339833.jpeg",
-  //     chain: "bsc testnet",
-  //     collection_address: "0xE1C075aA57722FbAd50BE4C87737fD9495aA0e1e",
-  //     created_on: "2022-06-30T09:01:28.617Z",
-  //     description: "",
-  //     file: "QmQZuBepmLEh44s9Q12gLVEf2425KG4p7vXQXB55spZGd6",
-  //     is_lazy_mint: false,
-  //     is_multiple: true,
-  //     marketplace_type: 1,
-  //     nft_category: "others",
-  //     nft_type: "art",
-  //     number_of_copies: 3,
-  //     on_sale: true,
-  //     owner: "0x20810f449a750f36345de17d4a35eadad503da90",
-  //     // price: 1000000000000000,
-  //     title: "Azuki Main",
-  //     token_id: "1",
-  //     transaction_hash: "0xd16a033ef5dd4a4ebec45a182c59f02e8ab8142957678757b4424c86cf765ca9",
-  //     updated_on: "2022-06-30T09:01:28.618Z",
-  //     wallet_address: "0x20810f449a750f36345de17d4a35eadad503da90",
-  //     __v: 0,
-  //     _id: "62cd2c96a64879831afb7934"
-      
-    
-  // }
+ 
 
   const interDemo = useRef(null);
 
@@ -293,18 +252,7 @@ const Profile = () => {
             >
               <p>Created</p>
             </div>
-            {/* <div
-              className={
-                query === 'activity=true' && dark === 'true'
-                  ? style.darkActive
-                  : query === 'activity=true' && dark !== 'true'
-                    ? style.lightActive
-                    : style.filterItem
-              }
-              onClick={(e) => setQuery('activity=true')}
-            >
-              <p>Activity</p>
-            </div> */}
+        
             <div
               className={
                 query === 'sold=true' && dark === 'true'

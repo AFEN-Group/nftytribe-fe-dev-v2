@@ -6,7 +6,7 @@ import { ThemeContext } from '../../../context/ThemeContext'
 import { publicRequest } from '../../../utils/requestMethods'
 
 import style from '../Home.module.scss'
-import ItemCard from '../../../components/Card/ItemCardFeaturedNew'
+import ItemCard from '../../../components/Card/ItemCard'
 //import ItemCard2 from '../../../components/Card/ItemCardDefault'
 import Arrow1 from '../assets/h-arrow1.svg'
 import Arrow2 from '../assets/h-arrow2.svg'

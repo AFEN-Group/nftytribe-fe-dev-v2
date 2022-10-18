@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import style from '../Home.module.scss'
-import Card from '../../../components/Card/ItemCardDefault'
+import ItemCard from '../../../components/Card/ItemCard'
 import { publicRequest } from '../../../utils/requestMethods'
 
 const Trending = () => {
@@ -32,32 +32,32 @@ const Trending = () => {
           <div className={style.trBody}>
             <div className={style.trSlides2}>
               <div className={style.trSlide}>
-                <Card />
+                <ItemCard />
               </div>
               <div className={style.trSlide}>
-                <Card />
+                <ItemCard />
               </div>
               <div className={style.trSlide}>
-                <Card />
+                <ItemCard />
               </div>
               <div className={style.trSlide}>
-                <Card />
+                <ItemCard />
               </div>
               <div className={style.trSlide}>
-                <Card />
+                <ItemCard />
               </div>
 
               <div className={style.trSlide}>
-                <Card />
+                <ItemCard />
               </div>
               <div className={style.trSlide}>
-                <Card />
+                <ItemCard />
               </div>
               <div className={style.trSlide}>
-                <Card />
+                <ItemCard />
               </div>
               <div className={style.trSlide}>
-                <Card />
+                <ItemCard />
               </div>
             </div>
           </div>
