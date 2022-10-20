@@ -121,7 +121,7 @@ const CreateItems = () => {
     { value: "african_art", text: "African Art" },
     // { value: '5', text: 'Music' },
   ];
-  const wallet_address = localStorage.getItem('currentAccount')
+  const wallet_address = sessionStorage.getItem('currentAccount')
 
   const getCollections = async () => {
 

@@ -70,7 +70,7 @@ const ExploreSingle = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    const wallet_address = localStorage.getItem('currentAccount')
+    const wallet_address = sessionStorage.getItem('currentAccount')
     //console.log(wallet_address)
     if (wallet_address) {
       setWalletAddress(wallet_address)
@@ -279,7 +279,7 @@ const ExploreSingle = () => {
 
   const handleSubmit = async () => {
     if (nftDetails?.on_sale) {
-      const wallet_address = localStorage.getItem('currentAccount')
+      const wallet_address = sessionStorage.getItem('currentAccount')
       console.log(nftDetails?.marketplace_type)
       if (wallet_address) {
         if (nftDetails?.marketplace_type === 2) {
@@ -305,7 +305,7 @@ const ExploreSingle = () => {
   const handleCollect = async (e: any) => {
     e.preventDefault()
     setIsLoading(true)
-    const wallet_address = localStorage.getItem('currentAccount')
+    const wallet_address = sessionStorage.getItem('currentAccount')
     const result = await collectNft(
       wallet_address,
       nftDetails?.token_id,

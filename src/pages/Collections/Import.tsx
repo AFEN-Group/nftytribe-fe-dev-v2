@@ -37,7 +37,7 @@ const Import = (props: any) => {
     if (regex.test(userInputRef.current.address)) {
       try {
         setIsLoading(true)
-        const wallet_address = localStorage.getItem('currentAccount')
+        const wallet_address = sessionStorage.getItem('currentAccount')
         console.log(wallet_address)
         const data = await fetch(
           `${globals.baseURL}/collections/import-collection`,

@@ -30,7 +30,7 @@ const useWeb3 = () => {
   };
 
   const initializeWeb3 = async () => {
-    const walletType=localStorage.getItem('walletType')
+    const walletType=sessionStorage.getItem('walletType')
     console.log(window.ethereum && walletType!=='trustWallet',window.trustwallet && walletType==='trustWallet');
     
     if (window.ethereum && walletType!=='trustWallet') {
@@ -47,7 +47,7 @@ const useWeb3 = () => {
       setSelectedAddress((await window.trustwallet.enable())[0]);
     }
   };
-  console.log(localStorage.getItem('walletType'))
+  console.log(sessionStorage.getItem('walletType'))
   const handleChange = async ({
     accountChange = false,
   }: {

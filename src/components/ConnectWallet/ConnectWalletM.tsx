@@ -25,6 +25,7 @@ import BNB from './assets/bnb.svg'
 import Swap from './assets/swap01.svg'
 import Swap2 from './assets/swap02.svg'
 import globals from '../../utils/globalVariables'
+import { UserContext } from '../../context/UserContext'
 
 
 const ConnectWalletM = (props: any) => {
@@ -55,7 +56,7 @@ const ConnectWalletM = (props: any) => {
     //swap states
     const [afenSwap, setAfenSwap] = useState(true)
     //const [currentAccount, setCurrentAccount] = useState('')
-    const currentAccount = localStorage.getItem('currentAccount')
+    const currentAccount = sessionStorage.getItem('currentAccount')
     const userObj = localStorage.getItem('user')
     const numberInputHandler = async (event: any) => {
         const valueFiltered = event.target.value.replace(/\D/g, '')
@@ -132,6 +133,7 @@ const ConnectWalletM = (props: any) => {
         disconnectWalletConnect()
         props.handleModal()
         setModalUp(!modalUp)
+        sessionStorage.clear()
     }
     const handleSignIn = async () => {
         //props.handleModal()
@@ -182,8 +184,10 @@ const ConnectWalletM = (props: any) => {
     //   props.handleModal()
     //   window.location.reload()
     // }
-    const walletType = localStorage.getItem("walletType")
-  const currentChain = localStorage.getItem('chain')
+    // const walletType = sessionStorage.getItem("walletType")
+    const {userState,setUserState}=useContext(UserContext)
+  const currentChain = sessionStorage.getItem('chain')
+    console.log(sessionStorage.getItem('walletType')==='Metamask');
     
 
     return (
@@ -268,7 +272,7 @@ const ConnectWalletM = (props: any) => {
                                         <div className={style.wallets}>
                                             <div className={style.activeWallet}>
                                                 <div className={style.awleft}>
-                                                <img style={{width:'40px'}} src={walletType === "MetaMask" ? Metamask :"trustWallet"?TWT: Wc} alt="wallet" />
+                                                <img style={{width:'40px'}} src={userState?.walletType==='Metamask'?Metamask:sessionStorage.getItem('walletType')==='Metamask'? Metamask :"trustWallet"?TWT: Wc} alt="wallet" />
 
                                                     <div className={style.awInfo}>
                                                         <h3>{shortenAddress(currentAccount)}</h3>

@@ -7,6 +7,7 @@ import { CircularProgress } from '@material-ui/core'
 import { publicRequest } from '../../../utils/requestMethods'
 import Happy from './assets/happy.svg'
 import toast from 'react-hot-toast'
+import { e } from 'mathjs'
 //import { Cancel } from '@material-ui/icons'
 
 const EnterOtp = (props: any) => {
@@ -39,21 +40,15 @@ const EnterOtp = (props: any) => {
 
     const inputHandler = (event: customEvent) => {
         const { name, value } = event.target
-        let letters = /[a-zA-Z]/
-        let specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,<>\/?~]/
-        let dots = value.match(/\./g)
-        if (
-            letters.test(value) ||
-            specialChars.test(value) ||
-            dots?.length >= 2 || value.length > 1
-        ) {
-            console.log('Error')
-        } else {
+        
+      
 
             setUserInput({
                 ...userInput,
                 [name]: value,
             })
+
+           
             //console.log(userInputRef.current.number1.length)
             if (userInputRef.current.number1.length === 1) {
                 number2Ref.current.focus()
@@ -73,7 +68,7 @@ const EnterOtp = (props: any) => {
             if (userInputRef.current.number6.length === 1) {
                 number1Ref.current.focus()
             }
-        }
+        
     }
 
     const handleSubmit = async (e: any) => {
@@ -81,12 +76,15 @@ const EnterOtp = (props: any) => {
         setIsLoading(true)
         try {
             const otpData = {
-                code: userInput.number1 + userInput.number2 + userInput.number3 + userInput.number4 +
+                token: userInput.number1 + userInput.number2 + userInput.number3 + userInput.number4 +
                     userInput.number5 + userInput.number6,
-                wallet_address: props.currentAddress
+                // wallet_address: props.currentAddress
             }
+
+            console.log(sessionStorage.getItem('token'));
+            
             const enterOtpReq =
-                await publicRequest.post(`/user/update-email`, otpData,{headers:{
+                await publicRequest.post(`api/user/email/verify`, otpData,{headers:{
                     'Authorization':`Bearer ${sessionStorage.getItem('token')}`
                 }})
             console.log(enterOtpReq)
@@ -123,7 +121,7 @@ const EnterOtp = (props: any) => {
                         <div className={style.modalBody2}>
                             <div className={style.modalOtp} >
                                 <input type="text" ref={number1Ref} name='number1' value={userInput.number1} onChange={inputHandler} required />
-                                <input className={style.otpLeft} type="text" ref={number2Ref} name='number2' value={userInput.number2} onChange={inputHandler} />
+                                <input  className={style.otpLeft} type="text" ref={number2Ref} name='number2' value={userInput.number2} onChange={inputHandler} />
                                 <input className={style.otpLeft} type="text" ref={number3Ref} name='number3' value={userInput.number3} onChange={inputHandler} />
                                 <input className={style.otpLeft} type="text" ref={number4Ref} name='number4' value={userInput.number4} onChange={inputHandler} />
                                 <input className={style.otpLeft} type="text" ref={number5Ref} name='number5' value={userInput.number5} onChange={inputHandler} />

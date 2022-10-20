@@ -32,7 +32,7 @@ const PutOnSaleModal = (props: any) => {
     const [isLoading, setIsLoading] = useState(false)
     // eslint-disable-next-line
     const [userWallet, setUserWallet] = useState<any>(
-        localStorage.getItem('currentAccount'),
+        sessionStorage.getItem('currentAccount'),
     )
     // const [themeState] = useContext<any>(ThemeContext)
     // const dark = themeState.dark
@@ -87,7 +87,7 @@ const PutOnSaleModal = (props: any) => {
     const handleSubmit = async (e: any) => {
         e.preventDefault()
         setIsLoading(true)
-        const wallet_address = localStorage.getItem('currentAccount')
+        const wallet_address = sessionStorage.getItem('currentAccount')
         console.log(props?.nftDetails?.marketplace_type)
 
         // const erc721Address = '0x236DdF1f75c0bA5Eb29a8776Ec1820E5dC41a59a'

@@ -68,7 +68,7 @@ const ItemCard2 = (data: any) => {
         getUsdPrice()
         //getUser()
     }, [])
-    const currentAddress: any = localStorage.getItem('currentAccount')
+    const currentAddress: any = sessionStorage.getItem('currentAccount')
 
     return (
         <div className={style.card}>

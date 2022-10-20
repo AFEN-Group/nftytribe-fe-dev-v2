@@ -2,7 +2,7 @@ import { useEffect, useContext } from 'react'
 import useState from 'react-usestateref'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ThemeContext } from '../../../context/ThemeContext'
-import { AuthContext } from '../../../context/AuthContext'
+// import { AuthContext } from '../../../context/AuthContext'
 import ContractContext from '../../../context/ContractContext'
 import { publicRequest } from '../../../utils/requestMethods'
 //import { format } from 'timeago.js'
@@ -47,6 +47,7 @@ import Loader from '../../../components/Loader/Loader'
 import BidModal from './BidModal'
 import { shortenAddress } from '../../../utils/formatting'
 import PutOnSaleModal from './PutOnSaleModal'
+import { UserContext } from '../../../context/UserContext'
 declare const window: any
 
 //const erc721Mintable_address = contracts.erc721MintableAddress
@@ -84,7 +85,7 @@ const ExploreSingle = () => {
     const [countX, setCountX] = useState<any>()
     const [walletAddress, setWalletAddress] = useState('')
     const [itemCollected, setItemCollected] = useState(false)
-    const [authState] = useContext<any>(AuthContext)
+    // const [authState] = useContext<any>(AuthContext)
     const [themeState] = useContext<any>(ThemeContext)
     const [isBidActive, setIsBidActive] = useState<any>()
     const [canCollect, setCanCollect] = useState<any>()
@@ -117,7 +118,7 @@ const ExploreSingle = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        const wallet_address = localStorage.getItem('currentAccount')
+        const wallet_address = sessionStorage.getItem('currentAccount')
         const currentChain = localStorage.getItem('chain')
         //console.log(wallet_address)
 
@@ -395,7 +396,7 @@ const ExploreSingle = () => {
     }, [collectionAddress, id, erc721MarketplaceAddress, countX])
 
 
-
+  const {userState,setUserState}=useContext(UserContext)
 
     const getImage = (uri: any) => {
         let url
@@ -410,8 +411,8 @@ const ExploreSingle = () => {
     }
 
     const handleSubmit = async () => {
-        const verified = authState.user.email_verified
-        //if (verified === 1) {
+        const verified = userState?.user?.verified
+        if (verified) {
         const currentChainId = localStorage.getItem('chain')
         if (currentChainId === '0x1') {
             setChain('eth')
@@ -424,7 +425,7 @@ const ExploreSingle = () => {
         //console.log('them', itemChain)
         if (chainRef.current === itemChain)
             if (nftDetails?.on_sale) {
-                const wallet_address = localStorage.getItem('currentAccount')
+                const wallet_address = sessionStorage.getItem('currentAccount')
                 //console.log(nftDetails?.marketplace_type)
                 if (wallet_address) {
                     setShowBid(true)
@@ -449,9 +450,9 @@ const ExploreSingle = () => {
                 }
             )
         }
-        // } else {
-        //     setShowPrompt(true)
-        // }
+        } else {
+            setShowPrompt(true)
+        }
     }
     const handleSale = async (e: any) => {
         e.preventDefault()
@@ -726,7 +727,7 @@ const ExploreSingle = () => {
     const handleCollect = async (e: any) => {
         e.preventDefault()
         setIsLoading(true)
-        const wallet_address = localStorage.getItem('currentAccount')
+        const wallet_address = sessionStorage.getItem('currentAccount')
         const result = await collectNft(
             wallet_address,
             nftDetails?.token_id,

@@ -12,7 +12,7 @@ import style from './Card.module.scss'
 // import Web3 from 'web3'
 
 const CollectionCard = (data: any) => {
-  const currentAddress: any = localStorage.getItem('currentAccount')
+  const currentAddress: any = sessionStorage.getItem('currentAccount')
   const getImage = (uri: any) => {
     let url
     if (uri.includes('ipfs/')) {

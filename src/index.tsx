@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { ThemeContextProvider } from "./context/ThemeContext";
 import { UserContextProvider } from "./context/UserContext";
-import { AuthContextProvider } from "./context/AuthContext";
+// import { AuthContextProvider } from "./context/AuthContext";
 import "./i18n";
 
 const root = ReactDOM.createRoot(
@@ -14,11 +14,11 @@ root.render(
   <React.StrictMode>
     <Suspense fallback="Please wait....">
       <ThemeContextProvider>
-        <AuthContextProvider>
+        {/* <AuthContextProvider> */}
           <UserContextProvider>
             <App />
           </UserContextProvider>
-        </AuthContextProvider>
+        {/* </AuthContextProvider> */}
       </ThemeContextProvider>
     </Suspense>
   </React.StrictMode>

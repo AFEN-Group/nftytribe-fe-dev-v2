@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { gsap, Expo } from "gsap";
 //import { ThemeContext } from '../../context/ThemeContext'
-import { AuthContext } from '../../context/AuthContext'
+// import { AuthContext } from '../../context/AuthContext'
 import style from "./Create.module.scss";
 import Header from "../../components/Header/Header";
 //import Flow from './assets/fl.png'
@@ -28,7 +28,7 @@ const CreateItemOptions = () => {
   //console.log(currentChain, "<<<<<")
   // const [themeState] = useContext<any>(ThemeContext)
   // const dark = themeState.dark
-  const [authState] = useContext<any>(AuthContext)
+  // const [authState] = useContext<any>(AuthContext)
   const navigate = useNavigate()
   useEffect(() => {
     window.scrollTo(0, 0);

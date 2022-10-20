@@ -26,6 +26,7 @@ import BNB from './assets/bnb.svg'
 import Swap from './assets/swap01.svg'
 import Swap2 from './assets/swap02.svg'
 import globals from '../../utils/globalVariables'
+import { UserContext } from '../../context/UserContext'
 
 
 declare const window: any
@@ -57,9 +58,9 @@ const ConnectWallet = (props: any) => {
   //swap states
   const [afenSwap, setAfenSwap] = useState(true)
   //const [currentAccount, setCurrentAccount] = useState('')
-  const currentAccount = localStorage.getItem('currentAccount')
-  const currentChain = localStorage.getItem('chain')
-  const userObj = localStorage.getItem('user')
+  const currentAccount = sessionStorage.getItem('currentAccount')
+  const currentChain = sessionStorage.getItem('chain')
+  const userObj = sessionStorage.getItem('user')
   const [walletBalance, setWalletBalance] = useState<any>()
   const numberInputHandler = async (event: any) => {
     const valueFiltered = event.target.value.replace(/\D/g, '')
@@ -100,40 +101,42 @@ const ConnectWallet = (props: any) => {
         overlay.classList.toggle(style.overlay)
       }
     }
+    // console.log(show2);
+    
 
-    if (!currentAccount) {
-      show2.onclick = function () {
-        t1.reversed(!t1.reversed())
-        overlay.classList.toggle(style.overlay)
-      }
-      if (document.getElementById('show3M')) {
-        let show3M: any = document.getElementById('show3M')
-        show3M.onclick = function () {
-          t1.reversed(!t1.reversed())
-          overlay.classList.toggle(style.overlay)
-        }
-      }
-      if (document.getElementById('show4')) {
-        show3.onclick = function () {
-          t1.reversed(!t1.reversed())
-          overlay.classList.toggle(style.overlay)
-        }
-      }
-      if (document.getElementById('show4')) {
-        show4.onclick = function () {
-          t1.reversed(!t1.reversed())
-          overlay.classList.toggle(style.overlay)
-        }
-      }
-      if (document.getElementById('stake')) {
-        stake.onclick = function () {
-          t1.reversed(!t1.reversed())
-          overlay.classList.toggle(style.overlay)
-        }
-      }
+    // if (!currentAccount) {
+    //   show2.onclick = function () {
+    //     t1.reversed(!t1.reversed())
+    //     overlay.classList.toggle(style.overlay)
+    //   }
+    //   if (document.getElementById('show3M')) {
+    //     let show3M: any = document.getElementById('show3M')
+    //     show3M.onclick = function () {
+    //       t1.reversed(!t1.reversed())
+    //       overlay.classList.toggle(style.overlay)
+    //     }
+    //   }
+    //   if (document.getElementById('show4')) {
+    //     show3.onclick = function () {
+    //       t1.reversed(!t1.reversed())
+    //       overlay.classList.toggle(style.overlay)
+    //     }
+    //   }
+    //   if (document.getElementById('show4')) {
+    //     show4.onclick = function () {
+    //       t1.reversed(!t1.reversed())
+    //       overlay.classList.toggle(style.overlay)
+    //     }
+    //   }
+    //   if (document.getElementById('stake')) {
+    //     stake.onclick = function () {
+    //       t1.reversed(!t1.reversed())
+    //       overlay.classList.toggle(style.overlay)
+    //     }
+    //   }
 
 
-    }
+    // }
     t1.to(box, 0.001, {
       right: 0,
       ease: Power3.easeInOut,
@@ -164,6 +167,7 @@ const ConnectWallet = (props: any) => {
   const handleSignOut = async () => {
     disableEthereum()
     disconnectWalletConnect()
+    sessionStorage.clear()
     props.handleModal()
     disconnectSafePal()
 
@@ -225,9 +229,10 @@ const ConnectWallet = (props: any) => {
   //   props.handleModal()
   //   window.location.reload()
   // }
-  const walletType = localStorage.getItem("walletType")
-
-
+  // const walletType = sessionStorage.getItem("walletType")
+  // console.log(currentAccount,walletType);
+  const { userState,setUserState}=useContext(UserContext)
+   console.log(sessionStorage.getItem('walletType'))
   return (
     <>
       <div className={`${style.container}`}>
@@ -294,7 +299,7 @@ const ConnectWallet = (props: any) => {
                     <div className={style.wallets}>
                       <div className={style.activeWallet}>
                         <div className={style.awleft}>
-                          <img style={{width:'40px'}} src={walletType === "MetaMask" ? Metamask :"trustWallet"?TWT: Wc} alt="wallet" />
+                          <img style={{width:'40px'}} src={sessionStorage.getItem('walletType')==='Metamask' ? Metamask :"trustWallet"?TWT: Wc} alt="wallet" />
                           <div className={style.awInfo}>
                             <h3>{shortenAddressSmall(currentAccount)}</h3>
 

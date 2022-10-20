@@ -27,7 +27,7 @@ const BuyModal = (props: any) => {
   const [isLoading, setIsLoading] = useState(false)
   // eslint-disable-next-line
   const [userWallet, setUserWallet] = useState<any>(
-    localStorage.getItem('currentAccount'),
+    sessionStorage.getItem('currentAccount'),
   )
   // const [themeState] = useContext<any>(ThemeContext)
   // const dark = themeState.dark
@@ -50,7 +50,7 @@ const BuyModal = (props: any) => {
   const [erc1155MarketplaceAddress, setErc1155MarketplaceAddress] = useState<any>('')
   const [chainId, setChainId, chainIdRef] = useState<string>()
   useEffect(() => {
-    //const wallet_address = localStorage.getItem('currentAccount')
+    //const wallet_address = sessionStorage.getItem('currentAccount')
     const currentChain = localStorage.getItem('chain')
     const itemChain = props?.nftDetails?.chain
     if (currentChain === '0x1') {

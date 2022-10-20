@@ -141,7 +141,7 @@ const CreateCollection = () => {
         eMsg: '',
       })
       setIsLoading(true)
-      const wallet_address = localStorage.getItem('currentAccount')
+      const wallet_address = sessionStorage.getItem('currentAccount')
       // const chain = 'eth'
       // const erc721Factory = contracts.erc721FactoryAddress
       // const erc1155Factory = contracts.erc1155FactoryAddress

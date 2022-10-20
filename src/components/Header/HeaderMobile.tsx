@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
 //import Footer from '../Footer/Footer'
 
 const HeaderMobile = () => {
-  const currentAccount = localStorage.getItem('currentAccount')
+  const currentAccount = sessionStorage.getItem('currentAccount')
   const [themeState, setThemeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
   const navigate = useNavigate()

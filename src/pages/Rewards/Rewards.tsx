@@ -19,7 +19,7 @@ import { useTranslation } from "react-i18next";
 const Rewards = () => {
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
-  const currentAccount = localStorage.getItem('currentAccount')
+  const currentAccount = sessionStorage.getItem('currentAccount')
   const navigate = useNavigate()
   useEffect(() => {
     window.scrollTo(0, 0)

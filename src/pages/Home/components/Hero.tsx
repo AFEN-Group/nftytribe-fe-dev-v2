@@ -20,7 +20,7 @@ const Hero = (props:any) => {
   // const [isLoading, setIsLoading] = useState(true)
  
   const [themeState] = useContext<any>(ThemeContext)
-  const currentAccount = localStorage.getItem('currentAccount')
+  const currentAccount = sessionStorage.getItem('currentAccount')
   const dark = themeState.dark
   const navigate = useNavigate()
   const { t } = useTranslation();

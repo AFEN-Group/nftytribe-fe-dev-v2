@@ -77,7 +77,7 @@ const Staking = () => {
   const closeModal = () => {
     setShowModal(false)
   }
-  const walletAddress: any = localStorage.getItem('currentAccount')
+  const walletAddress: any = sessionStorage.getItem('currentAccount')
   const handleStake = async () => {
     if (walletAddress) {
       if (userInput.stake !== '') {

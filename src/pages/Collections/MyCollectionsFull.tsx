@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from 'react'
 import { ThemeContext } from '../../context/ThemeContext'
-import { AuthContext } from '../../context/AuthContext'
+// import { AuthContext } from '../../context/AuthContext'
 import { gsap, Expo } from 'gsap'
 import { useNavigate } from 'react-router-dom'
 import { publicRequest } from '../../utils/requestMethods'
@@ -16,12 +16,12 @@ const MyCollectionsFull = () => {
   const [showImport, setShowImport] = useState(false)
   const [showPrompt, setShowPrompt] = useState(false)
   const [themeState] = useContext<any>(ThemeContext)
-  const [authState] = useContext<any>(AuthContext)
+  // const [authState] = useContext<any>(AuthContext)
   const dark = themeState.dark
   const navigate = useNavigate()
   useEffect(() => {
     window.scrollTo(0, 0)
-    console.log("verified?>>", authState.user)
+    // console.log("verified?>>", authState.user)
 
     const heroTitle = document.getElementById('heroTitle')
     const heroText = document.getElementById('heroText')
@@ -61,23 +61,23 @@ const MyCollectionsFull = () => {
 
   const checkMailStatus = (value: any) => {
     //console.log("verified?>>", authState.user.email_verified)
-    const verified = authState.user.email_verified
+    // const verified = authState.user.email_verified
     if (value === 'create') {
-      if (verified === 1) {
-        //if mail is verified
-        navigate('/createCollectionOptions')
-      } else {
-        // else
-        setShowPrompt(true)
-      }
+      // if (verified === 1) {
+      //   //if mail is verified
+      //   navigate('/createCollectionOptions')
+      // } else {
+      //   // else
+      //   setShowPrompt(true)
+      // }
     } else if (value === 'import') {
-      if (verified === 1) {
-        //if mail is verified
-        setShowImport(true)
-      } else {
-        //else
-        setShowPrompt(true)
-      }
+      // if (verified === 1) {
+      //   //if mail is verified
+      //   setShowImport(true)
+      // } else {
+      //   //else
+      //   setShowPrompt(true)
+      // }
     }
   }
 

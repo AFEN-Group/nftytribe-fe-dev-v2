@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { ThemeContext } from '../../context/ThemeContext'
-import { AuthContext } from '../../context/AuthContext'
+// import { AuthContext } from '../../context/AuthContext'
 import { CircularProgress } from '@material-ui/core'
 import style from './Profile.module.scss'
 // import Header from '../../components/Header/Header'
@@ -20,6 +20,9 @@ import Verification from './Modals/Verification'
 import UpdateComplete from './Modals/UpdateComplete'
 import globals from '../../utils/globalVariables'
 import EnterOtp from './Modals/EnterOtp'
+import UseAxios from '../../hooks/AxiosConfig/useAxios'
+import Protected from '../../hooks/AxiosConfig/axiosInstance'
+import { UserContext } from '../../context/UserContext'
 
 
 const EditProfile = () => {
@@ -29,23 +32,12 @@ const EditProfile = () => {
   const [showOtp, setShowOtp] = useState(false)
   const [updated, setUpdated] = useState(false)
   const dark = themeState.dark
-  const currentAddress = localStorage.getItem('currentAccount')
-  const [authState, setAuthState] = useContext<any>(AuthContext)
-  const [user, setUser] = useState<any>()
-  //const user = authState.user
-  // console.log(authState);
-  
-  //console.log(user)
-  //console.log(localStorage.getItem('user'))
+  const currentAddress = sessionStorage.getItem('currentAccount')
+  const {userState,setUserState}=useContext(UserContext)
+  const {error,loading,Response,fetchData}= UseAxios()
+  // const [authState, setAuthState] = useContext<any>(AuthContext)
+  const [user, setUser] = useState<any>(userState?.user)
 
-  // const [userInput, setUserInput] = useState<any>({
-  //   name: user?.name || '',
-  //   email: user?.email || '',
-  //   bio: user?.bio || '',
-  //   twitterLink: user?.twitter_username || '',
-  //   website: user?.custom_url || '',
-  // })
-  useMemo(()=>setUser(authState.user),[authState])
   const [imageFile, setImageFile] = useState<any>({
     file: '',
     location: '',
@@ -58,11 +50,7 @@ const EditProfile = () => {
  
 
   const [userInput, setUserInput] = useState<any>({
-    name: '',
-    email: '',
-    bio: '',
-    twitterLink: '',
-    website: '',
+  
   })
 
   const inputHandler = (event: any) => {
@@ -71,128 +59,45 @@ const EditProfile = () => {
       [event.target.name]: event.target.value,
     })
   }
-  const selectMedia1 = async (e: any) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setCoverImage({
-        ...coverImage,
-        file: e.target.files[0],
-      })
-      var form_data = new FormData()
-      form_data.append('upload', e.target.files[0])
-      try {
-        const resp = await fetch(
-          `${globals.baseURL}/collectibles/upload-image`,
-          {
-            method: 'POST',
-            body: form_data,
-            headers:{
-              'Authorization':`Bearer ${sessionStorage.getItem('token')}`
-            }
-          },
-        )
-        const data = await resp.json()
-        //setImageLocation(data.location)
-        setCoverImage({
-          ...coverImage,
-          file: e.target.files[0],
-          location: data.location,
-        })
-        //console.log(data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-  }
-
-  const selectMedia2 = async (e: any) => {
+ 
+  const selectMedia2 = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
       setImageFile({
         ...imageFile,
         file: e.target.files[0],
       })
-      var form_data = new FormData()
-      form_data.append('upload', e.target.files[0])
-      try {
-        const resp = await fetch(
-          `${globals.baseURL}/collectibles/upload-image`,
-          {
-            method: 'POST',
-            body: form_data,
-            headers:{
-              'Authorization':`Bearer ${sessionStorage.getItem('token')}`
-            }
-          },
-        )
-        const data = await resp.json()
-        //setImageLocation(data.location)
-        setImageFile({
-          ...imageFile,
-          file: e.target.files[0],
-          location: data.location,
-        })
-        //console.log(data)
-      } catch (error) {
-        console.log(error)
-      }
+      setUserInput({
+        ...userInput,[e.target.name]:e.target.files[0]
+      })
     }
   }
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    const formData= new FormData()
+    for( let keys in userInput){
+    if(keys!=='email') formData.append(keys,userInput[keys])
+      
+    }
+    
     try {
       setIsLoading(true)
-      //
+      const res= await Protected(sessionStorage.getItem('token')).patch('api/user/:field',formData)
 
-      // if (imageFile.file) {
-      //   const img_data = new FormData()
-      //   img_data.append('upload', imageFile.file)
-      //   try {
-      //     const resp = await fetch(
-      //       'https://dev.api.nftytribe.io/api/collectibles/upload-image',
-      //       {
-      //         method: 'POST',
-      //         body: img_data,
-      //       },
-      //     )
-      //     const data = await resp.json()
-      //     //setImageLocation(data.location)
-      //     setImageFile({
-      //       ...imageFile,
-      //       location: data.location,
-      //     })
-      //     console.log('image>>>', data)
-      //   } catch (error) {
-      //     console.log(error)
-      //   }
-      // }
-      console.log('show location>>', imageFile.location)
-      console.log('show userInput', userInput)
-      const data = userInput
-
-      // data.cover_image = coverImage.location
-
-      const userData = {
-        wallet_address: currentAddress,
-        name: userInput.name || user?.name,
-        //email: userInput.email || user?.email,
-        image: imageFile.location || user?.image,
-        cover_image: coverImage.location || user?.cover_image,
-        bio: userInput.bio || user?.bio,
-        twitter_username: userInput.twitterLink || user?.twitter_username,
-        custom_url: userInput.website || user?.custom_url
-      }
-
-      const updateUserReq = await publicRequest.post(`/user/update-user`,userData,{headers:{
-        'Authorization':`Bearer ${sessionStorage.getItem('token')}`
-      }} )
-
+      console.log(res);
+      
+ 
       if (userInput.email) {
         try {
-          const updateEmailReq =
-            await publicRequest.get(`/user/generate-email-verification-mail?email=${userInput.email}&wallet_address=${currentAddress}`,{headers:{
-              'Authorization':`Bearer ${sessionStorage.getItem('token')}`
-            }})
-          console.log(updateEmailReq)
+         await fetchData({
+          method:'post',
+          url:'api/user/email',
+          axiosInstance:Protected(sessionStorage.getItem('token')),
+          requestConfig:{
+            email:userInput.email
+          }
+         })
+          
           setShowOtp(true)
         } catch (err) {
           console.log(err)
@@ -201,49 +106,13 @@ const EditProfile = () => {
         setUpdated(true)
       }
       setIsLoading(false)
-      // setAuthState({
-      //   ...authState,
-      //   user: logUserReq.data.data,
-      //   isFetching: false,
-      //   error: false,
-      // })
-
-      setAuthState({
-        ...authState,
-        user: {
-          ...authState.user,
-          //
-          cover_image: coverImage.location || user?.cover_image,
-          image: imageFile.location || user?.image,
-          name: userInput.name || user?.name,
-          bio: userInput.bio || user?.bio,
-          twitter_username: userInput.twitterLink || user?.twitter_username,
-          custom_url: userInput.website || user?.custom_url
-        },
-        isFetching: false,
-        error: false,
-      })
-      if (userInput.email) {
-        setAuthState({
-          ...authState,
-          user: {
-            ...authState.user,
-            email: userInput.email || user?.email
-          },
-          isFetching: false,
-          error: false,
-        })
-      }
-      console.log("updated user", updateUserReq)
-      console.log("updated auth state", authState.user)
+    
+     
+    
 
     } catch (err) {
       console.log(err)
-      setAuthState({
-        ...authState,
-        isFetching: false,
-        error: true,
-      })
+    
       setIsLoading(false)
     }
   }
@@ -256,7 +125,7 @@ const EditProfile = () => {
 
   return (
     <>
-      {/* <Header /> */}
+ 
       {showVerify &&
         <Verification closeVerify={closeModal} />
       }
@@ -299,8 +168,10 @@ const EditProfile = () => {
                 <input
                   type="file"
                   name="img"
-                  onChange={selectMedia1}
-                //required
+                  onChange={()=>{
+
+                  }}
+               
                 />
               </div>
             </div>
@@ -310,14 +181,14 @@ const EditProfile = () => {
             className={`${style.content} animate__animated animate__fadeInUp animate__delay-1s `}
           >
             <div className={style.profileInfo}>
-              {!imageFile.file && !user?.image && (
+              {!imageFile.file && !user?.avatar && (
                 <div className={style.avatar}>
                   <img src={dark === 'true' ? Avatar : Av2} alt="avatar" />
                 </div>
               )}
-              {!imageFile.file && user?.image && (
+              {!imageFile.file && user?.avatar && (
                 <div className={style.avatar}>
-                  <img src={user?.image} alt="avatar" />
+                  <img src={user?.avatar?.url} alt="avatar" />
                 </div>
               )}
 
@@ -332,16 +203,13 @@ const EditProfile = () => {
                 <div className={style.fileInput2}>
                   <input
                     type="file"
-                    name="img"
+                    name="avatar"
                     onChange={selectMedia2}
                   //required
                   />
                 </div>
               </div>
-              {/* <div className={style.title}>
-                <h1>Michael Carson</h1>
-                <img src={Edit} alt="edit" />
-              </div> */}
+            
             </div>
             <div className={style.editBx}>
               <h2>Edit Profile</h2>
@@ -350,10 +218,10 @@ const EditProfile = () => {
                   <p>Username</p>
                   <TextInput
                     type="text"
-                    inputName="name"
-                    holder={user?.name?user?.name:"Enter username"}
+                    inputName="username"
+                    holder={user?.username?user?.username:"Enter username"}
                     inputHandler={inputHandler}
-                    value={userInput.name}
+                    value={userInput.username}
                   />
                 </div>
                 <div className={style.inputField}>
@@ -379,11 +247,11 @@ const EditProfile = () => {
                 <div className={style.inputField}>
                   <p>Twitter link</p>
                   <TextInput
-                    inputName="twitterLink"
+                    inputName="twitter"
                     type="text"
                     inputHandler={inputHandler}
                     holder=" http://twitter.com/your username"
-                    value={userInput.twitterLink}
+                    value={userInput.twitter}
                   />
                 </div>
                 <div className={style.inputField}>
@@ -405,7 +273,7 @@ const EditProfile = () => {
                 <div className={style.editBtn}>
                   <button
                     type="submit"
-                    //onClick={handleSubmit}
+                   
                     disabled={isLoading}
                   >
                     {!isLoading ? (

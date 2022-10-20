@@ -1,11 +1,12 @@
 import { useState, useEffect, useContext } from 'react'
 import Web3 from 'web3'
 import WalletConnectProvider from '@walletconnect/web3-provider'
-import { AuthContext } from '../context/AuthContext'
+// import { AuthContext } from '../context/AuthContext'
 import { publicRequest } from '../utils/requestMethods'
 import toast from 'react-hot-toast'
 import UseAxios from '../hooks/AxiosConfig/useAxios'
 import { disconnect } from 'process'
+import { UserContext } from '../context/UserContext'
 //import networks from './networks.json'
 declare const window: any
 
@@ -104,7 +105,7 @@ const UserConnect = () => {
     account: '',
     chain: '',
   })
-  const [authState, setAuthState] = useContext<any>(AuthContext)
+  // const [authState, setAuthState] = useContext<any>(AuthContext)
   const provider: any = new WalletConnectProvider({
     // rpc: {
     //   '0xfa2': 'https://rpc.testnet.fantom.network',
@@ -118,6 +119,7 @@ const UserConnect = () => {
     // infuraId: "27e484dcd9e3efcfd25a83a78777cdf1",
     infuraId: "45b5a21bfa5b4429af59109069821ed3",
   })
+  const { userState,setUserState}=useContext(UserContext)
   const [currentAccount, setCurrentAccount] = useState<any>(
     sessionStorage.getItem('currentAccount') || undefined,
   )
@@ -143,25 +145,14 @@ const UserConnect = () => {
             account: accounts[0],
             chain: window.ethereum.chainId,
           })
-          const user = {
-            params: {
-              wallet_address: sessionStorage.getItem('currentAccount'),
-            },
-          }
-          await fetchData({
-            method: 'post',
-            url: '/user/create-user',
-            axiosInstance: publicRequest,
-            requestConfig: {
-              ...user
-            }
-
-          })
-          console.log("resp>>", Response)
-          setWalletType("MetaMask")
-          sessionStorage.setItem("walletType", 'MetaMask')
+        setUserState({...userState,currentAccount:accounts[0],walletType:'Metamask'})
 
         
+          setWalletType("MetaMask")
+          
+
+
+
           setWalletError('')
         } else {
           toast.error(`Wrong network, please switch to recommended networks!`,
@@ -172,7 +163,7 @@ const UserConnect = () => {
           //console.log(window.ethereum.chainId);
 
         }
-        console.log("network1 >> ", window.ethereum.chainId);
+        // console.log("network1 >> ", window.ethereum.chainId);
       } catch (err) {
         console.log(err)
       }
@@ -189,29 +180,30 @@ const UserConnect = () => {
         //if (window.ethereum.chainId === '0x1') { // for eth only
         // console.log(window.ethereum.chainId)
         sessionStorage.setItem('chain', window.trustwallet._chainId)
-        sessionStorage.setItem('currentAccount', account[0])
+        // sessionStorage.setItem('currentAccount', account[0])
         setUserInfo({
           ...userInfo,
           account: account[0],
           chain: window.trustwallet._chainId,
         })
-        const user = {
-          params: {
-            wallet_address: sessionStorage.getItem('currentAccount'),
-          },
-        }
-        await fetchData({
-          method: 'post',
-          url: '/user/create-user',
-          axiosInstance: publicRequest,
-          requestConfig: {
-            ...user
-          }
+        // const user = {
+        //   params: {
+        //     wallet_address: sessionStorage.getItem('currentAccount'),
+        //   },
+        // }
+        // await fetchData({
+        //   method: 'post',
+        //   url: '/user/create-user',
+        //   axiosInstance: publicRequest,
+        //   requestConfig: {
+        //     ...user
+        //   }
 
-        })
+        // })
+        setUserState({...userState,currentAccount:account[0],walletType:'trustWallet'})
         console.log("resp>>", Response)
         setWalletType("trustWallet")
-        sessionStorage.setItem("walletType", 'trustWallet')
+        // sessionStorage.setItem("walletType", 'trustWallet')
 
       
         setWalletError('')
@@ -246,21 +238,23 @@ const UserConnect = () => {
           account: account[0],
           chain: window.ethereum.chainId,
         })
-        const user = {
-          params: {
-            wallet_address: sessionStorage.getItem('currentAccount'),
-          },
-        }
-        await fetchData({
-          method: 'post',
-          url: '/user/create-user',
-          axiosInstance: publicRequest,
-          requestConfig: {
-            ...user
-          }
+        setUserState({...userState,currentAccount:account[0]})
 
-        })
-        console.log("resp>>", Response)
+        // const user = {
+        //   params: {
+        //     wallet_address: sessionStorage.getItem('currentAccount'),
+        //   },
+        // }
+        // await fetchData({
+        //   method: 'post',
+        //   url: '/user/create-user',
+        //   axiosInstance: publicRequest,
+        //   requestConfig: {
+        //     ...user
+        //   }
+
+        // })
+        // console.log("resp>>", Response)
         setWalletType("MetaMask")
         sessionStorage.setItem("walletType", 'safePal')
 
@@ -351,47 +345,17 @@ const UserConnect = () => {
       await provider.enable()
       console.log("enable", provider)
       if (provider.chainId === 1) {
-        console.log("guyyy")
+        // console.log("guyyy")
         sessionStorage.setItem('currentAccount', provider.accounts[0])
         setUserInfo({
           ...userInfo,
           account: provider.accounts[0],
           chain: provider.chainId,
         })
-
-        try {
-
-          const user = {
-            params: {
-              wallet_address: sessionStorage.getItem('currentAccount'),
-            },
-          }
-          const logUserReq = await publicRequest.post(
-            `/user/create-user`,
-            user,
-          )
-          console.log('user>>', logUserReq.data.data)
-          setAuthState({
-            ...authState,
-            user: logUserReq.data.data,
-            isFetching: false,
-            error: false,
-          })
-          setWalletType("WalletConnect")
-          sessionStorage.setItem("walletType", 'WalletConnect')
-          // setTimeout(() => {
-          //   window.location.reload()
-          // }, 500)
-          toast.success(`Wallet connected successfully.`,
-            { duration: 5000 })
-        } catch (err) {
-          console.log(err)
-          setAuthState({
-            ...authState,
-            isFetching: false,
-            error: true,
-          })
-        }
+        setUserState({...userState,currentAccount:provider.accounts[0],walletType:'WalletConnect'})
+        setWalletType("WalletConnect")
+        
+    
       } else {
         setWalletError('Wrong network, please switch to ethereum mainnet!')
       }
@@ -457,6 +421,7 @@ const UserConnect = () => {
           console.log(userInfo?.balance, '<<<< wallet balance')
           //window.location = '/'
           window.location.reload()
+
         } catch (err) {
           console.log(err)
         }

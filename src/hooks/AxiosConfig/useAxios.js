@@ -16,7 +16,7 @@ const UseAxios = () => {
             })
             console.log("user data>>", data.data);
 
-            if (data.data.token) {
+            if (data?.data?.token?.length>6) {
                 // console.log(data.data.token);
                 sessionStorage.setItem('token', data.data.token)
             }

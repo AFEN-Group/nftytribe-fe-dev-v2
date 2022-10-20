@@ -2,7 +2,7 @@ import { useEffect, useContext } from 'react'
 import useState from 'react-usestateref'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ThemeContext } from '../../../context/ThemeContext'
-import { AuthContext } from '../../../context/AuthContext'
+// import { AuthContext } from '../../../context/AuthContext'
 import ContractContext from '../../../context/ContractContext'
 import { publicRequest } from '../../../utils/requestMethods'
 //import { format } from 'timeago.js'
@@ -49,6 +49,7 @@ import BuyModal from './BuyModal'
 //import BidModal from './BidModal'
 import { shortenAddress } from '../../../utils/formatting'
 import PutOnSaleModal from './PutOnSaleModal'
+import { UserContext } from '../../../context/UserContext'
 declare const window: any
 
 // const erc721Mintable_address = contracts.erc721MintableAddress
@@ -82,7 +83,7 @@ const ExploreSingleBuy = () => {
   const [endDate, setEndDate] = useState<any>()
   const [walletAddress, setWalletAddress] = useState('')
   const [itemCollected, setItemCollected] = useState(false)
-  const [authState] = useContext<any>(AuthContext)
+  // const [authState] = useContext<any>(AuthContext)
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
   const { handleAuctionBid, checkIfBIdTimePasses, collectNft } = useContext(
@@ -105,14 +106,14 @@ const ExploreSingleBuy = () => {
   })
   const [timeDifference, setTimeDifference] = useState<any>()
   const [showDrop, setShowDrop] = useState(false)
-
+  const { userState,setUserState}= useContext(UserContext)
   const closePrompt = () => {
     setShowPrompt(false)
   }
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    const wallet_address = localStorage.getItem('currentAccount')
+    const wallet_address = sessionStorage.getItem('currentAccount')
     const currentChainId = localStorage.getItem('chain')
     //console.log(wallet_address)
     //
@@ -340,10 +341,10 @@ const ExploreSingleBuy = () => {
     }
     return url
   }
-
+  
   const handleSubmit = async () => {
-    const verified = authState?.user?.email_verified
-    if (verified && verified === 1) {
+    const verified = userState?.user?.verified
+    if (verified && verified ) {
       const currentChainId = localStorage.getItem('chain')
       if (currentChainId === '0x1') {
         setChain('eth')
@@ -356,7 +357,7 @@ const ExploreSingleBuy = () => {
       console.log('them', itemChain)
       if (chainRef.current === itemChain)
         if (nftDetails && nftDetails?.on_sale) {
-          const wallet_address = localStorage.getItem('currentAccount')
+          const wallet_address = sessionStorage.getItem('currentAccount')
           console.log(nftDetails?.marketplace_type)
           if (wallet_address) {
             setShowBuy(true)
@@ -668,7 +669,7 @@ const ExploreSingleBuy = () => {
   // const handleCollect = async (e: any) => {
   //     e.preventDefault()
   //     setIsLoading(true)
-  //     const wallet_address = localStorage.getItem('currentAccount')
+  //     const wallet_address = sessionStorage.getItem('currentAccount')
   //     const result = await collectNft(
   //         wallet_address,
   //         nftDetails?.token_id,

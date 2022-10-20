@@ -73,7 +73,7 @@ const ItemCard = (data: any) => {
     //getUser()
 
   }, [])
-  const currentAddress: any = localStorage.getItem('currentAccount')
+  const currentAddress: any = sessionStorage.getItem('currentAccount')
   const navigate=useNavigate()
   // const [selected,setData]=useState()
   const open=(data: any)=>{

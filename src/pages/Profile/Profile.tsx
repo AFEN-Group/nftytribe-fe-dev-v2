@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { ThemeContext } from '../../context/ThemeContext'
-import { AuthContext } from '../../context/AuthContext'
+// import { AuthContext } from '../../context/AuthContext'
 import style from './Profile.module.scss'
 import Header from '../../components/Header/Header'
 import Cover from './assets/cover.svg'
@@ -21,17 +21,18 @@ import UpdatePrompt from './Modals/UpdatePrompt'
 import UseAxios from '../../hooks/AxiosConfig/useAxios'
 import Protected from '../../hooks/AxiosConfig/axiosInstance'
 import { type } from 'os'
+import { UserContext } from '../../context/UserContext'
 
 const Profile = () => {
   //const [tab, setTab] = useState('all')
   const [themeState] = useContext<any>(ThemeContext)
-  const [authState] = useContext<any>(AuthContext)
+  // const [authState] = useContext<any>(AuthContext)
   const dark = themeState.dark
-  const user = authState.user
+  // const user = authState.user
   ///console.log(user)
   const [collectibles, setCollectibles] = useState<any>()
-  const currentAddress: any = localStorage.getItem('currentAccount')
-  const currentChainId = localStorage.getItem('chain')
+  const currentAddress: any = sessionStorage.getItem('currentAccount')
+  const currentChainId = sessionStorage.getItem('chain')
   const [res, setRes] = useState<any>()
   const [query, setQuery] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
@@ -43,23 +44,20 @@ const Profile = () => {
 
 
 
-  const getUser = async () => {
-    if (currentAddress) {
-       await getData({
-        method:'get',
-        url:`user/${currentAddress}`,
-        axiosInstance:Protected(sessionStorage.getItem('token'))
-      })
-    }
   
-  }
  
   useEffect(() => {
     setCurrentPage(1)
     //setTotalPages(1)
   }, [query])
-  const {error:getError,loading:getLoading,Response:response,fetchData:getData}=UseAxios()
+  // const {error:getError,loading:getLoading,Response:response,fetchData:getData}=UseAxios()
   const {error:Error,loading:Loading,Response:postResponse,fetchData:Data}=UseAxios()
+  const {userState,setUserState}=useContext(UserContext)
+
+  useEffect(()=>{
+    setRes(userState?.user)
+  },[userState])
+
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -69,24 +67,16 @@ const Profile = () => {
       setCurrentChain('bsc')
     }
     console.log(currentAddress);
-    
-    // if (currentAddress) {
-    //   getData({
-    //     method:'get',
-    //     url:`${currentAddress}`,
-    //     axiosInstance:Protected(sessionStorage.getItem('token'))
-    //   })
-    // }
-    getUser()
+     setUserState({...userState,currentAddress:currentAddress})
   }, [currentAddress])
   console.log(sessionStorage.getItem('token'))
-   useEffect(()=>{
-    type data={
-      data?:any
-     }
-     const {data}=response||({} as data)
-    setRes(data?.data);
-   },[response])
+  //  useEffect(()=>{
+  //   type data={
+  //     data?:any
+  //    }
+  //    const {data}=response||({} as data)
+  //   setRes(data?.data);
+  //  },[response])
   
   useEffect(() => {
     Data({
@@ -179,14 +169,14 @@ const Profile = () => {
                 <img
                   // src={user?.image || dark === 'true' ? Avatar : Av2}
                   // src={user?.image || Av2}
-                  src={res?.image || Av2}
+                  src={res?.avatar?.url || Av2}
                   alt="avatar"
                 />
               </div>
               <div className={style.title}>
                 {res && (
                   <h1>
-                    {res.name || shortenAddress(currentAddress) || res.name}
+                    {res.username || shortenAddress(currentAddress) || res.username}
                   </h1>
                 )}
                 {!res && <h1>User</h1>}
