@@ -159,43 +159,43 @@ console.log(userState);
                   <Routes>
 
                     <Route path="/" element={<Home />}></Route>
-                    <Route path="/explore" element={<Explore />}></Route>
+                    {/* <Route path="/explore" element={<Explore />}></Route> */}
                     {/* <Route
                   path="/explore/:collectionAddress/:id"
                   element={<ExploreSingle />}
                 ></Route> */}
-                    <Route
+                    {/* <Route
                       path="/exploreBuy/:collectionAddress/:id"
-                      element={<ExploreBuy />}></Route>
-                    <Route
+                      element={<ExploreBuy />}></Route> */}
+                    {/* <Route
                       path="/exploreBid/:collectionAddress/:id"
-                      element={<ExploreBid />}></Route>
-                    <Route path="/collections" element={<Collections />}></Route>
+                      element={<ExploreBid />}></Route> */}
+                    {/* <Route path="/collections" element={<Collections />}></Route> */}
 
-                    <Route
+                    {/* <Route
                       path="/collectionDetails/:collectionId"
-                      element={<CollectionDetails />}></Route>
-                    <Route
+                      element={<CollectionDetails />}></Route> */}
+                    {/* <Route
                       path="/collectionDashboard"
-                      element={<CollectionDashboard />}></Route>
-                    <Route
+                      element={<CollectionDashboard />}></Route> */}
+                    {/* <Route
                       path="/createOptions"
-                      element={<CreateItemOptions />}></Route>
-                    <Route
+                      element={<CreateItemOptions />}></Route> */}
+                    {/* <Route
                       path="/createItem/:chain/:itemType"
-                      element={<CreateItems />}></Route>
-                    <Route
+                      element={<CreateItems />}></Route> */}
+                    {/* <Route
                       path="/createCollectionOptions"
-                      element={<CreateCollectionOptions />}></Route>
-                    <Route
+                      element={<CreateCollectionOptions />}></Route> */}
+                    {/* <Route
                       path="/createcollection/:chain"
-                      element={<CreateCollection />}></Route>
+                      element={<CreateCollection />}></Route> */}
                     <Route path="/profile" element={<Profile />}></Route>
                     <Route path="/editProfile" element={<EditProfile />}></Route>
                     <Route path="/about" element={<About />}></Route>
 
-                    <Route path="/rewards" element={<Rewards />}></Route>
-                    <Route path="/staking" element={<Staking />}></Route>
+                    {/* <Route path="/rewards" element={<Rewards />}></Route> */}
+                    {/* <Route path="/staking" element={<Staking />}></Route> */}
                     <Route path="*" element={<NotFound />}></Route>
                   </Routes>
                   <Footer />

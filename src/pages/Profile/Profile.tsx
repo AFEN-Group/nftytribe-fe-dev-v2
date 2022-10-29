@@ -35,8 +35,8 @@ const Profile = () => {
   const currentChainId = sessionStorage.getItem('chain')
   const [res, setRes] = useState<any>()
   const [query, setQuery] = useState('')
-  const [currentPage, setCurrentPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(0)
+  const [currentPage, setCurrentPage] = useState('')
+  const [totalPages, setTotalPages] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const [showModal, setShowModal] = useState<any>()
   const [currentChain, setCurrentChain] = useState<any>()
@@ -46,10 +46,6 @@ const Profile = () => {
 
   
  
-  useEffect(() => {
-    setCurrentPage(1)
-    //setTotalPages(1)
-  }, [query])
   // const {error:getError,loading:getLoading,Response:response,fetchData:getData}=UseAxios()
   const {error:Error,loading:Loading,Response:postResponse,fetchData:Data}=UseAxios()
   const {userState,setUserState}=useContext(UserContext)
@@ -70,23 +66,19 @@ const Profile = () => {
      setUserState({...userState,currentAddress:currentAddress})
   }, [currentAddress])
   console.log(sessionStorage.getItem('token'))
-  //  useEffect(()=>{
-  //   type data={
-  //     data?:any
-  //    }
-  //    const {data}=response||({} as data)
-  //   setRes(data?.data);
-  //  },[response])
-  
+
   useEffect(() => {
+    console.log(currentPage);
+    
     Data({
      method:'get',
-     url:  `/user/get-collectibles?wallet_address=${currentAddress}&${query}&page=${currentPage}&size=9`,
+     url:  `api/nft/user/0x08c1ae7e46d4a13b766566033b5c47c735e19f6f/?&${query}&page=${currentPage}&chain=1`,
      axiosInstance:Protected(sessionStorage.getItem('token'))
     })
     
-  }, [currentAddress, query, currentPage])
+  }, [currentAddress, currentPage])
 
+console.log(postResponse);
 
  useEffect(()=>{
      console.log(postResponse);
@@ -94,25 +86,34 @@ const Profile = () => {
       data?:any
      }
      const {data}=postResponse||({} as data)
-      setCollectibles(data?.data.collectibles)
-      setTotalPages(Math.round(data?.data.total_count / 10))
-      setIsLoading(Loading)
+     setTotalPages(data?.cursor);
+    //  console.log(data?.result);
+     
+      setCollectibles(data?.result)
+      // setTotalPages(Math.round(data?.data.total_count / 10))
+      setIsLoading(false)
   },[postResponse] )
+// console.log(Loading);
 
+// const  [userNfts,setNfts]=useState(async()=>{
+//   try {
+    
+//   } catch (error) {
+    
+//   }
+// })
  
- 
+ console.log(totalPages);
  
   
   const nextPage = () => {
-    if (currentPage >= 1) {
-      setCurrentPage(currentPage + 1)
-    }
+     setCurrentPage(totalPages)   
   }
-  const prevPage = () => {
-    if (currentPage <= totalPages) {
-      setCurrentPage(currentPage - 1)
-    }
-  }
+  // const prevPage = () => {
+  //   if (currentPage <= totalPages) {
+  //     setCurrentPage(currentPage - 1)
+  //   }
+  // }
   const closeModal = () => {
     setShowModal(false)
   }
@@ -121,10 +122,13 @@ const Profile = () => {
   const interDemo = useRef(null);
 
   const callBack = (entries:any) => {
-    console.log(entries);
+    // console.log(entries);
     
     const [entry] = entries;
-    if(entry.isIntersecting) nextPage();
+    console.log(entry.isIntersecting);
+    
+    if(entry.isIntersecting)  nextPage();
+    return
   };
   let options = {
     root: null,
@@ -280,7 +284,7 @@ const Profile = () => {
 
                     {collectibles?.map((nft: any, i: any) => {
                       return (
-                        (nft?._id && nft?.cardImage) && (
+                        (nft?.metadata?.image) && (
                           <div className={style.itemBx} key={nft._id}>
                             <ItemCard nftData={nft} />
                           </div>

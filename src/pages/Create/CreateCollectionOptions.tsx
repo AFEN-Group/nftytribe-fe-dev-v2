@@ -16,7 +16,7 @@ import globals from '../../utils/globalVariables'
 
 const CreateCollectionOptions = () => {
     const [chain, setChain] = useState('')
-    const currentChain = localStorage.getItem('chain')
+    const currentChain = sessionStorage.getItem('chain')
     console.log(currentChain, "<<<<<")
     const navigate = useNavigate()
     // const [themeState] = useContext<any>(ThemeContext)

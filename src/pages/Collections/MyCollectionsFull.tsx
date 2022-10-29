@@ -11,11 +11,13 @@ import Container from '../../components/Container/Container'
 import Upload from './assets/upload.svg'
 import CollectionCard from '../../components/Card/CollectionCard'
 import UpdatePrompt from '../../components/Modals/UpdatePrompt/UpdatePrompt'
+import { UserContext } from '../../context/UserContext'
 
 const MyCollectionsFull = () => {
   const [showImport, setShowImport] = useState(false)
   const [showPrompt, setShowPrompt] = useState(false)
   const [themeState] = useContext<any>(ThemeContext)
+  const {userState,setUserState}=useContext(UserContext)
   // const [authState] = useContext<any>(AuthContext)
   const dark = themeState.dark
   const navigate = useNavigate()
@@ -43,7 +45,7 @@ const MyCollectionsFull = () => {
   const [collections, setCollections] = useState([])
   useEffect(() => {
     const getCollections = async () => {
-      const resp = await publicRequest.get(`/collections`)
+      const resp = await publicRequest.get(`api/collection?userId=${userState?.user?.id}`)
       console.log(resp.data.data)
       //setCollections(resp.data.data.splice(0, 9))
       setCollections(resp.data.data)
@@ -61,23 +63,23 @@ const MyCollectionsFull = () => {
 
   const checkMailStatus = (value: any) => {
     //console.log("verified?>>", authState.user.email_verified)
-    // const verified = authState.user.email_verified
+    const verified = userState?.user?.email
     if (value === 'create') {
-      // if (verified === 1) {
-      //   //if mail is verified
-      //   navigate('/createCollectionOptions')
-      // } else {
-      //   // else
-      //   setShowPrompt(true)
-      // }
+      if (verified ) {
+        //if mail is verified
+        navigate('/createCollectionOptions')
+      } else {
+        // else
+        setShowPrompt(true)
+      }
     } else if (value === 'import') {
-      // if (verified === 1) {
-      //   //if mail is verified
-      //   setShowImport(true)
-      // } else {
-      //   //else
-      //   setShowPrompt(true)
-      // }
+      if (verified ) {
+        //if mail is verified
+        setShowImport(true)
+      } else {
+        //else
+        setShowPrompt(true)
+      }
     }
   }
 

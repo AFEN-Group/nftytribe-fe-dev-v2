@@ -27,16 +27,20 @@ const ItemCard = (data: any) => {
   const [usdPrice, setUsdPrice] = useState<any>()
   const [userName, setUserName] = useState<any>()
   const getImageUrl = (uri: any) => {
+    // console.log(uri);
+    
     let url
-    if (uri.includes('ipfs/')) {
-      // eslint-disable-next-line
-      url = 'https://ipfs.io/ipfs/' + `${uri.split('ipfs/')[1]}`
-    } else if (data?.nftData?.cardImage.includes('ipfs://')) {
+   if (uri?.includes('ipfs://')) {
       // eslint-disable-next-line
       url = 'https://ipfs.io/ipfs/' + `${uri.split('ipfs://')[1]}`
     }
+    else url=uri
+    // console.log(url);
     return url
+    
+    
   }
+//  console.log(data?.nftData?.metadata);
  
   const {Response, error,fetchData,loading}=UseAxios()
   
@@ -78,14 +82,14 @@ const ItemCard = (data: any) => {
   // const [selected,setData]=useState()
   const open=(data: any)=>{
     navigate( data?.nftData?.is_lazy_mint
-      ? `/exploreBuy/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner}&lazy_mint=true`
-      : `/exploreBuy/${data?.nftData?.collection_address}/${data?.nftData?.token_id}?seller=${data?.nftData?.owner}`)
+      ? `/exploreBuy/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner_of}&lazy_mint=true`
+      : `/exploreBuy/${data?.nftData?.collection_address}/${data?.nftData?.token_id}?seller=${data?.nftData?.owner_of}`)
   }
   const open2=(data: any)=>{
     navigate(
       data?.nftData?.is_lazy_mint
-      ? `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner}&lazy_mint=true`
-      : `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.token_id}?seller=${data?.nftData?.owner}`)
+      ? `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner_of}&lazy_mint=true`
+      : `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.token_id}?seller=${data?.nftData?.owner_of}`)
   }
   return (
     <div className={style.card}>
@@ -97,14 +101,12 @@ const ItemCard = (data: any) => {
             onClick={()=>open2(data)}
           >
             <div className={style.cardImg}>
-              {data?.nftData?.cardImage !== '' && (
+              {data?.nftData?.metadata  && (
                 <img
                   //className={style.imgBg}
                   src={
-                    data?.nftData?.cardImage.includes('/ipfs') ||
-                      data?.nftData?.cardImage.includes('ipfs://')
-                      ? `${getImageUrl(data?.nftData?.cardImage)}`
-                      : data?.nftData?.cardImage
+                    `${getImageUrl(data?.nftData?.metadata.image)}`
+                      
                   }
                   alt="item"
                 />
@@ -129,15 +131,14 @@ const ItemCard = (data: any) => {
            
           >
             <div className={style.cardImg}>
-              {data?.nftData?.cardImage !== '' && (
+              {data?.nftData?.metadata.image && (
                 <img
                   //className={style.imgBg}
                   src={
-                    data?.nftData?.cardImage?.includes('/ipfs') ||
-                      data?.nftData?.cardImage.includes('ipfs://')
-                      ? `${getImageUrl(data?.nftData?.cardImage)}`
-                      : data?.nftData?.cardImage
-                  }
+                    // ''
+                  
+                      getImageUrl(data?.nftData?.metadata.image)
+                   }
                   alt="item"
                 />
               )}
@@ -169,7 +170,7 @@ const ItemCard = (data: any) => {
             <div className={style.userInfo} onClick={() => setShowFull(true)}>
               <img src={user} alt="user" />
               {data.nftData && (
-                <p>{userName || shortenAddress(data?.nftData?.owner)}</p>
+                <p>{userName || shortenAddress(data?.nftData?.owner_of)}</p>
               )}
               <img src={arrow} alt="arrow" />
             </div>
@@ -193,7 +194,7 @@ const ItemCard = (data: any) => {
                 <div className={style.userBx}>
                   <img src={user} alt="user" />
                   {data.nftData && (
-                    <p>{userName || shortenAddress(data?.nftData?.owner)}</p>
+                    <p>{userName || shortenAddress(data?.nftData?.owner_of)}</p>
                   )}
                 </div>
               </div>
@@ -202,7 +203,7 @@ const ItemCard = (data: any) => {
                   //to={`/explore/22/22`}
                   to={
                     data?.nftData?.is_lazy_mint
-                      ? `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner}&lazy_mint=true`
+                      ? `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner_of}&lazy_mint=true`
                       : `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.token_id}?seller=${data?.nftData?.owner}`
                   }
                   className={style.buyBtnSm}
