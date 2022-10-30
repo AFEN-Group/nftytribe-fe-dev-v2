@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nftytribe-deployment-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: nftytribe-client
+  template:
+    metadata:
+      labels:
+        component: nftytribe-client
+    spec:
+      containers:
+        - name: nftytribe-app
+          image: radianceobi/nftytribe-client
+          ports:
+            - containerPort: 3000
