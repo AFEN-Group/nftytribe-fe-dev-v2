@@ -16,4 +16,4 @@ spec:
         - name: nftytribe-app
           image: radianceobi/nftytribe-client
           ports:
-            - containerPort: 3000
+            - containerPort: 3001

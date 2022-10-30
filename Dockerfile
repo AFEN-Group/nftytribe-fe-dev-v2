@@ -8,4 +8,4 @@ RUN yarn build
 FROM nginx:alpine
 COPY --from=web-application /app/build/. /var/www/html/
 COPY --from=web-application /app/default.conf /etc/nginx/conf.d/default.conf
-EXPOSE 3000
+EXPOSE 3001
