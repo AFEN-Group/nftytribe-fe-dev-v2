@@ -3,11 +3,6 @@ on:
   push:
     branches:
       - dev
-    paths:
-      - "/**"
-      - "server.py"
-      - "Dockerfile"
-      - ".github/workflows/**"
 jobs:
   build:
     runs-on: ubuntu-latest
