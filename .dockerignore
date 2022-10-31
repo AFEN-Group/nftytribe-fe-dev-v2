@@ -3,3 +3,4 @@ build
 .git
 .github
 k8s
+.secret
