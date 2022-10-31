@@ -32,4 +32,4 @@ jobs:
         run: kubectl apply -f $GITHUB_WORKSPACE/k8s --namespace=development
 
       - name: Verify deployment
-        run: kubectl rollout status deployment/nftytribe-deployment-client
+        run: kubectl rollout status deployment/nftytribe-deployment-client --namespace=development
