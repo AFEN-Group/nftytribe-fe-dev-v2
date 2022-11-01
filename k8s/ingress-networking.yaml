@@ -9,10 +9,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - test.nftytribe.io
+        - staging.nftytribe.io
       secretName: nftytribe-tls
   rules:
-    - host: test.nftytribe.io
+    - host: staging.nftytribe.io
       http:
         paths:
           - path: /
