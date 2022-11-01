@@ -10,6 +10,7 @@ spec:
   tls:
     - hosts:
         - test.nftytribe.io
+      secretName: nftytribe-tls
   rules:
     - host: test.nftytribe.io
       http:
