@@ -7,7 +7,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: echo $( GITHUB_BASE_REF )
+      - run: echo $GITHUB_BASE_REF
       - name: Checkout master
         uses: actions/checkout@main
       - name: Install doctl
