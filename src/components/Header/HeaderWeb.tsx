@@ -41,7 +41,7 @@ const HeaderWeb = (props: any) => {
   const [isLoading, setIsLoading] = useState(false);
   //const [userState] = useContext<any>(UserContext)
   //const currentAccount = userState.userWallet
-  const currentAccount = localStorage.getItem("currentAccount");
+  const currentAccount = sessionStorage.getItem("currentAccount");
   const [themeState, setThemeState] = useContext<any>(ThemeContext);
   const dark = themeState.dark;
   const navigate = useNavigate();
@@ -147,6 +147,7 @@ const HeaderWeb = (props: any) => {
   //   })
   //   t1.reverse()
   // }
+// console.log(currentAccount);
 
   const { t } = useTranslation();
   return (
