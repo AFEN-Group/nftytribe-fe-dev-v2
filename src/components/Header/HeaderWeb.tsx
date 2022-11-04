@@ -147,7 +147,7 @@ const HeaderWeb = (props: any) => {
   //   })
   //   t1.reverse()
   // }
-console.log('this is the current',currentAccount);
+console.log('this is the',currentAccount);
 
   const { t } = useTranslation();
   return (

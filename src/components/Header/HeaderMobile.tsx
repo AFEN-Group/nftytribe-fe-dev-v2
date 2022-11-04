@@ -1,6 +1,6 @@
 import React from 'react'
 import style from './Header.module.scss'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState,useRef } from 'react'
 import { ThemeContext } from '../../context/ThemeContext'
 import { Link, useNavigate } from 'react-router-dom'
 import Logo from './assets/logoA.png'
@@ -68,7 +68,7 @@ const HeaderMobile = () => {
       setShowMConnect(!showMConnect)
     }
   }
-
+  const open: any= useRef(null)
   return (
     <>
       <div className={style.headerM}>
@@ -90,22 +90,12 @@ const HeaderMobile = () => {
             <Link to="/" className={style.logoBoxM}>
               <img src={dark === "true" ? Logo2 : Logo} alt="logo" />
             </Link>
-            {/* <div className={style.iconBoxM}> */}
-            {/* <div className={style.hamBox}>
-              <img
-                src={dark === 'true' ? Hamburger2 : Hamburger}
-                alt="hamburger"
-                onClick={handleTheme}
-              />
-            </div> */}
-            {/* <div className={style.themeImg} onClick={handleTheme}>
-              <img src={dark === 'true' ? Sun : Moon} alt="change theme" />
-            </div> */}
-            {/* </div> */}
+         
 
             {/* Mobile Menu */}
             <div className="menu-wrap" id="menuwrap">
               <input
+              ref={open}
                 type="checkbox"
                 className="toggler"
                 onChange={() => setshowMenuList(!showMenuList)}
@@ -115,10 +105,7 @@ const HeaderMobile = () => {
                   className={`${dark === "true" ? "dark2" : "light2"}`}></div>
               </div>
               <div className="menu showMenuX">
-                {/* <div className="menuClose"> */}
-                {/* <img className="menuClose" src={Close} alt="close" /> */}
-                {/* </div> */}
-
+              
                 <div
                   className={`${dark === "true" ? "darkTheme" : "lightTheme"}`}>
                   <div>
@@ -149,7 +136,9 @@ const HeaderMobile = () => {
                       </motion.div>
                     )}
                     {showMenuList && (
-                      <ul>
+                      <ul 
+                      onClick={()=>open?.current.click()}
+                      >
                         <motion.li
                           //className={style.disabled}
                           initial="hidden"
@@ -243,6 +232,7 @@ const HeaderMobile = () => {
                         {currentAccount && (
                           <>
                             <motion.li
+                            onClick={()=>open?.current.click()}
                               //className={style.disabled}
                               initial="hidden"
                               animate="visible"
