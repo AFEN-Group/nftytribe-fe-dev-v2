@@ -136,7 +136,9 @@ const HeaderMobile = () => {
                       </motion.div>
                     )}
                     {showMenuList && (
-                      <ul >
+                      <ul 
+                      onClick={()=>open?.current.click()}
+                      >
                         <motion.li
                           //className={style.disabled}
                           initial="hidden"
