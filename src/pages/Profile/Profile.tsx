@@ -62,7 +62,7 @@ const Profile = () => {
     } else if (currentChain === '0x38') {
       setCurrentChain('bsc')
     }
-    console.log(currentAddress);
+    // console.log(currentAddress);
      setUserState({...userState,currentAddress:currentAddress})
   }, [currentAddress])
   console.log(sessionStorage.getItem('token'))
@@ -72,13 +72,13 @@ const Profile = () => {
     
     Data({
      method:'get',
-     url:  `api/nft/user/0x08c1ae7e46d4a13b766566033b5c47c735e19f6f/?&${query}&page=${currentPage}&chain=1`,
+     url:  `api/nft/user/${currentAddress}/?&${query}&page=${currentPage}&chain=${currentChainId}`,
      axiosInstance:Protected(sessionStorage.getItem('token'))
     })
     
   }, [currentAddress, currentPage])
 
-console.log(postResponse);
+// console.log(postResponse);
 
  useEffect(()=>{
      console.log(postResponse);
@@ -103,7 +103,7 @@ console.log(postResponse);
 //   }
 // })
  
- console.log(totalPages);
+ console.log(currentChainId);
  
   
   const nextPage = () => {
