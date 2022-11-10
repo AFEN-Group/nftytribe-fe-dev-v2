@@ -105,7 +105,8 @@ const Hero = (props:any) => {
                       onClick={handleImport}
 
                     >
-                      {t("import")}
+                      {/* {t("import")} */}
+                      Create Collection
                     </button>
                     {/* </Link> */}
                     <Link to="/explore">
@@ -223,7 +224,7 @@ const Hero = (props:any) => {
                           : style.lButton1_light
                       }
                     >
-                      Import Collection
+                      Create Collection
                     </button>
                   </Link>)}
                 <Link to="/explore">

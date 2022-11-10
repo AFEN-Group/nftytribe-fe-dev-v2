@@ -22,6 +22,7 @@ import logo4d from "./logos/logo4-d.png";
 import logo4w from "./logos/logo4-w.png";
 import logo5 from "./logos/nirvlogo.svg";
 import logo6 from "./logos/pllogo.svg";
+import meta from "./logos/meta.png";
 import { useTranslation } from "react-i18next";
 
 const About = () => {
@@ -69,7 +70,7 @@ const About = () => {
               <img src={logo6} alt="logo1" />
             </div>
             <div className={style.angel}>
-              <img src={logo5} alt="logo5" id="logo5" />
+              <img src={meta} alt="logo5" id="logo5" />
             </div>
           </div>
         </div>

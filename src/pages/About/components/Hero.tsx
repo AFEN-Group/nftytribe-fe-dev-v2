@@ -52,18 +52,28 @@ const Hero = () => {
                   <h2>Collect, sell & create</h2>
                 </div> */}
                 <h1>
-                  <span id="heroTitle">{t("innovation for")}</span>{" "}
+                  <span id="heroTitle">
+                    
+                    {t("innovation for")}
+                  </span>{" "}
                 </h1>
                 {/* <h1>One of a kind NFTs</h1> */}
                 <div className={style.leftBtm}>
                   <p>
-                    <span id="heroText">{t("we intoduce")}</span>
+                    <span id="heroText">
+                    Discover 1/1 African Art NFTs and Phygital Items across multiple networks - Binance, Ethereum, Polygon, Skale and more…
+
+                      {/* {t("we intoduce")} */}
+                    </span>
                   </p>
                   <div
                     className={`${style.leftBtns} animate__animated animate__slideInUp`}
                     id="heroBtns">
                     <Link to="/collections">
-                      <button>{t("import")}</button>
+                      <button>
+                        Create Collection
+                        {/* {t("import")} */}
+                      </button>
                     </Link>
                     <a href="https://awake-cornucopia-fbb.notion.site/Getting-Started-with-NftyTribe-924b743823994844868ad3164115c370">
                       <div className={style.readMore}>

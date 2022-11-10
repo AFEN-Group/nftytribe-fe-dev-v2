@@ -54,7 +54,10 @@ const TopProjects = () => {
       <div className={style.topPro}>
         <div className={style.topProTop}>
           <h1>
-            <span>{t("top-collections")}</span>{" "}
+            <span>
+              Top Creators
+              {/* /*{t("top-collections")}*/ }
+              </span>{" "}
           </h1>
           <div className={style.topProFilters}>
             <div
@@ -88,23 +91,7 @@ const TopProjects = () => {
             </div>
           )}
           <div className={style.topProContainer}>
-            {/* <div className={style.tpItem}>
-                            <div className={style.tpLeft}>
-                                <p>{itemNumber++}</p>
-                                <img src={user} alt="user" />
-                            </div>
-                            <div className={style.tpRight}>
-                                <div className={style.tprInfo}>
-                                    <h2>Skimming cat</h2>
-                                    <p>Floor price: 1Eth</p>
-                                </div>
-                                <div className={style.tprNumbers}>
-                                    <p>+30</p>
-                                    <p>Vol: 6</p>
-                                </div>
-                            </div>
 
-                        </div> */}
 
             {!collections
               ? null

@@ -122,31 +122,7 @@ const HeaderWeb = (props: any) => {
   const handleModal = () => {
     setShowConnect(!showConnect);
   };
-  // const t1 = gsap.timeline({ paused: true })
-  // const showCon = () => {
-  //   let overlay: any = document.getElementById('overlay')
-  //   let box: any = document.getElementById('box')
-  //   t1.reversed(!t1.reversed())
-  //   overlay.classList.toggle(style.overlay)
-  //   setShowConnect(!showConnect);
-  //   t1.to(box, 0.001, {
-  //     right: 0,
-  //     ease: Power3.easeInOut,
-  //   })
-  //   t1.reverse()
-  // }
-  // const closeCon = () => {
-  //   let overlay: any = document.getElementById('overlay')
-  //   let box: any = document.getElementById('box')
-  //   t1.reversed(!t1.reversed())
-  //   overlay.classList.toggle(style.overlay)
-  //   setShowConnect(!showConnect);
-  //   t1.to(box, 0.001, {
-  //     right: 0,
-  //     ease: Power3.easeInOut,
-  //   })
-  //   t1.reverse()
-  // }
+  
 console.log('this is the',currentAccount);
 
   const { t } = useTranslation();
