@@ -41,19 +41,27 @@ const MyCollectionsFull = () => {
       ease: Expo.easeInOut,
     })
   }, [])
+  console.log(userState);
+  
+  const getCollections = async () => {
 
+    try {
+      const resp = await publicRequest.get(`api/collection?userId=${userState?.user?.id}`)
+      // console.log(resp.data)
+      //setCollections(resp.data.data.splice(0, 9))
+      setCollections(resp.data.results)
+    } catch (error) {
+      console.log(error);
+      
+    }
+  
+  }
   const [collections, setCollections] = useState([])
   useEffect(() => {
-    const getCollections = async () => {
-      const resp = await publicRequest.get(`api/collection?userId=${userState?.user?.id}`)
-      console.log(resp.data.data)
-      //setCollections(resp.data.data.splice(0, 9))
-      setCollections(resp.data.data)
-    }
-
     getCollections()
   }, [])
-
+ console.log(collections);
+ 
   const closeImport = () => {
     setShowImport(false)
   }
@@ -137,10 +145,10 @@ const MyCollectionsFull = () => {
                   ? null
                   : collections.map((collection: any, i) => {
                     return (
-                      collection.title && (
-                        <CollectionCard nftData={collection} />
+                    
+                        <CollectionCard data={collection} />
                       )
-                    )
+                    
                   })}
               </div>
             </div>

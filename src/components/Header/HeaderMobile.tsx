@@ -232,7 +232,7 @@ const HeaderMobile = () => {
                         {currentAccount && (
                           <>
                             <motion.li
-                            onClick={()=>open?.current.click()}
+                            onClick={()=>open?.current.change()}
                               //className={style.disabled}
                               initial="hidden"
                               animate="visible"

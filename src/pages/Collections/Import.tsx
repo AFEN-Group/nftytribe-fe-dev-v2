@@ -37,19 +37,20 @@ const Import = (props: any) => {
     if (regex.test(userInputRef.current.address)) {
       try {
         setIsLoading(true)
-        const wallet_address = sessionStorage.getItem('currentAccount')
-        console.log(wallet_address)
+        // const wallet_address = sessionStorage.getItem('currentAccount')
+        // console.log(wallet_address)
         const data = await fetch(
-          `${globals.baseURL}/collections/import-collection`,
+          `${globals.baseURL}/api/collection`,
           {
             method: 'POST',
             body: JSON.stringify({
-              wallet_address,
-              url: userInput.address,
+              
+              contractAddress: userInput.address,
               chain: userInput.chain.toLowerCase(),
             }),
             headers: {
               'content-type': 'application/json',
+              'Authorization':`Bearer ${sessionStorage.getItem('token')}`
             },
           },
         )
@@ -124,8 +125,8 @@ const Import = (props: any) => {
                   <select name="chain" onChange={inputHandler}>
                     {/* <option value="rinkeby">Rinkeby</option>
                     <option value="bsc testnet">BSC Testnet </option> */}
-                    <option value="eth">Ethereum</option>
-                    <option value="bsc">Binance</option>
+                    <option value="0x1">Ethereum</option>
+                    <option value="0x61">Binance</option>
 
                   </select>
                 </div>

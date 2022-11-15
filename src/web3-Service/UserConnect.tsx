@@ -133,8 +133,8 @@ const UserConnect = () => {
         const accounts = await window.ethereum.request({
           method: 'eth_requestAccounts',
         })
-        if (window.ethereum.chainId === '0x1' || window.ethereum.chainId === '0x38') { // for both eth and bnb on mainnet
-          // if (window.ethereum.chainId === '0x4' || window.ethereum.chainId === '0x61') { // for both testnet eth and bn
+        // if (window.ethereum.chainId === '0x1' || window.ethereum.chainId === '0x38') { // for both eth and bnb on mainnet
+          if (window.ethereum.chainId === '0x4' || window.ethereum.chainId === '0x61') { // for both testnet eth and bn
           //if (window.ethereum.chainId === '0x61') { // for testnet bsc
           //if (window.ethereum.chainId === '0x1') { // for eth only
           // console.log(window.ethereum.chainId)

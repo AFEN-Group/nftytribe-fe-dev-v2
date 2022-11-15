@@ -79,69 +79,65 @@ const CreateCollection = () => {
 
   // erc 1155 address
   const [erc1155FactoryAddress, setErc1155FactoryAddress] = useState<any>('')
+  const currentChain = sessionStorage.getItem('chain')
+  const wallet_address = sessionStorage.getItem('currentAccount')
 
   useEffect(() => {
-    const currentChain = localStorage.getItem('chain')
     if (currentChain === '0x1') {
       setChain('eth')
       setErc721FactoryAddress(contracts.erc721FactoryAddress)
       setErc1155FactoryAddress(contracts.erc1155FactoryAddress)
     }
-    if (currentChain === '0x38') {
+    if (currentChain === '0x38'||currentChain=='0x61') {
       setChain('bsc')
-      setErc721FactoryAddress(contracts.BSC_erc721FactoryAddress)
+      setErc721FactoryAddress('0xaa8b7d95c0c2c8814ff15c640141f711dcc43472')
+      // setErc721FactoryAddress(contracts.BSC_erc721FactoryAddress)
       setErc1155FactoryAddress(contracts.BSC_erc1155FactoryAdddress)
     }
 
   }, [])
 
-  const selectMedia = async (e: any) => {
-    setIsLoading(true)
-    if (e.target.files && e.target.files.length > 0) {
-      setImageFile({
-        ...imageFile,
-        file: e.target.files[0],
-      })
-      var form_data = new FormData()
-      form_data.append('upload', e.target.files[0])
-      try {
-        const resp = await fetch(
-          `${globals.baseURL}/collectibles/upload-image`,
-          {
-            method: 'POST',
-            body: form_data,
-          },
-        )
-        const data = await resp.json()
-        setImageFile({
-          ...imageFile,
-          file: e.target.files[0],
-          location: data.location,
-        })
-        console.log('image>>>', data)
-        setIsLoading(false)
-      } catch (error) {
-        console.log(error)
-        setIsLoading(false)
-      }
-    }
-  }
+  // const selectMedia = async (e: any) => {
+  //   setIsLoading(true)
+  //   if (e.target.files && e.target.files.length > 0) {
+  //     setImageFile({
+  //       ...imageFile,
+  //       file: e.target.files[0],
+  //     })
+  //     var form_data = new FormData()
+  //     form_data.append('upload', e.target.files[0])
+  //     try {
+  //       const resp = await fetch(
+  //         `${globals.baseURL}/collectibles/upload-image`,
+  //         {
+  //           method: 'POST',
+  //           body: form_data,
+  //         },
+  //       )
+  //       const data = await resp.json()
+  //       setImageFile({
+  //         ...imageFile,
+  //         file: e.target.files[0],
+  //         location: data.location,
+  //       })
+  //       console.log('image>>>', data)
+  //       setIsLoading(false)
+  //     } catch (error) {
+  //       console.log(error)
+  //       setIsLoading(false)
+  //     }
+  //   }
+  // }
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
-    console.log(userInput.contractOption)
-    if (imageFile.location === null || imageFile.location === "") {
-      setMsg({
-        ...msg,
-        eMsg: '* Please choose a file! *',
-      })
-    } else {
+    console.log(userInput.contractOption,)
+    
       setMsg({
         ...msg,
         eMsg: '',
       })
       setIsLoading(true)
-      const wallet_address = sessionStorage.getItem('currentAccount')
       // const chain = 'eth'
       // const erc721Factory = contracts.erc721FactoryAddress
       // const erc1155Factory = contracts.erc1155FactoryAddress
@@ -184,13 +180,10 @@ const CreateCollection = () => {
               background_image: imageFile.location,
               transactionHash,
             }
-            const newCollectionReq = await publicRequest.post(
-              `/collections/create-collection`,
-              collectionObj,
-            )
-            console.log(newCollectionReq)
+          
+            
             //setMsg({ ...msg, sMsg: newCollectionReq.data.msg, eMsg: '' })
-            setNewCollection(newCollectionReq.data.data.title)
+            
             setCreated(true)
             setShowModal(true)
           } catch (err) {
@@ -256,7 +249,7 @@ const CreateCollection = () => {
           }
         )
         setIsLoading(false)
-      }
+      
     }
   }
 
@@ -293,7 +286,7 @@ const CreateCollection = () => {
                 <p>Create, curate, and manage collections of unique NFTs to share and sell.
                 </p>
               </div>
-              <div className={style.leftBody}>
+              {/* <div className={style.leftBody}>
                 <div
                   className={` ${dark === 'true'
                     ? style.fileContainerD
@@ -308,10 +301,10 @@ const CreateCollection = () => {
                     </div>
                   )}
 
-                  <input type="file" name="img" onChange={selectMedia} />
+                  <input type="file" name="img" onChange={()=>{}} />
                   {imageFile.file && (
                     <div className={style.fileBx}>
-                      {/* <img src={guy} alt="guy" /> */}
+                      
                       <img
                         src={URL.createObjectURL(imageFile.file)}
                         alt="nft"
@@ -333,7 +326,7 @@ const CreateCollection = () => {
                 <p className="redtxt">
                   <strong> {msg?.eMsg} </strong>
                 </p>
-              </div>
+              </div> */}
             </div>
             <form onSubmit={handleSubmit} className={style.right2}>
               <div className={style.fieldBx}>

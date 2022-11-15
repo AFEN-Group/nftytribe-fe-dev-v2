@@ -170,7 +170,7 @@ console.log(userState);
                     {/* <Route
                       path="/exploreBid/:collectionAddress/:id"
                       element={<ExploreBid />}></Route> */}
-                    {/* <Route path="/collections" element={<Collections />}></Route> */}
+                    <Route path="/collections" element={<Collections />}></Route>
 
                     {/* <Route
                       path="/collectionDetails/:collectionId"
@@ -184,12 +184,12 @@ console.log(userState);
                     {/* <Route
                       path="/createItem/:chain/:itemType"
                       element={<CreateItems />}></Route> */}
-                    {/* <Route
+                    <Route
                       path="/createCollectionOptions"
-                      element={<CreateCollectionOptions />}></Route> */}
-                    {/* <Route
+                      element={<CreateCollectionOptions />}></Route> 
+                    <Route
                       path="/createcollection/:chain"
-                      element={<CreateCollection />}></Route> */}
+                      element={<CreateCollection />}></Route>
                     <Route path="/profile" element={<Profile />}></Route>
                     <Route path="/editProfile" element={<EditProfile />}></Route>
                     <Route path="/about" element={<About />}></Route>
