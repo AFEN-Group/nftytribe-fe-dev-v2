@@ -41,7 +41,7 @@ const MyCollectionsFull = () => {
       ease: Expo.easeInOut,
     })
   }, [])
-  console.log(userState);
+  console.log(userState?.user?.id);
   
   const getCollections = async () => {
 
@@ -58,8 +58,8 @@ const MyCollectionsFull = () => {
   }
   const [collections, setCollections] = useState([])
   useEffect(() => {
-    getCollections()
-  }, [])
+   if(userState?.user?.id) getCollections()
+  }, [userState])
  console.log(collections);
  
   const closeImport = () => {
