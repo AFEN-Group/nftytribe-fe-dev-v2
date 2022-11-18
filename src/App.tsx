@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import WalletContext from "./context/WalletContext";
 import UserConnect from "./web3-Service/UserConnect";
 import ContractContext from "./context/ContractContext";
@@ -38,6 +38,7 @@ import Web3ContextProvider from "./context/Web3Context";
 import Header from "./components/Header/Header";
 import { UserContext } from "./context/UserContext";
 import UseAxios from "./hooks/AxiosConfig/useAxios";
+import { ChainContext } from "./context/chain";
 
 function App() {
   const AOS = require("aos");
@@ -52,7 +53,8 @@ function App() {
   const { userState,setUserState}= useContext(UserContext)
   const {error:getError,loading:getLoading,Response:response,fetchData:getData}=UseAxios()
   const {error:usererror,loading:loading,Response:user,fetchData:getuser}=UseAxios()
-   
+  const { error: chianerror, loading: loadingChains, Response: chains, fetchData: getChains} = UseAxios()
+
   useEffect(()=>{
     if(user) {
       const {data}= user
@@ -141,13 +143,27 @@ console.log(userState);
   useEffect(()=>{
     const current= sessionStorage.getItem('currentAccount') 
     console.log(current);
-    
+      getChains(
+        {
+          method:'get',
+          url:'/api/chain',
+          axiosInstance:Protected(sessionStorage.getItem('token'))
+        }
+      )
       getUser(sessionStorage.getItem('currentAccount'))
 
   },[userState?.currentAccount])
+
+  /* @ts-ignore */
+  const chain= chains?.data
+  console.log('these are the chains:' ,chain);
+  
+  
+  
   return (
 
     <Web3ContextProvider>
+      <ChainContext.Provider value={chain}>≈
       <LanguageContext.Provider value={langState}>
         <ContractContext.Provider value={methods}>
           <WalletContext.Provider value={data}>
@@ -159,7 +175,7 @@ console.log(userState);
                   <Routes>
 
                     <Route path="/" element={<Home />}></Route>
-                    {/* <Route path="/explore" element={<Explore />}></Route> */}
+                    <Route path="/explore" element={<Explore />}></Route>
                     {/* <Route
                   path="/explore/:collectionAddress/:id"
                   element={<ExploreSingle />}
@@ -211,6 +227,7 @@ console.log(userState);
           </WalletContext.Provider>
         </ContractContext.Provider>
       </LanguageContext.Provider>
+        </ChainContext.Provider>
     </Web3ContextProvider>
   )
 
