@@ -25,7 +25,7 @@ const ItemCard = (data: any) => {
 
   const [showFull, setShowFull] = useState(false)
   const [usdPrice, setUsdPrice] = useState<any>()
-  const [userName, setUserName] = useState<any>()
+  const [userName, setUserName] = useState<any>(data.nftData.user.username)
   const getImageUrl = (uri: any) => {
     // console.log(uri);
     
@@ -45,38 +45,40 @@ const ItemCard = (data: any) => {
   const {Response, error,fetchData,loading}=UseAxios()
   
 
- 
-  useEffect(() => {
-    const getUsdPriceValue = async () => {
-      if (data?.nftData?.chain === 'eth') {
-        const usdPrice = await getUsdPrice("ethereum")
-        const price = Web3.utils.fromWei(data?.nftData?.price.toString(), 'ether')
-        const convertedPrice = parseFloat(price) * usdPrice.ethereum.usd
-        setUsdPrice(convertedPrice)
-      }
-      if (data?.nftData?.chain === 'bsc') {
-        const usdPrice = await getUsdPrice("binancecoin")
-        const price = Web3.utils.fromWei(data?.nftData?.price.toString(), 'ether')
-        const convertedPrice = parseFloat(price) * usdPrice.binancecoin.usd
-        setUsdPrice(convertedPrice)
-      }
-    }
-    const getUser = async () => {
-      //data?.nftData?.owner
-      const ownerAddress = data?.nftData?.owner
-      try {
-        const userInfo: any = await publicRequest.get(`/user/${ownerAddress}`)
-        console.log("userInfo>>", userInfo?.data?.data?.name)
-        setUserName(userInfo?.data?.data?.name)
-      } catch (error) {
-        console.log(error)
-      }
-    }
+ console.log(
+    //  Number(data.nftData.price)
+ )
+  // useEffect(() => {
+  //   const getUsdPriceValue = async () => {
+  //     if (data?.nftData?.chain === 'eth') {
+  //       const usdPrice = await getUsdPrice("ethereum")
+  //       const price = Web3.utils.fromWei(data?.nftData?.price.toString(), 'ether')
+  //       const convertedPrice = parseFloat(price) * usdPrice.ethereum.usd
+  //       setUsdPrice(convertedPrice)
+  //     }
+  //     if (data?.nftData?.chain === 'bsc') {
+  //       const usdPrice = await getUsdPrice("binancecoin")
+  //       const price = Web3.utils.fromWei(data?.nftData?.price.toString(), 'ether')
+  //       const convertedPrice = parseFloat(price) * usdPrice.binancecoin.usd
+  //       setUsdPrice(convertedPrice)
+  //     }
+  //   }
+  //   // const getUser = async () => {
+  //   //   //data?.nftData?.owner
+  //   //   const ownerAddress = data?.nftData?.user.walletAddress
+  //   //   try {
+  //   //     const userInfo: any = await publicRequest.get(`/user/${ownerAddress}`)
+  //   //     console.log("userInfo>>", userInfo?.data?.data?.name)
+  //   //     setUserName(userInfo?.data?.data?.name)
+  //   //   } catch (error) {
+  //   //     console.log(error)
+  //   //   }
+  //   // }
 
-    getUsdPriceValue()
-    //getUser()
+  //   getUsdPriceValue()
+  //   //getUser()
 
-  }, [])
+  // }, [])
   const currentAddress: any = sessionStorage.getItem('currentAccount')
   const navigate=useNavigate()
   // const [selected,setData]=useState()
@@ -131,13 +133,13 @@ const ItemCard = (data: any) => {
            
           >
             <div className={style.cardImg}>
-              {data?.nftData?.metadata.image && (
+              {data?.nftData.url && (
                 <img
                   //className={style.imgBg}
                   src={
                     // ''
                   
-                      getImageUrl(data?.nftData?.metadata.image)
+                      getImageUrl(data.nftData.url)
                    }
                   alt="item"
                 />
@@ -169,8 +171,10 @@ const ItemCard = (data: any) => {
           >
             <div className={style.userInfo} onClick={() => setShowFull(true)}>
               <img src={user} alt="user" />
-              {data.nftData && (
-                <p>{userName || shortenAddress(data?.nftData?.owner_of)}</p>
+              {data && (
+                <p>
+                  {userName || shortenAddress(data.nftData?.user?.walletAddress)}
+                  </p>
               )}
               <img src={arrow} alt="arrow" />
             </div>
@@ -193,8 +197,10 @@ const ItemCard = (data: any) => {
                 <h3>{data?.nftData?.title}</h3>
                 <div className={style.userBx}>
                   <img src={user} alt="user" />
-                  {data.nftData && (
-                    <p>{userName || shortenAddress(data?.nftData?.owner_of)}</p>
+                  {data && (
+                    <p>
+                      {userName || shortenAddress(data.nftData.user?.walletAddress)}
+                    </p>
                   )}
                 </div>
               </div>
@@ -231,7 +237,7 @@ const ItemCard = (data: any) => {
                 >
                   <button className={` ${dark === 'true' ? 'yellowBtn' : 'blueBtn'}`}>
                     {data?.nftData?.marketplace_type === 2 &&
-                      data?.nftData?.wallet_address !== currentAddress
+                      data?.nftData?.user.walletAddress !== currentAddress
                       ? 'Bid'
                       : data?.nftData?.marketplace_type !== 2 &&
                         data?.nftData?.wallet_address !== currentAddress
@@ -247,17 +253,22 @@ const ItemCard = (data: any) => {
              {data?.nftData?.price && <div className={style.aBcontent}>
                 {/* {!data?.nftData?.is_lazy_mint && ( */}
                 <div className={style.aleft}>
-                  <img src={data?.nftData?.chain === 'eth' ? eth : data?.nftData?.chain === 'bsc' ? bnb : ''} alt="chain" />
+                
                   {data?.nftData?.price ? (
                     <p>
                       {' '}
-                      {Web3.utils.fromWei(data?.nftData?.price.toString(), 'ether') ||
-                        '0.00'}{' '}
+                      {/* @ts-ignore */}
+                      {/* {Web3.utils.fromWei( */}
+                      {Number(data?.nftData?.price).toString() ||
+                        '0.00'}
+                        {/* 'ether')*/}
+                       
+                        {' '}
                     </p>
                   ) : (
                     <p></p>
                   )}
-                  {/* <p>2800 Afen</p> */}
+                  <p style={{marginLeft:'10px'}}> {data.nftData.moreInfo.erc20TokenName}</p>
                 </div>
                 {/* )} */}
                 <div className={style.aright}>

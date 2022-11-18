@@ -17,60 +17,68 @@ import AcceptBtn from "../../components/AcceptBtn/AcceptBtn";
 import Loader from "../../components/Loader/Loader";
 import FilterNav from "./FilterNav/FilterNav";
 import { useTranslation } from "react-i18next";
+import { ChainContext } from "../../context/chain";
+import Protected from "../../hooks/AxiosConfig/axiosInstance";
+import axios from "axios";
 
 //import RadioBtn from '../../components/RadioBtn/RadioBtn'
 
 const Explore = () => {
   const [themeState] = useContext<any>(ThemeContext);
   const dark = themeState.dark;
-  const [tab, setTab] = useState(localStorage.getItem("category") || '');
+  const [tab, setTab] = useState(sessionStorage.getItem("category") || '');
   const [data, setData] = useState<any>([]);
   const [filter, setFilter] = useState({
     saleType: false,
     blockChain: false,
     collection: false,
   });
-  // const [mfilter, setMFilter] = useState({
-  //   saleType: '',
-  //   blockChain: '',
-  //   categories: '',
-  // });
+ 
 
-  const [filterQuery, setFilterQuery] = useState("");
-  //const [query, setQuery] = useState("");
-  //const [filter, setFilter] = useState("");
+  const [filterQuery, setFilterQuery] = useState<any>({
+    chain:1,
+    physical:false
+  });
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const chain= useContext(ChainContext)
   const getExploreCollectibles = async () => {
-    try {
-      const explore = await publicRequest.get(
-        `/collectibles/explore/filter?on_sale=true&nft_type=${tab}${filterQuery}&page=${currentPage}`
-        //`/collectibles/explore/filter?lazy_mint=true&marketplace_type=1&page=${currentPage}`
-        //&size=9
-      );
-      const exploreData: any = explore.data;
-      console.log(exploreData);
-      if(filterQuery) setData([...exploreData?.data?.collectibles])
-      else{setData([...data,...exploreData?.data?.collectibles])}
-      
-      ;
-      //setTotalPages(exploreData?.data?.total_count)
-      const total: any = exploreData?.data?.totalNfts / 10
-      setTotalPages(parseFloat(total))
-
-      console.log("pages>>> ", parseFloat(total))
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
+    setIsLoading(true)
+    const getParams= ()=>{
+      let params;
+      for(let key in filterQuery){
+      if(params)  params=`${params}&${key}=${filterQuery[key]}`
+      else params = `${key}=${filterQuery[key]}`
+      }
+      return params
     }
+    // console.log(getParams());
+    
+   try {
+
+     const res= await Protected(sessionStorage.getItem('token'))['get'](`/api/nft/listings?${getParams()}`)
+     setData(res.data?.results)
+     
+   } catch (error) {
+    console.log(error);
+    
+   }
+   finally{
+    setIsLoading(false)
+   }
   };
-  console.log(data);
+  
 
   useEffect(() => {
     getExploreCollectibles();
     console.log(filterQuery);
-  }, [tab, filterQuery, currentPage]);
+    return ()=>{
+      const controller = new AbortController();
+      // cancel the request
+      controller.abort()
+    }
+  }, [tab,currentPage,chain,filterQuery]);
   const nextPage = () => {
     if (currentPage >= 1) {
       setCurrentPage(currentPage + 1)
@@ -129,13 +137,12 @@ const Explore = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('category', '')
+    sessionStorage.setItem('category', '')
   }, [tab])
-
-  const setDefaults = () => {
-    setFilterQuery("");
-    setTab("");
-  };
+  
+  console.log(chain,data);
+  
+ 
   const { t } = useTranslation();
   return (
 
@@ -146,7 +153,10 @@ const Explore = () => {
           <div className={style.exploreContent}>
             <div className={style.exploreTop}>
               <h1>
-                <span id="heroTitle">{t("Explore Collections")}</span>{" "}
+                <span id="heroTitle">
+                  Explore Collectibles
+                  {/* {t("Explore Collections")} */}
+                </span>{" "}
               </h1>
               <p>
                 <span id="heroText">{t("Based on categories")}</span>{" "}
@@ -241,10 +251,10 @@ const Explore = () => {
                       <strong>{t("Filters")}</strong>
                     </p>
                   </div>
-                  {/* <div className={style.sBItem}>
-                    <p>Price range</p>
+                  <div className={style.sBItem}>
+                    <p className="disable_link">Price range</p>
                     <img src={Arrow1} alt="filter" />
-                  </div> */}
+                  </div>
                   <div
                     className={style.sBItem}
                     onClick={() =>
@@ -263,23 +273,13 @@ const Explore = () => {
                         </div>
 
                         {/* <div className={style.radioBx}> <RadioBtn /></div> */}
-                        <div
-                          className={style.pbRadio}
-                          onClick={() => setFilterQuery("&marketplace_type=1")}>
-                          <input type="radio" name="filter" />
-                          <span className={style.checkmark}></span>
-                        </div>
+                        <Radio click={() => setFilterQuery({ ...filterQuery, listingType: 'normal' })} on={filterQuery.listingType==='normal'}/>
                       </div>
                       <div className={style.filterItem}>
                         <div className={style.filterTxt}>
                           <p>Auctions</p>
                         </div>
-                        <div
-                          className={style.pbRadio}
-                          onClick={() => setFilterQuery("&marketplace_type=2")}>
-                          <input type="radio" name="filter" />
-                          <span className={style.checkmark}></span>
-                        </div>
+                        <Radio click={()=>setFilterQuery({...filterQuery,listingType:'auction'})} on={filterQuery.listingType === 'auction'}/>
                       </div>
                       {/* <div className={style.filterItem}>
                         <div className={style.filterTxt}>
@@ -309,72 +309,38 @@ const Explore = () => {
                     <form
                       className={`${dark === "true" ? style.filterBxD : style.filterBxL
                         } animate__animated animate__fadeIn`}>
-                      <div className={style.filterItem1}>
-                        <div className={style.filterTxt}>
-                          <p>Ethereum</p>
-                        </div>
-                        <div className={style.pbRadio} onClick={() => setFilterQuery("&chain=eth")}>
-                          <input type="radio" name="filter" />
-                          <span className={style.checkmark}></span>
-                        </div>
-                      </div>
-                      <div className={style.filterItem}>
-                        <div className={style.filterTxt}>
-                          <p >Binance</p>
-                        </div>
-                        <div className={style.pbRadio} onClick={() => setFilterQuery("&chain=bsc")}>
-                          <input type="radio" name="filter" />
-                          <span className={style.checkmark}></span>
-                        </div>
-                      </div>
-                      <div className={style.filterItem}>
-                        <div className={`${style.filterTxt} `}>
-                          <p className="disable_link">Skale</p>
-                        </div>
-                        <div
-                          className={style.pbRadio}
-                          onClick={() => setFilterQuery("&chain=binance")}>
-                          <input type="radio" name="filter" disabled />
-                          <span className={style.checkmark}></span>
-                        </div>
-                      </div>
-                      <div className={style.filterItem}>
-                        <div className={style.filterTxt}>
-                          <p className="disable_link">Solana</p>
-                        </div>
-                        <div
-                          className={style.pbRadio}
-                          onClick={() => setFilterQuery("&chain=binance")}>
-                          <input type="radio" name="filter" disabled />
-                          <span className={style.checkmark}></span>
-                        </div>
-                      </div>
+                          {
+                            chain.map((chain:any)=>(
+                              <div onClick={()=>setFilterQuery({...filterQuery,chain:chain.id})} className={style.filterItem1}>
+                                <div className={style.filterTxt}>
+                                  <p>{chain.name}</p>
+                                </div>
+                                <Radio on={filterQuery.chain===chain.id}/>
+                              </div>
+                            ))
+                          }
+                      
+                      
                     </form>
                   )}
-                  <div className={style.sBItem}>
+                  {/* <div className={style.sBItem}>
                     <p>{t("Recently added")}</p>
-                    {/* <AcceptBtn onClick={setDefaults} /> */}
-                    <div className={style.pbRadio} onClick={setDefaults}>
-                      <input type="radio" name="filter" />
-                      <span className={style.checkmark}></span>
-                    </div>
-                    {/* <img src={Arrow1} alt="filter" /> */}
-                  </div>
+                  
+                    <Radio click={''} />
+
+                  
+                    
+                  </div> */}
                   <form className={style.sBItem}>
-                    <p className="disable_link">{t("Physical Item")}</p>
+                    <p >{t("Physical Item")}</p>
                     {/* <AcceptBtn onClick={setDefaults} /> */}
-                    <div className={style.pbRadio} onClick={setDefaults}>
-                      <input type="radio" name="filter" disabled />
-                      <span className={style.checkmark}></span>
-                    </div>
+                  <Radio on={filterQuery.physical} click={() => setFilterQuery({ ...filterQuery, physical: !filterQuery.physical })} />
+
+                   
                     {/* <img src={Arrow1} alt="filter" /> */}
                   </form>
 
-                  {/* <div className={style.sBItem} onClick={() => setFilter("collection")}>
-                    <p>Collection</p>
-                    <img src={filter === 'collection' ? Arrow2 : Arrow1} alt="filter" />
-
-                  </div> */}
+                  
                   {filter.collection && (
                     <div
                       className={`${dark === "true" ? style.filterBxD : style.filterBxL
@@ -385,14 +351,16 @@ const Explore = () => {
                       </div>
                     </div>
                   )}
-                  {/* <div className={style.sBItem}>
+                  <div className={style.sBItem}>
                     <p>Price ascending</p>
-                    <img src={Arrow1} alt="filter" />
+                    <Radio click={''}/>
+                    
                   </div>
                   <div className={style.sBItem}>
                     <p>Price descending</p>
-                    <img src={Arrow1} alt="filter" />
-                  </div> */}
+                    <Radio click={''} />
+                    
+                  </div>
                 </div>
               </div>
               {isLoading ? (
@@ -401,14 +369,14 @@ const Explore = () => {
                 </div>
               ) : (
                 <div className={style.itemsContainer}>
-                  {data?.length >= 1 ? (
+                  {data?.length > 0 ? (
                     !isLoading ? (
                       <>
                         <div className={style.itemsContent}>
-                          {data?.map((nft: any, i: any) => {
+                          {data?.map((nft: any) => {
                             return (
-                              (nft?._id && nft?.cardImage) && (
-                                <div className={style.itemBx} key={nft._id}>
+                              (nft?.id && nft?.url) && (
+                                <div className={style.itemBx} key={nft.id}>
                                   <ItemCard nftData={nft} />
                                 </div>
 
@@ -416,32 +384,7 @@ const Explore = () => {
 
                             );
                           })}
-                          {/* {totalPages > 1 && (
-                            <div  className={style.pagination}>
-                              <div className={style.paginateBtns}>
-                                {currentPage > 1 && (
-                                  <button
-                                    className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
-                                      }`}
-                                    onClick={prevPage}
-                                  >
-                                    {'Previous'}
-                                  </button>
-                                )}
-                                {currentPage < totalPages && (
-                                  <button
-                                    className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
-                                      }`}
-                                    onClick={nextPage}
-                                  >
-                                    {'Next'}
-                                  </button>
-                                )}
-                              </div>
-                              <p>
-                                Page {currentPage} of {Math.ceil(totalPages)}
-                              </p>
-                            </div>)} */}
+                          
                         </div>
                       </>
                     ) : (
@@ -474,3 +417,16 @@ const Explore = () => {
 };
 
 export default Explore;
+
+
+const Radio=(props:any)=>{
+
+  return(
+    <div className={style.pbRadio} onClick={props.click}>
+      
+      {props.on &&<div className={style.checkmark}>
+        
+      </div>}
+    </div>
+  )
+}
