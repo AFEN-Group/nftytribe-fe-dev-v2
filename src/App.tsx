@@ -180,9 +180,9 @@ console.log(userState);
                   path="/explore/:collectionAddress/:id"
                   element={<ExploreSingle />}
                 ></Route> */}
-                    {/* <Route
+                    <Route
                       path="/exploreBuy/:collectionAddress/:id"
-                      element={<ExploreBuy />}></Route> */}
+                      element={<ExploreBuy />}></Route>
                     {/* <Route
                       path="/exploreBid/:collectionAddress/:id"
                       element={<ExploreBid />}></Route> */}

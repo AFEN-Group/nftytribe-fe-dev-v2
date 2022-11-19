@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { shortenAddress } from '../../utils/formatting'
 import { publicRequest } from '../../utils/requestMethods'
 import { getUsdPrice } from '../../utils/exchangeRate'
@@ -22,10 +22,10 @@ import Protected from '../../hooks/AxiosConfig/axiosInstance'
 const ItemCard = (data: any) => {
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
-
+  const {pathname}=useLocation()
   const [showFull, setShowFull] = useState(false)
   const [usdPrice, setUsdPrice] = useState<any>()
-  const [userName, setUserName] = useState<any>(data.nftData.user.username)
+  const [userName, setUserName] = useState<any>(pathname.includes('explore')?data.nftData.user?.username:'')
   const getImageUrl = (uri: any) => {
     // console.log(uri);
     
@@ -41,47 +41,15 @@ const ItemCard = (data: any) => {
     
   }
 //  console.log(data?.nftData?.metadata);
- 
+  // console.log(data.nftData.metadata.image)
   const {Response, error,fetchData,loading}=UseAxios()
   
 
- console.log(
-    //  Number(data.nftData.price)
- )
-  // useEffect(() => {
-  //   const getUsdPriceValue = async () => {
-  //     if (data?.nftData?.chain === 'eth') {
-  //       const usdPrice = await getUsdPrice("ethereum")
-  //       const price = Web3.utils.fromWei(data?.nftData?.price.toString(), 'ether')
-  //       const convertedPrice = parseFloat(price) * usdPrice.ethereum.usd
-  //       setUsdPrice(convertedPrice)
-  //     }
-  //     if (data?.nftData?.chain === 'bsc') {
-  //       const usdPrice = await getUsdPrice("binancecoin")
-  //       const price = Web3.utils.fromWei(data?.nftData?.price.toString(), 'ether')
-  //       const convertedPrice = parseFloat(price) * usdPrice.binancecoin.usd
-  //       setUsdPrice(convertedPrice)
-  //     }
-  //   }
-  //   // const getUser = async () => {
-  //   //   //data?.nftData?.owner
-  //   //   const ownerAddress = data?.nftData?.user.walletAddress
-  //   //   try {
-  //   //     const userInfo: any = await publicRequest.get(`/user/${ownerAddress}`)
-  //   //     console.log("userInfo>>", userInfo?.data?.data?.name)
-  //   //     setUserName(userInfo?.data?.data?.name)
-  //   //   } catch (error) {
-  //   //     console.log(error)
-  //   //   }
-  //   // }
-
-  //   getUsdPriceValue()
-  //   //getUser()
-
-  // }, [])
+ 
+ 
   const currentAddress: any = sessionStorage.getItem('currentAccount')
   const navigate=useNavigate()
-  // const [selected,setData]=useState()
+  
   const open=(data: any)=>{
     navigate( data?.nftData?.is_lazy_mint
       ? `/exploreBuy/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner_of}&lazy_mint=true`
@@ -96,7 +64,7 @@ const ItemCard = (data: any) => {
   return (
     <div className={style.card}>
       <div className={style.cardContent}>
-        {/* <div className={style.cardImgBx}> */}
+      
         {data?.nftData?.marketplace_type === 2 ? (
           <div
             //to={`/explore/22/22`}
@@ -133,13 +101,13 @@ const ItemCard = (data: any) => {
            
           >
             <div className={style.cardImg}>
-              {data?.nftData.url && (
+              {(data?.nftData.url||data.nftData.metadata.image) && (
                 <img
                   //className={style.imgBg}
                   src={
                     // ''
                   
-                      getImageUrl(data.nftData.url)
+                      getImageUrl(data.nftData.url||data.nftData.metadata.image)
                    }
                   alt="item"
                 />
@@ -156,15 +124,15 @@ const ItemCard = (data: any) => {
             <div  style={{justifyContent:'right'}} onClick={(e)=>e.stopPropagation()} className={style.cardTop}>
               {/* <img src={dots} alt="options" /> */}
               {/* <img onClick={(e)=>console.log(data.nftData.isLiked)} src={like} alt="like" /> */}
-              <Like onClick={()=>fetchData({
-                method:'put',
-                url:`collectibles/likes/${data.nftData._id}`,
+             {!pathname.includes('profile') &&<Like onClick={()=>fetchData({
+                method:'post',
+                url:`api/nft/like/${data.nftData.id}`,
                 axiosInstance:Protected(sessionStorage.getItem('token'))
-              })} fill={data.nftData.isLiked?'#ff0000':'none'}/>
+              })} fill={data.nftData.isLiked?'#ff0000':'none'}/>}
             </div>
           </div>
         )}
-        {!showFull && (
+        {!showFull && pathname.includes('explore')&& (
           <div
             //className={style.descBox1}
             className={`${style.descBox1} animate__animated animate__fadeIn `}
@@ -173,7 +141,7 @@ const ItemCard = (data: any) => {
               <img src={user} alt="user" />
               {data && (
                 <p>
-                  {userName || shortenAddress(data.nftData?.user?.walletAddress)}
+                  {userName || shortenAddress(data.nftData?.user?.walletAddress||data.nftData.owner_of)}
                   </p>
               )}
               <img src={arrow} alt="arrow" />
@@ -268,7 +236,7 @@ const ItemCard = (data: any) => {
                   ) : (
                     <p></p>
                   )}
-                  <p style={{marginLeft:'10px'}}> {data.nftData.moreInfo.erc20TokenName}</p>
+                  {pathname.includes('explore') &&<p style={{marginLeft:'10px'}}> {data.nftData.moreInfo.erc20TokenName}</p>}
                 </div>
                 {/* )} */}
                 <div className={style.aright}>

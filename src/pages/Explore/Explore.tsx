@@ -20,13 +20,15 @@ import { useTranslation } from "react-i18next";
 import { ChainContext } from "../../context/chain";
 import Protected from "../../hooks/AxiosConfig/axiosInstance";
 import axios from "axios";
+import { UserContext } from "../../context/UserContext";
 
 //import RadioBtn from '../../components/RadioBtn/RadioBtn'
 
 const Explore = () => {
   const [themeState] = useContext<any>(ThemeContext);
+  const {userState}= useContext(UserContext)
   const dark = themeState.dark;
-  const [tab, setTab] = useState(sessionStorage.getItem("category") || '');
+  
   const [data, setData] = useState<any>([]);
   const [filter, setFilter] = useState({
     saleType: false,
@@ -37,12 +39,22 @@ const Explore = () => {
 
   const [filterQuery, setFilterQuery] = useState<any>({
     chain:1,
-    physical:false
+    physical:false,
+    userId:userState?.user.id,
   });
-  const [currentPage, setCurrentPage] = useState(1)
+  // const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
+  const [page,setPage]=useState(1)
   const [isLoading, setIsLoading] = useState(false);
   const chain= useContext(ChainContext)
+  const [categories,setCategories]=useState<[any]>()
+
+
+  const getCategories=async()=>{
+      const res= await Protected(sessionStorage.getItem('token'))['get']('api/category')
+       setCategories(res?.data)
+      
+  }
   const getExploreCollectibles = async () => {
     setIsLoading(true)
     const getParams= ()=>{
@@ -53,12 +65,45 @@ const Explore = () => {
       }
       return params
     }
-    // console.log(getParams());
+    
     
    try {
 
-     const res= await Protected(sessionStorage.getItem('token'))['get'](`/api/nft/listings?${getParams()}`)
-     setData(res.data?.results)
+     const res= await Protected(sessionStorage.getItem('token'))['get'](`/api/nft/listings?${getParams()}&page=${page}`)
+     console.log(res.data);
+     
+     setTotalPages(res.data.totalPages)
+     if (page > 1) {
+       let map = new Map<any, any>()
+       data.map((nft: any) => map.set(nft.id, true)
+       )
+       res.data?.results.map((nft: any) => {
+         if (map.has(nft.id)) {
+           return
+         }
+         else setData([...data, ...res.data?.results]);
+
+
+       })
+
+     }
+    else if(filterQuery.listingType||filterQuery.physical||page===1)setData(res.data?.results)
+     else {
+        let map = new Map<any,any>()
+        data.map((nft:any)=> map.set(nft.id,true)
+        )
+        res.data?.results.map((nft:any)=>{
+          if(map.has(nft.id)){
+           return
+          }
+          else   setData([...data, ...res.data?.results]);
+          
+
+        })
+       
+     }
+     
+    
      
    } catch (error) {
     console.log(error);
@@ -72,24 +117,19 @@ const Explore = () => {
 
   useEffect(() => {
     getExploreCollectibles();
-    console.log(filterQuery);
+    getCategories()
     return ()=>{
       const controller = new AbortController();
       // cancel the request
       controller.abort()
     }
-  }, [tab,currentPage,chain,filterQuery]);
+  }, [chain,filterQuery,page]);
   const nextPage = () => {
-    if (currentPage >= 1) {
-      setCurrentPage(currentPage + 1)
-
+    if (totalPages >page) {
+      setPage((page)=>page+1)
     }
   }
-  const prevPage = () => {
-    if (currentPage <= Math.ceil(totalPages)) {
-      setCurrentPage(currentPage - 1)
-    }
-  }
+ 
 
   const interDemo = useRef(null);
 
@@ -136,9 +176,7 @@ const Explore = () => {
     });
   }, []);
 
-  useEffect(() => {
-    sessionStorage.setItem('category', '')
-  }, [tab])
+ 
   
   console.log(chain,data);
   
@@ -165,71 +203,32 @@ const Explore = () => {
                 className={`${style.exploreCats} animate__animated animate__fadeInUp animate__delay-1s`}>
                 <div
                   className={
-                    tab === "" && dark === "true"
+                    !filterQuery.category && dark === "true"
                       ? style.darkActive
-                      : tab === "" && dark !== "true"
+                      : !filterQuery.category && dark !== "true"
                         ? style.lightActive
                         : style.exploreCat
                   }
-                  onClick={(e) => setTab("")}>
+                  onClick={(e) => setFilterQuery({...filterQuery,category:null})}>
                   <p>All</p>
                 </div>
-                <div
+                {categories && 
+                 categories?.map((cat:any)=>(<div
+                 key={cat?.id}
                   className={
-                    tab === "art" && dark === "true"
+                    filterQuery.category === cat.id && dark === "true"
                       ? style.darkActive
-                      : tab === "art" && dark !== "true"
+                       : filterQuery.category === cat.id && dark !== "true"
                         ? style.lightActive
                         : style.exploreCat
                   }
-                  onClick={(e) => setTab("art")}>
-                  <p>Art</p>
-                </div>
-                <div
-                  className={
-                    tab === "gaming" && dark === "true"
-                      ? style.darkActive
-                      : tab === "gaming" && dark !== "true"
-                        ? style.lightActive
-                        : style.exploreCat
-                  }
-                  onClick={(e) => setTab("gaming")}>
-                  <p>Gaming</p>
-                </div>
-                <div
-                  className={
-                    tab === "photography" && dark === "true"
-                      ? style.darkActive
-                      : tab === "photography" && dark !== "true"
-                        ? style.lightActive
-                        : style.exploreCat
-                  }
-                  onClick={(e) => setTab("photography")}>
-                  <p>Photography</p>
-                </div>
-                <div
-                  className={
-                    tab === "collectibles" && dark === "true"
-                      ? style.darkActive
-                      : tab === "collectibles" && dark !== "true"
-                        ? style.lightActive
-                        : style.exploreCat
-                  }
-                  onClick={(e) => setTab("collectibles")}>
-                  <p >Collectibles</p>
-                </div>
+                   onClick={(e) => setFilterQuery({ ...filterQuery, category: cat.id })}>
+                  <p>{cat.name}</p>
+                </div>))}
+            
+         
 
-                <div
-                  className={
-                    tab === "african_art" && dark === "true"
-                      ? style.darkActive
-                      : tab === "african_art" && dark !== "true"
-                        ? style.lightActive
-                        : style.exploreCat
-                  }
-                  onClick={(e) => setTab("african_art")}>
-                  <p>African Art</p>
-                </div>
+               
               </div>
               <div className={style.exploreCatsM}>
                 <FilterNav />
@@ -273,13 +272,22 @@ const Explore = () => {
                         </div>
 
                         {/* <div className={style.radioBx}> <RadioBtn /></div> */}
-                        <Radio click={() => setFilterQuery({ ...filterQuery, listingType: 'normal' })} on={filterQuery.listingType==='normal'}/>
+                        <Radio click={() => {
+                          setPage(1)
+                          setFilterQuery({ ...filterQuery, listingType: 'normal' })
+                        }} on={filterQuery.listingType==='normal'}/>
                       </div>
                       <div className={style.filterItem}>
                         <div className={style.filterTxt}>
                           <p>Auctions</p>
                         </div>
-                        <Radio click={()=>setFilterQuery({...filterQuery,listingType:'auction'})} on={filterQuery.listingType === 'auction'}/>
+                        <Radio click={()=>{
+                          setPage(1)
+                          setFilterQuery({...filterQuery,listingType:'auction'
+                        
+                        
+                        })}
+                          } on={filterQuery.listingType === 'auction'}/>
                       </div>
                       {/* <div className={style.filterItem}>
                         <div className={style.filterTxt}>
@@ -311,7 +319,11 @@ const Explore = () => {
                         } animate__animated animate__fadeIn`}>
                           {
                             chain.map((chain:any)=>(
-                              <div onClick={()=>setFilterQuery({...filterQuery,chain:chain.id})} className={style.filterItem1}>
+                              <div onClick={()=>{
+                              setPage(1)
+                              setFilterQuery({...filterQuery,chain:chain.id})
+                              
+                          }} className={style.filterItem1}>
                                 <div className={style.filterTxt}>
                                   <p>{chain.name}</p>
                                 </div>
@@ -334,7 +346,10 @@ const Explore = () => {
                   <form className={style.sBItem}>
                     <p >{t("Physical Item")}</p>
                     {/* <AcceptBtn onClick={setDefaults} /> */}
-                  <Radio on={filterQuery.physical} click={() => setFilterQuery({ ...filterQuery, physical: !filterQuery.physical })} />
+                    <Radio on={filterQuery.physical} click={() => {
+                      setPage(1)
+                    setFilterQuery({ ...filterQuery, physical: !filterQuery.physical
+                      })}} />
 
                    
                     {/* <img src={Arrow1} alt="filter" /> */}
@@ -397,10 +412,7 @@ const Explore = () => {
                       <div className={style.noResults}>
                         <img src={Sad} alt="sad" />
                         <h2>No items found</h2>
-                        {/* <Link to="/explore" className={style.exploreM}>
-                        <p>Explore marketplace</p>
-                        <img src={Arrow} alt="arrow" />
-                      </Link> */}
+                        
                       </div>
                     </div>
                   )}
