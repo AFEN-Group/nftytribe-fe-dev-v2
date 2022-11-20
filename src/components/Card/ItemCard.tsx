@@ -51,15 +51,16 @@ const ItemCard = (data: any) => {
   const navigate=useNavigate()
   
   const open=(data: any)=>{
-    navigate( data?.nftData?.is_lazy_mint
-      ? `/exploreBuy/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner_of}&lazy_mint=true`
-      : `/exploreBuy/${data?.nftData?.collection_address}/${data?.nftData?.token_id}?seller=${data?.nftData?.owner_of}`)
-  }
+    if(!pathname.includes('profile')){
+    navigate( data?.nftData?.lazyMint
+      ? `/exploreBuy/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner_of || data?.nftData.user.walletAddress}&lazy_mint=true`
+      : `/exploreBuy/${data?.nftData?.collection_address || data?.nftData?.moreInfo.contractAddress}/${data?.nftData?.tokenId || data?.nftData?.token_id}?seller=${data?.nftData?.owner_of||data?.nftData.user.walletAddress}`)
+     } }
   const open2=(data: any)=>{
     navigate(
-      data?.nftData?.is_lazy_mint
-      ? `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner_of}&lazy_mint=true`
-      : `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.token_id}?seller=${data?.nftData?.owner_of}`)
+      data?.nftData?.lazyMint
+        ? `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner_of || data?.nftData.user.walletAddress}&lazy_mint=true`
+        : `/exploreBid/${data?.nftData?.collection_address || data?.nftData?.moreInfo.contractAddress}/${data?.nftData?.tokenId || data?.nftData?.token_id}?seller=${data?.nftData?.owner_of || data?.nftData.user.walletAddress}`)
   }
   return (
     <div className={style.card}>
@@ -176,7 +177,7 @@ const ItemCard = (data: any) => {
                 <Link
                   //to={`/explore/22/22`}
                   to={
-                    data?.nftData?.is_lazy_mint
+                    data?.nftData?.lazyMint
                       ? `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner_of}&lazy_mint=true`
                       : `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.token_id}?seller=${data?.nftData?.owner}`
                   }
@@ -197,7 +198,7 @@ const ItemCard = (data: any) => {
                 <Link
                   //to={`/explore/22/22`}
                   to={
-                    data?.nftData?.is_lazy_mint
+                    data?.nftData?.lazyMint
                       ? `/exploreBuy/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner}&lazy_mint=true`
                       : `/exploreBuy/${data?.nftData?.collection_address}/${data?.nftData?.token_id}?seller=${data?.nftData?.owner}`
                   }
@@ -219,7 +220,7 @@ const ItemCard = (data: any) => {
             </div>
             <div className={style.actionBx}>
              {data?.nftData?.price && <div className={style.aBcontent}>
-                {/* {!data?.nftData?.is_lazy_mint && ( */}
+                {/* {!data?.nftData?.lazyMint && ( */}
                 <div className={style.aleft}>
                 
                   {data?.nftData?.price ? (

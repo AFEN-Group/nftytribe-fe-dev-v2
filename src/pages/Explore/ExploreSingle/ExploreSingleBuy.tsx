@@ -114,7 +114,7 @@ const ExploreSingleBuy = () => {
   useEffect(() => {
     window.scrollTo(0, 0)
     const wallet_address = sessionStorage.getItem('currentAccount')
-    const currentChainId = localStorage.getItem('chain')
+    const currentChainId = sessionStorage.getItem('chain')
     //console.log(wallet_address)
     //
 

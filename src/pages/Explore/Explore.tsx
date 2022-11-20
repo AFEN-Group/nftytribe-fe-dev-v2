@@ -3,7 +3,12 @@ import { Link } from "react-router-dom";
 import { gsap, Expo } from "gsap";
 import { ThemeContext } from "../../context/ThemeContext";
 import { publicRequest } from "../../utils/requestMethods";
-
+import arrow from './assets/arrowM.svg'
+import arrow2 from './assets/arrow-wh.svg'
+  /* @ts-ignore */
+import Slider from 'react-slick'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 // import Header from "../../components/Header/Header";
 import style from "./Explore.module.scss";
 import Filter from "./assets/Filter.svg";
@@ -15,7 +20,7 @@ import Container from "../../components/Container/Container";
 import Arrow2 from "./assets/arrowright.svg";
 import AcceptBtn from "../../components/AcceptBtn/AcceptBtn";
 import Loader from "../../components/Loader/Loader";
-import FilterNav from "./FilterNav/FilterNav";
+// import FilterNav from "./FilterNav/FilterNav";
 import { useTranslation } from "react-i18next";
 import { ChainContext } from "../../context/chain";
 import Protected from "../../hooks/AxiosConfig/axiosInstance";
@@ -180,6 +185,41 @@ const Explore = () => {
   
   console.log(chain,data);
   
+
+  // mobile filter
+  // const [themeState] = useContext(ThemeContext)
+  // const dark = themeState.dark
+  const [mfilter, setMFilter] = useState<any>()
+  const settings = {
+    dots: false,
+    arrows: false,
+    infinite: true,
+    autoplay: false,
+    lazyload: true,
+    speed: 1200,
+    // autoplaySpeed: 3000,
+    centerMode: true,
+    focusOnSelect: true,
+    slidesToShow: 3,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          //infinite: true,
+
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 2,
+        }
+      }
+    ]
+  }
  
   const { t } = useTranslation();
   return (
@@ -231,7 +271,146 @@ const Explore = () => {
                
               </div>
               <div className={style.exploreCatsM}>
-                <FilterNav />
+                <>
+                  <div
+                    className={`${style.slideBoxM}  animate__animated animate__fadeInUp animate__delay-1s`}
+                  >
+                    <Slider {...settings} >
+
+                      <div className={style.expBx}
+                      //</Slider>onClick={(e) => setFilter('')}
+                      >
+                        <div className={`${style.exploreCatM} 
+                    `}
+                          onClick={(e) => setMFilter('Category')}
+                        >
+                          <p>Categories</p>
+                          {/* <img src={arrow2} alt="" /> */}
+
+                          <img src={dark === "true" ? arrow2 : arrow} alt="arrow" />
+
+                        </div>
+                      </div>
+
+                      <div className={style.expBx}>
+                        <div className={`${style.exploreCatM} 
+                    `}
+                          onClick={(e) => setMFilter('SaleType')}
+                        >
+                          <p>Sale Type</p>
+
+
+                          <img src={dark === "true" ? arrow2 : arrow} alt="arrow" />
+
+
+                        </div>
+                      </div>
+                      <div className={style.expBx}>
+                        <div className={`${style.exploreCatM} 
+                    `}
+                          onClick={(e) => setMFilter('Chain')}
+                        >
+                          <p>Blockchain</p>
+
+
+                          <img src={dark === "true" ? arrow2 : arrow} alt="arrow" />
+
+
+                        </div>
+                      </div>
+                      <div className={style.expBx}>
+                        <div className={`${style.exploreCatM} 
+                    `}
+                          onClick={(e) => setFilterQuery({...filterQuery,physical:!filterQuery.physical})}
+                        >
+                          <p>Physical Item</p>
+
+                        </div>
+                      </div>
+
+                    </Slider>
+
+
+                  </div>
+                  {mfilter === 'Category' && (
+
+                    <form
+                      onClick={()=>setMFilter('')}
+                      className={`${style.filterDrop} 
+${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate__fadeInUp animate__faster`}
+                    //onClick={(e) => setFilter('')}
+                    >
+                      <div className={style.filterItem}>
+                        <div className={style.filterTxt} >
+                          <p style={{ textAlign: 'left' }}>All</p>
+                        </div>
+                        <Radio click={() => setFilterQuery({ ...filterQuery, category:null })} on={!filterQuery.category }/>
+
+                      </div>
+                      {categories?.map((cat:any)=>(<div className={style.filterItem}>
+                        <div className={style.filterTxt} >
+                          <p style={{ textAlign: 'left' }}>{cat.name}</p>
+                        </div>
+                      <Radio click={()=>setFilterQuery({...filterQuery,category:cat.id})} on={filterQuery.category===cat.id}/>
+
+                      </div>))}
+                     
+                    </form>)}
+                  {mfilter === 'SaleType' && (
+
+                    <form
+                      onClick={() => setMFilter('')}
+                      className={`${style.filterDrop} 
+${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate__fadeInUp animate__faster`}
+                    //onClick={(e) => setFilter('')}
+                    >
+                      <div className={style.filterItem}>
+                        <div className={style.filterTxt} >
+                          <p style={{ textAlign: 'left' }}>Fixed Sale</p>
+                        </div>
+                        <Radio click={() => {
+                          setPage(1)
+                          setFilterQuery({ ...filterQuery, listingType: 'normal' })
+                        }} on={filterQuery.listingType === 'normal'} />
+
+                      </div>
+                      <div className={style.filterItem}>
+                        <div className={style.filterTxt} >
+                          <p style={{ textAlign: 'left' }}>Auctions</p>
+                        </div>
+                        <Radio click={() => {
+                          setPage(1)
+                          setFilterQuery({ ...filterQuery, listingType: 'auction' })
+                        }} on={filterQuery.listingType === 'auction'} />
+
+                      </div>
+                    </form>)}
+                  {mfilter === 'Chain' && (
+
+                    <form
+                      onClick={() => setMFilter('')}
+                      className={`${style.filterDrop} 
+                   ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate__fadeInUp animate__faster`}
+                    //onClick={(e) => setFilter('')}
+                    >
+                     {chain.map((chain:any)=>(
+                       <div onClick={() => {
+                         setPage(1)
+                         setFilterQuery({ ...filterQuery, chain: chain.id })
+
+                       }} className={style.filterItem}>
+                         <div className={style.filterTxt}>
+                           <p style={{ textAlign: 'left' }}>{chain.name}</p>
+                         </div>
+
+                         <Radio on={filterQuery.chain === chain.id} />
+
+                       </div>
+                     )) }
+                     
+                    </form>)}
+
+                </>
               </div>
             </div>
 
@@ -431,7 +610,7 @@ const Explore = () => {
 export default Explore;
 
 
-const Radio=(props:any)=>{
+export const Radio=(props:any)=>{
 
   return(
     <div className={style.pbRadio} onClick={props.click}>
