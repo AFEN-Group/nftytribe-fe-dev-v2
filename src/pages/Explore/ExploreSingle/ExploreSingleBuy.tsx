@@ -50,6 +50,8 @@ import BuyModal from './BuyModal'
 import { shortenAddress } from '../../../utils/formatting'
 import PutOnSaleModal from './PutOnSaleModal'
 import { UserContext } from '../../../context/UserContext'
+import UseAxios from '../../../hooks/AxiosConfig/useAxios'
+import Protected from '../../../hooks/AxiosConfig/axiosInstance'
 declare const window: any
 
 // const erc721Mintable_address = contracts.erc721MintableAddress
@@ -63,14 +65,17 @@ const ExploreSingleBuy = () => {
   const { collectionAddress, id } = useParams()
   const params = new URLSearchParams(window.location.search)
   const lazy_mint = params.get('lazy_mint')
-  const seller = params.get('seller')
+  // const seller = params.get('seller')
+  const { loading, Response, error, fetchData } = UseAxios()
 
   const navigate = useNavigate()
   //const [priceType, setPriceType] = useState('auction')
   const [tab, setTab] = useState('art')
   const [isLoading, setIsLoading] = useState(true)
   const [isLoaded, setIsLoaded] = useState(false)
-  const [nft, setNft] = useState<any>()
+  /*@ts-ignore*/
+  // const [nft, setNft] = useState<any>(Response?.data)
+  const nft= Response?.data
   const [showPrompt, setShowPrompt] = useState(false)
   //const [nftDetails, setNftDetails] = useState<any>()
   const [nftDetails, setNftDetails, nftDetailsRef] = useState<any>()
@@ -104,7 +109,9 @@ const ExploreSingleBuy = () => {
     minutes: '',
     seconds: '',
   })
-  const [timeDifference, setTimeDifference] = useState<any>()
+
+  // const [timeDifference, setTimeDifference] = useState<any>()
+  // const {id}=useParams()
   const [showDrop, setShowDrop] = useState(false)
   const { userState,setUserState}= useContext(UserContext)
   const closePrompt = () => {
@@ -137,199 +144,18 @@ const ExploreSingleBuy = () => {
     if (wallet_address) {
       setWalletAddress(wallet_address)
     }
-    const getNftDetails = async () => {
-      try {
-        const details = await publicRequest.get(
-          `/collectibles/${collectionAddress}/${id}?seller=${seller}`,
-        )
-        console.log('check>>>', details.data)
-
-        setNftDetails(details?.data?.data?._doc)
-        setActivities(details?.data?.data?.activities)
-        console.log('<<< cu ', details?.data?.data?.activities)
-        console.log(details?.data?.data?._doc, ">>>")
-        if (!details?.data?.data?._doc?.is_multiple) {
-          const ifToBeCollected = await checkIfBIdTimePasses(
-            id,
-            collectionAddress,
-          )
-          setCollectedNft(ifToBeCollected)
-          console.log('available?>>', ifToBeCollected)
-        }
-
-        setIsLoading(false)
-        setIsLoaded(true)
-      } catch (error) {
-        setIsLoading(false)
-      }
-    }
-
-    const getTokenDetails = async () => {
-      if (lazy_mint) {
-        try {
-          const details = await publicRequest.get(
-            `/collectibles/${collectionAddress}/${id}?lazy_mint=true&seller=${seller}`,
-          )
-          //console.log(details)
-          const nft = details
-          setNftDetails(nft?.data?.data?._doc)
-          console.log('show img>>', nft.data.data._doc)
-          //setNftPrice(nft.data._doc.price)
-          setIsLoading(false)
-          setIsLoaded(true)
-        } catch (error) {
-          console.log(error)
-          setIsLoading(false)
-        }
-      } else {
-        await getNftDetails()
-        console.log("nft Details>>", nftDetailsRef.current)
-        let contract_address = erc721MarketplaceAddress
-        if (nftDetailsRef.current?.is_multiple) {
-          contract_address = erc1155MarketplaceAddress
-        }
-
-        let erc721Contract
-        let erc1155Contract
-        let marketPlaceContract
-        if (window.ethereum) {
-          let web3: any = new Web3(window.ethereum)
-          erc721Contract = new web3.eth.Contract(erc721Abi, collectionAddress)
-          marketPlaceContract = new web3.eth.Contract(
-            marketPlaceAbi,
-            contract_address,
-          )
-          if (nftDetails?.is_multiple) {
-            erc1155Contract = new web3.eth.Contract(erc1155Abi, collectionAddress)
-            marketPlaceContract = new web3.eth.Contract(
-              erc1155MarketplaceAbi,
-              contract_address,
-            )
-          }
-
-        } else {
-          //alert('connect to meta mask wallet')
-          toast.error(` Please connect wallet`,
-            {
-              duration: 3000,
-            }
-          )
-        }
-        let uri = await erc721Contract.methods.tokenURI(id).call()
-        if (nftDetails?.is_multiple) {
-          uri = await erc1155Contract.methods.uri(id).call();
-        }
-        const moralis_uri = `https://deep-index.moralis.io/api/v2/nft/${collectionAddress}/${id}?chain=&format=decimal&offset=0&limit=20`
-        const { data } = await axios({
-          method: 'get',
-          url: moralis_uri,
-          headers: {
-            'Content-Type': 'application/json',
-            'X-API-Key': `PUX3SuXcL8sop16uK0fMwFsbqiBrZE0ty7buGH0SDV155W6tcoksEiUQaPG5FVMd`,
-          },
+    
+        fetchData({
+          method:'get',
+          url:`/api/nft/listings/${id}`,
+          axiosInstance:Protected(sessionStorage.getItem('token'))
         })
-
-        const nft = data
-        console.log('nft>>', nft)
-        if (nft.metadata) {
-          nft.metadata = JSON.parse(nft.metadata)
-        } else {
-          if (uri.includes('ipfs/')) {
-            // eslint-disable-next-line
-            uri = 'https://ipfs.io/ipfs/' + `${uri.split('ipfs/')[1]}`
-          }
-          if (uri.includes('ipfs://')) {
-            // eslint-disable-next-line
-            uri = 'https://ipfs.io/ipfs/' + `${uri.split('ipfs://')[1]}`
-          }
-          try {
-            const data = await axios({
-              method: 'get',
-              url: uri,
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods':
-                  'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-                'content-type': 'application/json',
-              },
-            })
-            nft.metadata = data
-            //console.log(data)
-          } catch (err) { }
-        }
-
-        if (nftDetails && !nftDetails.is_multiple) {
-          const owner = await erc721Contract.methods.ownerOf(id).call()
-          nft.owner_of = owner
-          setNft(nft)
-          console.log(nft)
-
-          const auctionInfo = await marketPlaceContract.methods
-            .auctions(collectionAddress, id)
-            .call()
-          console.log('auction Info', auctionInfo)
-          setAuctionData(auctionInfo)
-          setIsLoading(false)
-          setIsLoaded(true)
-
-          const timestamp = auctionInfo.closingTime
-          const date = new Date(timestamp * 1000)
-          const datevalues = [
-            date.getFullYear(),
-            date.getMonth() + 1,
-            date.getDate(),
-            date.getHours(),
-            date.getMinutes(),
-            date.getSeconds(),
-          ]
-          setEndDate(datevalues)
-          console.log('>>', datevalues)
-          //alert(datevalues) //=>
-
-          //const timeDiffCalc = (dateFuture: any, dateNow: any) => {
-          const dateFuture = auctionInfo.closingTime
-          //const dateNow: any = new Date()
-          const dateNow = auctionInfo.startingTime
-          let diffInMilliSeconds = Math.abs(dateFuture - dateNow) / 1000
-          // calculate days
-          const days = Math.floor(diffInMilliSeconds / 86400)
-          diffInMilliSeconds -= days * 86400
-          // calculate hours
-          const hours = Math.floor(diffInMilliSeconds / 3600) % 24
-          diffInMilliSeconds -= hours * 3600
-          // calculate minutes
-          const minutes = Math.floor(diffInMilliSeconds / 60) % 60
-          diffInMilliSeconds -= minutes * 60
-          // calculate minutes
-          const seconds = Math.floor(diffInMilliSeconds)
-          setTimeLeft({
-            hours,
-            minutes,
-            seconds,
-          })
-          // setMinutesLeft(minutes);
-          // setSecondsLeft(seconds);
-
-          let difference = ''
-          if (days > 0) {
-            difference += days === 1 ? `${days}d, ` : `${days}d, `
-          }
-
-          difference += hours === 0 || hours === 1 ? `${hours}h, ` : `${hours}h, `
-
-          difference +=
-            minutes === 0 || hours === 1 ? `${minutes}m` : `${minutes}m`
-          console.log('difference >>', difference)
-          setTimeDifference(difference)
-        }
-
-      }
-      //return difference;
-    }
-    getTokenDetails()
+   
 
   }, [collectionAddress, id, lazy_mint])
-
+  /*@ts-ignore*/
+  console.log(nft);
+  
   const getImage = (uri: any) => {
     let url
     if (uri.includes('ipfs/')) {
@@ -341,11 +167,14 @@ const ExploreSingleBuy = () => {
     }
     return url
   }
+  console.log(userState?.user);
   
   const handleSubmit = async () => {
-    const verified = userState?.user?.verified
-    if (verified && verified ) {
-      const currentChainId = localStorage.getItem('chain')
+    // const verified = userState?.user?.verified
+    if (userState.user.email ) {
+      const currentChainId = sessionStorage.getItem('chain')
+      console.log(currentChainId);
+      
       if (currentChainId === '0x1') {
         setChain('eth')
       }
@@ -356,9 +185,9 @@ const ExploreSingleBuy = () => {
       console.log('me', chainRef.current)
       console.log('them', itemChain)
       if (chainRef.current === itemChain)
-        if (nftDetails && nftDetails?.on_sale) {
+        if (nft && nft?.listingType) {
           const wallet_address = sessionStorage.getItem('currentAccount')
-          console.log(nftDetails?.marketplace_type)
+          console.log(nft?.listingType)
           if (wallet_address) {
             setShowBuy(true)
           } else {
@@ -374,6 +203,8 @@ const ExploreSingleBuy = () => {
           console.log('not available')
         }
       else {
+        console.log(chainRef.current,itemChain);
+        
         //alert("Wrong chain!, Please switch to the chain of this NFT")
         toast.error(` Wrong chain!, Please switch to the chain of this NFT`,
           {
@@ -389,13 +220,13 @@ const ExploreSingleBuy = () => {
     //const itemChain = nftDetails?.chain
     //if (chainRef.current === itemChain) {
     e.preventDefault();
-    if (nftDetails && !nftDetails?.on_sale) {
+    if (nft && !nft?.listingType) {
       //put on sale
       setShowPutOnSale(true)
 
     } else {
       //put off sale
-      if (nftDetails?.is_multiple) {
+      if (nft?.amount>1) {
         try {
           setIsLoading(true)
           let erc1155Contract
@@ -424,18 +255,7 @@ const ExploreSingleBuy = () => {
           }
 
           const data = nftDetails
-          // data.wallet_address = wallet_address
-          // data.chain = chain
-          // data.collection_address =
-          //   userInput.collection_address || erc1155Mintable_adddress
-          // data.upload = imageFile
-          // data.is_multiple = false
-          // data.nft_type = userInput.category
-          // data.cardImage = cardImage
-          //data.price = parseFloat(userInput.price) * parseInt(userInput.copies)
-          //returnvalues = mint.events.TransferSingle.returnValues
-          //console.log(returnvalues, 'value')
-
+         
           if (data.market_type !== '0') {
             data.on_sale = true
           }
@@ -520,7 +340,7 @@ const ExploreSingleBuy = () => {
           setIsLoading(false)
         }
       }
-      if (!nftDetails.is_multiple) {
+      if (nft.amount===1) {
         try {
           setIsLoading(true)
           let erc721Contract
@@ -583,26 +403,8 @@ const ExploreSingleBuy = () => {
             }
 
 
-            // const putOnSale = await handlePutOnSale(
-            //   returnValues.tokenId,
-            //   wallet_address,
-            //   userInput.collection_address,
-            //   web3.utils.toWei(data.price, 'ether'),
-            //   parseInt(data.starting_time),
-            //   parseInt(data.ending_time),
-            //   parseInt(data.market_type),
-            // )
-            // if (putOnSale?.error) {
-            //   console.log(err)
-            //   setMsg({ ...msg, eMsg: err, sMsg: '' })
-            //   setIsLoading(false)
-            //   return
-            // }
-
-            //console.log(putOnSale, putOnSale.events, 'sale')
-
-            // const expiration_time =
-            //   new Date(data.ending_time).getTime() + 2 * 24 * 3600 * 1000 // * 1000
+            
+            
 
             updatableData = {
               token_id: data.token_id,
@@ -656,34 +458,23 @@ const ExploreSingleBuy = () => {
       }
 
     }
-    // } else {
-    //   //alert("Wrong chain!, Please switch to the chain of this NFT")
-    //   toast.error(` Wrong chain!, Please switch to the chain of this NFT`,
-    //     {
-    //       duration: 3000,
-    //     }
-    //   )
-    // }
+  
   }
 
-  // const handleCollect = async (e: any) => {
-  //     e.preventDefault()
-  //     setIsLoading(true)
-  //     const wallet_address = sessionStorage.getItem('currentAccount')
-  //     const result = await collectNft(
-  //         wallet_address,
-  //         nftDetails?.token_id,
-  //         nftDetails?.collection_address,
-  //     )
-  //     if (result.data) {
-  //         console.log(result)
-  //         setIsLoading(false)
-  //         setItemCollected(true)
-  //         setShowBid(true)
+  const getImageUrl = (uri: any) => {
+    // console.log(uri);
 
-  //         return
-  //     }
-  // }
+    let url
+    if (uri?.includes('ipfs://')) {
+      // eslint-disable-next-line
+      url = 'https://ipfs.io/ipfs/' + `${uri.split('ipfs://')[1]}`
+    }
+    else url = uri
+    // console.log(url);
+    return url
+
+
+  }
 
   const handleClose = () => {
     //setShowConnect(false)
@@ -722,7 +513,7 @@ const ExploreSingleBuy = () => {
                 <p>Back</p>
               </div>
               <div className={style.titleBx}>
-                <h2>{nft?.metadata?.name || nftDetails?.title}</h2>
+                <h2>{nft?.metadata?.name || nft?.name}</h2>
                 <p>from the {nft?.name || 'Afen'} collection.</p>
               </div>
             </div>
@@ -730,55 +521,32 @@ const ExploreSingleBuy = () => {
               <div className={style.left}>
                 {lazy_mint ? (
                   <div className={style.itemImg}>
-                    {!isLoading ? (
-                      nft?.cardImage ? (
+                    {!loading ? (
+                     
                         <img
-                          src={
-                            nft?.metadata?.image.includes('ipfs/') ||
-                              nft?.metadata?.image.includes('ipfs://')
-                              ? getImage(nft?.metadata?.image)
-                              : nft?.metadata?.image
-                          }
+                          src={getImageUrl(nft?.url)}
                           alt="itemImg"
                         />
-                      ) : nftDetails?.cardImage ? (
-                        <img src={nftDetails.cardImage} alt="ItemImg" />
-                      ) : (
-                        <img src={ItemImg} alt="itemImg" />
-                      )
-                    ) : (
+                     ) : (
                       <div className={style.loaderBx}>
                         <Loader />
                       </div>
                     )}
                   </div>
                 ) : (
-                  <div className={style.itemImg}>
-                    {!isLoading ? (
-                      nft?.cardImage ? (
+                    <div className={style.itemImg}>
+                      {!loading ? (
+
                         <img
-                          src={
-                            nft?.metadata?.image.includes('ipfs/') ||
-                              nft?.metadata?.image.includes('ipfs://')
-                              ? getImage(nft?.metadata?.image)
-                              : nft?.metadata?.image
-                          }
+                          src={getImageUrl(nft?.url)}
                           alt="itemImg"
                         />
-                      ) : nftDetails?.cardImage ? (
-                        <img src={nftDetails.cardImage} alt="ItemImg" />
                       ) : (
-                        <img src={ItemImg} alt="itemImg" />
-                      )
-                    ) : (
-                      // <div className={style.loaderBx}>
-                      //   <CircularProgress color="inherit" size="65px" />
-                      // </div>
-                      <div className={style.loaderBx}>
-                        <Loader />
-                      </div>
-                    )}
-                  </div>
+                        <div className={style.loaderBx}>
+                          <Loader />
+                        </div>
+                      )}
+                    </div>
                 )}
               </div>
               <div className={style.right}>
@@ -849,12 +617,12 @@ const ExploreSingleBuy = () => {
                 <div className={style.rightTitles}>
                   <div className={style.userBx}>
                     <img src={dark === 'true' ? User : User2} alt="user" />
-                    {nftDetails && (
-                      <p>{shortenAddress(nftDetails?.owner)}</p>
+                    {nft && (
+                      <p>{shortenAddress(nftDetails?.owner||nft.user.walletAddress)}</p>
                     )}
                   </div>
                   <div className={style.bronze}>
-                    <p>{nftDetails?.is_multiple ? 'Multiple Items' : 'Single Item'}{' '}</p>
+                    <p>{nft?.amount>1 ? 'Multiple Items' : 'Single Item'}{' '}</p>
                   </div>
                   {/* <div className={style.eyes}>
                     <img src={dark === 'true' ? Eye2 : Eye} alt="seen" />
@@ -870,20 +638,20 @@ const ExploreSingleBuy = () => {
 
                       <p>
                         {nft?.metadata?.description ||
-                          nftDetails?.description ||
+                          nft?.description ||
                           'No description.'}{' '}
                       </p>
                     </div>
                     <div className={style.prices}>
 
                       <div className={style.fixedPrices}>
-                        <div className={style.priceGreen}>Fixed sale</div>
+                        <div className={style.priceGreen}>{nft?.listingType} Sale</div>
                         {/* <p>{nft?.amount} BNB</p> */}
-                        {nftDetails?.price ? (
+                        {nft?.price ? (
                           <p>
-                            {Web3.utils.fromWei(parseInt(nftDetails?.price, 10).toString(), 'ether') ||
+                            {parseInt(nft?.price, 10).toString() ||
                               ''}{' '}
-                            {nftDetails?.chain === "eth" ? 'ETH' : nftDetails?.chain === "bsc" ? 'BNB' : ''}
+                            {nft.moreInfo.erc20TokenName}
                           </p>
                         ) : (
                           <p>0.00 </p>
@@ -891,20 +659,20 @@ const ExploreSingleBuy = () => {
                       </div>
 
                     </div>
-                    {nftDetails?.is_multiple && (
-                      <p>Number of copies : {nftDetails.number_of_copies}</p>
+                    {nft?.amount>1 && (
+                      <p>Number of copies : {nft.amount}</p>
                     )}
                     <div className={style.Btns}>
-                      {nftDetails?.owner != walletAddress ? (
+                      {nft?.user.walletAddress !== walletAddress ? (
                         <button
-                          disabled={
-                            !isLoaded || isLoading
-                          }
-                          className={`${nftDetails?.on_sale ? style.regBtn : style.regBtn2
+                          // disabled={
+                          //   isLoading
+                          // }
+                          className={`${nft?.listingType ? style.regBtn : style.regBtn2
                             } ${dark === 'true' ? 'yellowBtn' : 'blueBtn'} `}
                           onClick={handleSubmit}
                         >
-                          {!nftDetails?.on_sale ?
+                          {!nft?.listingType ?
                             'Not On Sale'
                             : 'Buy'}
                         </button>
@@ -919,7 +687,7 @@ const ExploreSingleBuy = () => {
                             }`}
                           onClick={handleSale}
                         >
-                          {!nftDetails?.on_sale ?
+                          {!nft?.listingType ?
                             'Put On Sale'
                             : 'Remove from Sale'}
                         </button>

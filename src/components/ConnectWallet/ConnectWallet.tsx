@@ -20,7 +20,7 @@ import SPL from './assets/SafePal_logo.jpg'
 import Check from './assets/check.svg'
 import Check2 from './assets/check2.svg'
 import Add from './assets/add.svg'
-import SwapH from './assets/swaph.svg'
+import SwapH from './assets/swaph.svg' 
 import Afen from './assets/afen.svg'
 import BNB from './assets/bnb.svg'
 import Swap from './assets/swap01.svg'
@@ -186,14 +186,14 @@ const ConnectWallet = (props: any) => {
     disconnectSafePal()
 
   }
-  const connectTrustWallet= async ()=>{
-    disableEthereum()
-    disconnectWalletConnect()
-    props.handleModal()
-    connectTrustwallet()
-    disconnectSafePal()
+  // const connectTrustWallet= async ()=>{
+  //   disableEthereum()
+  //   disconnectWalletConnect()
+  //   props.handleModal()
+  //   connectTrustwallet()
+  //   disconnectSafePal()
 
-  }
+  // }
   const connectsafepal= async ()=>{
     disableEthereum()
     disconnectWalletConnect()
@@ -499,10 +499,10 @@ const ConnectWallet = (props: any) => {
                     <img src={Wc} alt="wallet-connect" />
                     <p>Wallet Connect</p>
                   </div>
-                  <div className={style.wallet} onClick={connectTrustWallet} >
+                  {/* <div className={style.wallet} onClick={connectTrustWallet} >
                     <img style={{width:'40px'}} src={TWT} alt="wallet-connect" />
                     <p>Trust Wallet</p>
-                  </div>
+                  </div> */}
                   <div className={style.wallet} onClick={connectsafepal}>
                     <img style={{width:'40px'}} src={SPL} alt="wallet-connect" />
                     <p>Safe Pal</p>

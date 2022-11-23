@@ -127,8 +127,7 @@ const UserConnect = () => {
   const { loading, Response, error, fetchData } = UseAxios()
   const connectToMetaMask = async () => {
     if (window.ethereum) {
-      //console.log(window.ethereum);
-
+      console.log(window.ethereum.chainId);
       try {
         const accounts = await window.ethereum.request({
           method: 'eth_requestAccounts',
@@ -171,56 +170,7 @@ const UserConnect = () => {
       console.log('Pls install metamask and try again')
     }
   }
-  const connectTrustwallet=async()=>{
-    if(window.trustwallet){
-      const account= await window.trustwallet.enable()
-      if (window.trustwallet._chainId === '0x1' || window.trustwallet._chainId === '0x38') { // for both eth and bnb on mainnet
-        // if (window.ethereum.chainId === '0x4' || window.ethereum.chainId === '0x61') { // for both testnet eth and bn
-        // if (window.ethereum.chainId === '0x61') { // for testnet bsc
-        //if (window.ethereum.chainId === '0x1') { // for eth only
-        // console.log(window.ethereum.chainId)
-        sessionStorage.setItem('chain', window.trustwallet._chainId)
-        // sessionStorage.setItem('currentAccount', account[0])
-        setUserInfo({
-          ...userInfo,
-          account: account[0],
-          chain: window.trustwallet._chainId,
-        })
-        // const user = {
-        //   params: {
-        //     wallet_address: sessionStorage.getItem('currentAccount'),
-        //   },
-        // }
-        // await fetchData({
-        //   method: 'post',
-        //   url: '/user/create-user',
-        //   axiosInstance: publicRequest,
-        //   requestConfig: {
-        //     ...user
-        //   }
-
-        // })
-        setUserState({...userState,currentAccount:account[0],walletType:'trustWallet'})
-        console.log("resp>>", Response)
-        setWalletType("trustWallet")
-        // sessionStorage.setItem("walletType", 'trustWallet')
-
-      
-        setWalletError('')
-      } else {
-        toast.error(`Wrong network, please switch to recommended networks!`,
-          {
-            duration: 5000,
-          }
-        )
-        //console.log(window.ethereum.chainId);
-
-      }
-    }
-    else{
-      console.log('install trustwallet')
-    }
-  }
+ 
 
   const connectSafePal = async()=>{
     if(window.safepal && !window.safepal.isConnected){
@@ -240,21 +190,7 @@ const UserConnect = () => {
         })
         setUserState({...userState,currentAccount:account[0]})
 
-        // const user = {
-        //   params: {
-        //     wallet_address: sessionStorage.getItem('currentAccount'),
-        //   },
-        // }
-        // await fetchData({
-        //   method: 'post',
-        //   url: '/user/create-user',
-        //   axiosInstance: publicRequest,
-        //   requestConfig: {
-        //     ...user
-        //   }
-
-        // })
-        // console.log("resp>>", Response)
+        
         setWalletType("MetaMask")
         sessionStorage.setItem("walletType", 'safePal')
 
@@ -457,7 +393,7 @@ const UserConnect = () => {
     handleNetworkSwitch,
     handleNetworkSwitch2,
     disconnectWalletConnect,
-    connectTrustwallet,
+    
     connectSafePal,
     disconnectSafePal
   }

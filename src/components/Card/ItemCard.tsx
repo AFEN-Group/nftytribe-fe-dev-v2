@@ -53,8 +53,8 @@ const ItemCard = (data: any) => {
   const open=(data: any)=>{
     if(!pathname.includes('profile')){
     navigate( data?.nftData?.lazyMint
-      ? `/exploreBuy/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner_of || data?.nftData.user.walletAddress}&lazy_mint=true`
-      : `/exploreBuy/${data?.nftData?.collection_address || data?.nftData?.moreInfo.contractAddress}/${data?.nftData?.tokenId || data?.nftData?.token_id}?seller=${data?.nftData?.owner_of||data?.nftData.user.walletAddress}`)
+      ? `/exploreBuy/${data?.nftData?.collection_address}/${data.nftData.id}`
+      : `/exploreBuy/${data?.nftData?.collection_address || data?.nftData?.moreInfo.contractAddress}/${data.nftData.id}`)
      } }
   const open2=(data: any)=>{
     navigate(
