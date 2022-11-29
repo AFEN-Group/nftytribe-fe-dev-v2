@@ -13,12 +13,12 @@ export default {
   erc1155MarketplaceAddress: '0xe8178cDD8f856dDEf34796906b1700BC4f39D86f',
 
   // BSC
-  //BSC_erc721MintableAddress: '0x338606d76e6bf296F4d4A0DcFA4623806a2B5C0F',
-  BSC_erc721MintableAddress: '0xd0a0fc438c162fc2633e3ed784db0049bd3a543f',
-  //BSC_erc721FactoryAddress: '0xaA8b7D95C0C2C8814ff15c640141F711dCC43472',
-  BSC_erc721FactoryAddress: '0x96788ce9a1a51338060a8e8c4cadf0f0f29ef3f3',
-  //BSC_erc721MarketplaceAddress: '0x71F722A1F16AF147e2fa088224BF1f0955f1075a',
-  BSC_erc721MarketplaceAddress: '0xb80a5067c6373c8d53dae3f1bf0b1aea83349b92',
+  BSC_erc721MintableAddress: '0x338606d76e6bf296F4d4A0DcFA4623806a2B5C0F', //test
+  // BSC_erc721MintableAddress: '0xd0a0fc438c162fc2633e3ed784db0049bd3a543f', //mainnet
+  BSC_erc721FactoryAddress: '0xaA8b7D95C0C2C8814ff15c640141F711dCC43472', //test
+  // BSC_erc721FactoryAddress: '0x96788ce9a1a51338060a8e8c4cadf0f0f29ef3f3',//main
+  BSC_erc721MarketplaceAddress: '0x71F722A1F16AF147e2fa088224BF1f0955f1075a',//test
+  // BSC_erc721MarketplaceAddress: '0xb80a5067c6373c8d53dae3f1bf0b1aea83349b92',//main
 
   //BSC_erc1155MintableAdddress: '0xE1C075aA57722FbAd50BE4C87737fD9495aA0e1e',
   BSC_erc1155MintableAdddress: '0xceef91849d0871f8fab17ee4623e08406ecafef4',

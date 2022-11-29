@@ -61,7 +61,7 @@ const BuyModal = (props: any) => {
       setErc1155MintableAddress(contracts.erc1155MintableAdddress)
       setErc1155MarketplaceAddress(contracts.erc1155MarketplaceAddress)
     }
-    if (currentChain === '0x38') {
+    if (currentChain === '0x38'||currentChain==='0x61') {
       // setChain('bsc testnet')
       setChainId('bsc')
       setErc721MintableAddress(contracts.BSC_erc721MintableAddress)
@@ -228,7 +228,7 @@ const BuyModal = (props: any) => {
           console.log(itemDetail)
           const buyItem = await marketPlaceContract.methods
             .buy(props.nft.tokenId, props.nft.moreInfo.contractAddress)
-            .send({ from: userWallet, value: props.nft.price })
+            .send({ from: userWallet, value: Number(props.nft.price) })
           console.log(buyItem)
           const transactionHash = buyItem.transactionHash
 
@@ -245,19 +245,19 @@ const BuyModal = (props: any) => {
             token_id: props?.nft?.tokenId || props?.nftDetails?.token_id,
           }
 
-          const buy = await fetch(
-            `${globals.baseURL}/collectibles/buy`,
-            {
-              method: 'POST',
-              body: JSON.stringify(itemObj),
-              headers: {
-                'content-type': 'application/json',
-              },
-            },
-          )
+          // const buy = await fetch(
+          //   `${globals.baseURL}/collectibles/buy`,
+          //   {
+          //     method: 'POST',
+          //     body: JSON.stringify(itemObj),
+          //     headers: {
+          //       'content-type': 'application/json',
+          //     },
+          //   },
+          // )
 
-          const response = await buy.json()
-          console.log(response)
+          // const response = await buy.json()
+          // console.log(response)
 
        
           setIsLoading(false)
@@ -492,7 +492,7 @@ const BuyModal = (props: any) => {
                 <h1>Congratulations</h1>
                 <p className={style.mText}>
                   You have successfully purchased{' '}
-                  <strong> {' ' + props.nftDetails?.title} </strong>, you can
+                  <strong> {' ' + props.nft?.name} </strong>, you can
                   now view on your profile
                 </p>
                 <img src={Close} alt="close" onClick={props.handleClose} />

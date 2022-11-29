@@ -7,10 +7,10 @@ import Cover from './assets/cover.svg'
 import Avatar from './assets/avatar.svg'
 import Edit from './assets/edit.svg'
 //
-import IG from './assets/ig.svg'
-import Settings from './assets/settings.svg'
-import Share from './assets/share.svg'
-import Reddit from './assets/reddit.svg'
+// import IG from './assets/ig.svg'
+// import Settings from './assets/settings.svg'
+// import Share from './assets/share.svg'
+// import Reddit from './assets/reddit.svg'
 import Filter from './assets/Filter.svg'
 import Arrow1 from './assets/arrowdown.svg'
 import Sad from './assets/sad.svg'
@@ -20,7 +20,10 @@ import ItemCard from '../../components/Card/ItemCard'
 import Container from '../../components/Container/Container'
 import Arrow2 from './assets/arrowright.svg'
 import { useParams } from 'react-router-dom'
-import { publicRequest } from '../../utils/requestMethods'
+import collectionAbi from '../../smart_contracts/erc721Collection.json'
+import UseAxios from '../../hooks/AxiosConfig/useAxios'
+import Protected from '../../hooks/AxiosConfig/axiosInstance'
+import Web3 from 'web3'
 
 const CollectionDetails = () => {
   //const [view, setView] = useState('items')
@@ -35,35 +38,46 @@ const CollectionDetails = () => {
     collection: false
   })
   const [collectibles, setCollectibles] = useState([])
-  const [collection, setCollection] = useState<any>()
+   
   const [collectionData, setCollectionData] = useState<any>()
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
   const { collectionId } = useParams()
+  const {loading:loading,Response:collectiondet,error:error,fetchData:fetchCollection}=UseAxios()
+  {/* @ts-ignore */ }
 
+  const collection= collectiondet?.data
+
+  useEffect(() => {fetchCollection({
+    method: 'get',
+    url: `/api/collection/${collectionId}`,
+    axiosInstance: Protected(sessionStorage.getItem('token'))
+  })},[collectionId,currentPage])
+ 
   useEffect(() => {
     window.scrollTo(0, 300)
-    const getCollectiblesForCollection = async () => {
-      console.log(collectionId, 'hello')
-      const response = await publicRequest.get(
-        `/collections/${collectionId}/collectibles?page=${currentPage}&size=6`,
-      )
-      //const resp = await data.json()
-      console.log(response)
-
-      setCollectionData(response?.data?.data)
-      setCollection(response?.data?.data.collection)
-      setCollectibles(response?.data?.data.collectibles)
-      const total: any = response.data.data.totalNfts / 6
-      console.log("pages>>>", total)
-      //setTotalPages(Math.round(response.data.data.totalNfts / 10))
-      setTotalPages(parseFloat(total))
-
-      //setIsLoading(false)
-    }
-    getCollectiblesForCollection()
-  }, [collectionId, currentPage])
-
+   getData() 
+  }, [collection])
+  
+  console.log(collection.contractAddress);
+  
+  const getData= async()=>{  
+      // @ts-ignore
+   if (window.ethereum){
+      // @ts-ignore
+     const web3 = new Web3(window.ethereum)
+     // @ts-ignore
+     const contract= new web3.eth.Contract(collectionAbi,collection?.contractAddress)
+     
+     const stat= await Promise.all([
+     await contract.methods.totalSupply().call()
+     ])
+     console.log(stat);
+     
+   } 
+  }
+  // console.log(collectionAbi);
+  
   const nextPage = () => {
     if (currentPage >= 1) {
       setCurrentPage(currentPage + 1)
@@ -98,16 +112,21 @@ const CollectionDetails = () => {
           >
             <div className={style.avatar}>
               {/* <img src={Avatar} alt="avatar" /> */}
+              {/* @ts-ignore */}
+
               <img src={collection?.cover_image || Avatar} alt="avatar" />
             </div>
             <div className={style.collInfo}>
               <div className={style.infoMain}>
                 <div className={style.infoTitle}>
+                  {/* @ts-ignore */}
+
                   <h1>{collection?.title}</h1>
                   {/* <img src={Edit} alt="edit" /> */}
                 </div>
                 <p>
-                  Welcome to the {collection?.title} collection. Discover items in
+                  {/* @ts-ignore */}
+                  Welcome to the {collection?.name} collection. Discover items in
                   this collection.
                   { }
                 </p>

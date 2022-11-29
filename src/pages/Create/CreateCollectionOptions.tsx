@@ -62,7 +62,7 @@ const CreateCollectionOptions = () => {
             }
         }
         if (network === 'binance') {
-            if (currentChain === globals.mainnetBsc.chainId) {
+            if (currentChain === globals.testnetBsc.chainId) {
                 setChain(network)
                 navigate(`/createCollection/${network}`)
             } else {

@@ -188,9 +188,9 @@ console.log(userState);
                       element={<ExploreBid />}></Route> */}
                     <Route path="/collections" element={<Collections />}></Route>
 
-                    {/* <Route
+                    <Route
                       path="/collectionDetails/:collectionId"
-                      element={<CollectionDetails />}></Route> */}
+                      element={<CollectionDetails />}></Route>
                     {/* <Route
                       path="/collectionDashboard"
                       element={<CollectionDashboard />}></Route> */}

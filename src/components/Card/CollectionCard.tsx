@@ -24,12 +24,13 @@ const CollectionCard = (data: any) => {
     }
     return url
   }
-
+ console.log(data);
+ 
   console.log(data.data.coverImage);
   
   const navigate=useNavigate()
   const open=()=>{
-    navigate(`/collectionDetails/${data?.data?.contractAddress}`)
+    navigate(`/collectionDetails/${data?.data?.id}`)
   }
   return (
     <div onClick={open}>
@@ -62,7 +63,7 @@ const CollectionCard = (data: any) => {
               {/* <img src={arrow} alt="arrow" /> */}
             </div>
             <div className={style.itemInfo}>
-              <p>{data?.nftData?.name}</p>
+              <p>{data?.data?.name}</p>
             </div>
           </div>
         </div>
