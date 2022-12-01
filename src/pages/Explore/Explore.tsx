@@ -39,6 +39,7 @@ const Explore = () => {
     saleType: false,
     blockChain: false,
     collection: false,
+    price:false
   });
  
 
@@ -308,6 +309,19 @@ const Explore = () => {
                       <div className={style.expBx}>
                         <div className={`${style.exploreCatM} 
                     `}
+                          onClick={(e) => setMFilter('price')}
+                        >
+                          <p>Price</p>
+
+
+                          <img src={dark === "true" ? arrow2 : arrow} alt="arrow" />
+
+
+                        </div>
+                      </div>
+                      <div className={style.expBx}>
+                        <div className={`${style.exploreCatM} 
+                    `}
                           onClick={(e) => setMFilter('Chain')}
                         >
                           <p>Blockchain</p>
@@ -327,7 +341,15 @@ const Explore = () => {
 
                         </div>
                       </div>
+                      <div className={style.expBx}>
+                        <div className={`${style.exploreCatM} 
+                    `}
+                          onClick={(e) => setFilterQuery({ ...filterQuery, hasCollection: true })}
+                        >
+                          <p>Collection</p>
 
+                        </div>
+                      </div>
                     </Slider>
 
 
@@ -385,6 +407,35 @@ ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate_
 
                       </div>
                     </form>)}
+                  {mfilter === 'price' && (
+
+                    <form
+                      onClick={() => setMFilter('')}
+                      className={`${style.filterDrop} 
+${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate__fadeInUp animate__faster`}
+                    //onClick={(e) => setFilter('')}
+                    >
+                      <div className={style.filterItem}>
+                        <div className={style.filterTxt} >
+                          <p style={{ textAlign: 'left' }}>Ascending</p>
+                        </div>
+                        <Radio click={() => {
+                          setPage(1)
+                          setFilterQuery({ ...filterQuery, order: 'price',direction:'ASC' })
+                        }} on={filterQuery.direction === 'ASC'} />
+
+                      </div>
+                      <div className={style.filterItem}>
+                        <div className={style.filterTxt} >
+                          <p style={{ textAlign: 'left' }}>Descending</p>
+                        </div>
+                        <Radio click={() => {
+                          setPage(1)
+                          setFilterQuery({ ...filterQuery, order: 'price', direction: 'DESC' })
+                        }} on={filterQuery.direction === 'DESC'} />
+
+                      </div>
+                    </form>)}
                   {mfilter === 'Chain' && (
 
                     <form
@@ -429,10 +480,48 @@ ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate_
                       <strong>{t("Filters")}</strong>
                     </p>
                   </div>
-                  <div className={style.sBItem}>
-                    <p className="disable_link">Price range</p>
-                    <img src={Arrow1} alt="filter" />
+                  <div
+                    onClick={() =>
+                      setFilter({ ...filter, price: !filter.price })
+                    }
+                  className={style.sBItem}>
+                    <p 
+                    // className="disable_link"
+                    >Price range</p>
+                    <img src={filter.price?Arrow2:Arrow1} alt="filter" />
                   </div>
+                    {filter.price && (
+                    <form
+                      className={`${dark === "true" ? style.filterBxD : style.filterBxL
+                        } animate__animated animate__fadeIn`}>
+                      <div className={style.filterItem1}>
+                        <div className={style.filterTxt}>
+                          <p>Price Ascending</p>
+                        </div>
+
+                        {/* <div className={style.radioBx}> <RadioBtn /></div> */}
+                        <Radio click={() => {
+                          setPage(1)
+                          setFilterQuery({ ...filterQuery, order: 'price',direction:'ASC' })
+                        }} on={filterQuery.direction === 'ASC'} />
+                      </div>
+                      <div className={style.filterItem}>
+                        <div className={style.filterTxt}>
+                          <p>Price Descending</p>
+                        </div>
+                        <Radio click={() => {
+                          setPage(1)
+                          setFilterQuery({
+                            ...filterQuery, order: 'price', direction: 'DESC'
+
+
+                          })
+                        }
+                        } on={filterQuery.direction === 'DESC'} />
+                      </div>
+                     
+                    </form>
+                  )}
                   <div
                     className={style.sBItem}
                     onClick={() =>
@@ -546,12 +635,17 @@ ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate_
                     </div>
                   )}
                   <div className={style.sBItem}>
-                    <p>Price ascending</p>
-                    <Radio click={''}/>
+                    <p>Collection</p>
+                    <Radio click={()=>{
+                      if (filterQuery.hasCollection) setFilterQuery({ ...filterQuery, hasCollection: undefined })
+                    else
+                      setFilterQuery({...filterQuery,hasCollection:true})}}
+                    on={filterQuery.hasCollection}
+                    />
                     
                   </div>
                   <div className={style.sBItem}>
-                    <p>Price descending</p>
+                    <p>Favorited</p>
                     <Radio click={''} />
                     
                   </div>

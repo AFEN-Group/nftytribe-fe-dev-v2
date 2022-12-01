@@ -5,20 +5,7 @@ import { publicRequest } from '../../../utils/requestMethods'
 
 const Trending = () => {
   const [data, setData] = useState([])
-  useEffect(() => {
-    const getExploreCollectibles = async () => {
-      try {
-        const explore = await publicRequest.get(`/collectibles/explore`)
-        const exploreData = explore.data
-        console.log(exploreData)
-        setData(exploreData?.data?.collectibles)
-        //setIsLoading(false)
-      } catch (error) {
-        //setIsLoading(false)
-      }
-    }
-    getExploreCollectibles()
-  }, [])
+ 
 
   return (
     <>

@@ -27,18 +27,7 @@ const ItemCard2 = (data: any) => {
         }
         return url
     }
-    // const getExploreCollectibles = async () => {
-    //   try {
-    //     const explore = await publicRequest.get(`/collectibles/explore/filter?on_sale=true&nft_type=${tab}${filterQuery}`)
-    //     const exploreData = explore.data
-    //     console.log(exploreData)
-    //     setData(exploreData?.data?.collectibles)
-    //     //setTotalCount(exploreData?.data?.total_count)
-    //     setIsLoading(false)
-    //   } catch (error) {
-    //     setIsLoading(false)
-    //   }
-    // }
+   
     useEffect(() => {
         const getUsdPrice = async () => {
 

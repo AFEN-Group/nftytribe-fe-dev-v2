@@ -16,17 +16,7 @@ const Home = () => {
   const [featured, setFeatured] = useState()
   const {Response,error,fetchData,loading}=UseAxios()
   const [isLoading,setIsLoading]=useState(false)
-  useMemo(() => {
-    console.log('running');
-    
-    setIsLoading(true)
-    fetchData({
-      url:`/collectibles/explore`,
-      method:'get',
-      axiosInstance:Protected(sessionStorage.getItem('token'))
-    })
-  }, [])
-
+ 
   console.log(loading)
  const render= useMemo(()=>{
     if(Response){

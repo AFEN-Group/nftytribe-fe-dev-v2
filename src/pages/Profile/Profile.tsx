@@ -72,7 +72,7 @@ const Profile = () => {
     
     Data({
      method:'get',
-     url:  `api/nft/user/${currentAddress}/?&${query}&page=${currentPage}&chain=${currentChainId}`,
+     url:  `api/nft/user/${currentAddress}?page=${currentPage}&chain=${currentChainId}`,
      axiosInstance:Protected(sessionStorage.getItem('token'))
     })
     
