@@ -241,8 +241,11 @@ const Explore = () => {
                 <span id="heroText">{t("Based on categories")}</span>{" "}
               </p>
               <div
+                style={{ justifyContent: 'center',gap:'24px' }}
                 className={`${style.exploreCats} animate__animated animate__fadeInUp animate__delay-1s`}>
                 <div
+
+                
                   className={
                     !filterQuery.category && dark === "true"
                       ? style.darkActive

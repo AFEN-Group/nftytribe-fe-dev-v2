@@ -29,12 +29,7 @@ const BuyModal = (props: any) => {
   const [userWallet, setUserWallet] = useState<any>(
     sessionStorage.getItem('currentAccount'),
   )
-  // const [themeState] = useContext<any>(ThemeContext)
-  // const dark = themeState.dark
-  // const [msg, setMsg] = useState({
-  //   sMsg: '',
-  //   eMsg: '',
-  // })
+  
   const [completed, setCompleted] = useState(false)
   const [validated, setValidated] = useState(false)
   const [userInput, setUserInput, userInputRef] = useState<any>({
@@ -117,149 +112,21 @@ const BuyModal = (props: any) => {
         erc721MarketplaceAddress,
       )
 
-      // console.log(props.nftDetails, 'helllo')
+      console.log(props.nft, 'helllo')
 
-      if (props.nft.islazyMint) {
+  if (props?.nft?.amount<2) {
         try {
-          const getnftnonce = await fetch(
-            `${globals.baseURL}/collectibles/nft/${props.nftDetails._id}/get-collectible-nonce`,
-          )
-          const nonceData = await getnftnonce.json()
-          const mintingCharge = await erc721Contract.methods
-            .mintingCharge()
-            .call()
-
-          const totalAmt =
-            parseInt(props.nftDetails.price, 10) + parseInt(mintingCharge, 10)
-          // console.log(totalAmt)
-
-          // console.log(
-          //   props.nftDetails.wallet_address,
-          //   0,
-          //   props.nftDetails.file,
-          //   nonceData.data.nonce,
-          //   parseInt(props.nftDetails.price),
-          //   props.nftDetails.signature,
-          //   userWallet,
-          // )
-          console.log(erc721Contract)
-          const tx = await erc721Contract.methods
-            .lazyMint(
-              props.nftDetails.wallet_address,
-              0,
-              props.nftDetails.file,
-              nonceData.data.nonce,
-              props.nftDetails.price.toString(),
-              //web3.utils.toWei(props.nftDetails.price.toString(), 'ether'),
-              props.nftDetails.signature,
-            )
-            .send({ from: userWallet, value: totalAmt.toString() })
-
-          console.log(tx)
-          let events = tx.events
-          const token_id = events.Transfer[0].returnValues.tokenId
-
-          const updatableData = {
-            token_id,
-            file: props.nftDetails.file,
-            wallet_address: props.nftDetails.wallet_address,
-            collection_address: props.nftDetails.collection_address,
-            chain_id: chainId,
-            type: 'mint',
-            transaction_hash: events.Transfer[0].transactionHash,
-            on_sale: false,
-          }
-
-          const collectible = await fetch(
-            `${globals.baseURL}/collectibles/update-collectible`,
-            {
-              method: 'PUT',
-              headers: {
-                'content-type': 'application/json',
-              },
-              body: JSON.stringify(updatableData),
-            },
-          )
-
-          const res = await collectible.json()
-          // console.log(res)
-
-          const buyData = {
-            buyer: events.Transfer[1].returnValues.to,
-            wallet_address: props.nftDetails.wallet_address,
-            token_id,
-            collection_address: props.nftDetails.collection_address,
-            chain_id: chainId,
-            price: props.nftDetails.price,
-            transaction_hash: events.Transfer[1].transactionHash,
-          }
-
-          const buy = await fetch(
-            `${globals.baseURL}/collectibles/buy`,
-            {
-              method: 'POST',
-              headers: {
-                'content-type': 'application/json',
-              },
-              body: JSON.stringify(buyData),
-            },
-          )
-
-          const data = await buy.json()
-          // console.log(data)
-          setIsLoading(false)
-          setCompleted(true)
-        } catch (error) {
-          // console.log(error)
-          setIsLoading(false)
-        }
-      } else if (props?.nft?.amount<2) {
-        // console.log('hello', props.nft, pr)
-        // console.log(props.nft.moreInfo.contractAddress, props.nft.tokenId );
-        
-        try {
-          const itemDetail = await marketPlaceContract.methods
+          const itemDetail = await marketPlaceContract?.methods
             .auctions(
               props.nft.moreInfo.contractAddress,
               parseInt(props.nft.tokenId),
             )
             .call()
-
           console.log(itemDetail)
           const buyItem = await marketPlaceContract.methods
             .buy(props.nft.tokenId, props.nft.moreInfo.contractAddress)
-            .send({ from: userWallet, value: Number(props.nft.price) })
+            .send({ from: userWallet })
           console.log(buyItem)
-          const transactionHash = buyItem.transactionHash
-
-          const itemObj = {
-            wallet_address:
-              props?.nft?.user.walletAddress || props?.nftDetails?.wallet_address,
-            collection_address:
-              props?.nft?.moreInfo.contractAddress ||
-              props?.nftDetails?.collection_address,
-            buyer: userWallet,
-            chain: chainId,
-            transaction_hash: transactionHash,
-            price: props?.nft?.price || props?.nftDetails?.price,
-            token_id: props?.nft?.tokenId || props?.nftDetails?.token_id,
-          }
-
-          // const buy = await fetch(
-          //   `${globals.baseURL}/collectibles/buy`,
-          //   {
-          //     method: 'POST',
-          //     body: JSON.stringify(itemObj),
-          //     headers: {
-          //       'content-type': 'application/json',
-          //     },
-          //   },
-          // )
-
-          // const response = await buy.json()
-          // console.log(response)
-
-       
           setIsLoading(false)
           setCompleted(true)
         } catch (err) {
@@ -324,10 +191,7 @@ const BuyModal = (props: any) => {
     } else {
       setIsLoading(false)
     }
-    // } else {
-    //   setErrorMsg('Please enter appropriate quantity')
-    //   setIsLoading(false)
-    // }
+  
   }
   console.log(props.nft);
   
@@ -367,9 +231,6 @@ const BuyModal = (props: any) => {
                 <p className={style.mText}>
                   Please, review your purchase of
                   <span
-                    // className={`${
-                    //   dark === 'true' ? 'yellowMain' : 'blueLight'
-                    // }`}
                     className="blueTxt"
                   >
                     <strong> {' ' + props.nft?.name} </strong>
