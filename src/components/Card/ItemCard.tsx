@@ -102,7 +102,7 @@ const ItemCard = (data: any) => {
            
           >
             <div className={style.cardImg}>
-              {(data?.nftData.url||data.nftData.metadata.image) && (
+              {(data?.nftData?.url||data.nftData?.metadata.image) && (
                 <img
                   //className={style.imgBg}
                   src={
@@ -129,7 +129,7 @@ const ItemCard = (data: any) => {
                 method:'post',
                 url:`api/nft/like/${data.nftData.id}`,
                 axiosInstance:Protected(sessionStorage.getItem('token'))
-              })} fill={data.nftData.isLiked?'#ff0000':'none'}/>}
+              })} fill={data.nftData?.isLiked?'#ff0000':'none'}/>}
             </div>
           </div>
         )}
