@@ -59,6 +59,7 @@ const PutOnSaleModal = (props: any) => {
         to:moment().add(30,'days').unix(),
         erc20:''
     })
+    console.log(contracts.BSC_erc721MarketplaceAddress);
     
     const handleSubmit = async (e: any) => {
         e.preventDefault()
@@ -68,13 +69,15 @@ const PutOnSaleModal = (props: any) => {
               //  @ts-ignore
             const TokenContract = new web3.eth.Contract(erc721Abi, props.collectionAddress)
             // @ts-ignore
+
             const marketPlaceContract = new web3.eth.Contract(marketPlaceAbi,
-                contracts.erc721MarketplaceAddress,
+                contracts.BSC_erc721MarketplaceAddress,
             )
-            await TokenContract.methods.approve(contracts.erc721MarketplaceAddress, props.id).send({ from: wallet_address })
+            await TokenContract.methods.approve(contracts.BSC_erc721MarketplaceAddress, props.id).send({ from: wallet_address })
 
          
                 try {
+                   console.log(props.id,onsaleParams.amount);
                    
                     await marketPlaceContract.methods.putOnSale(props.id,onsaleParams.amount,onsaleParams.marketType,onsaleParams.from,onsaleParams.to,props.collectionAddress,onsaleParams.erc20).send({from:wallet_address})
                     setCompleted(!completed)
