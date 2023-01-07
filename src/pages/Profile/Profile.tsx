@@ -93,15 +93,7 @@ const Profile = () => {
       // setTotalPages(Math.round(data?.data.total_count / 10))
       setIsLoading(false)
   },[postResponse] )
-// console.log(Loading);
 
-// const  [userNfts,setNfts]=useState(async()=>{
-//   try {
-    
-//   } catch (error) {
-    
-//   }
-// })
  
  console.log(currentChainId);
  

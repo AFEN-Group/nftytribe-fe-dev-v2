@@ -1,20 +1,40 @@
 [
   {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "_brokerage",
-        "type": "uint256"
+        "indexed": false,
+        "internalType": "address",
+        "name": "previousAdmin",
+        "type": "address"
       },
       {
+        "indexed": false,
         "internalType": "address",
-        "name": "erc20DefaultPayMethod",
+        "name": "newAdmin",
         "type": "address"
       }
     ],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "constructor"
+    "name": "AdminChanged",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "beacon",
+        "type": "address"
+      }
+    ],
+    "name": "BeaconUpgraded",
+    "type": "event"
   },
   {
     "anonymous": false,
@@ -69,68 +89,20 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "collection",
-        "type": "address"
-      },
-      {
         "indexed": false,
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "seller",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "buyer",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "time",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "ERC20Address",
-        "type": "address"
+        "internalType": "uint8",
+        "name": "version",
+        "type": "uint8"
       }
     ],
-    "name": "Buy",
+    "name": "Initialized",
     "type": "event"
   },
   {
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "collection",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
+        "indexed": false,
         "internalType": "address",
         "name": "seller",
         "type": "address"
@@ -144,23 +116,29 @@
       {
         "indexed": false,
         "internalType": "address",
-        "name": "collector",
+        "name": "collection",
         "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "time",
-        "type": "uint256"
       },
       {
         "indexed": false,
         "internalType": "address",
         "name": "ERC20Address",
         "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "price",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "time",
+        "type": "uint256"
       }
     ],
-    "name": "Collect",
+    "name": "LazyAuction",
     "type": "event"
   },
   {
@@ -241,18 +219,31 @@
       },
       {
         "indexed": false,
-        "internalType": "uint256",
-        "name": "category",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
         "internalType": "address",
         "name": "ERC20Address",
         "type": "address"
       }
     ],
     "name": "OnSale",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
     "type": "event"
   },
   {
@@ -311,7 +302,106 @@
     "type": "event"
   },
   {
-    "constant": false,
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "collection",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "seller",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "buyer",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "collector",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "auctionType",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "time",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "ERC20Address",
+        "type": "address"
+      }
+    ],
+    "name": "Sold",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "implementation",
+        "type": "address"
+      }
+    ],
+    "name": "Upgraded",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "USDC",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "WETH",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -326,102 +416,85 @@
     ],
     "name": "addERC20TokenPayment",
     "outputs": [],
-    "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "constant": true,
     "inputs": [
       {
         "internalType": "address",
-        "name": "",
+        "name": "_erc721",
         "type": "address"
       },
       {
         "internalType": "uint256",
-        "name": "",
+        "name": "_tokenId",
         "type": "uint256"
       }
     ],
     "name": "auctions",
     "outputs": [
       {
-        "internalType": "address payable",
-        "name": "lastOwner",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "currentBid",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address payable",
-        "name": "highestBidder",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "auctionType",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "startingPrice",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "buyPrice",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bool",
-        "name": "buyer",
-        "type": "bool"
-      },
-      {
-        "internalType": "uint256",
-        "name": "startingTime",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "closingTime",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "erc20Token",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "category",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bool",
-        "name": "isPhysical",
-        "type": "bool"
+        "components": [
+          {
+            "internalType": "address payable",
+            "name": "seller",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "currentBid",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address payable",
+            "name": "highestBidder",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "auctionType",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "startingPrice",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "startingTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "closingTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "erc20Token",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct ERC721MarketPlace.auction",
+        "name": "auctionList",
+        "type": "tuple"
       }
     ],
-    "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "constant": false,
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "tokenID",
+        "name": "_tokenId",
         "type": "uint256"
       },
       {
         "internalType": "address",
-        "name": "_mintableToken",
+        "name": "_erc721",
         "type": "address"
       },
       {
@@ -432,12 +505,10 @@
     ],
     "name": "bid",
     "outputs": [],
-    "payable": true,
     "stateMutability": "payable",
     "type": "function"
   },
   {
-    "constant": true,
     "inputs": [
       {
         "internalType": "address",
@@ -453,209 +524,110 @@
         "type": "uint256"
       }
     ],
-    "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "constant": false,
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "tokenID",
+        "name": "_tokenId",
         "type": "uint256"
       },
       {
         "internalType": "address",
-        "name": "_mintableToken",
+        "name": "_erc721",
         "type": "address"
       }
     ],
     "name": "buy",
     "outputs": [],
-    "payable": true,
     "stateMutability": "payable",
     "type": "function"
   },
   {
-    "constant": false,
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "tokenID",
+        "name": "_tokenId",
         "type": "uint256"
       },
       {
         "internalType": "address",
-        "name": "_mintableToken",
+        "name": "_erc721",
         "type": "address"
       }
     ],
     "name": "collect",
     "outputs": [],
-    "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "constant": true,
     "inputs": [],
-    "name": "getAuctionTokensForSale",
+    "name": "decimalPrecision",
     "outputs": [
       {
-        "components": [
-          {
-            "internalType": "address",
-            "name": "NFTAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "tokenID",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct TokenDetArrayLib.TokenDet[]",
+        "internalType": "uint256",
         "name": "",
-        "type": "tuple[]"
+        "type": "uint256"
       }
     ],
-    "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "constant": true,
-    "inputs": [],
-    "name": "getErc20Tokens",
-    "outputs": [
-      {
-        "internalType": "address[]",
-        "name": "",
-        "type": "address[]"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "getFixedPriceTokensForSale",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "address",
-            "name": "NFTAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "tokenID",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct TokenDetArrayLib.TokenDet[]",
-        "name": "",
-        "type": "tuple[]"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
     "inputs": [
       {
         "internalType": "address",
-        "name": "_mintableToken",
+        "name": "signer_",
         "type": "address"
       },
       {
         "internalType": "uint256",
-        "name": "tokenID",
+        "name": "mintingCharge_",
         "type": "uint256"
-      }
-    ],
-    "name": "getOnSaleStatus",
-    "outputs": [
+      },
       {
         "internalType": "bool",
-        "name": "",
+        "name": "_chargeInETH",
         "type": "bool"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "getTokensForSale",
-    "outputs": [
+      },
       {
-        "components": [
-          {
-            "internalType": "address",
-            "name": "NFTAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "tokenID",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct TokenDetArrayLib.TokenDet[]",
-        "name": "",
-        "type": "tuple[]"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
+        "internalType": "contract IRouter",
+        "name": "_router",
+        "type": "address"
+      },
       {
         "internalType": "address",
-        "name": "_user",
+        "name": "_WETH",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_USDC",
         "type": "address"
       }
     ],
-    "name": "getTokensForSalePerUser",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "address",
-            "name": "NFTAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "tokenID",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct TokenDetArrayLib.TokenDet[]",
-        "name": "",
-        "type": "tuple[]"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
+    "name": "initialize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "constant": true,
-    "inputs": [],
-    "name": "isOwner",
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "isNonceProcessed",
     "outputs": [
       {
         "internalType": "bool",
@@ -663,12 +635,110 @@
         "type": "bool"
       }
     ],
-    "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "constant": false,
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "internalType": "uint96",
+            "name": "royalty",
+            "type": "uint96"
+          },
+          {
+            "internalType": "string",
+            "name": "tokenURI",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "nonce",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "erc721",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "startingPrice",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "startingTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "endingTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "erc20Token",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct ERC721MarketPlace.sellerVoucher",
+        "name": "_sellerVoucher",
+        "type": "tuple"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "buyer",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "time",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct ERC721MarketPlace.buyerVoucher",
+        "name": "_buyerVoucher",
+        "type": "tuple"
+      },
+      {
+        "internalType": "bytes",
+        "name": "globalSign",
+        "type": "bytes"
+      }
+    ],
+    "name": "lazyMintAuction",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "mintingCharge",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -699,12 +769,10 @@
         "type": "bytes4"
       }
     ],
-    "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "constant": true,
     "inputs": [],
     "name": "owner",
     "outputs": [
@@ -714,21 +782,32 @@
         "type": "address"
       }
     ],
-    "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "constant": false,
+    "inputs": [],
+    "name": "proxiableUUID",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_tokenID",
+        "name": "_tokenId",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "_startingPrice",
+        "name": "_startPrice",
         "type": "uint256"
       },
       {
@@ -738,63 +817,49 @@
       },
       {
         "internalType": "uint256",
-        "name": "_buyPrice",
+        "name": "_startTime",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "_duration",
+        "name": "_endTime",
         "type": "uint256"
       },
       {
         "internalType": "address",
-        "name": "_mintableToken",
+        "name": "_erc721",
         "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_category",
-        "type": "uint256"
       },
       {
         "internalType": "address",
         "name": "_erc20Token",
         "type": "address"
-      },
-      {
-        "internalType": "bool",
-        "name": "_isPhysical",
-        "type": "bool"
       }
     ],
     "name": "putOnSale",
     "outputs": [],
-    "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "constant": false,
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "tokenID",
+        "name": "_tokenId",
         "type": "uint256"
       },
       {
         "internalType": "address",
-        "name": "_mintableToken",
+        "name": "_erc721",
         "type": "address"
       }
     ],
     "name": "putSaleOff",
     "outputs": [],
-    "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "constant": false,
     "inputs": [
       {
         "internalType": "address",
@@ -804,12 +869,119 @@
     ],
     "name": "removeERC20TokenPayment",
     "outputs": [],
-    "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "constant": false,
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "router",
+    "outputs": [
+      {
+        "internalType": "contract IRouter",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "mintingCharge_",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "_chargeInETH",
+        "type": "bool"
+      }
+    ],
+    "name": "setMintingCharge",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IRouter",
+        "name": "_router",
+        "type": "address"
+      }
+    ],
+    "name": "setRouter",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "signer_",
+        "type": "address"
+      }
+    ],
+    "name": "setSigner",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_WETH",
+        "type": "address"
+      }
+    ],
+    "name": "setWETH",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "signer",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "tokenAllowed",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -819,12 +991,10 @@
     ],
     "name": "transferOwnership",
     "outputs": [],
-    "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "constant": false,
     "inputs": [
       {
         "internalType": "address",
@@ -839,21 +1009,19 @@
     ],
     "name": "updateBrokerage",
     "outputs": [],
-    "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "constant": false,
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "tokenID",
+        "name": "_tokenId",
         "type": "uint256"
       },
       {
         "internalType": "address",
-        "name": "_mintableToken",
+        "name": "_erc721",
         "type": "address"
       },
       {
@@ -869,21 +1037,74 @@
     ],
     "name": "updatePrice",
     "outputs": [],
-    "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newImplementation",
+        "type": "address"
+      }
+    ],
+    "name": "upgradeTo",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newImplementation",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
+    ],
+    "name": "upgradeToAndCall",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "withdraw",
     "outputs": [],
-    "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "constant": false,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "withdrawAccidental",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_erc20Token",
+        "type": "address"
+      }
+    ],
+    "name": "withdrawERC20",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -896,9 +1117,8 @@
         "type": "uint256"
       }
     ],
-    "name": "withdrawERC20",
+    "name": "withdrawERC20Accidental",
     "outputs": [],
-    "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
   }

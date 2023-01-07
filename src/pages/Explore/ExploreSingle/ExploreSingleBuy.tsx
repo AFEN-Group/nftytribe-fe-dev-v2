@@ -1,6 +1,6 @@
 import { useEffect, useContext } from 'react'
 import useState from 'react-usestateref'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { ThemeContext } from '../../../context/ThemeContext'
 // import { AuthContext } from '../../../context/AuthContext'
 import ContractContext from '../../../context/ContractContext'
@@ -114,6 +114,8 @@ const ExploreSingleBuy = () => {
   // const {id}=useParams()
   const [showDrop, setShowDrop] = useState(false)
   const { userState,setUserState}= useContext(UserContext)
+  const {pathname}=useLocation()
+  // const params= useParams()
   const closePrompt = () => {
     setShowPrompt(false)
   }
@@ -122,7 +124,7 @@ const ExploreSingleBuy = () => {
     window.scrollTo(0, 0)
     const wallet_address = sessionStorage.getItem('currentAccount')
     const currentChainId = sessionStorage.getItem('chain')
-    //console.log(wallet_address)
+    
     //
 
     if (currentChainId === '0x1') {
@@ -133,7 +135,7 @@ const ExploreSingleBuy = () => {
       setErc1155MintableAddress(contracts.erc1155MintableAdddress)
       setErc1155MarketplaceAddress(contracts.erc1155MarketplaceAddress)
     }
-    else if (currentChainId === '0x38') {
+    else if (currentChainId === '0x38'||currentChainId==='0x61') {
       setChain('bsc')
       setChainId('bsc')
       setErc721MintableAddress(contracts.BSC_erc721MintableAddress)
@@ -145,7 +147,14 @@ const ExploreSingleBuy = () => {
       setWalletAddress(wallet_address)
     }
     
-        fetchData({
+    if(pathname.includes('item')){
+      fetchData({
+        method: 'get',
+        url: `/api/nft/meta-data?tokenId=${id}&chain=${currentChainId}&contractAddress=${collectionAddress}`,
+        axiosInstance: Protected(sessionStorage.getItem('token'))
+      })
+    }
+     else   fetchData({
           method:'get',
           url:`/api/nft/listings/${id}`,
           axiosInstance:Protected(sessionStorage.getItem('token'))
@@ -154,7 +163,7 @@ const ExploreSingleBuy = () => {
 
   }, [collectionAddress, id, lazy_mint])
   /*@ts-ignore*/
-  console.log(nft);
+ 
   
   const getImage = (uri: any) => {
     let url
@@ -167,7 +176,7 @@ const ExploreSingleBuy = () => {
     }
     return url
   }
-  console.log(userState?.user);
+
   
   const handleSubmit = async () => {
     // const verified = userState?.user?.verified
@@ -216,248 +225,29 @@ const ExploreSingleBuy = () => {
       setShowPrompt(true)
     }
   }
+   const web3= new Web3(window.ethereum)
   const handleSale = async (e: any) => {
-    //const itemChain = nftDetails?.chain
-    //if (chainRef.current === itemChain) {
-    e.preventDefault();
-    if (nft && !nft?.listingType) {
-      //put on sale
-      setShowPutOnSale(true)
+    //  @ts-ignore
+    // console.log(web3); 
+    const TokenContract = new web3.eth.Contract(erc721Abi, collectionAddress)
+    // @ts-ignore
+    const marketPlaceContract = new web3.eth.Contract(marketPlaceAbi,
+      erc721MarketplaceAddress,
+    )
 
-    } else {
-      //put off sale
-      if (nft?.amount>1) {
-        try {
-          setIsLoading(true)
-          let erc1155Contract
-          let marketplace_contract
-          let web3: any
-          if (window.ethereum) {
-            web3 = new Web3(window.ethereum)
+    if(nft.isListed){
+      const tmethod = await TokenContract.methods
+      // await TokenContract.methods.approve(erc721MarketplaceAddress, id).send({ from: walletAddress })
 
-            erc1155Contract = new web3.eth.Contract(
-              erc1155MintableAbi,
-              erc1155MintableAddress,
-            )
-            marketplace_contract = new web3.eth.Contract(
-              erc1155MarketplaceAbi,
-              erc1155MarketplaceAddress,
-            )
-          } else {
-            //alert('connect to meta mask wallet')
-            toast.error(` Please connect wallet`,
-              {
-                duration: 3000,
-              }
-            )
-
-            //setShowConnect(true)
-          }
-
-          const data = nftDetails
-         
-          if (data.market_type !== '0') {
-            data.on_sale = true
-          }
-
-          let updatableData
-          if (data.on_sale) {
-
-            if (data.market_type === '2') {
-              data.starting_time =
-                new Date(data.starting_time).getTime() / 1000
-              data.ending_time = new Date(data.ending_time).getTime() / 1000
-            }
-            //console.log(web3.utils.toWei(data.price.toString(), 'ether'), 'price', returnvalues.id)
-            const putOffSale = await marketplace_contract.methods
-              .putOffSale(
-                data?.collection_address,
-                parseInt(data?.token_id),
-
-              )
-              .send({ from: walletAddress })
-            console.log(putOffSale)
-
-
-            updatableData = {
-              token_id: data.token_id,
-              wallet_address: walletAddress,
-              collection_address:
-                data.collection_address,
-              file: data.file,
-              transaction_hash: data.transactionHash,
-              type: 'putOffSale',
-              chain_id: data.chain,
-
-              on_sale: false,
-              marketplace_type: data.marketplace_type,
-              order_detail: {
-                starting_price: web3.utils.toWei(
-                  data.price.toString(),
-                  'ether',
-                ),
-                start_time: data.starting_time,
-                expiration_time: data.ending_time,
-              },
-              price: web3.utils.toWei(data.price.toString(), 'ether'),
-            }
-          } else {
-            updatableData = {
-              token_id: data.token_id,
-              wallet_address: walletAddress,
-              collection_address:
-                data.collection_address,
-              file: data.file,
-              transaction_hash: data.transactionHash,
-              type: 'putOffSale',
-              chain_id: data.chain,
-              on_sale: false
-            }
-          }
-
-          const updateCollectible = await fetch(
-            `${globals.baseURL}/collectibles/update-collectible`,
-            {
-              method: 'PUT',
-              headers: {
-                'content-type': 'application/json',
-              },
-              body: JSON.stringify(updatableData),
-            },
-          )
-
-          const res = await updateCollectible.json()
-
-          console.log(res.data)
-          setIsLoading(false)
-
-          window.location.reload()
-          setIsLoading(false)
-
-        } catch (err) {
-          console.log(err)
-
-          setIsLoading(false)
-        }
-      }
-      if (nft.amount===1) {
-        try {
-          setIsLoading(true)
-          let erc721Contract
-          let marketplace_contract
-          let web3: any
-          if (window.ethereum) {
-            web3 = new Web3(window.ethereum)
-
-            erc721Contract = new web3.eth.Contract(
-              erc721Abi,
-              erc721MintableAddress,
-            )
-            marketplace_contract = new web3.eth.Contract(
-              marketPlaceAbi,
-              erc721MarketplaceAddress
-            )
-          } else {
-            //alert('connect to meta mask wallet')
-            toast.error(` Please connect wallet`,
-              {
-                duration: 3000,
-              }
-            )
-            //setShowConnect(true)
-          }
-
-          const data = nftDetails
-          // data.wallet_address = wallet_address
-          // data.chain = chain
-          // data.collection_address =
-          //   userInput.collection_address || erc721Mintable_address
-          // data.upload = imageFile
-          // data.is_multiple = false
-          // data.nft_type = userInput.category
-          // data.cardImage = cardImage
-
-          if (data.market_type !== '0') {
-            data.on_sale = true
-          }
-
-          let updatableData
-          if (data.on_sale) {
-            //console.log(parseInt(returnvalues.token_id), 'hello')
-
-            if (data.market_type === '2') {
-              data.starting_time =
-                new Date(data.starting_time).getTime() / 1000
-              data.ending_time = new Date(data.ending_time).getTime() / 1000
-            }
-            try {
-              const putOffSale = await marketplace_contract.methods
-                .putSaleOff(
-                  data?.collection_address,
-                  parseInt(data?.token_id),
-
-                )
-                .send({ from: walletAddress })
-            } catch (err) {
-              console.log("actual err", err)
-            }
-
-
-            
-            
-
-            updatableData = {
-              token_id: data.token_id,
-              wallet_address: walletAddress,
-              collection_address:
-                data.collection_address,
-              file: data.file,
-              transaction_hash: data.transactionHash,
-              type: 'putOffSale',
-              chain_id: data.chain,
-              //order_type: data.market_type,
-
-              on_sale: false,
-              price: 0,
-            }
-          } else {
-            updatableData = {
-              token_id: data.token_id,
-              wallet_address: walletAddress,
-              collection_address:
-                data.collection_address,
-              file: data.file,
-              transaction_hash: data.transactionHash,
-              type: 'putOffSale',
-              chain_id: data.chain,
-            }
-          }
-
-          const updateCollectible = await fetch(
-            `${globals.baseURL}/collectibles/update-collectible`,
-            {
-              method: 'PUT',
-              headers: {
-                'content-type': 'application/json',
-              },
-              body: JSON.stringify(updatableData),
-            },
-          )
-
-          const res = await updateCollectible.json()
-
-          console.log(res.data)
-          setIsLoading(false)
-          window.location.reload()
-          setIsLoading(false)
-        } catch (err) {
-          console.log(err)
-
-          setIsLoading(false)
-        }
-      }
-
+      const putOffSale = await marketPlaceContract.methods
+      console.log(putOffSale, tmethod, erc721MarketplaceAddress);
     }
+    else{
+       setShowPutOnSale(!showPutOnSale)
+    }
+   
+    
+        
   
   }
 
@@ -482,6 +272,7 @@ const ExploreSingleBuy = () => {
     setShowPutOnSale(false)
     //setShowBid(false)
   }
+console.log(nft);
 
   return (
     <>
@@ -498,7 +289,9 @@ const ExploreSingleBuy = () => {
         <PutOnSaleModal
           handleClose={handleClose}
           nft={nft}
+          id={id}
           nftDetails={nftDetails}
+          collectionAddress={collectionAddress}
         />
       )}
       {showPrompt && <UpdatePrompt closePrompt={closePrompt} />}
@@ -524,7 +317,7 @@ const ExploreSingleBuy = () => {
                     {!loading ? (
                      
                         <img
-                          src={getImageUrl(nft?.url)}
+                          src={getImageUrl(nft?.url||nft?.metadata.image)}
                           alt="itemImg"
                         />
                      ) : (
@@ -538,7 +331,7 @@ const ExploreSingleBuy = () => {
                       {!loading ? (
 
                         <img
-                          src={getImageUrl(nft?.url)}
+                          src={getImageUrl(nft?.url||nft?.metadata.image)}
                           alt="itemImg"
                         />
                       ) : (
@@ -615,12 +408,18 @@ const ExploreSingleBuy = () => {
                   )}
                 </div>
                 <div className={style.rightTitles}>
-                  <div className={style.userBx}>
+                  {!pathname.includes('item') && <div className={style.userBx}>
                     <img src={dark === 'true' ? User : User2} alt="user" />
                     {nft && (
-                      <p>{shortenAddress(nftDetails?.owner||nft.user.walletAddress)}</p>
+                      <p>{shortenAddress(nftDetails?.owner || nft?.user.walletAddress)}</p>
                     )}
-                  </div>
+                  </div>}
+                    {pathname.includes('item') && <div className={style.userBx}>
+                    <img src={dark === 'true' ? User : User2} alt="user" />
+                    {nft && (
+                      <p>{shortenAddress(nft?.ownerOf)}</p>
+                    )}
+                  </div>} 
                   <div className={style.bronze}>
                     <p>{nft?.amount>1 ? 'Multiple Items' : 'Single Item'}{' '}</p>
                   </div>
@@ -662,7 +461,40 @@ const ExploreSingleBuy = () => {
                     {nft?.amount>1 && (
                       <p>Number of copies : {nft.amount}</p>
                     )}
-                    <div className={style.Btns}>
+                   {pathname.includes('item')&& <div className={style.Btns}>
+                      {nft?.ownerOf !== walletAddress ? (
+                        <button
+                          // disabled={
+                          //   isLoading
+                          // }
+                          className={`${nft?.listingType ? style.regBtn : style.regBtn2
+                            } ${dark === 'true' ? 'yellowBtn' : 'blueBtn'} `}
+                          onClick={handleSubmit}
+                        >
+                          {!nft?.listingType ?
+                            'Not On Sale'
+                            : 'Buy'}
+                        </button>
+                      ) : (
+                        <button
+                          // disabled={
+                          //   !isLoaded || isLoading
+                          //   // || nftDetails?.on_sale // remove on sale check
+                          // }
+                          className={`${style.regBtn} ${dark === 'true' ? 'lightBorder' : 'darkBorder'} 
+                                                        ${dark === 'true' ? 'lightTxt' : 'darkTxt'
+                            }`}
+                          onClick={handleSale}
+                        >
+                          {!nft?.isListed ?
+                            'Put On Sale'
+                            : 'Remove from Sale'}
+                        </button>
+                      )}
+
+
+                    </div>}
+                    {!pathname.includes('item')&&<div className={style.Btns}>
                       {nft?.user.walletAddress !== walletAddress ? (
                         <button
                           // disabled={
@@ -678,10 +510,10 @@ const ExploreSingleBuy = () => {
                         </button>
                       ) : (
                         <button
-                          disabled={
-                            !isLoaded || isLoading
-                            // || nftDetails?.on_sale // remove on sale check
-                          }
+                          // disabled={
+                          //   !isLoaded || isLoading
+                          //   // || nftDetails?.on_sale // remove on sale check
+                          // }
                           className={`${style.regBtn} ${dark === 'true' ? 'lightBorder' : 'darkBorder'} 
                                                         ${dark === 'true' ? 'lightTxt' : 'darkTxt'
                             }`}
@@ -694,8 +526,7 @@ const ExploreSingleBuy = () => {
                       )}
 
 
-                    </div>
-
+                    </div>}
                   </div>
                 )}
                 {tab === 'activity' && (
