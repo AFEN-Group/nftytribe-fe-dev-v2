@@ -1,7 +1,6 @@
 import { useContext } from 'react'
 import useState from 'react-usestateref'
-//import { ThemeContext } from '../../../context/ThemeContext'
-//import useState from 'react-usestateref'
+import tokenAbi from '../../../smart_contracts/afenToken.json'
 import ContractContext from '../../../context/ContractContext'
 import { Link } from 'react-router-dom'
 import style from './ExploreSingle.module.scss'
@@ -60,7 +59,7 @@ const PutOnSaleModal = (props: any) => {
         erc20:''
     })
     console.log(contracts.BSC_erc721MarketplaceAddress);
-    
+    const abi:any= tokenAbi.abi
     const handleSubmit = async (e: any) => {
         e.preventDefault()
         setIsLoading(true)
@@ -73,13 +72,17 @@ const PutOnSaleModal = (props: any) => {
             const marketPlaceContract = new web3.eth.Contract(marketPlaceAbi,
                 contracts.BSC_erc721MarketplaceAddress,
             )
+            const token = new web3.eth.Contract(abi, onsaleParams.erc20)
+            console.log(token);
+            
             await TokenContract.methods.approve(contracts.BSC_erc721MarketplaceAddress, props.id).send({ from: wallet_address })
-
-         
+           
+            
                 try {
                    console.log(props.id,onsaleParams.amount);
-                   
-                    await marketPlaceContract.methods.putOnSale(props.id,onsaleParams.amount,onsaleParams.marketType,onsaleParams.from,onsaleParams.to,props.collectionAddress,onsaleParams.erc20).send({from:wallet_address})
+                  const  decimal=parseInt(await token.methods.decimals().call())
+                  let amount = parseInt(onsaleParams.amount)*10**decimal
+                    await marketPlaceContract.methods.putOnSale(props.id,amount,onsaleParams.marketType,onsaleParams.from,onsaleParams.to,props.collectionAddress,onsaleParams.erc20).send({from:wallet_address})
                     setCompleted(!completed)
                 } catch (error) {
 

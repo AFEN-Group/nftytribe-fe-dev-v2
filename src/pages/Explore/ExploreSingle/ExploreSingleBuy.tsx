@@ -236,11 +236,12 @@ const ExploreSingleBuy = () => {
     )
 
     if(nft.isListed){
-      const tmethod = await TokenContract.methods
+      // const tmethod = await TokenContract.methods
       // await TokenContract.methods.approve(erc721MarketplaceAddress, id).send({ from: walletAddress })
 
-      const putOffSale = await marketPlaceContract.methods
-      console.log(putOffSale, tmethod, erc721MarketplaceAddress);
+      const putOffSale = await marketPlaceContract.methods.putSaleOff(id,collectionAddress).send({from:walletAddress})
+      // console.log(putOffSale, erc721MarketplaceAddress);
+      window.location.reload()
     }
     else{
        setShowPutOnSale(!showPutOnSale)
