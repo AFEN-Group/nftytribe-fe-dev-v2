@@ -18,6 +18,7 @@ import erc1155Marketplace from "../../../smart_contracts/erc1155Market.json"
 import NumberInput from '../../../components/Inputs/NumberInput'
 import globals from '../../../utils/globalVariables'
 import { motion } from 'framer-motion'
+import erc20 from '../../../smart_contracts/afenToken.json'
 
 
 declare const window: any
@@ -36,21 +37,22 @@ const BuyModal = (props: any) => {
     quantity: '',
   })
   const [errorMsg, setErrorMsg] = useState('')
-  //const tokens = [{ value: '1', text: 'eth' }]
-  // erc721 addresses
+ 
   const [erc721MintableAddress, setErc721MintableAddress] = useState<any>('')
   const [erc721MarketplaceAddress, setErc721MarketplaceAddress] = useState<any>('')
   // erc 1155 addresses
   const [erc1155MintableAddress, setErc1155MintableAddress] = useState<any>('')
   const [erc1155MarketplaceAddress, setErc1155MarketplaceAddress] = useState<any>('')
   const [chainId, setChainId, chainIdRef] = useState<string>()
+
+  
+  
   useEffect(() => {
-    //const wallet_address = sessionStorage.getItem('currentAccount')
+   
     const currentChain = localStorage.getItem('chain')
-    const itemChain = props?.nftDetails?.chain
+
     if (currentChain === '0x1') {
-      // setChain('rinkeby')
-      setChainId('eth')
+      
       setErc721MintableAddress(contracts.erc721MintableAddress)
       setErc721MarketplaceAddress(contracts.erc721MarketplaceAddress)
       setErc1155MintableAddress(contracts.erc1155MintableAdddress)
@@ -87,16 +89,15 @@ const BuyModal = (props: any) => {
       setValidated(true)
     }
   }
-
+  //  console.log(props.nft);
+   
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     setIsLoading(true)
-    const inputQuantity = parseInt(userInputRef.current.quantity)
-    const itemQuantity = parseInt(props?.nftDetails?.number_of_copies)
-    
     let marketPlaceContract
     let erc721Contract
     let erc1155Contract
+    let erc20token
     let web3: any
     if (window.ethereum && userWallet) {
 
@@ -111,20 +112,24 @@ const BuyModal = (props: any) => {
         marketPlaceAbi,
         erc721MarketplaceAddress,
       )
-
+      erc20token = new web3.eth.Contract(erc20.abi,props.nft.moreInfo.erc20TokenAddress)
       console.log(props.nft, 'helllo')
 
   if (props?.nft?.amount<2) {
         try {
-          const itemDetail = await marketPlaceContract?.methods
-            .auctions(
-              props.nft.moreInfo.contractAddress,
-              parseInt(props.nft.tokenId),
-            )
-            .call()
-          console.log(itemDetail)
+        
+          // console.log(erc20token)
+          const decimal= await erc20token.methods.decimals().call(
+            {from:userWallet}
+          )
+          console.log(decimal);
+          // console.log(web3.utils);
+          // console.log(parseInt(props.nft.price));
+         
+          
+          await erc20token.methods.approve(erc721MarketplaceAddress,parseInt(props.nft.price)).send({from:userWallet})
           const buyItem = await marketPlaceContract.methods
-            .buy(props.nft.tokenId, props.nft.moreInfo.contractAddress)
+            .buy(props.nft.tokenId, props.collectionAddress)
             .send({ from: userWallet })
           console.log(buyItem)
           setIsLoading(false)

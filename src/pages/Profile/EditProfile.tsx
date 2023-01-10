@@ -71,7 +71,9 @@ const EditProfile = () => {
       })
     }
   }
-
+  console.log(userState);
+  
+  // const [userState,setUserState]=useContext(UserContext)
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     const formData= new FormData()
@@ -84,7 +86,8 @@ const EditProfile = () => {
       setIsLoading(true)
       const res= await Protected(sessionStorage.getItem('token')).patch('api/user/:field',formData)
 
-      console.log(res);
+      // console.log(res);
+      setUserState({...userState,user:res.data})
       
  
       if (userInput.email) {

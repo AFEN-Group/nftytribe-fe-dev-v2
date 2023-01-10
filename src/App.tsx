@@ -154,16 +154,21 @@ console.log(userState);
 
   },[userState?.currentAccount])
 
-  /* @ts-ignore */
-  const chain= chains?.data
-  console.log('these are the chains:' ,chain);
+ 
+  const [chain,setChain]= useState()
+  // console.log('these are the chains:' ,chain);
+
+  useEffect(()=>{ /* @ts-ignore */
+    if(chains)setChain(chains.data);
+    
+  },[chains])
   
   
   
   return (
 
     <Web3ContextProvider>
-      <ChainContext.Provider value={chain}>≈
+      <ChainContext.Provider value={{chain}}>
       <LanguageContext.Provider value={langState}>
         <ContractContext.Provider value={methods}>
           <WalletContext.Provider value={data}>

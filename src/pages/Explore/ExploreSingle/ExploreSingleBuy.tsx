@@ -52,6 +52,7 @@ import PutOnSaleModal from './PutOnSaleModal'
 import { UserContext } from '../../../context/UserContext'
 import UseAxios from '../../../hooks/AxiosConfig/useAxios'
 import Protected from '../../../hooks/AxiosConfig/axiosInstance'
+import { ChainContext } from '../../../context/chain'
 declare const window: any
 
 // const erc721Mintable_address = contracts.erc721MintableAddress
@@ -95,7 +96,7 @@ const ExploreSingleBuy = () => {
     ContractContext,
   )
   // network
-  const [chain, setChain, chainRef] = useState<string>()
+ 
   const [chainId, setChainId, chainIdRef] = useState<string>()
   // erc721 addresses
   const [erc721MintableAddress, setErc721MintableAddress] = useState<any>('')
@@ -119,7 +120,9 @@ const ExploreSingleBuy = () => {
   const closePrompt = () => {
     setShowPrompt(false)
   }
-
+  const {chain}=useContext(ChainContext)
+  console.log(chain);
+  
   useEffect(() => {
     window.scrollTo(0, 0)
     const wallet_address = sessionStorage.getItem('currentAccount')
@@ -128,16 +131,14 @@ const ExploreSingleBuy = () => {
     //
 
     if (currentChainId === '0x1') {
-      setChain('eth')
-      setChainId('eth')
+     
       setErc721MintableAddress(contracts.erc721MintableAddress)
       setErc721MarketplaceAddress(contracts.erc721MarketplaceAddress)
       setErc1155MintableAddress(contracts.erc1155MintableAdddress)
       setErc1155MarketplaceAddress(contracts.erc1155MarketplaceAddress)
     }
     else if (currentChainId === '0x38'||currentChainId==='0x61') {
-      setChain('bsc')
-      setChainId('bsc')
+      
       setErc721MintableAddress(contracts.BSC_erc721MintableAddress)
       setErc721MarketplaceAddress(contracts.BSC_erc721MarketplaceAddress)
       setErc1155MintableAddress(contracts.BSC_erc1155MintableAdddress)
@@ -176,7 +177,8 @@ const ExploreSingleBuy = () => {
     }
     return url
   }
-
+  console.log('them', chain?.filter((chain: any) =>chain.id === nft.chainId )[0].chain)
+  console.log(nft);
   
   const handleSubmit = async () => {
     // const verified = userState?.user?.verified
@@ -184,24 +186,18 @@ const ExploreSingleBuy = () => {
       const currentChainId = sessionStorage.getItem('chain')
       console.log(currentChainId);
       
-      if (currentChainId === '0x1') {
-        setChain('eth')
-      }
-      if (currentChainId === '0x38') {
-        setChain('bsc')
-      }
+   
       const itemChain = nftDetails?.chain
-      console.log('me', chainRef.current)
-      console.log('them', itemChain)
-      if (chainRef.current === itemChain)
+      
+    
+      if (currentChainId === chain.filter((chain :any)=>{return chain.id=== nft.chainId})[0].chain)
         if (nft && nft?.listingType) {
           const wallet_address = sessionStorage.getItem('currentAccount')
           console.log(nft?.listingType)
           if (wallet_address) {
             setShowBuy(true)
           } else {
-            //setShowConnect(true)
-            //alert('Please connect wallet')
+           
             toast.error(` Please connect wallet`,
               {
                 duration: 3000,
@@ -212,7 +208,7 @@ const ExploreSingleBuy = () => {
           console.log('not available')
         }
       else {
-        console.log(chainRef.current,itemChain);
+        console.log(currentChainId,nft.chainId);
         
         //alert("Wrong chain!, Please switch to the chain of this NFT")
         toast.error(` Wrong chain!, Please switch to the chain of this NFT`,
@@ -228,7 +224,7 @@ const ExploreSingleBuy = () => {
    const web3= new Web3(window.ethereum)
   const handleSale = async (e: any) => {
     //  @ts-ignore
-    // console.log(web3); 
+    
     const TokenContract = new web3.eth.Contract(erc721Abi, collectionAddress)
     // @ts-ignore
     const marketPlaceContract = new web3.eth.Contract(marketPlaceAbi,
@@ -236,11 +232,8 @@ const ExploreSingleBuy = () => {
     )
 
     if(nft.isListed){
-      // const tmethod = await TokenContract.methods
-      // await TokenContract.methods.approve(erc721MarketplaceAddress, id).send({ from: walletAddress })
-
-      const putOffSale = await marketPlaceContract.methods.putSaleOff(id,collectionAddress).send({from:walletAddress})
-      // console.log(putOffSale, erc721MarketplaceAddress);
+      await marketPlaceContract.methods.putSaleOff(id,collectionAddress).send({from:walletAddress})
+    
       window.location.reload()
     }
     else{
@@ -282,7 +275,9 @@ console.log(nft);
         <BuyModal
           handleClose={handleClose}
           nft={nft}
+          collectionAddress={collectionAddress}
           nftDetails={nftDetails}
+          
 
         />
       )}

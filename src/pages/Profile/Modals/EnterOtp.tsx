@@ -88,6 +88,7 @@ const EnterOtp = (props: any) => {
                     'Authorization':`Bearer ${sessionStorage.getItem('token')}`
                 }})
             console.log(enterOtpReq)
+            window.location.reload()
             isUpdated(true)
 
         } catch (err) {
