@@ -113,7 +113,7 @@ const BuyModal = (props: any) => {
         erc721MarketplaceAddress,
       )
       erc20token = new web3.eth.Contract(erc20.abi,props.nft.moreInfo.erc20TokenAddress)
-      console.log(props.nft, 'helllo')
+      // console.log(props.nft, 'helllo')
 
   if (props?.nft?.amount<2) {
         try {
@@ -122,12 +122,12 @@ const BuyModal = (props: any) => {
           const decimal= await erc20token.methods.decimals().call(
             {from:userWallet}
           )
-          console.log(decimal);
-          // console.log(web3.utils);
-          // console.log(parseInt(props.nft.price));
-         
+          // console.log(decimal);
+          const amount= parseInt(props.nft.price)*(10**decimal)
+          // console.log(amount);
           
-          await erc20token.methods.approve(erc721MarketplaceAddress,parseInt(props.nft.price)).send({from:userWallet})
+          
+          await erc20token.methods.approve(erc721MarketplaceAddress,(`${amount}`)).send({from:userWallet})
           const buyItem = await marketPlaceContract.methods
             .buy(props.nft.tokenId, props.collectionAddress)
             .send({ from: userWallet })
