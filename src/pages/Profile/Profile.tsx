@@ -34,7 +34,7 @@ const Profile = () => {
   const currentAddress: any = sessionStorage.getItem('currentAccount')
   const currentChainId = sessionStorage.getItem('chain')
   const [res, setRes] = useState<any>()
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState<string>('')
   const [currentPage, setCurrentPage] = useState('')
   const [totalPages, setTotalPages] = useState('')
   const [isLoading, setIsLoading] = useState(true)
@@ -69,16 +69,22 @@ const Profile = () => {
 
   useEffect(() => {
     console.log(currentPage);
-    
-    Data({
+    if(!query){
+      Data({
+        method: 'get',
+        url: `api/nft/user/${currentAddress}?page=${currentPage}&chain=${currentChainId}`,
+        axiosInstance: Protected(sessionStorage.getItem('token'))
+      })
+    }
+   else Data({
      method:'get',
-     url:  `api/nft/user/${currentAddress}?page=${currentPage}&chain=${currentChainId}`,
+     url:  `api/nft/transactions/?type=${query}&page=${currentPage}&limit=10`,
      axiosInstance:Protected(sessionStorage.getItem('token'))
     })
     
-  }, [currentAddress, currentPage])
+  }, [currentAddress, currentPage,query])
 
-// console.log(postResponse);
+
 
  useEffect(()=>{
      console.log(postResponse);
@@ -87,25 +93,23 @@ const Profile = () => {
      }
      const {data}=postResponse||({} as data)
      setTotalPages(data?.cursor);
-    //  console.log(data?.result);
+  
+    //  console.log(data.results);
      
-      setCollectibles(data?.result)
-      // setTotalPages(Math.round(data?.data.total_count / 10))
+      if(!query)setCollectibles(data?.result)
+      else setCollectibles(data?.results)
+    
       setIsLoading(false)
   },[postResponse] )
 
  
- console.log(currentChainId);
+ console.log(collectibles);
  
   
   const nextPage = () => {
      setCurrentPage(totalPages)   
   }
-  // const prevPage = () => {
-  //   if (currentPage <= totalPages) {
-  //     setCurrentPage(currentPage - 1)
-  //   }
-  // }
+ 
   const closeModal = () => {
     setShowModal(false)
   }
@@ -204,50 +208,50 @@ const Profile = () => {
             <div
               //className={style.filterItem}
               className={
-                query === 'collected=true' && dark === 'true'
+                query === 'collected' && dark === 'true'
                   ? style.darkActive
-                  : query === 'collected=true' && dark !== 'true'
+                  : query === 'collected' && dark !== 'true'
                     ? style.lightActive
                     : style.filterItem
               }
-              onClick={(e) => setQuery('collected=true')}
+              onClick={(e) => setQuery('collected')}
             >
               <p>Collected</p>
             </div>
             <div
               className={
-                query === 'on_sale=true' && dark === 'true'
+                query === 'on_sale' && dark === 'true'
                   ? style.darkActive
-                  : query === 'on_sale=true' && dark !== 'true'
+                  : query === 'on_sale' && dark !== 'true'
                     ? style.lightActive
                     : style.filterItem
               }
-              onClick={(e) => setQuery('on_sale=true')}
+              onClick={(e) => setQuery('on_sale')}
             >
               <p>On sale</p>
             </div>
             <div
               className={
-                query === 'created=true' && dark === 'true'
+                query === 'created' && dark === 'true'
                   ? style.darkActive
-                  : query === 'created=true' && dark !== 'true'
+                  : query === 'created' && dark !== 'true'
                     ? style.lightActive
                     : style.filterItem
               }
-              onClick={(e) => setQuery('created=true')}
+              onClick={(e) => setQuery('created')}
             >
               <p>Created</p>
             </div>
         
             <div
               className={
-                query === 'sold=true' && dark === 'true'
+                query === 'sold' && dark === 'true'
                   ? style.darkActive
-                  : query === 'sold=true' && dark !== 'true'
+                  : query === 'sold' && dark !== 'true'
                     ? style.lightActive
                     : style.filterItem
               }
-              onClick={(e) => setQuery('sold=true')}
+              onClick={(e) => setQuery('sold')}
             >
               <p>Sold</p>
             </div>
@@ -269,7 +273,7 @@ const Profile = () => {
               //className={style.items}
               className={`${style.items} animate__animated animate__fadeInUp  `}
             >
-              {collectibles?.length >= 1 && query !== 'sold=true' ? (
+              {collectibles?.length >= 1 && query !== 'sold' ? (
                 <>
                   <div className={style.itemsContent}>
                 
@@ -284,32 +288,7 @@ const Profile = () => {
                       )
                     })}
                   </div>
-                  {/* {totalPages > 1 && (
-                    <div className={style.pagination}>
-                      <div className={style.paginateBtns}>
-                        {currentPage > 1 && (
-                          <button
-                            className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
-                              }`}
-                            onClick={prevPage}
-                          >
-                            {'Prev'}
-                          </button>
-                        )}
-                        {currentPage < totalPages && (
-                          <button
-                            className={`${style.filterItem} ${dark === 'true' ? 'lightTxt' : 'darkTxt'
-                              }`}
-                            onClick={nextPage}
-                          >
-                            {'Next'}
-                          </button>
-                        )}
-                      </div>
-                      <p>
-                        Page {currentPage} of {totalPages}
-                      </p>
-                    </div>)} */}
+                  
                 </>
               ) : (
                 <div className={style.noContent}>
@@ -325,16 +304,7 @@ const Profile = () => {
                 </div>
               )}
            
-              {/* <div className={style.itemContent}>
-              <div className={style.noResults}>
-                <img src={Sad} alt="sad" />
-                <h2>No items found</h2>
-                <Link to="/explore" className={style.explore}>
-                  <p>Explore marketplace</p>
-                  <img src={Arrow} alt="arrow" />
-                </Link>
-              </div>
-            </div> */}
+           
             </div>)}
             <div ref={interDemo}></div>
 
