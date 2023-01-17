@@ -26,6 +26,7 @@ import moment from 'moment'
 // import Eye2 from './assets/eye2.svg'
 import Container from '../../../components/Container/Container'
 import UpdatePrompt from '../../../components/Modals/UpdatePrompt/UpdatePrompt'
+import erc20 from '../../../smart_contracts/afenToken.json'
 
 import { TwitterShareButton } from 'react-share'
 import toast from 'react-hot-toast'
@@ -147,7 +148,7 @@ const ExploreSingle = () => {
 
   },[])
     
-// console.log(Response);
+// console.log(collectionAddress);
 /*@ts-ignore*/
 const nft:any= Response?.data
 const timeout= new Date(nft?.timeout).getTime()-moment.now()
@@ -159,8 +160,8 @@ const getTimeleft=()=>{
 
     return `${day}d ${hours}h ${min}m`
 }
-console.log(getTimeleft())
-
+   const [tokenName,setTokenName]=useState('')
+   
 
 
     useEffect(() => {
@@ -183,6 +184,8 @@ console.log(getTimeleft())
                     marketPlaceAbi,
                     erc721MarketplaceAddress,
                 )
+               
+
             } else {
                 toast.error(`Please connect wallet!`,
                   {
@@ -192,14 +195,17 @@ console.log(getTimeleft())
             }
             //erc721Contract = await new web3.eth.Contract(erc721Abi, collectionAddress)
 
-
-            const owner = await erc721Contract.methods.ownerOf(id).call()
+            const erc20token = new web3.eth.Contract(erc20.abi, nft.moreInfo.erc20TokenAddress)
+            const owner = await erc721Contract.methods.ownerOf(nft?.tokenId).call()
+            console.log(await erc20token.methods);
+            
+            const name= await erc20token.methods.name().call()
             console.log("ownerr", owner)
-            const auctionInfo = await marketPlaceContract.methods.auctions(collectionAddress, id).call()
+            const auctionInfo = await marketPlaceContract.methods.auctions(collectionAddress, nft.tokenId).call()
             //alert('ggg')
             console.log("infoo>>>>", auctionInfo)
 
-          
+            setTokenName(name)
 
             setAuctionData(auctionInfo)
             
@@ -498,7 +504,7 @@ console.log(getTimeleft())
                                                                             auctionData?.currentBid?.toString(),
                                                                             'ether'
                                                                         ) || ''}{' '}
-                                                                        {chain.filter((chain: any) => { return chain.id === nft.chainId })[0].name}
+                                                                        {tokenName}
                                                                     </p>
                                                                 )}
                                                             </div>
@@ -512,8 +518,7 @@ console.log(getTimeleft())
                                                                             auctionData?.startingPrice?.toString(),
                                                                             'ether'
                                                                         ) || ''}{' '}
-                                                                       {chain.filter((chain: any) => { return chain.id === nft.chainId })[0].name}
-
+                                                                       {tokenName}
                                                                     </p>)}
                                                             </div>
                                                         </div>

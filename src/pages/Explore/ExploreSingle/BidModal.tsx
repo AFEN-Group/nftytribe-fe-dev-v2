@@ -131,16 +131,18 @@ const BidModal = (props: any) => {
 
 
             await erc20token.methods.approve(erc721MarketplaceAddress, (`${amount}`)).send({ from: userWallet })
-            console.log(marketPlaceContract,userInput.bid,erc721MarketplaceAddress)
+            console.log(marketPlaceContract, userInput.bid, erc721MarketplaceAddress, props.nft?.tokenId,
+              props.nft?.moreInfo?.contractAddress,
+              amount.toString(),)
             const bid = await marketPlaceContract.methods
               .bid(
                 props.nft?.tokenId,
                 props.nft?.moreInfo?.contractAddress,
                 amount.toString(),
               )
-              .send({ from: wallet_address, value: amount })
+              .send({ from: wallet_address})
 
-            return bid
+             setCompleted(!completed)
           }
        catch (err) {
           console.log(err)
