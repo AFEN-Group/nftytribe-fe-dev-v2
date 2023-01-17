@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from "react";
 import WalletContext from "./context/WalletContext";
 import UserConnect from "./web3-Service/UserConnect";
 import ContractContext from "./context/ContractContext";
-import useContractMethods from "./web3-Service/contractMethods";
 import "./App.scss";
 import "./theme.scss";
 import "aos/dist/aos.css";
@@ -44,7 +43,7 @@ function App() {
   const AOS = require("aos");
   const web3Object = useWeb3();
   const data: any = UserConnect();
-  const methods: any = useContractMethods();
+  
   const { langState }: { langState: any } = useLanguage();
   useEffect(() => {
     AOS.init();
@@ -170,7 +169,7 @@ console.log(userState);
     <Web3ContextProvider>
       <ChainContext.Provider value={{chain}}>
       <LanguageContext.Provider value={langState}>
-        <ContractContext.Provider value={methods}>
+        
           <WalletContext.Provider value={data}>
             <>
               <div className="app">
@@ -191,9 +190,9 @@ console.log(userState);
                         <Route
                           path="/item/:collectionAddress/:id"
                           element={<ExploreBuy />}></Route>
-                    {/* <Route
+                    <Route
                       path="/exploreBid/:collectionAddress/:id"
-                      element={<ExploreBid />}></Route> */}
+                      element={<ExploreBid />}></Route>
                     <Route path="/collections" element={<Collections />}></Route>
 
                     <Route
@@ -233,7 +232,7 @@ console.log(userState);
             </div> */}
             </>
           </WalletContext.Provider>
-        </ContractContext.Provider>
+        
       </LanguageContext.Provider>
         </ChainContext.Provider>
     </Web3ContextProvider>

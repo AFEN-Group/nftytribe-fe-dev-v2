@@ -177,8 +177,7 @@ const ExploreSingleBuy = () => {
     }
     return url
   }
-  // console.log('them', chain?.filter((chain: any) =>chain.id === nft.chainId )[0].chain)
-  // console.log(nft);
+ 
   
   const handleSubmit = async () => {
     // const verified = userState?.user?.verified
@@ -187,7 +186,7 @@ const ExploreSingleBuy = () => {
       console.log(currentChainId);
       
    
-      const itemChain = nftDetails?.chain
+     
       
     
       if (currentChainId === chain.filter((chain :any)=>{return chain.id=== nft.chainId})[0].chain)

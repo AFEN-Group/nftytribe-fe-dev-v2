@@ -52,7 +52,7 @@ const Explore = () => {
   const [totalPages, setTotalPages] = useState(0)
   const [page,setPage]=useState(1)
   const [isLoading, setIsLoading] = useState(false);
-  const chain= useContext(ChainContext)
+  const {chain}= useContext(ChainContext)
   const [categories,setCategories]=useState<[any]>()
 
 

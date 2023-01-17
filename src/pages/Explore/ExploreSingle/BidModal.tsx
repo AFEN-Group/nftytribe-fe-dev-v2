@@ -17,6 +17,8 @@ import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
 import TextInput from '../../../components/Inputs/TextInput'
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
+import erc20 from '../../../smart_contracts/afenToken.json'
+
 declare const window: any
 
 const BidModal = (props: any) => {
@@ -37,9 +39,7 @@ const BidModal = (props: any) => {
   })
   const [err, setErr] = useState<any>()
   const [validated, setValidated] = useState(false)
-  const { handleAuctionBid, checkIfBIdTimePasses, collectNft } = useContext(
-    ContractContext,
-  )
+  
   const [completed, setCompleted] = useState(false)
   //const tokens = [{ value: '1', text: 'eth' }]
   // erc721 addresses
@@ -52,7 +52,7 @@ const BidModal = (props: any) => {
 
   useEffect(() => {
     //const wallet_address = sessionStorage.getItem('currentAccount')
-    const currentChain = localStorage.getItem('chain')
+    const currentChain = sessionStorage.getItem('chain')
     const itemChain = props?.nftDetails?.chain
     if (currentChain === '0x1') {
       // setChain('rinkeby')
@@ -62,7 +62,7 @@ const BidModal = (props: any) => {
       setErc1155MintableAddress(contracts.erc1155MintableAdddress)
       setErc1155MarketplaceAddress(contracts.erc1155MarketplaceAddress)
     }
-    if (currentChain === '0x38') {
+    if (currentChain === '0x38'||'0x61') {
       // setChain('bsc testnet')
       setChainId('bsc')
       setErc721MintableAddress(contracts.BSC_erc721MintableAddress)
@@ -95,75 +95,58 @@ const BidModal = (props: any) => {
     e.preventDefault()
 
     const wallet_address = sessionStorage.getItem('currentAccount')
-    console.log(props.nftDetails?.marketplace_type)
+   
 
     let marketPlaceContract
     let erc721Contract
     let web3: any
     if (window.ethereum && wallet_address) {
-      const startPrice = Web3.utils.fromWei(props.nftDetails?.price.toString(), 'ether')
+      const startPrice = parseInt(props.nft?.price)
       console.log("bid price", userInput.bid)
-      console.log("actual price", parseFloat(startPrice))
+      console.log("actual price", startPrice)
 
-      if (userInput.bid >= parseFloat(startPrice)) {
+      if (userInput.bid >= startPrice) {
         setIsLoading(true)
         setErr('')
         web3 = new Web3(window.ethereum)
 
-        erc721Contract = new web3.eth.Contract(
-          erc721Abi,
-          props.nftDetails.collection_address || erc721MintableAddress,
-        )
+        // erc721Contract = new web3.eth.Contract(
+        //   erc721Abi,
+        //   props.nft?.moreInfo.contractAddress || erc721MintableAddress,
+        // )
 
         marketPlaceContract = new web3.eth.Contract(
           marketPlaceAbi,
           erc721MarketplaceAddress,
         )
+      const  erc20token = new web3.eth.Contract(erc20.abi, props.nft.moreInfo.erc20TokenAddress)
 
-        //   try {
-        //     console.log(marketPlaceContract)
-        //     const brokerage = await marketPlaceContract.methods
-        //       .brokerage('0x0000000000000000000000000000000000000000')
-        //       .call()
-        //     const Bid = await marketPlaceContract.methods
-        //       .auctions(
-        //         props.nftDetails?.collection_address,
-        //         props.nftDetails?.token_id,
-        //       )
-        //       .call()
-        //     console.log(Bid)
-        //     const nextBidAmount =
-        //       parseInt(Bid.currentBid, 10) + parseInt(Bid.currentBid, 10) * 0.0001
+          try {
+            const decimal = await erc20token.methods.decimals().call(
+              { from: userWallet }
+            )
+            // console.log(decimal);
+            const amount = parseInt(userInput.bid) * (10 ** decimal)
+            // console.log(amount);
 
-        //     const bid = await marketPlaceContract.methods
-        //       .bid(
-        //         props.nftDetails?.token_id,
-        //         props.nftDetails?.collection_address,
-        //         1,
-        //       )
-        //       .send({ from: wallet_address, value: 1 })
 
-        //     return bid
-        //   } catch (error) {
-        //     console.log(error)
-        //     setIsLoading(false)
-        //   }
-        try {
-          const result = await handleAuctionBid(
-            props.nftDetails?.token_id,
-            wallet_address,
-            props.nftDetails?.collection_address,
-            userInput.bid,
-          )
-          if (result) {
-            console.log(result)
-            setCompleted(true)
-            setIsLoading(false)
-            return
+            await erc20token.methods.approve(erc721MarketplaceAddress, (`${amount}`)).send({ from: userWallet })
+            console.log(marketPlaceContract,userInput.bid,erc721MarketplaceAddress)
+            const bid = await marketPlaceContract.methods
+              .bid(
+                props.nft?.tokenId,
+                props.nft?.moreInfo?.contractAddress,
+                amount.toString(),
+              )
+              .send({ from: wallet_address, value: amount })
+
+            return bid
           }
-          setIsLoading(false)
-        } catch (err) {
+       catch (err) {
           console.log(err)
+          setIsLoading(false)
+        }
+        finally{
           setIsLoading(false)
         }
       } else {
@@ -179,6 +162,7 @@ const BidModal = (props: any) => {
       )
     }
   }
+console.log(props.nft);
 
   return (
     <div className={style.bm}>
@@ -221,14 +205,14 @@ const BidModal = (props: any) => {
                     // }`}
                     className="blueTxt"
                   >
-                    <strong> {' ' + props.nftDetails?.title} </strong>
+                    <strong> {' ' + props.nft?.name} </strong>
                   </span>{' '}
                   from
                   <span className="blueTxt">
                     <strong>
                       {' ' +
                         shortenAddress(
-                          props.nft?.owner_of ||
+                          props.nft?.user?.walletAddress ||
                           props.nftDetails?.wallet_address,
                         ) || ''}{' '}
                     </strong>
@@ -265,7 +249,7 @@ const BidModal = (props: any) => {
                 <div className={style.pbItem}>
                   <p>Amount </p>
                   <p>
-                    {Web3.utils.fromWei(props.nftDetails?.price.toString(), 'ether') || ''}{' '}
+                    {props.nft?.price}
                     ETH
                   </p>
                 </div>
@@ -324,7 +308,7 @@ const BidModal = (props: any) => {
                 <h1>Congratulations</h1>
                 <p className={style.mText}>
                   Your bid for{' '}
-                  <strong> {' ' + props.nftDetails?.title} </strong>
+                  <strong> {' ' + props.nft?.name} </strong>
                   has been successfully placed
                 </p>
                 <img src={Close} alt="close" onClick={props.handleClose} />
