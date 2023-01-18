@@ -3,7 +3,7 @@ import useState from 'react-usestateref'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { ThemeContext } from '../../../context/ThemeContext'
 // import { AuthContext } from '../../../context/AuthContext'
-import ContractContext from '../../../context/ContractContext'
+
 import { publicRequest } from '../../../utils/requestMethods'
 //import { format } from 'timeago.js'
 import { CircularProgress } from '@material-ui/core'
@@ -70,18 +70,13 @@ const ExploreSingleBuy = () => {
   const { loading, Response, error, fetchData } = UseAxios()
 
   const navigate = useNavigate()
-  //const [priceType, setPriceType] = useState('auction')
   const [tab, setTab] = useState('art')
-  const [isLoading, setIsLoading] = useState(true)
-  const [isLoaded, setIsLoaded] = useState(false)
   /*@ts-ignore*/
-  // const [nft, setNft] = useState<any>(Response?.data)
   const nft= Response?.data
   const [showPrompt, setShowPrompt] = useState(false)
   //const [nftDetails, setNftDetails] = useState<any>()
   const [nftDetails, setNftDetails, nftDetailsRef] = useState<any>()
   const [activities, setActivities] = useState<any>()
-  const [auctionData, setAuctionData] = useState<any>()
   const [showBuy, setShowBuy] = useState(false)
   const [showPutOnSale, setShowPutOnSale] = useState(false)
   //const [showBid, setShowBid] = useState(false)
@@ -89,12 +84,9 @@ const ExploreSingleBuy = () => {
   const [endDate, setEndDate] = useState<any>()
   const [walletAddress, setWalletAddress] = useState('')
   const [itemCollected, setItemCollected] = useState(false)
-  // const [authState] = useContext<any>(AuthContext)
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
-  const { handleAuctionBid, checkIfBIdTimePasses, collectNft } = useContext(
-    ContractContext,
-  )
+ 
   // network
  
   const [chainId, setChainId, chainIdRef] = useState<string>()
@@ -105,14 +97,8 @@ const ExploreSingleBuy = () => {
   const [erc1155MintableAddress, setErc1155MintableAddress] = useState<any>('')
   const [erc1155MarketplaceAddress, setErc1155MarketplaceAddress] = useState<any>('')
 
-  const [timeLeft, setTimeLeft] = useState<any>({
-    hours: '',
-    minutes: '',
-    seconds: '',
-  })
-
-  // const [timeDifference, setTimeDifference] = useState<any>()
-  // const {id}=useParams()
+  
+  
   const [showDrop, setShowDrop] = useState(false)
   const { userState,setUserState}= useContext(UserContext)
   const {pathname}=useLocation()
@@ -180,15 +166,9 @@ const ExploreSingleBuy = () => {
  
   
   const handleSubmit = async () => {
-    // const verified = userState?.user?.verified
     if (userState.user.email ) {
       const currentChainId = sessionStorage.getItem('chain')
-      console.log(currentChainId);
-      
-   
-     
-      
-    
+      console.log(currentChainId);   
       if (currentChainId === chain.filter((chain :any)=>{return chain.id=== nft.chainId})[0].chain)
         if (nft && nft?.listingType) {
           const wallet_address = sessionStorage.getItem('currentAccount')
@@ -208,8 +188,6 @@ const ExploreSingleBuy = () => {
         }
       else {
         console.log(currentChainId,nft.chainId);
-        
-        //alert("Wrong chain!, Please switch to the chain of this NFT")
         toast.error(` Wrong chain!, Please switch to the chain of this NFT`,
           {
             duration: 3000,
@@ -246,24 +224,21 @@ const ExploreSingleBuy = () => {
 
   const getImageUrl = (uri: any) => {
     // console.log(uri);
-
     let url
     if (uri?.includes('ipfs://')) {
       // eslint-disable-next-line
       url = 'https://ipfs.io/ipfs/' + `${uri.split('ipfs://')[1]}`
     }
     else url = uri
-    // console.log(url);
     return url
 
 
   }
 
   const handleClose = () => {
-    //setShowConnect(false)
     setShowBuy(false)
     setShowPutOnSale(false)
-    //setShowBid(false)
+    
   }
 console.log(nft);
 
@@ -375,13 +350,7 @@ console.log(nft);
                       <div className={`${style.drop} ${dark === 'true' ? 'darkTheme' : 'lightTheme'} animate__animated animate__fadeInUp animate__faster`}
                       //onClick={() => setShowDrop(!showDrop)}
                       >
-                        {/* {!showShare ? ( */}
-                        {/* <div className={style.dropContent}>
-                                                        <p onClick={() => setShowShare(!showShare)}>
-                                                            Share
-                                                        </p>
-                                                        <p className='disable_link'>Report</p> */}
-                        {/* </div>) : ( */}
+                        
                         <div className={style.dropContent2}>
                           <h3>Share NFT</h3>
                           <TwitterShareButton

@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import useState from 'react-usestateref'
 import tokenAbi from '../../../smart_contracts/afenToken.json'
-import ContractContext from '../../../context/ContractContext'
+// import ContractContext from '../../../context/ContractContext'
 import { Link } from 'react-router-dom'
 import style from './ExploreSingle.module.scss'
 import Close from './assets/close.svg'
@@ -37,9 +37,7 @@ const PutOnSaleModal = (props: any) => {
    
   
     const [validated, setValidated] = useState(false)
-    const { handleAuctionBid, checkIfBIdTimePasses, collectNft } = useContext(
-        ContractContext,
-    )
+  
     const [completed, setCompleted] = useState(false)
     
     const marketType = [
