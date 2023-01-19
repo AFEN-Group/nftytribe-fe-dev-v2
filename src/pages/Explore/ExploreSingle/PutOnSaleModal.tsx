@@ -36,8 +36,6 @@ const PutOnSaleModal = (props: any) => {
     )
    
   
-    const [validated, setValidated] = useState(false)
-  
     const [completed, setCompleted] = useState(false)
     
     const marketType = [
@@ -188,8 +186,7 @@ const PutOnSaleModal = (props: any) => {
                                     <p>Choose market type</p><br />
                                     <SelectOption
                                         options={marketType}
-                                        inputName="marketType"
-                                        inputHandler={(e:any)=>setParams({...onsaleParams,[e.target.name]:e.target.value})}
+                                        inputHandler={(e:any)=>setParams({...onsaleParams,marketType:e.target.value})}
                                         value={onsaleParams.marketType}
                                     />
                                 </div>
@@ -205,18 +202,7 @@ const PutOnSaleModal = (props: any) => {
                                                
                                             />
                                         </div>
-                                        <div className={style.fieldBx}>
-                                            <p>End Date</p>
-                                            <SelectDate
-                                                type="text"
-                                                inputName="ending_time"
-                                                //onFocus={(e: any) => e.target.type = 'datetime-local'}
-                                                holder="Choose End Date"
-                                                //value={userInput.price}
-                                                // inputHandler={inputHandler}
-                                            />
-                                        </div>
-                                    </>)}
+                               
                                */}
             
                             </div>

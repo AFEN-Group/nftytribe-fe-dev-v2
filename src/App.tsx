@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import WalletContext from "./context/WalletContext";
 import UserConnect from "./web3-Service/UserConnect";
-import ContractContext from "./context/ContractContext";
+
 import "./App.scss";
 import "./theme.scss";
 import "aos/dist/aos.css";

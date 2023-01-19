@@ -126,6 +126,9 @@
   position: relative;
   //background: lavender;
   //margin: 2em 0 3em 0;
+  // gap: 24px;
+  justify-content: space-between !important;
+  width: 70%;
   cursor: pointer;
   margin: 3em 0;
   @include flexRegular(row, flex-start);
@@ -144,6 +147,7 @@
 .filterBxD {
   background: #fff;
   border: 1px solid #52525B;
+  gap: 24px;
   border-radius: 4px;
   padding: 1.5em 1.5em 1.5em 1.5em;
   @include flexRegular(column, center);
@@ -166,6 +170,7 @@
 .filterItem1,
 .filterItem {
   position: relative;
+  gap: 24px;
   @include flexRegular(row, flex-start);
 
   .radioBx {
@@ -192,7 +197,7 @@
    height: 25px;
    background-color: #eee;
    border: 1px solid rgba(0, 0, 0, 0.295);
-   margin-left: 10px;
+   
    border-radius: 50%;
    display: flex;
    align-items: center;
@@ -257,9 +262,9 @@
 
 /* */
 
-.filterItem {
-  margin-top: 2em;
-}
+// .filterItem {
+//   margin-top: 2em;
+// }
 
 .itemsContainer {
   width: 76%;

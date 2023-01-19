@@ -188,9 +188,8 @@ const ItemCard = (data: any) => {
                   //to={`/explore/22/22`}
                   to={
                     data?.nftData?.lazyMint
-                      ? `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner_of}&lazy_mint=true`
-                      : `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.token_id}?seller=${data?.nftData?.owner}`
-                  }
+                      ? `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner_of || data?.nftData.user.walletAddress}&lazy_mint=true`
+                      : `/exploreBid/${data?.nftData?.collection_address || data?.nftData?.moreInfo.contractAddress}/${data?.nftData?.id || data?.nftData?.id}` }
                   className={style.buyBtnSm}
                 >
                   <button className={` ${dark === 'true' ? 'yellowBtn' : 'blueBtn'}`}>
@@ -208,10 +207,9 @@ const ItemCard = (data: any) => {
                 <Link
                   //to={`/explore/22/22`}
                   to={
-                    data?.nftData?.lazyMint
-                      ? `/exploreBuy/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner}&lazy_mint=true`
-                      : `/exploreBuy/${data?.nftData?.collection_address}/${data?.nftData?.token_id}?seller=${data?.nftData?.owner}`
-                  }
+                      data?.nftData?.lazyMint
+                        ? `/exploreBuy/${data?.nftData?.collection_address}/${data.nftData.id}`
+                        : `/exploreBuy/${data?.nftData?.token_address || data?.nftData?.moreInfo.contractAddress}/${data.nftData.id}` }
                   className={style.buyBtnSm}
                 >
                   <button className={` ${dark === 'true' ? 'yellowBtn' : 'blueBtn'}`}>

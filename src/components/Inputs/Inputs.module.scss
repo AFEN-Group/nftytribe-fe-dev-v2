@@ -3,8 +3,10 @@
 
 .inputBx {
 
+
   input,
-  select {
+  select,
+  .select{
     width: 100%;
     max-width: 650px;
     height: 48px;
@@ -73,5 +75,47 @@
     padding-top: 30px;
     transition: 0.2s ease-in;
     font-family: Raleway;
+  }
+}
+
+.select{
+  width: 100%;
+  max-width: 650px;
+  height: 48px;
+  border: 2px solid #a1a1aa;
+  border-radius: 4px;
+  outline: none;
+  padding: 0.2em 10em 0.2em 1em;
+  transition: 0.2s ease-in;
+  //font-weight: lighter;
+  position: relative;
+  font-weight: 300;
+
+  .options{
+    position: absolute;
+    height: 100px;
+    width: 100%;
+    // bottom: 0;
+    left: 0;
+    z-index: 999;
+    background-color: white;
+    // padding: 16px;
+    box-sizing: border-box;
+
+
+    display: flex;
+    flex-direction: column;
+    // gap: 24px;
+
+    option{
+      width: 100%;
+      padding: 16px;
+      box-sizing: border-box;
+      height: 50%;
+      &:hover{
+        color: white;
+        background-color: grey;
+      }
+    }
   }
 }
