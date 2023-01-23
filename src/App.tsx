@@ -201,12 +201,12 @@ console.log(userState);
                     {/* <Route
                       path="/collectionDashboard"
                       element={<CollectionDashboard />}></Route> */}
-                    {/* <Route
+                    <Route
                       path="/createOptions"
-                      element={<CreateItemOptions />}></Route> */}
-                    {/* <Route
+                      element={<CreateItemOptions />}></Route>
+                    <Route
                       path="/createItem/:chain/:itemType"
-                      element={<CreateItems />}></Route> */}
+                      element={<CreateItems />}></Route>
                     <Route
                       path="/createCollectionOptions"
                       element={<CreateCollectionOptions />}></Route> 

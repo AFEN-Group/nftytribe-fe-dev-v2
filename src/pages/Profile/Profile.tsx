@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { ThemeContext } from '../../context/ThemeContext'
 // import { AuthContext } from '../../context/AuthContext'
 import style from './Profile.module.scss'
@@ -12,7 +12,7 @@ import Edit2 from './assets/edit2.svg'
 import Sad from './assets/sad.svg'
 import Arrow from './assets/arrow.svg'
 import Container from '../../components/Container/Container'
-import { publicRequest } from '../../utils/requestMethods'
+import './index.scss'
 import ItemCard from '../../components/Card/ItemCard'
 import { shortenAddress } from '../../utils/formatting'
 import Filters from './Filters'
@@ -22,6 +22,7 @@ import UseAxios from '../../hooks/AxiosConfig/useAxios'
 import Protected from '../../hooks/AxiosConfig/axiosInstance'
 import { type } from 'os'
 import { UserContext } from '../../context/UserContext'
+import { NfcTwoTone } from '@material-ui/icons'
 
 const Profile = () => {
   //const [tab, setTab] = useState('all')
@@ -65,14 +66,14 @@ const Profile = () => {
     // console.log(currentAddress);
      setUserState({...userState,currentAddress:currentAddress})
   }, [currentAddress])
-  console.log(sessionStorage.getItem('token'))
+  console.log(collectibles?.length >= 1 && query === 'on_sale')
 
   useEffect(() => {
     console.log(currentPage);
-    if(!query){
+    if(!query||query===''){
       Data({
         method: 'get',
-        url: `api/nft/user/${currentAddress}?page=${currentPage}&chain=${currentChainId}`,
+        url: `api/nft/user/${currentAddress}?page=${currentPage!==null && currentPage}&chain=${currentChainId}`,
         axiosInstance: Protected(sessionStorage.getItem('token'))
       })
     }
@@ -273,24 +274,45 @@ const Profile = () => {
               //className={style.items}
               className={`${style.items} animate__animated animate__fadeInUp  `}
             >
-              {collectibles?.length >= 1 && query !== 'sold' ? (
+                {collectibles?.length >= 1 && (query ===''||query === undefined) ? (
                 <>
                   <div className={style.itemsContent}>
                 
 
-                    {collectibles?.map((nft: any, i: any) => {
+                   {collectibles?.map((nft: any, i: any) => {
                       return (
                         (nft?.metadata?.image) && (
                           <div className={style.itemBx} key={nft._id}>
-                            <ItemCard nftData={nft} />
+                           <Item nftData={nft}/>
                           </div>
                         )
                       )
-                    })}
+                    })} 
+                    
                   </div>
                   
                 </>
-              ) : (
+                ) :collectibles?.length >= 1 && (query === 'on_sale'||query==='created'||query==='collected')? (
+                     
+                      <>
+                        <div className={style.itemsContent}>
+                               
+                          {collectibles?.map((nft: any, i: any) => {
+                            return (
+                             
+                                <div className={style.itemBx} key={nft._id}>
+                                  <Item nftData={nft} />
+                                </div>
+                          
+                            )
+                          })}
+
+                        </div>
+                      </>
+                 
+                  ) 
+                    :collectibles?.length >= 1 && query === 'sold'? (
+                    <Sold array={collectibles} />)  :(
                 <div className={style.noContent}>
                     {/* <ItemCard nftData={nft} /> */}
                   <div className={style.noResults}>
@@ -315,3 +337,118 @@ const Profile = () => {
 }
 
 export default Profile
+
+
+const Sold = (props:any)=>{
+  const getImageUrl = (uri: any) => {
+    // console.log(uri);
+
+    let url
+    if (uri?.includes('ipfs://')) {
+      // eslint-disable-next-line
+      url = 'https://ipfs.io/ipfs/' + `${uri.split('ipfs://')[1]}`
+    }
+    else url = uri
+    // console.log(url);
+    return url
+
+
+  }
+
+  const getuserbyId= async(id:any)=>{
+    const res = await Protected(sessionStorage.getItem('token'))['get'](`/api/user/${id}`)
+
+    return res.data
+    
+  }
+
+ 
+ 
+  
+  return(
+    <div className='sold'>
+        <div className="tableHead">
+          
+          <div className="name">Item</div>
+          <div className="quantity">Quantity</div>
+          <div className="address">To</div>
+          <div className="value">Value</div>
+        </div>
+
+        {
+        props.array &&  props?.array?.map((item:any)=>(
+<div className="tableRow">
+        
+        <div className="name">
+          <div className="img">
+            <img src={getImageUrl(item?.listingInfo?.url)} alt="alt" />
+          </div>
+          {item?.listingInfo?.name}
+        </div>
+        <div className="quantity">{item.amount}</div>
+        <div className="address">{ item.buyerId }</div>
+        <div className="value">{parseInt(item.price)} {item?.erc20Info?.symbol}</div>
+      </div>
+          ))
+        }
+      
+    </div>
+  )
+}
+
+
+const Item= (data:any)=>{
+
+  const { pathname } = useLocation()
+ 
+  const getImageUrl = (uri: any) => {
+    // console.log(uri);
+
+    let url
+    if (uri?.includes('ipfs://')) {
+      // eslint-disable-next-line
+      url = 'https://ipfs.io/ipfs/' + `${uri.split('ipfs://')[1]}`
+    }
+    else url = uri
+    // console.log(url);
+    return url
+
+
+  }
+
+  const { Response, error, fetchData, loading } = UseAxios()
+
+
+  console.log(data.nftData);
+
+
+  const currentAddress: any = sessionStorage.getItem('currentAccount')
+  const navigate = useNavigate()
+
+  const open = () => {
+ 
+    if(!data.nftData?.nftInfo)  navigate(`/item/${data?.nftData?.token_address}/${data?.nftData?.token_id}`)
+    else 
+    navigate(`/item/${data?.nftData?.nftInfo?.address}/${ data?.nftData?.listingInfo?.tokenId}`)
+
+    
+   
+  }
+  console.log(data?.nftData?.nftInfo, data?.nftData?.nftInfo?.address, data?.nftData?.token_id, data?.nftData?.listingInfo?.tokenId);
+  
+  return(
+    <div onClick={open} className="item">
+     <div className="img">
+        <img src={getImageUrl(data.nftData.url || data.nftData?.metadata?.image || data.nftData?.listingInfo?.url)} alt="img" />
+       <div className="details">
+          <div className="name">{data?.nftData?.metadata?.name || data?.nftData?.listingInfo?.name}</div>
+         {data.nftData.listingInfo && <div className="price">
+          <div>Floor</div>
+          {data.nftData.price} {data.nftData.erc20Info.symbol}
+         </div>}
+     </div>
+     </div>
+    
+    </div>
+  )
+}

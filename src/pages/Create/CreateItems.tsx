@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react'
 import useState from 'react-usestateref'
 import { useParams } from 'react-router'
 import { ThemeContext } from '../../context/ThemeContext'
-import ContractContext from '../../context/ContractContext'
+// import ContractContext from '../../context/ContractContext'
 import { Link } from 'react-router-dom'
 import { Cancel } from '@material-ui/icons'
 import { CircularProgress } from '@material-ui/core'
@@ -40,7 +40,7 @@ const CreateItems = () => {
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
   const currentChain = localStorage.getItem('chain')
-  const { handlePutOnSale } = useContext(ContractContext)
+  // const { handlePutOnSale } = useContext(ContractContext)
   const { itemType } = useParams()
   const [priceType, setPriceType] = useState('fixed')
   const [showAdvanced, setShowAdvanced] = useState(false)
@@ -236,14 +236,14 @@ const CreateItems = () => {
     }
   };
 
-  const handleLazy = () => {
-    setUserInput({
-      ...userInput,
-      is_lazy_mint: !userInput.is_lazy_mint,
-    });
-    console.log(userInput.is_lazy_mint);
-    //console.log("feedback")
-  };
+  // const handleLazy = () => {
+  //   setUserInput({
+  //     ...userInput,
+  //     is_lazy_mint: !userInput.is_lazy_mint,
+  //   });
+  //   console.log(userInput.is_lazy_mint);
+  //   //console.log("feedback")
+  // };
   const handleClose = () => {
     setShowModal(false)
     // setUserInput({
@@ -1500,7 +1500,7 @@ const CreateItems = () => {
                   <div className={style.toggleBox}>
                     <label className={style.switchToggle}>
                       <input
-                        onChange={handleLazy}
+                        // onChange={handleLazy}
                         type="checkbox"
                         name="lazyMinting"
                       />
@@ -1511,72 +1511,6 @@ const CreateItems = () => {
                 </div>
               </div>
 
-              {/* <div className={style.fieldBx}>
-                {!showAdvanced ? (
-                  <div
-                    //className={style.advancedBx}
-                    className={`${style.advancedBx} animate__animated animate__fadeInUp `}
-                    onClick={() => setShowAdvanced(!showAdvanced)}
-                  >
-                    <p>Advanced settings</p>
-                    <img src={dark === 'true' ? arrow2 : arrow1} alt="arrow" />
-                  </div>
-                ) : (
-                  <div
-                    //className={style.advancedBxA}
-                    className={`${style.advancedBxA} animate__animated animate__fadeInUp `}
-                  >
-                    <div
-                      className={style.aBxTop}
-                      onClick={() => setShowAdvanced(!showAdvanced)}
-                    >
-                      <p>Advanced settings</p>
-                      <img src={arrowDown} alt="arrow" />
-                    </div>
-                    <div className={style.aBxBody}>
-                      <div className={style.fieldBx}>
-                        <p>Properties</p>
-                        <SelectOption
-                          options={categories}
-                          inputName="categories"
-                        />
-                      </div>
-                      <div className={style.fieldBx}>
-                        <p>Levels</p>
-                        <SelectOption
-                          options={categories}
-                          inputName="categories"
-                        />
-                      </div>
-                      <div className={style.fieldBx}>
-                        <p>Stats</p>
-                        <SelectOption
-                          options={categories}
-                          inputName="categories"
-                        />
-                      </div>
-                      <div className={style.fieldBx2}>
-                        <img
-                          className={style.toggleCheck}
-                          src={check}
-                          alt="toggle"
-                        />
-                        <p>Sensitive content</p>
-                        <div className={style.toggle}>
-                          <div className={style.toggleBox}>
-                            <label className={style.switchToggle}>
-                              <input type="checkbox" name="sensitive" />
-                              <span
-                                className={`${style.sliderToggle} ${style.round}`}
-                              ></span>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div> */}
               <div className={style.submitBx}>
                 <button
                   type="submit"
