@@ -6,6 +6,9 @@ import style from './Collections.module.scss'
 import Close from './assets/close.svg'
 import Happy from './assets/happy.svg'
 import globals from '../../utils/globalVariables'
+import UseAxios from '../../hooks/AxiosConfig/useAxios'
+import Protected from '../../hooks/AxiosConfig/axiosInstance'
+import { useEffect } from 'react'
 //import { CircularProgress } from '@material-ui/core'
 
 const Import = (props: any) => {
@@ -30,59 +33,36 @@ const Import = (props: any) => {
       setIsEmpty(false)
     }
   }
-
+  const {fetchData,Response,error,loading}=UseAxios()
   const importCollection = async (e: any) => {
     e.preventDefault()
     const regex = /^0x[a-fA-F0-9]{40}$/
     if (regex.test(userInputRef.current.address)) {
-      try {
-        setIsLoading(true)
-        // const wallet_address = sessionStorage.getItem('currentAccount')
-        // console.log(wallet_address)
-        const data = await fetch(
-          `${globals.baseURL}/api/collection`,
-          {
-            method: 'POST',
-            body: JSON.stringify({
-              
-              contractAddress: userInput.address,
-              chain: userInput.chain.toLowerCase(),
-            }),
-            headers: {
-              'content-type': 'application/json',
-              'Authorization':`Bearer ${sessionStorage.getItem('token')}`
-            },
-          },
-        )
-        const resp = await data.json()
-        console.log(resp)
-        if (resp.success !== false) {
-          //if (resp.data.nft.length >= 1) {
-          setErr(0)
-          setImported(true)
-          setUserInput({
-            ...userInput,
-            address: '',
-          })
-          setIsLoading(false)
-          //alert('imported successfully')
-          //window.location.assign(`/profile`)
-        } else {
-          setIsLoading(false)
-          setImported(false)
-          setErr(1)
+
+      fetchData({
+        method:'Post',
+        url:'api/collection',
+        axiosInstance:Protected(sessionStorage.getItem('token')),
+        requestConfig:{
+          contractAddress: userInput.address,
+          chain: userInput.chain.toLowerCase()
         }
-      } catch (err) {
-        setIsLoading(false)
-        setImported(false)
-        setErr(1)
-        console.log(err)
-      }
+      })
+    
     } else {
       console.log(err)
       setErr(2)
     }
   }
+
+  useEffect(()=>{
+    if(Response){
+       setImported(true)
+    }
+    if(error){
+      setErr(1)
+    }
+  },[error,Response])
   return (
     <div className={style.import}>
       <div className={style.importContent}>

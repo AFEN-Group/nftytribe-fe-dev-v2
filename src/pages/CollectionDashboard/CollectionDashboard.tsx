@@ -13,9 +13,13 @@ import Container from '../../components/Container/Container'
 import { publicRequest } from '../../utils/requestMethods'
 //import nArrow from './assets/arrow-right.svg'
 import { shortenAddress } from '../../utils/formatting'
+import UseAxios from '../../hooks/AxiosConfig/useAxios'
+import Protected from '../../hooks/AxiosConfig/axiosInstance'
+import { ChainContext } from '../../context/chain'
 
 const CollectionDashboard = () => {
   const [themeState] = useContext<any>(ThemeContext)
+  const {fetchData,Response,loading}=UseAxios()
   const dark = themeState.dark
   let itemNumber = 1
   let itemNumber2 = 1
@@ -27,15 +31,17 @@ const CollectionDashboard = () => {
     period: false,
     chain: false
   })
-
-  const [collections, setCollections] = useState([])
-  const getCollections = async () => {
-    const resp = await publicRequest.get(`/collections`)
-    setCollections(resp.data.data)
-  }
+ /*@ts-ignore*/
+ const collection = Response?.data
+  console.log(collection);
+  
   useEffect(() => {
     window.scrollTo(0, 0)
-    getCollections()
+   fetchData({
+    method:'get',
+    url:'api/collection',
+    axiosInstance:Protected(sessionStorage.getItem('token'))
+   })
   }, [])
   useEffect(() => {
     const heroTitle = document.getElementById('heroTitle')
@@ -64,7 +70,8 @@ const CollectionDashboard = () => {
     }
     return url
   }
-
+  
+  const {chain}=useContext(ChainContext)
   return (
     <>
       {/* <Header /> */}
@@ -148,13 +155,13 @@ const CollectionDashboard = () => {
                 </div> */}
               </div>
               <div className={style.tpTableItems}>
-                {!collections
+                {!collection
                   ? null
-                  : collections.map((collection: any, i) => {
+                  : collection?.results.map((collection: any, i:any) => {
                     return (
-                      collection.title && (
+                      collection.name && (
                         <Link
-                          to={`/collectionDetails/${collection.contract_address}`}
+                          to={`/collectionDetails/${collection.contractAddress}`}
                           className={
                             dark === 'true'
                               ? style.tableItemD
@@ -167,11 +174,11 @@ const CollectionDashboard = () => {
                             <img
                               //src={user}
                               src={`
-                          ${collection?.cover_image?.includes('/ipfs') ||
-                                  collection?.cover_image?.includes('ipfs://')
-                                  ? getImage(collection?.cover_image)
-                                  : collection?.cover_image
-                                    ? collection?.cover_image
+                          ${collection?.coverImage?.includes('/ipfs') ||
+                                  collection?.coverImage?.includes('ipfs://')
+                                  ? getImage(collection?.coverImage)
+                                  : collection?.coverImage
+                                    ? collection?.coverImage
                                     : user
                                 }
                          
@@ -179,13 +186,13 @@ const CollectionDashboard = () => {
                               alt="collection"
                               className={style.user}
                             />
-                            <p>{collection?.title || 'Untitled'}</p>
+                            <p>{collection?.name || 'Untitled'}</p>
                             {/* <img src={arrow2} alt="arrow-up" /> */}
                           </div>
                           <div className={style.itemAlign}>
                             {/* <p>61,555</p> */}
                             {/* <p>0</p> */}
-                            <p style={{ textTransform: 'uppercase' }}>{collection?.chain}</p>
+                            <p style={{ textTransform: 'uppercase' }}>{chain.filter((chain: any) => { return chain.id === collection.chainId })[0].name}</p>
                           </div>
                           {/* <div className={style.itemAlign}>
                               <p>
@@ -199,7 +206,7 @@ const CollectionDashboard = () => {
                             </div> */}
                           <div className={style.itemAlign}>
 
-                            <p>{shortenAddress(collection?.contract_address)}</p>
+                            <p>{shortenAddress(collection?.contractAddress)}</p>
                           </div>
                           {/* <div className={style.itemAlign}>
                             
@@ -267,15 +274,15 @@ const CollectionDashboard = () => {
 
                         </div> */}
 
-              {!collections
+              {!collection
                 ? null
-                : collections.map((collection: any, i) => {
+                : collection?.results.map((collection: any, i:any) => {
                   return (
-                    collection.title && (
+                    collection.name && (
                       <Link
-                        to={`/collectionDetails/${collection.contract_address}`}
+                        to={`/collectionDetails/${collection.contractAddress}`}
                         className={style.tpItem}
-                        key={collection._id}
+                        key={collection.id}
                       >
                         <div className={style.tpLeft}>
                           <p>{itemNumber2++}</p>
@@ -283,9 +290,9 @@ const CollectionDashboard = () => {
                             src={`
                                  ${collection?.cover_image?.includes('/ipfs') ||
                                 collection?.cover_image?.includes('ipfs://')
-                                ? getImage(collection?.cover_image)
-                                : collection?.cover_image
-                                  ? collection?.cover_image
+                                ? getImage(collection?.coverImage)
+                                : collection?.coverImage
+                                  ? collection?.coverImage
                                   : user
                               }
                                 

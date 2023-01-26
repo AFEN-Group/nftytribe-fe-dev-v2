@@ -198,9 +198,9 @@ console.log(userState);
                     <Route
                       path="/collectionDetails/:collectionId"
                       element={<CollectionDetails />}></Route>
-                    {/* <Route
+                    <Route
                       path="/collectionDashboard"
-                      element={<CollectionDashboard />}></Route> */}
+                      element={<CollectionDashboard />}></Route>
                     <Route
                       path="/createOptions"
                       element={<CreateItemOptions />}></Route>

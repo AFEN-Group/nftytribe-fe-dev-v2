@@ -48,7 +48,8 @@ const CollectionDetails = () => {
 
   const collection= collectiondet?.data
 
-  useEffect(() => {fetchCollection({
+  useEffect(() => {
+    fetchCollection({
     method: 'get',
     url: `/api/collection/${collectionId}`,
     axiosInstance: Protected(sessionStorage.getItem('token'))
@@ -59,8 +60,7 @@ const CollectionDetails = () => {
    getData() 
   }, [collection])
   
-  console.log(collection.contractAddress);
-  
+ 
   const getData= async()=>{  
       // @ts-ignore
    if (window.ethereum){
@@ -73,6 +73,8 @@ const CollectionDetails = () => {
      await contract.methods.totalSupply().call()
      ])
      console.log(stat);
+
+    //  setCollectibles(stat[0])
      
    } 
   }
@@ -102,19 +104,16 @@ const CollectionDetails = () => {
         <div className={style.container}>
           <div
             //className={style.coverBx}
-            className={`${style.coverBx} animate__animated animate__fadeInDown `}
+           style={{height:'400px'}} className={`${style.coverBx} animate__animated animate__fadeInDown `}
           >
-            <img src={Cover} alt="cover" />
+            <img style={{ height: '100%' }} src={collection?.bg} alt="cover" />
           </div>
           <div
             //className={style.content}
             className={`${style.content} animate__animated animate__fadeInUp animate__delay-1s `}
           >
             <div className={style.avatar}>
-              {/* <img src={Avatar} alt="avatar" /> */}
-              {/* @ts-ignore */}
-
-              <img src={collection?.cover_image || Avatar} alt="avatar" />
+              <img src={collection?.coverImage || Avatar} alt="avatar" />
             </div>
             <div className={style.collInfo}>
               <div className={style.infoMain}>
@@ -136,7 +135,7 @@ const CollectionDetails = () => {
                       className={`${style.singleBox} ${dark === 'true' ? 'darkGradient' : ''
                         } `}
                     >
-                      <h3>{collectionData?.totalNfts}</h3>
+                      <h3>{collection?.totalNfts}</h3>
                       <p>Items</p>
                     </div>
                     <div
@@ -144,7 +143,7 @@ const CollectionDetails = () => {
                       className={`${style.singleBox} ${dark === 'true' ? 'darkGradient' : ''
                         } `}
                     >
-                      <h3>{collectionData?.totalOwners}</h3>
+                      <h3>{collection?.totalOwners}</h3>
                       <p>Owners</p>
                     </div>
                   </div>

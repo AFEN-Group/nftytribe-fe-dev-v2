@@ -946,9 +946,27 @@
 .tpRight {
   margin-left: 1em;
   //background: lavender;
-  @include flexRegular(row, space-between);
+  @include flexRegular(column, space-between);
+  gap: 12px;
 
   width: 100%;
+
+  >div{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    p{
+      //styleName: Captions/Caption 2 - Regular;
+        font-family: Raleway;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        letter-spacing: 0px;
+        text-align: left;
+        
+    }
+  }
 
   h2 {
     font-family: 'Neue-bold';

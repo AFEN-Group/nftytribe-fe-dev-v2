@@ -9,6 +9,9 @@ import arrow2 from "../assets/arrowgr.svg";
 import user from "../assets/user.svg";
 import nArrow from "../assets/arrow-right.svg";
 import { useTranslation } from "react-i18next";
+import UseAxios from "../../../hooks/AxiosConfig/useAxios";
+import Protected from "../../../hooks/AxiosConfig/axiosInstance";
+import { ChainContext } from "../../../context/chain";
 
 const TopProjects = () => {
   //const [number, setNumber] = useState(1)
@@ -22,19 +25,30 @@ const TopProjects = () => {
     chain: false,
   });
   const [themeState] = useContext<any>(ThemeContext);
+  const {fetchData,Response,error,loading}= UseAxios()
   const dark = themeState.dark;
   let itemNumber = 1;
-  const [collections, setCollections] = useState([]);
-  useEffect(() => {
-    getCollections();
+  // const [collections, setCollections] = useState([]);
+ 
+  /*@ts-ignore*/
+  const collections:any=Response?.data.results
+  
+  const today= new Date()
+  const daysAgo=(day:any)=>{
+    
+   const date= new Date(today.getTime()-(day*60*60*24*1000))
+    return date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear()
+  } 
+   useEffect(() => {
+    fetchData({
+      url: `api/collection/stats/?startDate=${daysAgo(28)}&endDate=${today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear() }`,
+      method:'get',
+      axiosInstance:Protected(sessionStorage.getItem('token'))
+    })
   }, []);
 
-  const getCollections = async () => {
-    const resp = await publicRequest.get(`/collections`);
-    console.log(resp.data.data);
-    //setCollections(resp.data.data.splice(0, 9))
-    setCollections(resp.data.data);
-  };
+  const {chain}=useContext(ChainContext)
+  
 
   const getImage = (uri: any) => {
     let url;
@@ -92,45 +106,12 @@ const TopProjects = () => {
           )}
           <div className={style.topProContainer}>
 
-
+          
             {!collections
               ? null
-              : collections.map((collection: any, i) => {
+              : collections.map((collection: any,id:any) => {
                 return (
-                  collection.title && (
-                    <Link
-                      to={`/collectionDetails/${collection.contract_address}`}
-                      className={style.tpItem}
-                      key={collection._id}>
-                      <div className={style.tpLeft}>
-                        <p>{itemNumber++}</p>
-                        <img
-                          src={`
-                                 ${collection?.cover_image?.includes("/ipfs") ||
-                              collection?.cover_image?.includes("ipfs://")
-                              ? getImage(collection?.cover_image)
-                              : collection?.cover_image
-                                ? collection?.cover_image
-                                : user
-                            }
-                                
-                               `}
-                          alt="collection"
-                        />
-                      </div>
-                      <div className={style.tpRight}>
-                        <div className={style.tprInfo}>
-                          <h2>{collection?.title || "Untitled"}</h2>
-                          {/* <p>Floor price: 0</p> */}
-                          <p >Chain : <span style={{ textTransform: 'uppercase' }}>{collection?.chain}</span></p>
-                        </div>
-                        <div className={style.tprNumbers}>
-                          {/* <p>+ --</p>
-                          <p>Vol: 0</p> */}
-                        </div>
-                      </div>
-                    </Link>
-                  )
+                  <FeaturedProject key={id} img={collection.collection.coverImage} name={collection?.collection.name} chain={chain.filter((chain: any) => { return chain.id === collection.collection.chainId })[0]?.name} percentage={collection.priceChange} fp={collection.floorPrice} vol={collection.nativeVol} id={id} />  
                 );
               })}
           </div>
@@ -146,3 +127,34 @@ const TopProjects = () => {
 };
 
 export default TopProjects;
+
+const FeaturedProject=(props:any)=>{
+  return(
+    <Link
+      to={`/collectionDetails/`}
+      className={style.tpItem}
+    >
+      <div className={style.tpLeft}>
+        <p>{props.id}</p>
+        <div className="img">
+              <img src={ props.img||user }  alt="collection"/>
+          </div>
+      </div>
+      <div className={style.tpRight}>
+        <div className={style.tprInfo}>
+          <h2>{props.name||"Untitled"}</h2>
+          <p style={{ color: '#3CC13B' }}>
+          {props.percentage}
+        </p>  
+        </div>
+         <div style={{display:'flex',gap:'32px'}}>
+          <p>Floor price: {props.fp}</p>
+          <p >vol :{props.vol} <span style={{ textTransform: 'uppercase' }}>{props.chain}</span></p>
+          </div>
+        <div className={style.tprNumbers}>
+         
+        </div>
+      </div>
+    </Link>
+  )
+}

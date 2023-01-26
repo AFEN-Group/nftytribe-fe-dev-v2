@@ -90,7 +90,7 @@ const CreateCollection = () => {
     }
     if (currentChain === '0x38'||currentChain=='0x61') {
       setChain('bsc')
-      setErc721FactoryAddress('0xaa8b7d95c0c2c8814ff15c640141f711dcc43472')
+      setErc721FactoryAddress('0x34d7222be5E93cb8835C0F5eDa63261f3F2F9Bd5')
       // setErc721FactoryAddress(contracts.BSC_erc721FactoryAddress)
       setErc1155FactoryAddress(contracts.BSC_erc1155FactoryAdddress)
     }
