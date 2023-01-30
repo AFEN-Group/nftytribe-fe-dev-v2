@@ -70,6 +70,7 @@ const CollectionDashboard = () => {
     }
     return url
   }
+  console.log(collection);
   
   const {chain}=useContext(ChainContext)
   return (
@@ -161,7 +162,7 @@ const CollectionDashboard = () => {
                     return (
                       collection.name && (
                         <Link
-                          to={`/collectionDetails/${collection.contractAddress}`}
+                          to={`/collectionDetails/${collection.id}`}
                           className={
                             dark === 'true'
                               ? style.tableItemD

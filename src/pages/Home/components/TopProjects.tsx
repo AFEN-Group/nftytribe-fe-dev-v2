@@ -12,6 +12,9 @@ import { useTranslation } from "react-i18next";
 import UseAxios from "../../../hooks/AxiosConfig/useAxios";
 import Protected from "../../../hooks/AxiosConfig/axiosInstance";
 import { ChainContext } from "../../../context/chain";
+import millify from "millify";
+
+
 
 const TopProjects = () => {
   //const [number, setNumber] = useState(1)
@@ -34,6 +37,7 @@ const TopProjects = () => {
   const collections:any=Response?.data.results
   
   const today= new Date()
+  const [timeago,setTimeAgo]=useState(7)
   const daysAgo=(day:any)=>{
     
    const date= new Date(today.getTime()-(day*60*60*24*1000))
@@ -45,7 +49,7 @@ const TopProjects = () => {
       method:'get',
       axiosInstance:Protected(sessionStorage.getItem('token'))
     })
-  }, []);
+  }, [timeago]);
 
   const {chain}=useContext(ChainContext)
   
@@ -86,20 +90,23 @@ const TopProjects = () => {
           {showDrop.period && (
             <div
               className={`${style.drop2}  animate__animated animate__fadeInUp animate__faster`}
-              onClick={() =>
+              onClick={() =>{
+                
                 setShowDrop({ ...showDrop, period: !showDrop.period })
-              }>
+              }}>
               <p
-                onClick={() =>
+                onClick={() =>{setTimeAgo(1)
                   setFilter({ ...filter, period: "Last 24 hours" })
-                }>
+                }}>
                 {t("last-24")}
               </p>
               <p
-                onClick={() => setFilter({ ...filter, period: "Last 7 days" })}>
+                onClick={() => { setTimeAgo(1) 
+                setFilter({ ...filter, period: "Last 7 days" })}}>
                 {t("last-7")}
               </p>
-              <p onClick={() => setFilter({ ...filter, period: "Last month" })}>
+              <p onClick={() => { setTimeAgo(28)
+               setFilter({ ...filter, period: "Last month" })}}>
                 {t("last-month")}
               </p>
             </div>
@@ -111,7 +118,7 @@ const TopProjects = () => {
               ? null
               : collections.map((collection: any,id:any) => {
                 return (
-                  <FeaturedProject key={id} img={collection.collection.coverImage} name={collection?.collection.name} chain={chain.filter((chain: any) => { return chain.id === collection.collection.chainId })[0]?.name} percentage={collection.priceChange} fp={collection.floorPrice} vol={collection.nativeVol} id={id} />  
+                  <FeaturedProject key={id} img={collection.collection.coverImage} name={collection?.collection.name} chain={chain?.filter((chain: any) => { return chain.id === collection.collection.chainId })[0]?.name} percentage={collection.priceChange} fp={collection.floorPrice.toPrecision(2)} vol={millify(collection.nativeVol)} id={id +1} />  
                 );
               })}
           </div>

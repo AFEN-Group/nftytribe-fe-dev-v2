@@ -62,6 +62,8 @@ const ItemCard = (data: any) => {
         : `/exploreBid/${data?.nftData?.collection_address || data?.nftData?.moreInfo.contractAddress}/${data?.nftData?.id || data?.nftData?.id}`)
   
       }
+      
+      
   return (
     <div className={style.card}>
       <div className={style.cardContent}>
@@ -123,8 +125,8 @@ const ItemCard = (data: any) => {
               )}
               {/* <img src={koala} alt="item" /> */}
             </div>
-          {
-            pathname.includes('explore') && <div  style={{justifyContent:'right'}} onClick={(e)=>e.stopPropagation()} className={style.cardTop}>
+          
+           <div  style={{justifyContent:'right'}} onClick={(e)=>e.stopPropagation()} className={style.cardTop}>
               {/* <img src={dots} alt="options" /> */}
               {/* <img onClick={(e)=>console.log(data.nftData.isLiked)} src={like} alt="like" /> */}
              <Like onClick={()=>fetchData({
@@ -133,30 +135,30 @@ const ItemCard = (data: any) => {
                 axiosInstance:Protected(sessionStorage.getItem('token'))
               })} fill={data.nftData?.isLiked?'#ff0000':'none'}/>
             </div>
-          } 
+          
           </div>
         )}
-        {!showFull && pathname.includes('explore')&& (
+     
           <div
             //className={style.descBox1}
             className={`${style.descBox1} animate__animated animate__fadeIn `}
           >
             <div className={style.userInfo} onClick={() => setShowFull(true)}>
               <img src={user} alt="user" />
-              {data && (
-                <p>
-                  {userName 
-                  || shortenAddress(data.nftData?.user?.walletAddress||data.nftData.owner_of)
-                  }
-                  </p>
-              )}
+              {/* {data && (
+                // <p>
+                //   {userName 
+                //   || shortenAddress(data.nftData?.user?.walletAddress||data?.nftData?.owner_of)
+                //   }
+                //   </p>
+              )} */}
               <img src={arrow} alt="arrow" />
             </div>
             <div className={style.itemInfo}>
               <p>{data?.nftData?.title}</p>
             </div>
           </div>
-        )}
+     
         {showFull && (
           <div
             className={`${style.descBox2} animate__animated animate__fadeIn `}
@@ -245,7 +247,7 @@ const ItemCard = (data: any) => {
                 {/* )} */}
                 <div className={style.aright}>
 
-                  <p>${usdPrice?.toFixed(2)  } </p>
+                  {/* <p>${usdPrice?.toFixed(2)  } </p> */}
                   {/* <p>{getUsdPrice(data?.nftData?.price.toString())}</p>
                   <p>{shortenAddress(data?.nftData?.wallet_address)}</p> */}
                 </div>

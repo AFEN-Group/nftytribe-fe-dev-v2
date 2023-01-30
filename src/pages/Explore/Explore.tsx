@@ -362,7 +362,7 @@ const Explore = () => {
                     <form
                       onClick={()=>setMFilter('')}
                       className={`${style.filterDrop} 
-${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate__fadeInUp animate__faster`}
+                    ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate__fadeInUp animate__faster`}
                     //onClick={(e) => setFilter('')}
                     >
                       <div className={style.filterItem}>
@@ -469,10 +469,10 @@ ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate_
             </div>
 
             <div
-              //className={style.body}
+            
               className={`${style.body} animate__animated animate__fadeInUp animate__delay-2s`}>
               <div
-                //className={style.sideBar}
+                
                 className={`${style.sideBar} ${dark === "true" ? "darkGradient" : "lightGradient"
                   } `}
                 id="sidebar">

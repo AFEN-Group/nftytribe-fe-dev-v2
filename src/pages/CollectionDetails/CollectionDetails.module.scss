@@ -168,8 +168,8 @@
   .sideBar {
     width: 24%;
     min-width: 280px;
-    height: 100vh;
-    // min-height: 100vh;
+   
+    min-height: 100vh;
     //width: 315px;
     //height: 90vh;
     padding: 2em 1em;
@@ -196,11 +196,15 @@
 }
 
 .sBItem {
-  //   background: lavender;
   position: relative;
-  margin: 2em 0 3em 0;
-  @include flexRegular(row, flex-start);
+  //background: lavender;
+  //margin: 2em 0 3em 0;
+  // gap: 24px;
+  justify-content: space-between !important;
+  width: 70%;
   cursor: pointer;
+  margin: 3em 0;
+  @include flexRegular(row, flex-start);
 
   img {
     margin-left: 1em;
@@ -208,6 +212,7 @@
 
   p {
     font-weight: 300;
+
   }
 }
 
@@ -215,17 +220,20 @@
 // fiter styles
 .filterBxL,
 .filterBxD {
-  background: #fff;
   border: 1px solid #52525B;
-  border-radius: 4px;
-  padding: 1.5em 1.5em 1.5em 1.5em;
-  @include flexRegular(column, center);
-  align-items: flex-start;
+    gap: 24px;
+    border-radius: 4px;
+    padding: 1.5em 1.5em 1.5em 1.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+  
 
-  // p {
-  //   background: pink;
-  //   margin-right: 2em;
-  // }
+  p{
+    margin: 0;
+  }
 }
 
 .filterBxL {
@@ -239,10 +247,11 @@
 .filterItem1,
 .filterItem {
   position: relative;
+  gap: 24px;
   @include flexRegular(row, flex-start);
 
   .radioBx {
-    background: pink;
+    //background: pink;
     margin-left: 6em;
   }
 
@@ -253,7 +262,7 @@
 
   .filterTxt {
     //background: pink;
-    width: 90px;
+    width: 110px;
   }
 }
 
@@ -314,9 +323,7 @@
 
 /* */
 
-.filterItem {
-  margin-top: 2em;
-}
+
 
 /***/
 
