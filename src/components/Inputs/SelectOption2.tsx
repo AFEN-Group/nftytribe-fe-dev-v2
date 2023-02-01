@@ -24,8 +24,8 @@ const SelectOption2 = (props: any) => {
                 {
                     props.options.map((opt: any) => (
                         (opt.title || opt.symbol) && (
-                            <option value={opt.contract_address} key={opt._id}>
-                                {opt.title || opt.symbol}
+                            <option value={opt.contractAddress} key={opt._id}>
+                                {opt.name || opt.symbol}
                             </option>)
                     ))}
             </select>

@@ -15,6 +15,7 @@ const SelectOption = (props: any) => {
         onChange={props.inputHandler}
         required
       >
+        <option disabled selected>Select Option</option>
         {props.options.map((opt: any) => (
           <option value={opt.value} key={opt.value}>
             {opt.text}

@@ -7,7 +7,7 @@ import { ThemeContext } from '../../context/ThemeContext'
 import WalletContext from '../../context/WalletContext'
 import { shortenAddress, shortenAddressSmall } from '../../utils/formatting'
 import style from './ConnectWallet.module.scss'
-
+import UAuth from '@uauth/js'
 import Cancel from './assets/x.svg'
 import Cancel2 from './assets/x2.svg'
 import User from './assets/profile.svg'
@@ -15,6 +15,7 @@ import User2 from './assets/profile2.svg'
 import Metamask from './assets/metamask.svg'
 import Wc from './assets/wc.svg'
 import TWT from './assets/TWT.png'
+import Uath from '../../assets/download.png'
 import SPL from './assets/SafePal_logo.jpg'
 //import Coinbase from './assets/coinbase.svg'
 import Check from './assets/check.svg'
@@ -186,19 +187,26 @@ const ConnectWallet = (props: any) => {
     disconnectSafePal()
 
   }
-  // const connectTrustWallet= async ()=>{
-  //   disableEthereum()
-  //   disconnectWalletConnect()
-  //   props.handleModal()
-  //   connectTrustwallet()
-  //   disconnectSafePal()
-
-  // }
+  const uauth = new UAuth({
+    clientID: "45721300-737c-40a0-91af-e187fff1634d",
+    redirectUri: "http://localhost:3000",
+    scope: "openid wallet email profile:optional social:optional"
+  })
   const connectsafepal= async ()=>{
     disableEthereum()
     disconnectWalletConnect()
     props.handleModal()
     connectSafePal()
+
+  }
+
+  const connectUauth=async()=>{
+    const res= await uauth.loginWithPopup()
+    let address = res.idToken.wallet_address
+    sessionStorage.setItem('chain', window.ethereum.chainId)
+    // @ts-ignore
+    sessionStorage.setItem('currentAccount', address)
+    setUserState({ ...userState, currentAccount: res.idToken.wallet_address, walletType: 'Metamask' })
 
   }
 
@@ -490,10 +498,14 @@ const ConnectWallet = (props: any) => {
                 </div>
              
                 <div className={style.wallets}>
-                  <div className={style.wallet} onClick={handleSignIn}>
-                    <img src={Metamask} alt="metamask" />
-                    <p>Metamask</p>
-                  </div>
+                    <div className={style.wallet} onClick={handleSignIn}>
+                      <img src={Metamask} alt="metamask" />
+                      <p>Metamask</p>
+                    </div>
+                     <div className={style.wallet} onClick={connectUauth}>
+                      <img style={{width:'40px'}} src={Uath} alt="metamask" />
+                      <p>Unstoppable Domain</p>
+                    </div>
 
                   <div className={style.wallet} onClick={handleSignIn2}>
                     <img src={Wc} alt="wallet-connect" />

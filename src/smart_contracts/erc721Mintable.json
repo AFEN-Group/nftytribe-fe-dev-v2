@@ -397,6 +397,11 @@
         "type": "uint256"
       },
       {
+        "internalType": "contract IRouter",
+        "name": "_router",
+        "type": "address"
+      },
+      {
         "internalType": "address",
         "name": "_WETH",
         "type": "address"
@@ -725,7 +730,7 @@
       },
       {
         "internalType": "bytes",
-        "name": "_data",
+        "name": "data",
         "type": "bytes"
       }
     ],
@@ -805,6 +810,19 @@
       }
     ],
     "name": "setMintingCharge",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IRouter",
+        "name": "_router",
+        "type": "address"
+      }
+    ],
+    "name": "setRouter",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

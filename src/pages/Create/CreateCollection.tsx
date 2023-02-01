@@ -97,37 +97,7 @@ const CreateCollection = () => {
 
   }, [])
 
-  // const selectMedia = async (e: any) => {
-  //   setIsLoading(true)
-  //   if (e.target.files && e.target.files.length > 0) {
-  //     setImageFile({
-  //       ...imageFile,
-  //       file: e.target.files[0],
-  //     })
-  //     var form_data = new FormData()
-  //     form_data.append('upload', e.target.files[0])
-  //     try {
-  //       const resp = await fetch(
-  //         `${globals.baseURL}/collectibles/upload-image`,
-  //         {
-  //           method: 'POST',
-  //           body: form_data,
-  //         },
-  //       )
-  //       const data = await resp.json()
-  //       setImageFile({
-  //         ...imageFile,
-  //         file: e.target.files[0],
-  //         location: data.location,
-  //       })
-  //       console.log('image>>>', data)
-  //       setIsLoading(false)
-  //     } catch (error) {
-  //       console.log(error)
-  //       setIsLoading(false)
-  //     }
-  //   }
-  // }
+ 
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
@@ -138,12 +108,7 @@ const CreateCollection = () => {
         eMsg: '',
       })
       setIsLoading(true)
-      // const chain = 'eth'
-      // const erc721Factory = contracts.erc721FactoryAddress
-      // const erc1155Factory = contracts.erc1155FactoryAddress
-      // console.log(contract_address, '<< contract ?')
-      // console.log(wallet_address, '<< wallet ?')
-      //'0xb1d612aB4FfF891E4A0042d4DF9C1F257eaeBb74'
+     
       let factoryContract
       let web3: any
       if (window.ethereum && wallet_address) {

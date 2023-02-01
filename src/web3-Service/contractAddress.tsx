@@ -13,7 +13,7 @@ export default {
   erc1155MarketplaceAddress: '0xe8178cDD8f856dDEf34796906b1700BC4f39D86f',
 
   // BSC
-  BSC_erc721MintableAddress: '0x338606d76e6bf296F4d4A0DcFA4623806a2B5C0F', //test
+  BSC_erc721MintableAddress: '0x3F257723EDe23FBEbf951659dFABe86139742ea8', //test
   // BSC_erc721MintableAddress: '0xd0a0fc438c162fc2633e3ed784db0049bd3a543f', //mainnet
   BSC_erc721FactoryAddress: '0xaA8b7D95C0C2C8814ff15c640141F711dCC43472', //test
   // BSC_erc721FactoryAddress: '0x96788ce9a1a51338060a8e8c4cadf0f0f29ef3f3',//main

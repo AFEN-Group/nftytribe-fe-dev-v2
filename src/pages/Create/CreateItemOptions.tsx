@@ -69,7 +69,7 @@ const CreateItemOptions = () => {
     }
     if (network === 'binance') {
       if (currentChain === globals.mainnetBsc.chainId) {
-        setChain(network)
+        setChain('0x61')
       } else {
         setBlockChain("Binance")
         setShowModal(true)

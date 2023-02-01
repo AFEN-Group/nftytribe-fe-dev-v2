@@ -44,8 +44,8 @@ const CreateSteps = (props: any) => {
               className={`${style.modalSm} `}
             >
               <div className={style.modalTop2}>
-                <h1>Step 1 : Mint your NFT</h1>
-                <p>Mint your NFT on NftyTribe marketplace..</p>
+                <h1> Minting your NFT</h1>
+                <p>Minting your NFT on NftyTribe marketplace..</p>
                 <img src={Close} alt="close" onClick={props.handleClose} />
               </div>
               <div className={style.modalBody2}>

@@ -81,6 +81,8 @@ function App() {
   }
    
   const create= async()=>{
+    console.log('creating');
+    
     try {
 
     
@@ -108,6 +110,8 @@ function App() {
   console.log(sessionStorage.getItem('token'));
   
   const login= async()=>{
+     console.log('logging in');
+     
     try {
 
       const user = {
