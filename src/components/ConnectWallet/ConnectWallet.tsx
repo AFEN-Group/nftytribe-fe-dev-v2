@@ -189,7 +189,7 @@ const ConnectWallet = (props: any) => {
   }
   const uauth = new UAuth({
     clientID: "45721300-737c-40a0-91af-e187fff1634d",
-    redirectUri: "http://localhost:3000",
+    redirectUri: "https://staging.nftytribe.io",
     scope: "openid wallet email profile:optional social:optional"
   })
   const connectsafepal= async ()=>{
