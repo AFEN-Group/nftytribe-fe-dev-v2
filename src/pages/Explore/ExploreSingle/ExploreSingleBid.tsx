@@ -309,6 +309,22 @@ const getTimeleft=()=>{
         setShowBid(false)
         setShowPutOnSale(false)
     }
+    const [bids,setBids]=useState([])
+    const getOffers=async()=>{
+       let offers= await Protected(sessionStorage.getItem('token'))['get'](`api/nft/bids/${id}`)
+       console.log(offers);
+       setBids(offers.data.results)
+       
+    }
+
+    const getDate=(data:string)=>{
+        const date = new Date(data)
+        return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`
+    } 
+    const time = (data: string) => {
+        const date = new Date(data)
+        return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+    }
 
    
     return (
@@ -405,19 +421,21 @@ const getTimeleft=()=>{
                                         >
                                             <p>The Art</p>
                                         </div>
-                                        <div
+                                        {/* <div
                                             className={
                                                 tab === 'activity' ? style.navItemActive : style.navItem
                                             }
                                             onClick={() => setTab('activity')}
                                         >
                                             <p>The Activity</p>
-                                        </div>
+                                        </div> */}
                                         <div
                                             className={
                                                 tab === 'offers' ? style.navItemActive : style.navItem
                                             }
-                                            onClick={() => setTab('offers')}
+                                            onClick={() =>{
+                                                getOffers()
+                                                setTab('offers')}}
                                         >
                                             <p>Offers</p>
                                         </div>
@@ -567,109 +585,36 @@ const getTimeleft=()=>{
 
                                     </div>
                                 )}
-                                {tab === 'activity' && (
-                                    <div
-                                        className={`${style.activity} animate__animated animate__fadeIn`}
-                                    >
-                                        <div className={style.activitySingle}>
-                                            <div className={style.aAddress}>
-                                                <p>Address</p>
-                                            </div>
-                                            <div className={style.aType}>
-                                                <p>Activity type</p>
-                                            </div>
-                                            <div className={style.aDate}>
-                                                <p>Date</p>
-                                            </div>
-                                        </div>
-                                        {activities?.map((activity: any, i: any) => (
-                                            <div className={style.activitySingle} key={activity._id}>
-                                                <div className={style.aAddress}>
-                                                    {activity.to ? (
-                                                        <p>{shortenAddress(activity?.to)}</p>
-                                                    ) : (
-                                                        <p>{shortenAddress(activity?.from)}</p>
-                                                    )}
-                                                </div>
-                                                <div className={style.aType}>
-                                                    <p>{activity?.type}</p>
-                                                </div>
-                                                <div className={style.aDate}>
-                                                    <p>{activity?.timeStamp.substr(0, 10)}</p>
-                                                    {/* <p>{activity.timestamp}</p> */}
-                                                </div>
-                                            </div>
-                                        ))}
-                                        {/* <div className={style.activitySingle}></div> */}
-
-                                        {/* <div>
-                      {activities?.map((activity: any, i: any) => {
-                        return (
-                          activity?._id && (
-                            <div
-                              className={style.activitySingle}
-                              key={activity._id}
-                            >
-                              <div className={style.aAddress}>
-                                <p>{activity.from}</p>
-                              </div>
-                              <div className={style.aType}>
-                                <p>{activity.type}jjjjj</p>
-                              </div>
-                              <div className={style.aDate}>
-                                <p>{activity.timestamp.substr(0, 10)}</p>
-                              </div>
-                              <div className="">
-                                <p>hhhhh</p>
-                              </div>
-                            </div>
-                          )
-                        )
-                      })}
-                    </div> */}
-                                    </div>
-                                )}
+                               
                                 {tab === 'offers' && (
                                     <div
                                         className={`${style.offers} animate__animated animate__fadeIn`}
                                     >
                                         <div className={style.offersContent}>
-                                            <div className={style.offer}>
-                                                <div className={style.offerUser}>
-                                                    <p>No offers</p>
+                                           {
+                                          bids.length>0 &&  bids?.map((result:any)=>(
+                                                <div className={style.offer}>
+                                                    <div style={{width:'15%'}} className={style.offerUser}>
+                                                       
+                                                        <p>{result?.user.username}</p>
+                                                    </div>
+                                                  <div style={{ width: '25%' }} className={style.offerAddr}>
+                                                        <p>{shortenAddress(result?.user.walletAddress)}</p>
+                                                    </div>
+                                                  <div style={{ width:'fit-content' }} className={style.offerAddr}>
+                                                        <p>{result.amount + tokenName}</p>
+                                                    </div>
+                                                    <div className={style.offerAddr}>
+                                                        <p>{getDate(result.createdAt)}</p>
+                                                    </div>
+                                                    <div className={style.offerAddr}>
+                                                        <p>{time(result.createdAt)}</p>
+                                                    </div>
                                                 </div>
-                                                {/* <div className={style.offerAddr}>
-                          <p>0x120999...</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>0.07BNB</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>01/07/21</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>12:33:08</p>
-                        </div> */}
-                                            </div>
-                                            {/* <div className={style.offer}>
-                        <div className={style.offerUser}>
-                          <img src={User} alt="user" />
-                          <p>Michael Carson</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>0x120999...</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>0.07BNB</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>01/07/21</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>12:33:08</p>
-                        </div>
-                      </div>
-                      <div className={style.offer}>
+                                            ))
+                                           }
+                                          
+                      {/*  <div className={style.offer}>
                         <div className={style.offerUser}>
                           <img src={User} alt="user" />
                           <p>Michael Carson</p>
