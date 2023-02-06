@@ -431,11 +431,11 @@ console.log(nft);
                           // disabled={
                           //   isLoading
                           // }
-                          className={`${nft?.listingType ? style.regBtn : style.regBtn2
+                          className={`${nft?.isListed ? style.regBtn : style.regBtn2
                             } ${dark === 'true' ? 'yellowBtn' : 'blueBtn'} `}
                           onClick={handleSubmit}
                         >
-                          {!nft?.listingType ?
+                          {!nft?.isListed ?
                             'Not On Sale'
                             : 'Buy'}
                         </button>
@@ -474,10 +474,7 @@ console.log(nft);
                         </button>
                       ) : (
                         <button
-                          // disabled={
-                          //   !isLoaded || isLoading
-                          //   // || nftDetails?.on_sale // remove on sale check
-                          // }
+                         
                           className={`${style.regBtn} ${dark === 'true' ? 'lightBorder' : 'darkBorder'} 
                                                         ${dark === 'true' ? 'lightTxt' : 'darkTxt'
                             }`}

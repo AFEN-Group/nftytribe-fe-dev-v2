@@ -50,7 +50,7 @@ const CreateItems = () => {
   const [showAdvanced, setShowAdvanced] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [showModal, setShowModal] = useState(false)
-  const [step, setStep] = useState(0)
+  const [step, setStep] = useState(1)
   const [collection, setCollection] = useState('afen')
   const [returnValues, setReturnValues] = useState<any>()
   const [response0, setResponse0] = useState<any>()
@@ -221,45 +221,48 @@ const CreateItems = () => {
     e.preventDefault();
     const formData= new FormData();
     
-    // if (imageFile === '') {
-    //   setMsg({
-    //     ...msg,
-    //     eMsg: "* Please choose a file! *",
-    //   });
-    //     } else {
-    //   setMsg({
-    //     ...msg,
-    //     eMsg: '',
-    //   })
-    //    setShowModal(true)
-    //    setIsLoading(true)
-    //   formData.append('image',imageFile);
+    if (imageFile === '') {
+      setMsg({
+        ...msg,
+        eMsg: "* Please choose a file! *",
+      });
+        } else {
+      setMsg({
+        ...msg,
+        eMsg: '',
+      })
+       setShowModal(true)
+       setIsLoading(true)
+      formData.append('image',imageFile);
       try {
-      //   const imgRes= await Protected(sessionStorage.getItem('token'))['post']('api/uploads/temp/nft',formData)
-      // const key=imgRes.data.key
+        const imgRes= await Protected(sessionStorage.getItem('token'))['post']('api/uploads/temp/nft',formData)
+      const key=imgRes.data.key
 
-    //  await fetchData({
-    //     method:'post',
-    //     url:'api/nft/create-nft',
-    //     axiosInstance:Protected(sessionStorage.getItem('token')),
-    //     requestConfig:{
-    //       name:userInput.title,
-    //       description:userInput.description,
-    //       website:'www.kachi.com',
-    //       imageKey:key,
-    //       lazyMint:false
-    //     }
-    //   })
+     await fetchData({
+        method:'post',
+        url:'api/nft/create-nft',
+        axiosInstance:Protected(sessionStorage.getItem('token')),
+        requestConfig:{
+          name:userInput.title,
+          description:userInput.description,
+          website:'www.kachi.com',
+          imageKey:key,
+          lazyMint:false
+        }
+      })
       // @ts-ignore
       const contract = new web3.eth.Contract(abi,userInput.collection_address)
 
-      // @ts-ignore
+     
         // console.log(Response?.data?.uri, userInput.royalties);
        const charge= await contract.methods.mintingCharge().call()
        console.log(contract,userInput.collection_address);
-       
-      // const mint = await contract.methods.mint(Response?.data?.uri,userInput.royalties).send({from:wallet_address}).send({from:wallet_address})
-      console.log(charge);
+     
+    console.log(charge,'calling'); // @ts-ignore
+      await contract.methods.mint(Response?.data?.uri, userInput.royalties).send({from:wallet_address,value:charge})
+      setStep(4)
+   
+
       
       
      
@@ -272,7 +275,7 @@ const CreateItems = () => {
 
       
 
-    // }
+    }
   };
 
   
@@ -283,7 +286,7 @@ const CreateItems = () => {
       {showModal && (
         <CreateSteps
           handleClose={handleClose}
-          step={1}
+          step={step}
           handleSteps={''}
           isLoading={isLoading}
           msg={msg}
@@ -467,7 +470,7 @@ const CreateItems = () => {
                   type="submit"
                   onClick={onSubmit}
                   
-                  // disabled={isLoading || !validated}
+                  disabled={isLoading || !validated}
                   className={dark === "true" ? "yellowBtn" : "blueBtn"}>
                   {!isLoading ? (
                     "Create"

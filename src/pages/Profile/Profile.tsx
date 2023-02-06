@@ -429,12 +429,12 @@ const Item= (data:any)=>{
  
     if(!data.nftData?.nftInfo)  navigate(`/item/${data?.nftData?.token_address}/${data?.nftData?.token_id}`)
     else 
-    navigate(`/item/${data?.nftData?.nftInfo?.address}/${ data?.nftData?.listingInfo?.tokenId}`)
+    navigate(`/item/${data?.nftData?.nftInfo?.address}/${ data?.nftData?.id}`)
 
     
    
   }
-  console.log(data?.nftData?.nftInfo, data?.nftData?.nftInfo?.address, data?.nftData?.token_id, data?.nftData?.listingInfo?.tokenId);
+  console.log(data?.nftData?.nftInfo, data?.nftData?.nftInfo?.address, data?.nftData?.id, data?.nftData?.listingInfo?.tokenId);
   
   return(
     <div onClick={open} className="item">
