@@ -23,6 +23,7 @@ import Protected from '../../hooks/AxiosConfig/axiosInstance'
 import { type } from 'os'
 import { UserContext } from '../../context/UserContext'
 import { NfcTwoTone } from '@material-ui/icons'
+import { ChainContext } from '../../context/chain'
 
 const Profile = () => {
   //const [tab, setTab] = useState('all')
@@ -32,6 +33,8 @@ const Profile = () => {
   // const user = authState.user
   ///console.log(user)
   const [collectibles, setCollectibles] = useState<any>()
+  const { chain } = useContext(ChainContext)
+
   const currentAddress: any = sessionStorage.getItem('currentAccount')
   const currentChainId = sessionStorage.getItem('chain')
   const [res, setRes] = useState<any>()
@@ -66,7 +69,7 @@ const Profile = () => {
     // console.log(currentAddress);
      setUserState({...userState,currentAddress:currentAddress})
   }, [currentAddress])
-  console.log(collectibles?.length >= 1 && query === 'on_sale')
+ 
 
   useEffect(() => {
     console.log(currentPage);
@@ -74,6 +77,14 @@ const Profile = () => {
       Data({
         method: 'get',
         url: `api/nft/user/${currentAddress}?page=${currentPage!==null && currentPage}&chain=${currentChainId}`,
+        axiosInstance: Protected(sessionStorage.getItem('token'))
+      })
+    }
+
+    else if(query=='on_sale'){
+      Data({
+        method: 'get',
+        url: `api/nft/listings?owner=${currentAddress}&chain=${chain.filter((chain: any) => { return chain.chain === currentChainId })[0].id}`,
         axiosInstance: Protected(sessionStorage.getItem('token'))
       })
     }
@@ -231,18 +242,7 @@ const Profile = () => {
             >
               <p>On sale</p>
             </div>
-            <div
-              className={
-                query === 'created' && dark === 'true'
-                  ? style.darkActive
-                  : query === 'created' && dark !== 'true'
-                    ? style.lightActive
-                    : style.filterItem
-              }
-              onClick={(e) => setQuery('created')}
-            >
-              <p>Created</p>
-            </div>
+           
         
             <div
               className={

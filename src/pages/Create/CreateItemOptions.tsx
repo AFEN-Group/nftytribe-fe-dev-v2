@@ -21,7 +21,7 @@ import globals from '../../utils/globalVariables'
 
 const CreateItemOptions = () => {
   const [chain, setChain] = useState('')
-  const currentChain = localStorage.getItem('chain')
+  const currentChain = sessionStorage.getItem('chain')
   const [showModal, setShowModal] = useState<any>()
   const [showPrompt, setShowPrompt] = useState(false)
   const [blockChain, setBlockChain] = useState<any>()
@@ -68,16 +68,16 @@ const CreateItemOptions = () => {
       }
     }
     if (network === 'binance') {
-      if (currentChain === globals.mainnetBsc.chainId) {
+      console.log(currentChain, globals.testnetBsc.chainId);
+      
+      if (currentChain === globals.testnetBsc.chainId) {
         setChain('0x61')
       } else {
         setBlockChain("Binance")
         setShowModal(true)
       }
     }
-    // } else {
-    //   setShowPrompt(true)
-    // }
+   
   }
 
   const closeModal = () => {

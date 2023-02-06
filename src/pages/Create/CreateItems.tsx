@@ -250,17 +250,8 @@ const CreateItems = () => {
           lazyMint:false
         }
       })
-      // @ts-ignore
-      const contract = new web3.eth.Contract(abi,userInput.collection_address)
-
      
-        // console.log(Response?.data?.uri, userInput.royalties);
-       const charge= await contract.methods.mintingCharge().call()
-       console.log(contract,userInput.collection_address);
      
-    console.log(charge,'calling'); // @ts-ignore
-      await contract.methods.mint(Response?.data?.uri, userInput.royalties).send({from:wallet_address,value:charge})
-      setStep(4)
    
 
       
@@ -278,7 +269,33 @@ const CreateItems = () => {
     }
   };
 
-  
+  const Mint=async()=>{
+    try {
+      // @ts-ignore
+      const contract = new web3.eth.Contract(abi, userInput.collection_address)
+
+
+      // console.log(Response?.data?.uri, userInput.royalties);
+      const charge = await contract.methods.mintingCharge().call()
+      // console.log(contract, userInput.collection_address);
+      // @ts-ignore
+      console.log(charge, 'calling', Response?.data?.uri, userInput.royalties); // @ts-ignore
+
+      // await contract.methods.mint(Response?.data?.uri, userInput.royalties).send({ from: wallet_address, value: charge })
+      // setStep(4)
+      const url = await contract.methods.tokenURI(3).call()
+      console.log(url);
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+
+  useEffect(()=>{
+   if(Response) Mint()
+   else return
+  },[Response])
   const { t } = useTranslation();
   return (
     <>
