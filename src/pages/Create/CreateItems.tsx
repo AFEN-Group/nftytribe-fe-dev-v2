@@ -279,12 +279,13 @@ const CreateItems = () => {
       const charge = await contract.methods.mintingCharge().call()
       // console.log(contract, userInput.collection_address);
       // @ts-ignore
-      console.log(charge, 'calling', Response?.data?.uri?.replace('ipfs://',''), userInput.royalties); // @ts-ignore
+      // console.log(charge, 'calling', Response?.data?.uri?.replace('ipfs://',''), userInput.royalties);
+       // @ts-ignore
 
-      await contract.methods.mint(Response?.data?.uri?.replace('ipfs://', ''), userInput.royalties).send({ from: wallet_address, value: charge })
+      await contract.methods.mint(Response?.data?.uri, userInput.royalties).send({ from: wallet_address, value: charge })
       setStep(4)
-      // const url = await contract.methods.tokenURI(5).call()
-      // console.log(url);
+      const url = await contract.methods.tokenURI(8).call()
+      console.log(url);
       
     } catch (error) {
       console.log(error);
