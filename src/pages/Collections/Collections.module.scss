@@ -114,9 +114,10 @@
 
 .collectionsContainer {
   margin-top: 3.5em;
-  @include gridRegular(2.5em);
-  grid-template-columns: 2fr 2fr 2fr;
+   display: flex;
   align-items: flex-start;
+  gap: 24px;
+  flex-wrap: wrap;
 }
 
 // Import

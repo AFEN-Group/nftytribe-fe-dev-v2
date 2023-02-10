@@ -273,14 +273,16 @@
 
   .itemsContent {
     padding: 0 0 1em 0;
-    // @include flexRegular(row, flex-start);
-    //background: pink;
-    @include gridRegular(1em);
-    grid-template-columns: 2fr 2fr 2fr;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
     align-items: flex-start;
     justify-content: flex-start;
 
-
+    >div{
+      width: 32% !important;
+      height: 420px;
+    }
     &::-webkit-scrollbar {
       display: none;
     }

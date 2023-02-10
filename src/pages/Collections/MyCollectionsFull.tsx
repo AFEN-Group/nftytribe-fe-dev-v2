@@ -56,11 +56,13 @@ const MyCollectionsFull = () => {
     }
   
   }
+  const [update,setUpdate]=useState(false)
   const [collections, setCollections] = useState([])
   useEffect(() => {
-   if(userState?.user?.id) getCollections()
-  }, [userState])
- console.log(collections);
+   if(userState?.user?.id||update) getCollections()
+   setUpdate(false)
+  }, [userState,update])
+ 
  
   const closeImport = () => {
     setShowImport(false)
@@ -146,7 +148,7 @@ const MyCollectionsFull = () => {
                   : collections.map((collection: any, i) => {
                     return (
                     
-                        <CollectionCard data={collection} />
+                        <CollectionCard key={collection?.id} update={()=>setUpdate(true)} data={collection} />
                       )
                     
                   })}

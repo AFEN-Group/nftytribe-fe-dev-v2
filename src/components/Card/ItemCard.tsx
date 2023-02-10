@@ -12,6 +12,7 @@ import style from './Card.module.scss'
 import { ThemeContext } from '../../context/ThemeContext'
 import UseAxios from '../../hooks/AxiosConfig/useAxios'
 import Protected from '../../hooks/AxiosConfig/axiosInstance'
+import { Star } from './CollectionCard'
 
 
 const ItemCard = (data: any) => {
@@ -62,8 +63,27 @@ const ItemCard = (data: any) => {
         : `/exploreBid/${data?.nftData?.collection_address || data?.nftData?.moreInfo.contractAddress}/${data?.nftData?.id || data?.nftData?.id}`)
   
       }
-      
-      
+  const patchData = async(action: string) => {
+   try{ 
+    await fetchData({
+      method: 'post',
+      url: action === 'watch'?`api/nft/listings/${data?.nftData.id}/watch`:`api/nft/${action}/${data?.nftData?.id}`,
+      axiosInstance: Protected(sessionStorage.getItem('token'))
+
+    })
+    data.update()
+  }
+    catch(error){
+
+    }
+  }
+
+  
+  const time = (data: string) => {
+    const date = new Date(data)
+    
+    return ` ${date.getDay()}d ${date.getHours()}h ${date.getMinutes()}m ${date.getSeconds()}s`
+  }   
   return (
     <div className={style.card}>
       <div className={style.cardContent}>
@@ -85,20 +105,11 @@ const ItemCard = (data: any) => {
                   alt="item"
                 />
               )}
-              {data?.nftData?.cardImage === '' && (
-                <img
-                  //className={style.imgBg}
-                  src={koala}
-                  alt="item"
-                />
-              )}
+              
               {/* <img src={koala} alt="item" /> */}
             </div>
-            <div onClick={(e)=>e.stopPropagation()} className={style.cardTop}>
-              {/* <img src={dots} alt="options" />  */}
-              <img src={like} alt="like" />
-              
-            </div>
+          
+            
           </div>) : (
           <div onClick={()=>open(data) }
             //to={`/explore/22/22`}
@@ -125,140 +136,59 @@ const ItemCard = (data: any) => {
               )}
               {/* <img src={koala} alt="item" /> */}
             </div>
+             
+             
           
-           <div  style={{justifyContent:'right'}} onClick={(e)=>e.stopPropagation()} className={style.cardTop}>
-              {/* <img src={dots} alt="options" /> */}
-              {/* <img onClick={(e)=>console.log(data.nftData.isLiked)} src={like} alt="like" /> */}
-             <Like onClick={()=>fetchData({
-                method:'post',
-                url:`api/nft/like/${data.nftData.id}`,
-                axiosInstance:Protected(sessionStorage.getItem('token'))
-              })} fill={data.nftData?.isLiked?'#ff0000':'none'}/>
-            </div>
           
           </div>
         )}
-     
+      <div onClick={(e) => e.stopPropagation()} className={style.cardTop}>
+                <img src={dots} alt="options" />
+
+                <div>
+                  <Star click={() => patchData('favorite')} favorited={data?.nftDaata?.isFavorite} />
+
+                  <svg style={{ marginLeft: '12px' }} onClick={() => patchData('like')} width="32" height="27" viewBox="0 0 32 27" fill={data?.nftData?.isLiked ? "red" : 'none'} xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.60059 1.5C5.42402 1.5 2.03809 4.88594 2.03809 9.0625C2.03809 16.625 10.9756 23.5 15.7881 25.0991C20.6006 23.5 29.5381 16.625 29.5381 9.0625C29.5381 4.88594 26.1521 1.5 21.9756 1.5C19.4181 1.5 17.1562 2.76981 15.7881 4.71338C15.0907 3.72008 14.1643 2.90944 13.0873 2.35009C12.0102 1.79073 10.8142 1.49914 9.60059 1.5Z" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+
+
+                </div>
+
+              </div>
+               <div className={style.nft_det}>
+                <div className="nameXwatch">
+                  <div className="name"> {data?.nftData?.user.username}
+                    {data?.nftData?.user.verified && <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M14.372 5.2168C14.3904 5.0776 14.4 4.9384 14.4 4.8C14.4 2.8968 12.6856 1.3696 10.7832 1.628C10.2288 0.6416 9.1728 0 8 0C6.8272 0 5.7712 0.6416 5.2168 1.628C3.3104 1.3696 1.6 2.8968 1.6 4.8C1.6 4.9384 1.6096 5.0776 1.628 5.2168C0.6416 5.772 0 6.828 0 8C0 9.172 0.6416 10.228 1.628 10.7832C1.60954 10.9214 1.60019 11.0606 1.6 11.2C1.6 13.1032 3.3104 14.6264 5.2168 14.372C5.7712 15.3584 6.8272 16 8 16C9.1728 16 10.2288 15.3584 10.7832 14.372C12.6856 14.6264 14.4 13.1032 14.4 11.2C14.4 11.0616 14.3904 10.9224 14.372 10.7832C15.3584 10.228 16 9.172 16 8C16 6.828 15.3584 5.772 14.372 5.2168ZM7.164 11.5328L4.2304 8.5616L5.3696 7.4384L7.1752 9.2672L10.6368 5.832L11.7632 6.968L7.164 11.5328Z" fill="#3F3F46" />
+                    </svg>}
+                  </div>
+
+                  <div className="watch">
+                    <svg onClick={()=>patchData('watch')} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M8.25 12C8.25 9.92893 9.92893 8.25 12 8.25C14.0711 8.25 15.75 9.92893 15.75 12C15.75 14.0711 14.0711 15.75 12 15.75C9.92893 15.75 8.25 14.0711 8.25 12ZM12 9.75C10.7574 9.75 9.75 10.7574 9.75 12C9.75 13.2426 10.7574 14.25 12 14.25C13.2426 14.25 14.25 13.2426 14.25 12C14.25 10.7574 13.2426 9.75 12 9.75Z" fill="#3F3F46" />
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M4.32343 10.6464C3.90431 11.2503 3.75 11.7227 3.75 12C3.75 12.2773 3.90431 12.7497 4.32343 13.3536C4.72857 13.9374 5.33078 14.5703 6.09267 15.155C7.61978 16.3271 9.71345 17.25 12 17.25C14.2865 17.25 16.3802 16.3271 17.9073 15.155C18.6692 14.5703 19.2714 13.9374 19.6766 13.3536C20.0957 12.7497 20.25 12.2773 20.25 12C20.25 11.7227 20.0957 11.2503 19.6766 10.6464C19.2714 10.0626 18.6692 9.42972 17.9073 8.84497C16.3802 7.67292 14.2865 6.75 12 6.75C9.71345 6.75 7.61978 7.67292 6.09267 8.84497C5.33078 9.42972 4.72857 10.0626 4.32343 10.6464ZM5.17941 7.65503C6.90965 6.32708 9.31598 5.25 12 5.25C14.684 5.25 17.0903 6.32708 18.8206 7.65503C19.6874 8.32028 20.4032 9.06244 20.9089 9.79115C21.4006 10.4997 21.75 11.2773 21.75 12C21.75 12.7227 21.4006 13.5003 20.9089 14.2089C20.4032 14.9376 19.6874 15.6797 18.8206 16.345C17.0903 17.6729 14.684 18.75 12 18.75C9.31598 18.75 6.90965 17.6729 5.17941 16.345C4.31262 15.6797 3.59681 14.9376 3.0911 14.2089C2.59937 13.5003 2.25 12.7227 2.25 12C2.25 11.2773 2.59937 10.4997 3.0911 9.79115C3.59681 9.06244 4.31262 8.32028 5.17941 7.65503Z" fill="#3F3F46" />
+                    </svg>
+                    {data?.nftData?.watchCount}
+                  </div>
+                </div>
+                <p>{data?.nftData?.name}</p>
+                {/* <span>{data?.nftData?.description}</span> */}
+              </div>
           <div
             //className={style.descBox1}
             className={`${style.descBox1} animate__animated animate__fadeIn `}
           >
-            <div className={style.userInfo} onClick={() => setShowFull(true)}>
-              <img src={user} alt="user" />
-              {/* {data && (
-                // <p>
-                //   {userName 
-                //   || shortenAddress(data.nftData?.user?.walletAddress||data?.nftData?.owner_of)
-                //   }
-                //   </p>
-              )} */}
-              <img src={arrow} alt="arrow" />
-            </div>
-            <div className={style.itemInfo}>
-              <p>{data?.nftData?.title}</p>
-            </div>
+           <h3 style={{margin:'0'}}>
+               {parseInt(data?.nftData?.price)}{data?.nftData?.moreInfo?.erc20TokenSymbol}
+           </h3>
+           <h3>
+              {time(data?.nftData?.createdAt)}
+           </h3>
+           
           </div>
      
-        {showFull && (
-          <div
-            className={`${style.descBox2} animate__animated animate__fadeIn `}
-
-          >
-            <div className={style.itemInfo2}
-              onClick={() => setShowFull(false)}>
-              <div
-                className={style.itemSubtxt}
-                onClick={() => setShowFull(false)}
-              >
-                <h3>{data?.nftData?.title}</h3>
-                <div className={style.userBx}>
-                  <img src={user} alt="user" />
-                  {data && (
-                    <p>
-                      {userName || shortenAddress(data.nftData.user?.walletAddress)}
-                    </p>
-                  )}
-                </div>
-              </div>
-              {data?.nftData?.marketplace_type === 2 ? (
-                <Link
-                  //to={`/explore/22/22`}
-                  to={
-                    data?.nftData?.lazyMint
-                      ? `/exploreBid/${data?.nftData?.collection_address}/${data?.nftData?.signature}?seller=${data?.nftData?.owner_of || data?.nftData.user.walletAddress}&lazy_mint=true`
-                      : `/exploreBid/${data?.nftData?.collection_address || data?.nftData?.moreInfo.contractAddress}/${data?.nftData?.id || data?.nftData?.id}` }
-                  className={style.buyBtnSm}
-                >
-                  <button className={` ${dark === 'true' ? 'yellowBtn' : 'blueBtn'}`}>
-                    {data?.nftData?.marketplace_type === 2 &&
-                      data?.nftData?.wallet_address !== currentAddress
-                      ? 'Bid'
-                      : data?.nftData?.marketplace_type !== 2 &&
-                        data?.nftData?.wallet_address !== currentAddress
-                        ? 'Buy'
-                        : data?.nftData?.wallet_address === currentAddress
-                          ? 'View'
-                          : ''}
-                  </button>
-                </Link>) : (
-                <Link
-                  //to={`/explore/22/22`}
-                  to={
-                      data?.nftData?.lazyMint
-                        ? `/exploreBuy/${data?.nftData?.collection_address}/${data.nftData.id}`
-                        : `/exploreBuy/${data?.nftData?.token_address || data?.nftData?.moreInfo.contractAddress}/${data.nftData.id}` }
-                  className={style.buyBtnSm}
-                >
-                  <button className={` ${dark === 'true' ? 'yellowBtn' : 'blueBtn'}`}>
-                    {data?.nftData?.marketplace_type === 2 &&
-                      data?.nftData?.user.walletAddress !== currentAddress
-                      ? 'Bid'
-                      : data?.nftData?.marketplace_type !== 2 &&
-                        data?.nftData?.wallet_address !== currentAddress
-                        ? 'Buy'
-                        : data?.nftData?.wallet_address === currentAddress
-                          ? 'View'
-                          : ''}
-                  </button>
-                </Link>
-              )}
-            </div>
-            <div className={style.actionBx}>
-             {data?.nftData?.price && <div className={style.aBcontent}>
-                {/* {!data?.nftData?.lazyMint && ( */}
-                <div className={style.aleft}>
-                
-                  {data?.nftData?.price ? (
-                    <p>
-                      {' '}
-                      {/* @ts-ignore */}
-                      {/* {Web3.utils.fromWei( */}
-                      {Number(data?.nftData?.price).toString() ||
-                        '0.00'}
-                        {/* 'ether')*/}
-                       
-                        {' '}
-                    </p>
-                  ) : (
-                    <p></p>
-                  )}
-                  {pathname.includes('explore') &&<p style={{marginLeft:'10px'}}> {data.nftData.moreInfo.erc20TokenName}</p>}
-                </div>
-                {/* )} */}
-                <div className={style.aright}>
-
-                  {/* <p>${usdPrice?.toFixed(2)  } </p> */}
-                  {/* <p>{getUsdPrice(data?.nftData?.price.toString())}</p>
-                  <p>{shortenAddress(data?.nftData?.wallet_address)}</p> */}
-                </div>
-              </div>}
-             {!data?.nftData?.price && <div className={style.aBcontent}>
-               <p style={{textAlign:'center',margin:'auto'}}>Not for sale</p>
-              </div>}
-              <div className={style.aleft}></div>
-            </div>
-          </div>
-        )}
+       
       </div>
     </div>
   )

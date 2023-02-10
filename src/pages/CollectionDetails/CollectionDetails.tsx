@@ -200,7 +200,7 @@ if(collectiondet){
                       className={`${style.singleBox} ${dark === 'true' ? 'darkGradient' : ''
                         } `}
                     >
-                      <h3 style={{fontSize:'16px'}}>{collection?.volume.toPrecision(5)||'---'}</h3>
+                      <h3 style={{fontSize:'16px'}}>{collection?.volume?.toPrecision(5)||'---'}</h3>
                       <p>Vol traded</p>
                     </div>
                   </div>

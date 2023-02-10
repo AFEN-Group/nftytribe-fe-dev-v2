@@ -153,38 +153,8 @@ const ConnectWalletM = (props: any) => {
         disconnectSafePal()
     
       }
-      const connectsafepal= async ()=>{
-        disableEthereum()
-        disconnectWalletConnect()
-        props.handleModal()
-        connectSafePal()
     
-      }
-
-    // const handleSignOut = async () => {
-    //   //disableEthereum()
-    //   // setCurrentAccount('')
-    //   //localStorage.setItem('currentAccount', '')
-    //   setUserState({
-    //     ...userState,
-    //     userWallet: '',
-    //   })
-    //   props.handleModal()
-    //   window.location.reload()
-    // }
-    // const handleSignIn = async () => {
-    //   // setCurrentAccount('0x3bc4aa..')
-    //   // localStorage.setItem('currentAccount', '0x3bc4aa..')
-    //   // connectToMetaMask()
-    //   //props.handleModal()
-    //   setUserState({
-    //     ...userState,
-    //     userWallet: '0x3bc4aa..',
-    //   })
-    //   props.handleModal()
-    //   window.location.reload()
-    // }
-    // const walletType = sessionStorage.getItem("walletType")
+   
     const {userState,setUserState}=useContext(UserContext)
   const currentChain = sessionStorage.getItem('chain')
     console.log(sessionStorage.getItem('walletType')==='Metamask');

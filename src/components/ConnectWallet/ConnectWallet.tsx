@@ -504,7 +504,7 @@ const ConnectWallet = (props: any) => {
                     </div>
                      <div className={style.wallet} onClick={connectUauth}>
                       <img style={{width:'40px'}} src={Uath} alt="metamask" />
-                      <p>Unstoppable Domain</p>
+                      <p>Unstoppable Domains</p>
                     </div>
 
                   <div className={style.wallet} onClick={handleSignIn2}>

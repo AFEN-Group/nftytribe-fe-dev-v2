@@ -120,7 +120,7 @@ const Explore = () => {
    }
   };
   
-
+  const [update,setUpdate]=useState(false)
   useEffect(() => {
     getExploreCollectibles();
     getCategories()
@@ -129,7 +129,7 @@ const Explore = () => {
       // cancel the request
       controller.abort()
     }
-  }, [chain,filterQuery,page]);
+  }, [chain,filterQuery,page,update]);
   const nextPage = () => {
     if (totalPages >page) {
       setPage((page)=>page+1)
@@ -221,7 +221,7 @@ const Explore = () => {
       }
     ]
   }
- 
+   
   const { t } = useTranslation();
   return (
 
@@ -606,14 +606,7 @@ ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate_
                       
                     </form>
                   )}
-                  {/* <div className={style.sBItem}>
-                    <p>{t("Recently added")}</p>
-                  
-                    <Radio click={''} />
-
-                  
-                    
-                  </div> */}
+                 
                   <form className={style.sBItem}>
                     <p >{t("Physical Item")}</p>
                     {/* <AcceptBtn onClick={setDefaults} /> */}
@@ -667,9 +660,9 @@ ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate_
                           {data?.map((nft: any) => {
                             return (
                               (nft?.id && nft?.url) && (
-                                <div className={style.itemBx} key={nft.id}>
-                                  <ItemCard nftData={nft} />
-                                </div>
+                                
+                                  <ItemCard update={()=>setUpdate(!update)} key={nft.id} nftData={nft} />
+                              
 
                               )
 
