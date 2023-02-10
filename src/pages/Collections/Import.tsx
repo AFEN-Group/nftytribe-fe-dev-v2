@@ -54,7 +54,9 @@ const Import = (props: any) => {
       setErr(2)
     }
   }
-
+  // @ts-ignore
+  console.log();
+  
   useEffect(()=>{
     if(Response){
        setImported(true)
@@ -133,8 +135,8 @@ const Import = (props: any) => {
                     Cancel
                   </button>
                 </div>
-                {err === 1 && <p className="redtxt">Collection not found!</p>}
-                {err === 2 && <p className="redtxt">Invalid address!</p>}
+                {/* @ts-ignore */}
+               <p style={{textAlign:'center',color:'red'}}> {error && error?.data.error[0].msg}</p>
               </form>
             </motion.div>
           )}

@@ -147,9 +147,7 @@
 }
 
 .tpTableTitles {
-  @include gridRegular(1em);
-  //grid-template-columns: 2.3fr 0.7fr 0.7fr 0.7fr 0.7fr 0.7fr 0.7fr;
-  grid-template-columns: 3fr 2fr 2fr;
+  display: flex;
   padding: 2.5em 0;
 
   div {
@@ -159,7 +157,7 @@
 
 .tableItem,
 .tableItemD {
-  @include gridRegular(1em);
+  display: flex;
   cursor: pointer;
   border-top: 1px solid #71717a;
   //border-bottom: 1px solid #71717a;

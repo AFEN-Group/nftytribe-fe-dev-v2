@@ -101,16 +101,16 @@ const CollectionDashboard = () => {
                 <p>Categories</p>
                 <img src={arrowA} alt="categories" />
               </div> */}
-                <div className={style.filter} onClick={() => setShowDrop({ ...showDrop, chain: !showDrop.chain })}>
+                {/* <div className={style.filter} onClick={() => setShowDrop({ ...showDrop, chain: !showDrop.chain })}>
                   <p>{filter.chain === "" ? 'Chains' : filter.chain}</p>
                   <img src={arrowA} alt="categories" />
 
-                </div>
+                </div> */}
 
-                <div className={style.filter} onClick={() => setShowDrop({ ...showDrop, period: !showDrop.period })}>
+                {/* <div className={style.filter} onClick={() => setShowDrop({ ...showDrop, period: !showDrop.period })}>
                   <p>{filter.period === "" ? 'Last 24 hours' : filter.period}</p>
                   <img src={arrowA} alt="categories" />
-                </div>
+                </div> */}
 
               </div>
               {showDrop.chain && (
@@ -139,21 +139,28 @@ const CollectionDashboard = () => {
               className={`${style.topProTable} animate__animated animate__fadeInUp animate__delay-2s`}
             >
               <div className={style.tpTableTitles}>
-                <p>Collection</p>
-                {/* <div>
+                <div style={{width:'25%'}}><p>Collection</p></div>
+                <div style={{ width: '12%' }}>
                   <p>Volume</p>
-                </div> */}
-                <div>
-                  <p>Chain</p></div>
-                {/* </div>
+                </div>
+                <div style={{ width: '12%' }}>
+                  <p>Chain</p>
+                </div> 
+                <div style={{ width: '8%' }}>
+                  <p>7days</p>
+                </div>
+                 <div style={{ width: '8%' }}>
+                  <p>24hrs</p>
+                </div>
+                <div style={{ width: '12%' }}>
                   <p>Floor price</p>
-                </div> */}
-                <div>
+                </div> 
+                <div style={{ width: '12%' }}>
                   <p>Owners</p>
                 </div>
-                {/*<div>
+                <div style={{ width: '12%' }}>
                   <p>Items</p>
-                </div> */}
+                </div>
               </div>
               <div className={style.tpTableItems}>
                 {!collection
@@ -170,7 +177,7 @@ const CollectionDashboard = () => {
                           }
                           key={collection._id}
                         >
-                          <div className={style.collectionInfo}>
+                          <div style={{ width: '25%' }} className={style.collectionInfo}>
                             <p>{itemNumber++}</p>
                             <img
                               //src={user}
@@ -190,33 +197,41 @@ const CollectionDashboard = () => {
                             <p>{collection?.name || 'Untitled'}</p>
                             {/* <img src={arrow2} alt="arrow-up" /> */}
                           </div>
-                          <div className={style.itemAlign}>
-                            {/* <p>61,555</p> */}
-                            {/* <p>0</p> */}
-                            <p style={{ textTransform: 'uppercase' }}>{chain.filter((chain: any) => { return chain.id === collection.chainId })[0].name}</p>
+
+                          <div className={style.itemAlign} style={{ width:'12%' }}>   <p>{collection?.volume?.toPrecision(4)||0}</p></div>
+                          
+                          <div className={style.itemAlign} style={{ width:'12%' }}>
+                           
+                            <p style={{ textTransform: 'uppercase' }} >{chain?.filter((chain: any) => { return chain.id === collection.chainId })[0].name}</p>
                           </div>
-                          {/* <div className={style.itemAlign}>
+                          <div style={{ width: '8%' }} className={style.itemAlign}>
+                            <p>
+                              
+                              <span>{collection['7days']}</span>
+                            </p>
+                          </div>
+                          <div style={{ width: '8%' }} className={style.itemAlign}>
+                            <p>
+                              <span>{collection['24hrs']}</span>
+                            </p>
+                          </div>
+                          <div style={{ width: '12%' }} className={style.itemAlign}>
                               <p>
-                                <span>+70%</span>
+                                {Number(collection?.floorPrice).toPrecision(3)}
                               </p>
                             </div>
-                            <div className={style.itemAlign}>
-                              <p>
-                                <span>+800%</span>
-                              </p>
-                            </div> */}
-                          <div className={style.itemAlign}>
+                          <div style={{ width: '12%' }} className={style.itemAlign}>
+                              <p>{collection?.totalOwners}</p>
+                            </div>
+                          <div style={{ width: '12%' }} className={style.itemAlign}>
 
-                            <p>{shortenAddress(collection?.contractAddress)}</p>
+                            <p>
+                             {collection?.totalNfts}
+                            </p>
                           </div>
-                          {/* <div className={style.itemAlign}>
-                            
-                            <p>0</p>
-                          </div> */}
-                          {/* <div className={style.itemAlign}>
-                           
-                            <p>0</p>
-                          </div> */}
+                          
+                         
+                         
                         </Link>
                       )
                     )
