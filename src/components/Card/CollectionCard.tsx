@@ -66,8 +66,8 @@ const CollectionCard = (data: any) => {
             {data?.data?.coverImage === '' && <img src={koala} alt="item" />}
           </div>
           <div onClick={(e)=>e.stopPropagation()} className={style.cardTop}>
-            <img src={dots} alt="options" />
-
+            <div>
+            </div>
             <div>
               <Star click={()=>patchData('favorite')} favorited={data?.data?.isFavorite}/>
               

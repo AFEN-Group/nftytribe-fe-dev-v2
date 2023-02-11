@@ -334,7 +334,7 @@ const CreateCollection = () => {
                 />
               </div>
               <div className={style.fieldBx}>
-                <p>URL</p>
+                <p>URL(optional)</p>
                 <TextInput
                   type="text"
                   inputName="url"

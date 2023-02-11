@@ -5,6 +5,8 @@
   transition: 0.3s ease-in;
   background: $darkBg;
   color: #fff;
+
+  
 }
 
 .dark2 {
@@ -20,6 +22,10 @@
   transition: 0.3s ease-in;
   background: #fff;
   color: #222222;
+
+  .card{
+    background: $mainGradient;
+  }
 }
 
 .light2 {
