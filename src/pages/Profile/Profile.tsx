@@ -84,7 +84,7 @@ const Profile = () => {
     else if(query=='on_sale'){
       Data({
         method: 'get',
-        url: `api/nft/listings?owner=${currentAddress}&chain=${chain.filter((chain: any) => { return chain.chain === currentChainId })[0].id}`,
+        url: `api/nft/listings?owner=${userState.user.id}&chain=${chain.filter((chain: any) => { return chain.chain === currentChainId })[0].id}`,
         axiosInstance: Protected(sessionStorage.getItem('token'))
       })
     }
@@ -109,7 +109,7 @@ const Profile = () => {
     //  console.log(data.results);
      
       if(!query)setCollectibles(data?.result)
-      else setCollectibles(data?.results)
+      else setCollectibles(data)
     
       setIsLoading(false)
   },[postResponse] )
@@ -399,7 +399,7 @@ const Sold = (props:any)=>{
 
 const Item= (data:any)=>{
 
-  const { pathname } = useLocation()
+  console.log(data)
  
   const getImageUrl = (uri: any) => {
     // console.log(uri);

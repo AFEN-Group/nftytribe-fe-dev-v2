@@ -435,7 +435,7 @@ console.log(nft);
                             } ${dark === 'true' ? 'yellowBtn' : 'blueBtn'} `}
                           onClick={handleSubmit}
                         >
-                          {!nft?.isListed ?
+                          {!nft?.listingType ?
                             'Not On Sale'
                             : 'Buy'}
                         </button>
@@ -450,7 +450,7 @@ console.log(nft);
                             }`}
                           onClick={handleSale}
                         >
-                          {!nft?.isListed ?
+                          {(!nft?.isListed) ?
                             'Put On Sale'
                             : 'Remove from Sale'}
                         </button>
@@ -464,11 +464,11 @@ console.log(nft);
                           // disabled={
                           //   isLoading
                           // }
-                          className={`${nft?.isListed ? style.regBtn : style.regBtn2
+                          className={`${nft?.listingType ? style.regBtn : style.regBtn2
                             } ${dark === 'true' ? 'yellowBtn' : 'blueBtn'} `}
                           onClick={handleSubmit}
                         >
-                          {!nft?.isListed ?
+                          {!nft?.listingType ?
                             'Not On Sale'
                             : 'Buy'}
                         </button>

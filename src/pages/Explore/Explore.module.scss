@@ -270,10 +270,11 @@
   width: 76%;
   max-width: 1500px;
   margin-left: 1em;
+  
 
   .itemsContent {
     padding: 0 0 1em 0;
-    width: 100%;
+    width: 100%;gap: 24px;
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
