@@ -20,6 +20,8 @@ import CollectionModal from './Modals/CollectionModal'
 import SelectOption from '../../components/Inputs/SelectOption'
 import globals from '../../utils/globalVariables'
 import toast from 'react-hot-toast'
+import Protected from '../../hooks/AxiosConfig/axiosInstance'
+import UseAxios from '../../hooks/AxiosConfig/useAxios'
 
 declare const window: any
 
@@ -98,7 +100,24 @@ const CreateCollection = () => {
   }, [])
 
  
+  const {fetchData,Response,error}=UseAxios()
+  console.log(Response);
+  const upload = async (address: string) => {
+    let formData = new FormData()
 
+    formData.append('images', imageFile.file)
+
+    let key = await (await Protected(sessionStorage.getItem('token'))['post']('api/uploads/temp', formData)).data.key
+
+    await fetchData({
+      method: 'patch',
+      url: `api/collection/coverImage/${address}`,
+      axiosInstance: Protected(sessionStorage.getItem('token')),
+      requestConfig: {
+        key: key
+      }
+    })
+  }
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     console.log(userInput.contractOption,)
@@ -131,9 +150,13 @@ const CreateCollection = () => {
             console.log(newCollection)
             const transactionHash = newCollection?.transactionHash
             const newCollectionAddress =
-              newCollection?.events?.OwnershipTransferred[0].address
+             await newCollection?.events?.OwnershipTransferred[0].address
             //console.log(newCollectionAddress, ' address'
+             
+            //image upload
 
+           await upload(newCollectionAddress)
+             
             const collectionObj = {
               wallet_address,
               contract_address: newCollectionAddress,
@@ -157,6 +180,8 @@ const CreateCollection = () => {
             //setMsg(err)
           }
         }
+
+        
         if (userInput.contractOption === "erc1155") {
           factoryContract = new web3.eth.Contract(
             erc1155FactoryAbi,
@@ -194,7 +219,7 @@ const CreateCollection = () => {
               collectionObj,
             )
             console.log(newCollectionReq)
-            //setMsg({ ...msg, sMsg: newCollectionReq.data.msg, eMsg: '' })
+            
             setNewCollection(newCollectionReq.data.data.title)
             setCreated(true)
             setShowModal(true)
@@ -251,14 +276,14 @@ const CreateCollection = () => {
                 <p>Create, curate, and manage collections of unique NFTs to share and sell.
                 </p>
               </div>
-              {/* <div className={style.leftBody}>
+              <div className={style.leftBody}>
                 <div
                   className={` ${dark === 'true'
                     ? style.fileContainerD
                     : style.fileContainerL
                     }`}
                 >
-                  {!imageFile.file && (
+                  {!imageFile?.file && (
                     <div className={style.fileTxt}>
                       <img src={icon} alt="upload" />
                       <h3>Choose file</h3>
@@ -266,12 +291,15 @@ const CreateCollection = () => {
                     </div>
                   )}
 
-                  <input type="file" name="img" onChange={()=>{}} />
+                  <input type="file" name="img" onChange={(e:any)=>{
+                    let file= e.target?.files[0]
+                    setImageFile({file:file})
+                  }} />
                   {imageFile.file && (
                     <div className={style.fileBx}>
                       
                       <img
-                        src={URL.createObjectURL(imageFile.file)}
+                        src={URL.createObjectURL(imageFile?.file)}
                         alt="nft"
                       />
                       <Cancel
@@ -291,7 +319,7 @@ const CreateCollection = () => {
                 <p className="redtxt">
                   <strong> {msg?.eMsg} </strong>
                 </p>
-              </div> */}
+              </div> 
             </div>
             <form onSubmit={handleSubmit} className={style.right2}>
               <div className={style.fieldBx}>

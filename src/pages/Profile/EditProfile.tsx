@@ -164,7 +164,7 @@ const EditProfile = () => {
                 <img src={Arrow2} className={style.arrow} />
               </Link>
 
-              <button className={dark === 'true' ? style.bl : style.bd}>
+              {/* <button className={dark === 'true' ? style.bl : style.bd}>
                 Edit cover photo
               </button>
               <div className={style.fileInput1}>
@@ -176,7 +176,7 @@ const EditProfile = () => {
                   }}
                
                 />
-              </div>
+              </div> */}
             </div>
 
           </div>

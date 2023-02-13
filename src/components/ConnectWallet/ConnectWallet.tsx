@@ -189,7 +189,7 @@ const ConnectWallet = (props: any) => {
   }
   const uauth = new UAuth({
     clientID: "45721300-737c-40a0-91af-e187fff1634d",
-    redirectUri: "https://staging.nftytribe.io",
+    redirectUri: "http://localhost:3000",
     scope: "openid wallet email profile:optional social:optional"
   })
   const connectsafepal= async ()=>{
@@ -206,7 +206,8 @@ const ConnectWallet = (props: any) => {
     sessionStorage.setItem('chain', window.ethereum.chainId)
     // @ts-ignore
     sessionStorage.setItem('currentAccount', address)
-    setUserState({ ...userState, currentAccount: res.idToken.wallet_address, walletType: 'Metamask' })
+    sessionStorage.setItem('walletType','uauth')
+    setUserState({ ...userState, currentAccount: res.idToken.wallet_address, walletType: 'uauth' })
 
   }
 
@@ -214,33 +215,10 @@ const ConnectWallet = (props: any) => {
   let web3: any
   web3 = new Web3(window.ethereum)
 
-  // const handleSignOut = async () => {
-  //   //disableEthereum()
-  //   // setCurrentAccount('')
-  //   //localStorage.setItem('currentAccount', '')
-  //   setUserState({
-  //     ...userState,
-  //     userWallet: '',
-  //   })
-  //   props.handleModal()
-  //   window.location.reload()
-  // }
-  // const handleSignIn = async () => {
-  //   // setCurrentAccount('0x3bc4aa..')
-  //   // localStorage.setItem('currentAccount', '0x3bc4aa..')
-  //   // connectToMetaMask()
-  //   //props.handleModal()
-  //   setUserState({
-  //     ...userState,
-  //     userWallet: '0x3bc4aa..',
-  //   })
-  //   props.handleModal()
-  //   window.location.reload()
-  // }
-  // const walletType = sessionStorage.getItem("walletType")
-  // console.log(currentAccount,walletType);
+
+  
   const { userState,setUserState}=useContext(UserContext)
-   console.log(sessionStorage.getItem('walletType'))
+  
   return (
     <>
       <div className={`${style.container}`}>
@@ -307,7 +285,7 @@ const ConnectWallet = (props: any) => {
                     <div className={style.wallets}>
                       <div className={style.activeWallet}>
                         <div className={style.awleft}>
-                          <img style={{width:'40px'}} src={sessionStorage.getItem('walletType')==='Metamask' ? Metamask :"trustWallet"?TWT: Wc} alt="wallet" />
+                          <img style={{ width: '40px' }} src={sessionStorage.getItem('walletType') === 'Metamask' ? Metamask : sessionStorage.getItem('walletType') === 'uauth'?Uath:"trustWallet"?TWT: Wc} alt="wallet" />
                           <div className={style.awInfo}>
                             <h3>{shortenAddressSmall(currentAccount)}</h3>
 

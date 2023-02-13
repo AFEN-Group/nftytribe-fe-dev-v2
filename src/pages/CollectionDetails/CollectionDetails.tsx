@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useRef } from 'react'
 import { ThemeContext } from '../../context/ThemeContext'
 import { Link } from 'react-router-dom'
 import style from './CollectionDetails.module.scss'
@@ -86,10 +86,12 @@ if(collectiondet){
     })
 
    } 
-  },[collectiondet,filterQuery])
+  },[collectiondet,filterQuery])  
+  const {fetchData:upload,Response:res}=UseAxios()
+
   useEffect(() => {
      getDet()
-},[collectionId,currentPage])
+},[collectionId,currentPage,res])
  
   useEffect(() => {
     window.scrollTo(0, 300)
@@ -130,9 +132,8 @@ if(collectiondet){
     }
   }
 
-  
   const floorPrice= Number(collection?.floorPrice).toFixed(2)
-  console.log(collectibles)
+  const bgref:any= useRef(null)
   return (
     <>
       {/* <Header /> */}
@@ -142,7 +143,43 @@ if(collectiondet){
      
            style={{height:'400px'}} className={`${style.coverBx} animate__animated animate__fadeInDown `}
           >
-            <img style={{ height: '100%' }} src={collection?.bg} alt="cover" />
+            <div className={style.coverBtns}>
+              <Link to="/profile">
+                {' '}
+                <img src={Arrow2} className={style.arrow} />
+              </Link>
+
+               <button onClick={()=>bgref?.current?.click()} className={dark === 'true' ? style.bl : style.bd}>
+                Edit cover photo
+              </button>
+              <div className={style.fileInput1}>
+                <input
+                  ref={bgref}
+                  type="file"
+                  name="img"
+                  accept='image/*'
+                  onChange={async(e:any)=>{
+                     let file= e.target.files[0]
+                    let formData = new FormData()
+
+                    formData.append('images',file)
+
+                    let key = await (await Protected(sessionStorage.getItem('token'))['post']('api/uploads/temp', formData)).data.key
+
+                    upload({
+                      method: 'patch',
+                      url: `api/collection/bg/${collection.contractAddress}`,
+                      axiosInstance: Protected(sessionStorage.getItem('token')),
+                      requestConfig: {
+                        key: key
+                      }
+                    })
+                  }}
+               
+                />
+              </div> 
+            </div>
+            <img style={{ height: '100%' }} src={collection?.bg||collection?.coverImage} alt="cover" />
           </div>
           <div
             //className={style.content}
