@@ -87,13 +87,13 @@ const Explore = () => {
          if (map.has(nft.id)) {
            return
          }
-         else setData([...data, ...res.data?.results]);
+         else setData([...data, ...res.data]);
 
 
        })
 
      }
-    else if(filterQuery.listingType||filterQuery.physical||page===1)setData(res.data?.results)
+    else if(filterQuery.listingType||filterQuery.physical||page===1)setData(res.data)
      else {
         let map = new Map<any,any>()
         data.map((nft:any)=> map.set(nft.id,true)
@@ -102,7 +102,7 @@ const Explore = () => {
           if(map.has(nft.id)){
            return
           }
-          else   setData([...data, ...res.data?.results]);
+          else   setData([...data, ...res.data]);
           
 
         })
@@ -221,10 +221,9 @@ const Explore = () => {
       }
     ]
   }
-   
+  //  console.log(data,res)
   const { t } = useTranslation();
   return (
-
     <>
       {/* <Header /> */}
       <Container>
@@ -659,14 +658,14 @@ ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate_
                         <div className={style.itemsContent}>
                           {data?.map((nft: any) => {
                             return (
-                              (nft?.id && nft?.url) && (
+                              // (nft?.id && nft?.url) && (
                                 
                                   <ItemCard update={()=>setUpdate(!update)} key={nft.id} nftData={nft} />
                               
 
                               )
 
-                            );
+                            // );
                           })}
                           
                         </div>
