@@ -109,6 +109,7 @@ const Profile = () => {
     //  console.log(data.results);
      
       if(!query)setCollectibles(data?.result)
+      else if(query!=='on_sale') setCollectibles(data.results)
       else setCollectibles(data)
     
       setIsLoading(false)
@@ -404,7 +405,7 @@ const Sold = (props:any)=>{
           {item?.listingInfo?.name}
         </div>
         <div className="quantity">{item.amount}</div>
-        <div className="address">{ item.buyerId }</div>
+       {item.buyer && <div className="address">{shortenAddress(item?.buyer?.walletAddress )}</div>}
         <div className="value">{parseInt(item.price)} {item?.erc20Info?.symbol}</div>
       </div>
           ))

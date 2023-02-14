@@ -222,14 +222,14 @@ console.log('this is the',currentAccount);
                     <p>{t("create")}</p>
                   </Link>
                 </div>
-                <div className={style.searchBox}>
+                {/* <div className={style.searchBox}>
                   <input
                     type="text"
                     placeholder="Discover..."
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
                   <img src={Search} alt="search" />
-                </div>
+                </div> */}
                 {searchTerm?.length >= 3 && searchRes?.length < 1 && (
                   <div
                     //className="animate__animated animate__fadeIn navSearchRes"
