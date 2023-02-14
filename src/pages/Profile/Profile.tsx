@@ -446,10 +446,10 @@ const Item= (data:any)=>{
 
   const open = () => {
  
-    if(!data.nftData?.listingType)  navigate(`/item/${data?.nftData?.token_address}/${data?.nftData?.token_id}`) //for unlisted items
+    if (!data.nftData?.listingType) navigate(`/item/${data?.nftData?.token_address || data?.nftData?.nftInfo?.address}/${data?.nftData?.token_id || data?.nftData?.listingInfo.tokenId}`) //for unlisted items
     else 
     {
-      navigate(`/explorebuy/${data?.nftData?.moreInfo?.contractAddress}/${ data?.nftData?.id}`)
+      navigate(`/explorebuy/${data?.nftData?.moreInfo?.contractAddress || data?.nftData?.nftInfo?.address}/${ data?.nftData?.id}`)
     }
     
 
@@ -461,13 +461,13 @@ const Item= (data:any)=>{
   return(
     <div onClick={open} className="item">
      <div className="img">
-        <img src={getImageUrl(data.nftData.url || data.nftData?.metadata?.image || data.nftData?.moreInfo?.url)} alt="img" />
+        <img src={getImageUrl(data.nftData.url || data.nftData?.metadata?.image || data.nftData?.moreInfo?.url || data.nftData?.listingInfo?.url)} alt="img" />
        <div className="details">
-          <div className="name">{data?.nftData?.metadata?.name || data?.nftData?.moreInfo?.name || data?.nftData?.name}</div>
-         {data.nftData?.moreInfo && <div className="price">
+          <div className="name">{data?.nftData?.metadata?.name || data?.nftData?.moreInfo?.name || data?.nftData?.name || data?.nftData?.listingInfo?.name}</div>
+          {(data.nftData?.moreInfo || data.nftData?.listingInfo) && <div className="price">
           <div>Floor</div>
           {parseInt(data.nftData.price) + ' '} 
-            {data.nftData?.moreInfo?.erc20TokenSymbol}
+            {data.nftData?.moreInfo?.erc20TokenSymbol || data.nftData?.erc20Info?.symbol}
          </div>}
      </div>
      </div>
