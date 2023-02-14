@@ -27,9 +27,9 @@ const BuyModal = (props: any) => {
   //const [err, setErr] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   // eslint-disable-next-line
-  const [userWallet, setUserWallet] = useState<any>(
-    sessionStorage.getItem('currentAccount'),
-  )
+
+  const userWallet:any =  sessionStorage.getItem('currentAccount')
+ 
   
   const [completed, setCompleted] = useState(false)
   const [validated, setValidated] = useState(false)
@@ -49,7 +49,7 @@ const BuyModal = (props: any) => {
   
   useEffect(() => {
    
-    const currentChain = localStorage.getItem('chain')
+    const currentChain = sessionStorage.getItem('chain')
 
     if (currentChain === '0x1') {
       
@@ -128,7 +128,8 @@ const BuyModal = (props: any) => {
           
           
           await erc20token.methods.approve(erc721MarketplaceAddress,(`${amount}`)).send({from:userWallet})
-         
+          console.log(props?.nft.tokenId, props.collectionAddress,userWallet);
+          
           const buyItem = await marketPlaceContract.methods
             .buy(props?.nft.tokenId, props.collectionAddress)
             .send({ from: userWallet })
