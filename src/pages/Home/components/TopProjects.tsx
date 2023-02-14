@@ -160,7 +160,7 @@ const FeaturedProject=(props:any)=>{
             </div>   {props.fp}</p>
           <p > <div>
                 vol :
-            </div> {props.vol} <span style={{ textTransform: 'uppercase' }}>{props.chain}</span></p>
+            </div> {parseInt(props.vol).toExponential(2)} <span style={{ textTransform: 'uppercase' }}>{props.chain}</span></p>
           </div>
         <div className={style.tprNumbers}>
          
