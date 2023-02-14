@@ -658,14 +658,14 @@ ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate_
                         <div className={style.itemsContent}>
                           {data?.map((nft: any) => {
                             return (
-                              // (nft?.id && nft?.url) && (
+                              (nft?.id && nft?.url) && (
                                 
                                   <ItemCard update={()=>setUpdate(!update)} key={nft.id} nftData={nft} />
                               
 
                               )
 
-                            // );
+                            );
                           })}
                           
                         </div>

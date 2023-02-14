@@ -292,7 +292,7 @@ const Profile = () => {
                   </div>
                   
                 </>
-                ) :collectibles?.length >= 1 && (query === 'on_sale'||query==='created'||query==='collected')? (
+                ) :collectibles?.length >= 1 && (query==='created'||query==='collected')? (
                      
                       <>
                         <div className={style.itemsContent}>
@@ -310,6 +310,25 @@ const Profile = () => {
                         </div>
                       </>
                  
+                  ) : collectibles?.length >= 1 && (query === 'on_sale' ) ? (
+
+                    <>
+                      <div className={style.itemsContent}>
+
+                        {collectibles?.map((nft: any, i: any) => {
+                          return (
+
+                            <div className={style.itemBx} key={nft._id}>
+                              
+                              <Item nftData={nft} />
+                            </div>
+
+                          )
+                        })}
+
+                      </div>
+                    </>
+
                   ) 
                     :collectibles?.length >= 1 && query === 'sold'? (
                     <Sold array={collectibles} />)  :(
@@ -427,7 +446,10 @@ const Item= (data:any)=>{
 
   const open = () => {
  
-    if(!data.nftData?.nftInfo)  navigate(`/item/${data?.nftData?.token_address}/${data?.nftData?.token_id}`)
+    if(!data.nftData?.nftInfo)  {
+       navigate(`/explorebuy/${data?.nftData?.moreInfo?.contractAddress}/${data?.nftData?.id}`)
+      // else navigate(`/explorebid/${data?.nftData?.moreInfo?.contractAddress}/${data?.nftData?.id}`)
+    }
     else 
     navigate(`/item/${data?.nftData?.nftInfo?.address}/${ data?.nftData?.id}`)
 

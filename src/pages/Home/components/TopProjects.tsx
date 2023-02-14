@@ -118,7 +118,7 @@ const TopProjects = () => {
               ? null
               : collections.map((collection: any,id:any) => {
                 return (
-                  <FeaturedProject key={id} img={collection.collection.coverImage} name={collection?.collection.name} chain={chain?.filter((chain: any) => { return chain.id === collection.collection.chainId })[0]?.name} percentage={collection.priceChange} fp={collection.floorPrice.toPrecision(2)} vol={millify(collection.nativeVol)} id={id +1} />  
+                  <FeaturedProject _id={collection?.collection.id} key={id} img={collection?.collection?.coverImage} name={collection?.collection.name} chain={chain?.filter((chain: any) => { return chain.id === collection?.collection?.chainId })[0]?.name} percentage={collection?.priceChange} fp={parseInt(collection?.floorPrice).toExponential(2)} vol={millify(collection.nativeVol)} id={id +1} />  
                 );
               })}
           </div>
@@ -138,7 +138,7 @@ export default TopProjects;
 const FeaturedProject=(props:any)=>{
   return(
     <Link
-      to={`/collectionDetails/`}
+      to={`/collectionDetails/${props._id}`}
       className={style.tpItem}
     >
       <div className={style.tpLeft}>
@@ -155,8 +155,12 @@ const FeaturedProject=(props:any)=>{
         </p>  
         </div>
          <div style={{display:'flex',gap:'32px'}}>
-          <p>Floor price: {props.fp}</p>
-          <p >vol :{props.vol} <span style={{ textTransform: 'uppercase' }}>{props.chain}</span></p>
+          <p><div>
+            Floor price:
+            </div>   {props.fp}</p>
+          <p > <div>
+                vol :
+            </div> {props.vol} <span style={{ textTransform: 'uppercase' }}>{props.chain}</span></p>
           </div>
         <div className={style.tprNumbers}>
          

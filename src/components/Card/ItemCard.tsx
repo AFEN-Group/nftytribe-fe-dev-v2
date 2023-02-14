@@ -158,8 +158,8 @@ const ItemCard = (data: any) => {
               </div>
                <div className={style.nft_det}>
                 <div className="nameXwatch">
-                  <div className="name"> {data?.nftData?.user.username}
-                    {data?.nftData?.user.verified && <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <div className="name"> {data?.nftData?.user?.username}
+                    {data?.nftData?.user?.verified && <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M14.372 5.2168C14.3904 5.0776 14.4 4.9384 14.4 4.8C14.4 2.8968 12.6856 1.3696 10.7832 1.628C10.2288 0.6416 9.1728 0 8 0C6.8272 0 5.7712 0.6416 5.2168 1.628C3.3104 1.3696 1.6 2.8968 1.6 4.8C1.6 4.9384 1.6096 5.0776 1.628 5.2168C0.6416 5.772 0 6.828 0 8C0 9.172 0.6416 10.228 1.628 10.7832C1.60954 10.9214 1.60019 11.0606 1.6 11.2C1.6 13.1032 3.3104 14.6264 5.2168 14.372C5.7712 15.3584 6.8272 16 8 16C9.1728 16 10.2288 15.3584 10.7832 14.372C12.6856 14.6264 14.4 13.1032 14.4 11.2C14.4 11.0616 14.3904 10.9224 14.372 10.7832C15.3584 10.228 16 9.172 16 8C16 6.828 15.3584 5.772 14.372 5.2168ZM7.164 11.5328L4.2304 8.5616L5.3696 7.4384L7.1752 9.2672L10.6368 5.832L11.7632 6.968L7.164 11.5328Z" fill="#3F3F46" />
                     </svg>}
                   </div>

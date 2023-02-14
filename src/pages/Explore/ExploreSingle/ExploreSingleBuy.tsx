@@ -208,9 +208,10 @@ const ExploreSingleBuy = () => {
       erc721MarketplaceAddress,
     )
 
-    if(nft.isListed){
-      await marketPlaceContract.methods.putSaleOff(id,collectionAddress).send({from:walletAddress})
-    
+    if(nft.isListed ||nft.listingType){
+     if(nft.listingType !=="AUCTION") await marketPlaceContract.methods.putSaleOff(id,collectionAddress).send({from:walletAddress})
+      else await marketPlaceContract.methods.putSaleOff(nft.tokenId, collectionAddress).send({ from: walletAddress })
+
       window.location.reload()
     }
     else{
@@ -480,7 +481,7 @@ console.log(nft);
                             }`}
                           onClick={handleSale}
                         >
-                          {!nft?.isListed?
+                          {(!nft?.listingType)?
                             'Put On Sale'
                             : 'Remove from Sale'}
                         </button>
