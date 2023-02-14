@@ -209,8 +209,8 @@ const ExploreSingleBuy = () => {
     )
 
     if(nft.isListed ||nft.listingType){
-     if(nft.listingType !=="AUCTION") await marketPlaceContract.methods.putSaleOff(id,collectionAddress).send({from:walletAddress})
-      else await marketPlaceContract.methods.putSaleOff(nft.tokenId, collectionAddress).send({ from: walletAddress })
+     await marketPlaceContract.methods.putSaleOff(nft.tokenId,collectionAddress).send({from:walletAddress})
+      
 
       window.location.reload()
     }
@@ -332,14 +332,7 @@ console.log(nft);
                     >
                       <p>The Activity</p>
                     </div>
-                    <div
-                      className={
-                        tab === 'offers' ? style.navItemActive : style.navItem
-                      }
-                      onClick={() => setTab('offers')}
-                    >
-                      <p>Offers</p>
-                    </div>
+                   
                   </div>
                   <div className={style.rightIcons} onClick={() => setShowDrop(!showDrop)}>
                     <img src={dark === 'true' ? Share2 : Share} alt="share" />

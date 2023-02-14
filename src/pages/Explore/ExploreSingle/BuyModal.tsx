@@ -128,8 +128,9 @@ const BuyModal = (props: any) => {
           
           
           await erc20token.methods.approve(erc721MarketplaceAddress,(`${amount}`)).send({from:userWallet})
+         
           const buyItem = await marketPlaceContract.methods
-            .buy(props.nft.tokenId, props.collectionAddress)
+            .buy(props?.nft.tokenId, props.collectionAddress)
             .send({ from: userWallet })
           console.log(buyItem)
           setIsLoading(false)
