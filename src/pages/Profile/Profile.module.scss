@@ -240,8 +240,11 @@
 
   max-width: 1400px;
   margin: auto;
-  @include gridRegular(1.5em);
-  grid-template-columns: 2fr 2fr 2fr;
+  // @include gridRegular(1.5em);
+  // grid-template-columns: 2fr 2fr 2fr;
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
   align-items: flex-start;
 
   &::-webkit-scrollbar {
@@ -264,6 +267,7 @@
 
 .itemBx {
   margin-left: 0em;
+  width: 23%;
 }
 
 .noResults {

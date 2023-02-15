@@ -13,6 +13,7 @@ import { ThemeContext } from '../../context/ThemeContext'
 import UseAxios from '../../hooks/AxiosConfig/useAxios'
 import Protected from '../../hooks/AxiosConfig/axiosInstance'
 import { Star } from './CollectionCard'
+import moment from 'moment'
 
 
 const ItemCard = (data: any) => {
@@ -39,10 +40,18 @@ const ItemCard = (data: any) => {
 
   const {Response, error,fetchData,loading}=UseAxios()
   
+  const [img,setImg]=useState<any>()
+  function dataURItoBlob(dataURI:any) {
+    // convert base64 to raw binary data held in a string
+    // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
 
-  console.log(data.nftData);
+   
+    return`data:image/png;base64,${dataURI}`
+  }
+
+
   
- 
+
   const currentAddress: any = sessionStorage.getItem('currentAccount')
   const navigate=useNavigate()
   
@@ -79,10 +88,19 @@ const ItemCard = (data: any) => {
   }
 
   
-  const time = (data: string) => {
-    const date = new Date(data)
     
-    return ` ${date.getDay()}d ${date.getHours()}h ${date.getMinutes()}m ${date.getSeconds()}s`
+
+    
+  const time = (data: string) => {
+    const now = new Date();
+    const date = new Date(data)
+    const diff = now.getTime() - date.getTime();
+  const seconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    
+    return ` ${days}d ${days>0?`${Math.abs((days*24)-hours)}`:hours}h ${hours>0?`${Math.abs((hours*60)-minutes)}`:minutes}m `
   }   
   return (
     <div className={style.card}>
@@ -99,7 +117,7 @@ const ItemCard = (data: any) => {
                   //className={style.imgBg}
                   src={
                     // ''
-
+                    data?.nftData.sImg ? dataURItoBlob(data.nftData.sImg):
                     getImageUrl(data.nftData.url || data.nftData.metadata.image)
                   }
                   alt="item"
@@ -121,8 +139,9 @@ const ItemCard = (data: any) => {
                   //className={style.imgBg}
                   src={
                     // ''
-                  
-                      getImageUrl(data.nftData.url||data.nftData.metadata.image)
+                      data?.nftData.sImg ? dataURItoBlob(data.nftData.sImg) :
+
+                   getImageUrl(data.nftData.url||data.nftData.metadata.image)
                    }
                   alt="item"
                 />

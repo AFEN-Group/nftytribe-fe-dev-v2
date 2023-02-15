@@ -87,13 +87,13 @@ const Explore = () => {
          if (map.has(nft.id)) {
            return
          }
-         else setData([...data, ...res.data]);
+         else setData([...data, ...res.data.results]);
 
 
        })
 
      }
-    else if(filterQuery.listingType||filterQuery.physical||page===1)setData(res.data)
+    else if(filterQuery.listingType||filterQuery.physical||page===1)setData(res.data.results)
      else {
         let map = new Map<any,any>()
         data.map((nft:any)=> map.set(nft.id,true)
@@ -102,7 +102,7 @@ const Explore = () => {
           if(map.has(nft.id)){
            return
           }
-          else   setData([...data, ...res.data]);
+          else   setData([...data, ...res.data.results]);
           
 
         })

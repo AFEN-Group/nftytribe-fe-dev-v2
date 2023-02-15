@@ -110,7 +110,7 @@ const Profile = () => {
      
       if(!query)setCollectibles(data?.result)
       else if(query!=='on_sale') setCollectibles(data.results)
-      else setCollectibles(data)
+      else setCollectibles(data.results)
     
       setIsLoading(false)
   },[postResponse] )
