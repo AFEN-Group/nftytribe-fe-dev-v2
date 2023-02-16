@@ -13,8 +13,7 @@ import UseAxios from "../../../hooks/AxiosConfig/useAxios";
 import Protected from "../../../hooks/AxiosConfig/axiosInstance";
 import { ChainContext } from "../../../context/chain";
 import millify from "millify";
-
-
+import numeral from "numeral";
 
 const TopProjects = () => {
   //const [number, setNumber] = useState(1)
@@ -28,31 +27,37 @@ const TopProjects = () => {
     chain: false,
   });
   const [themeState] = useContext<any>(ThemeContext);
-  const {fetchData,Response,error,loading}= UseAxios()
+  const { fetchData, Response, error, loading } = UseAxios();
   const dark = themeState.dark;
   let itemNumber = 1;
   // const [collections, setCollections] = useState([]);
- 
+
   /*@ts-ignore*/
-  const collections:any=Response?.data.results
-  
-  const today= new Date()
-  const [timeago,setTimeAgo]=useState(7)
-  const daysAgo=(day:any)=>{
-    
-   const date= new Date(today.getTime()-(day*60*60*24*1000))
-    return date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear()
-  } 
-   useEffect(() => {
+  const collections: any = Response?.data.results;
+
+  const today = new Date();
+  const [timeago, setTimeAgo] = useState(7);
+  const daysAgo = (day: any) => {
+    const date = new Date(today.getTime() - day * 60 * 60 * 24 * 1000);
+    return (
+      date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()
+    );
+  };
+  useEffect(() => {
     fetchData({
-      url: `api/collection/stats/?startDate=${daysAgo(28)}&endDate=${today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear() }`,
-      method:'get',
-      axiosInstance:Protected(sessionStorage.getItem('token'))
-    })
+      url: `api/collection/stats/?startDate=${daysAgo(28)}&endDate=${
+        today.getDate() +
+        "-" +
+        (today.getMonth() + 1) +
+        "-" +
+        today.getFullYear()
+      }`,
+      method: "get",
+      axiosInstance: Protected(sessionStorage.getItem("token")),
+    });
   }, [timeago]);
 
-  const {chain}=useContext(ChainContext)
-  
+  const { chain } = useContext(ChainContext);
 
   const getImage = (uri: any) => {
     let url;
@@ -66,16 +71,15 @@ const TopProjects = () => {
     return url;
   };
 
-
   return (
     <>
       <div className={style.topPro}>
         <div className={style.topProTop}>
           <h1>
             <span>
-              Top Creators
-              {/* /*{t("top-collections")}*/ }
-              </span>{" "}
+              Top Collections
+              {/* /*{t("top-collections")}*/}
+            </span>{" "}
           </h1>
           <div className={style.topProFilters}>
             <div
@@ -90,37 +94,54 @@ const TopProjects = () => {
           {showDrop.period && (
             <div
               className={`${style.drop2}  animate__animated animate__fadeInUp animate__faster`}
-              onClick={() =>{
-                
-                setShowDrop({ ...showDrop, period: !showDrop.period })
+              onClick={() => {
+                setShowDrop({ ...showDrop, period: !showDrop.period });
               }}>
               <p
-                onClick={() =>{setTimeAgo(1)
-                  setFilter({ ...filter, period: "Last 24 hours" })
+                onClick={() => {
+                  setTimeAgo(1);
+                  setFilter({ ...filter, period: "Last 24 hours" });
                 }}>
                 {t("last-24")}
               </p>
               <p
-                onClick={() => { setTimeAgo(1) 
-                setFilter({ ...filter, period: "Last 7 days" })}}>
+                onClick={() => {
+                  setTimeAgo(1);
+                  setFilter({ ...filter, period: "Last 7 days" });
+                }}>
                 {t("last-7")}
               </p>
-              <p onClick={() => { setTimeAgo(28)
-               setFilter({ ...filter, period: "Last month" })}}>
+              <p
+                onClick={() => {
+                  setTimeAgo(28);
+                  setFilter({ ...filter, period: "Last month" });
+                }}>
                 {t("last-month")}
               </p>
             </div>
           )}
           <div className={style.topProContainer}>
-
-          
             {!collections
               ? null
-              : collections.map((collection: any,id:any) => {
-                return (
-                  <FeaturedProject _id={collection?.collection.id} key={id} img={collection?.collection?.coverImage} name={collection?.collection.name} chain={chain?.filter((chain: any) => { return chain.id === collection?.collection?.chainId })[0]?.name} percentage={collection?.priceChange} fp={parseInt(collection?.floorPrice).toExponential(2)} vol={millify(collection.nativeVol)} id={id +1} />  
-                );
-              })}
+              : collections.map((collection: any, id: any) => {
+                  return (
+                    <FeaturedProject
+                      _id={collection?.collection.id}
+                      key={id}
+                      img={collection?.collection?.coverImage}
+                      name={collection?.collection.name}
+                      chain={
+                        chain?.filter((chain: any) => {
+                          return chain.id === collection?.collection?.chainId;
+                        })[0]?.name
+                      }
+                      percentage={collection?.priceChange}
+                      fp={parseInt(collection?.floorPrice).toExponential(2)}
+                      vol={millify(collection.nativeVol)}
+                      id={id + 1}
+                    />
+                  );
+                })}
           </div>
           <Link to="/collectionDashboard" className={`${style.tpBtn}`}>
             <button className={`${dark === "true" ? "yellowBtn" : "blueBtn"}`}>
@@ -135,37 +156,32 @@ const TopProjects = () => {
 
 export default TopProjects;
 
-const FeaturedProject=(props:any)=>{
-  return(
-    <Link
-      to={`/collectionDetails/${props._id}`}
-      className={style.tpItem}
-    >
+const FeaturedProject = (props: any) => {
+  return (
+    <Link to={`/collectionDetails/${props._id}`} className={style.tpItem}>
       <div className={style.tpLeft}>
         <p>{props.id}</p>
         <div className="img">
-              <img src={ props.img||user }  alt="collection"/>
-          </div>
+          <img src={props.img || user} alt="collection" />
+        </div>
       </div>
       <div className={style.tpRight}>
         <div className={style.tprInfo}>
-          <h2>{props.name||"Untitled"}</h2>
-          <p style={{ color: '#3CC13B' }}>
-          {props.percentage}
-        </p>  
+          <h2>{props.name}</h2>
+          <p style={{ color: "#3CC13B" }}>
+            {numeral(props.percentage).format("0.0a")}
+          </p>
         </div>
-         <div style={{display:'flex',gap:'32px'}}>
-          <p><div>
-            Floor price:
-            </div>   {props.fp}</p>
-          <p > <div>
-                vol :
-            </div> {parseInt(props.vol).toExponential(2)} <span style={{ textTransform: 'uppercase' }}>{props.chain}</span></p>
-          </div>
-        <div className={style.tprNumbers}>
-         
+        <div style={{ display: "flex", gap: "32px" }}>
+          <p>Floor price: {numeral(props.fp).format("0.0a")}</p>
+          <p>
+            {" "}
+            Vol: {numeral(props.vol).format("0.0a")}{" "}
+            <span style={{ textTransform: "uppercase" }}>{props.chain}</span>
+          </p>
         </div>
+        <div className={style.tprNumbers}></div>
       </div>
     </Link>
-  )
-}
+  );
+};
