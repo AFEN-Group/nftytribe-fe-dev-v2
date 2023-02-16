@@ -12,8 +12,10 @@
     "@trustwallet/wallet-core": "^3.0.4",
     "@types/jest": "^27.4.1",
     "@types/node": "^16.11.33",
+    "@types/numeral": "^2.0.2",
     "@types/react": "^18.0.8",
     "@types/react-dom": "^18.0.3",
+    "@types/web3": "^1.2.2",
     "@uauth/js": "^2.4.0",
     "@walletconnect/web3-provider": "^1.7.8",
     "animate.css": "^4.1.1",
@@ -29,6 +31,7 @@
     "mathjs": "^10.6.4",
     "millify": "^5.0.1",
     "moment": "^2.29.4",
+    "numeral": "^2.0.6",
     "query-string": "^7.1.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
@@ -48,7 +51,7 @@
     "walletconnect": "^1.7.8",
     "web-vitals": "^2.1.4",
     "web3": "^1.7.0",
-    "web3-eth-contract": "^1.7.4"
+    "web3-eth-contract": "^1.8.2"
   },
   "scripts": {
     "start": "react-app-rewired start",
