@@ -169,7 +169,7 @@ const FeaturedProject = (props: any) => {
         <div className={style.tprInfo}>
           <h2>{props.name}</h2>
           <p style={{ color: "#3CC13B" }}>
-            {numeral(props.percentage).format("0.0a")}
+            {numeral(props.percentage).format("0.0a")}%
           </p>
         </div>
         <div style={{ display: "flex", gap: "32px" }}>
