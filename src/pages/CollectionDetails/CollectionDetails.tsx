@@ -171,7 +171,7 @@ const CollectionDetails = () => {
                     let formData = new FormData();
 
                     formData.append("images", file);
-
+                    console.log(sessionStorage.getItem("token"));
                     let key = await (
                       await Protected(sessionStorage.getItem("token"))["post"](
                         "api/uploads/temp",
