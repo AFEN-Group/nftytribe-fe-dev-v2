@@ -286,36 +286,7 @@ const CollectionDashboard = () => {
                         )
                       );
                     })}
-                {/* <div className={style.tableItem}>
-                  <div className={style.collectionInfo}>
-                    <p>1</p>
-                    <img src={user} alt="user" className={style.user} />
-                    <p>Avengers</p>
-                    <img src={arrow2} alt="arrow-up" />
-                  </div>
-                  <div className={style.itemAlign}>
-                    <p>61,555</p>
-                  </div>
-                  <div className={style.itemAlign}>
-                    <p>
-                      <span>+70%</span>
-                    </p>
-                  </div>
-                  <div className={style.itemAlign}>
-                    <p>
-                      <span>+800%</span>
-                    </p>
-                  </div>
-                  <div className={style.itemAlign}>
-                    <p>1 ETH</p>
-                  </div>
-                  <div className={style.itemAlign}>
-                    <p>2k</p>
-                  </div>
-                  <div className={style.itemAlign}>
-                    <p>500</p>
-                  </div>
-                </div> */}
+               
 
                 <div className={style.line1}></div>
               </div>
@@ -346,7 +317,7 @@ const CollectionDashboard = () => {
                     return (
                       collection.name && (
                         <Link
-                          to={`/collectionDetails/${collection.contractAddress}`}
+                          to={`/collectionDetails/${collection.id}`}
                           className={style.tpItem}
                           key={collection.id}>
                           <div className={style.tpLeft}>

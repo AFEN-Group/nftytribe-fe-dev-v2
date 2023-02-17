@@ -10,7 +10,7 @@
   //background: pink;
   width: 95%;
   margin: auto;
-  max-width: 1300px;
+  max-width: 1500px;
   position: relative;
 }
 
@@ -24,7 +24,7 @@
 
 .exploreTop {
   text-align: center;
-  width: 90%;
+  width: 100%;
   margin-left: auto;
 
   h1 {
@@ -89,7 +89,7 @@
 
   //background: lavender;
   .sideBar {
-    width: 24%;
+    width: 20%;
     min-width: 280px;
     height: auto;
     min-height: 100vh;
@@ -149,6 +149,7 @@
   border: 1px solid #52525B;
   gap: 24px;
   border-radius: 4px;
+  width: fit-content;
   padding: 1.5em 1.5em 1.5em 1.5em;
   @include flexRegular(column, center);
   align-items: flex-start;
@@ -267,21 +268,21 @@
 // }
 
 .itemsContainer {
-  width: 76%;
-  max-width: 1500px;
+  width: 80%;
+  max-width: 1600px;
   margin-left: 1em;
   
 
   .itemsContent {
     padding: 0 0 1em 0;
-    width: 100%;gap: 24px;
+    width: 100%;gap: 16px;
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
     justify-content: flex-start;
 
     >div{
-      width: 23% !important;
+      // width: 23% !important;
       height: 330px;
     }
     &::-webkit-scrollbar {
@@ -395,7 +396,7 @@
   .exploreCatsM {
     display: block;
     margin: 2em auto;
-    width: 75%;
+    width: 100%;
   }
 
   .slideBoxM {
@@ -474,7 +475,9 @@
     .itemsContainer {
       .itemsContent {
         //background: pink;
-        grid-template-columns: 1fr;
+        // grid-template-columns: 1fr;
+        // display: flex;
+        // flex-wrap: ;
         margin: auto;
         padding: 0;
         align-items: center !important;

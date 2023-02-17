@@ -385,10 +385,10 @@
   .itemsContent {
     // @include flexRegular(row, flex-start);
     // @include gridRegular(1em);
-    // display: flex;
-    // flex-wrap: wrap;
-    // gap: 24px;
-    grid-template-columns: 2fr 2fr 2fr;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    // grid-template-columns: 2fr 2fr 2fr;
     align-items: flex-start;
 
     &::-webkit-scrollbar {
@@ -501,7 +501,12 @@
     margin: 4em auto;
 
     .itemsContent {
-      @include flexRegular(column, flex-start);
+
+      >div{
+        width: 80%;
+        margin: 0 auto;
+      }
+      // @include flexRegular(column, flex-start);
     }
   }
 }

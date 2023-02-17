@@ -23,6 +23,7 @@ import Web3 from 'web3'
 import contracts from '../../web3-Service/contractAddress'
 
 import abi from '../../smart_contracts/erc721Mintable.json'
+import collectionabi from '../../smart_contracts/collections.json'
 import erc721MarketplaceAbi from '../../smart_contracts/erc721Market.json'
 import erc721CollectionAbi from '../../smart_contracts/erc721Collection.json'
 import erc1155MintableAbi from '../../smart_contracts/erc1155Mintable2.json'
@@ -133,7 +134,7 @@ const CreateItems = () => {
     }
 
   }
-  console.log(currentChain === '0x61', contracts.erc721MintableAddress, contracts.BSC_erc721MintableAddress );
+  // console.log(currentChain === '0x61', contracts.erc721MintableAddress, contracts.BSC_erc721MintableAddress );
   
   useEffect(() => {
     const currentChain = sessionStorage.getItem('chain')
@@ -152,7 +153,7 @@ const CreateItems = () => {
       setErc1155MintableAddress(contracts.BSC_erc1155MintableAdddress)
       setErc1155MarketplaceAddress(contracts.BSC_erc1155MarketplaceAdddress)
     }
-    console.log(itemType, 'type')
+    // console.log(itemType, 'type')
     getCategories()
     getCollections()
   }, [userState])
@@ -160,7 +161,7 @@ const CreateItems = () => {
   const inputHandler = async (event: any) => {
     setValidated(false);
     const { name, value } = event.target;
-    console.log(event);
+    // console.log(event);
     
     if (name === "price" || name === "royalties" || name === "copies") {
       //const valueFiltered = value.replace(/\D/g, '')
@@ -174,7 +175,7 @@ const CreateItems = () => {
         specialChars.test(value) ||
         dots?.length >= 2
       ) {
-        console.log(value);
+        // console.log(value);
       } else {
         setUserInput({
           ...userInput,
@@ -268,24 +269,26 @@ const CreateItems = () => {
 
     }
   };
-
+//  console.log(collectionabi)
   const Mint=async()=>{
     try {
       // @ts-ignore
       const contract = new web3.eth.Contract(abi, userInput.collection_address)
-
-
-      // console.log(Response?.data?.uri, userInput.royalties);
-      const charge = await contract.methods.mintingCharge().call()
-      // console.log(contract, userInput.collection_address);
       // @ts-ignore
-      // console.log(charge, 'calling', Response?.data?.uri?.replace('ipfs://',''), userInput.royalties);
+      const collectionContract = new web3.eth.Contract(collectionabi,userInput.collection_address)
+
+     if(userInput.collection_address!==contracts.BSC_erc721MintableAddress){
+       const req = await collectionContract.methods.mint(Response?.data?.uri, userInput.royalties).send({ from: wallet_address})
+       console.log(req)
+     }
+     else {const charge = await contract.methods.mintingCharge().call()
+      // console.log(contract, userInput.collection_address);
+      
        // @ts-ignore
 
-      await contract.methods.mint(Response?.data?.uri, userInput.royalties).send({ from: wallet_address, value: charge })
+      await contract.methods.mint(Response?.data?.uri, userInput.royalties).send({ from: wallet_address, value: charge })}
       setStep(4)
-      const url = await contract.methods.tokenURI(8).call()
-      console.log(url);
+     
       
     } catch (error) {
       console.log(error);

@@ -437,9 +437,9 @@ const CollectionDetails = () => {
                         {collectibles?.map((nft: any, i: number) => {
                           return (
                             nft?.id && (
-                              <div className={style.itemBx} key={nft._id}>
-                                <ItemCard nftData={nft} />
-                              </div>
+                              // <div className={style.itemBx} >
+                                <ItemCard key={nft._id}nftData={nft} />
+                              // </div>
                             )
                           );
                         })}
