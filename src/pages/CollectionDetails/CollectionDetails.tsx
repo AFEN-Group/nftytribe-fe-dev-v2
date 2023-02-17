@@ -147,7 +147,7 @@ const CollectionDetails = () => {
       <Container>
         <div className={style.container}>
           <div
-            style={{ height: "400px" }}
+            style={{ height: "400px", overflow: "hidden" }}
             className={`${style.coverBx} animate__animated animate__fadeInDown `}>
             <div className={style.coverBtns}>
               <Link to="/profile">
@@ -192,7 +192,7 @@ const CollectionDetails = () => {
               </div>
             </div>
             <img
-              style={{ height: "100%" }}
+              style={{ width: "100%" }}
               src={collection?.bg || collection?.coverImage}
               alt="cover"
             />
