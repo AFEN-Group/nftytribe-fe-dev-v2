@@ -9,8 +9,8 @@
 
   
   background: $mainGradient;
-  width: 23%;
-  height: 370px;
+  width:max(23%,256px);
+  height: 330px;
   //background: black;
 
 
@@ -94,7 +94,7 @@
     height: 100%;
     max-width: 468px;
     //height: 320px;
-    min-height: 320px;
+    // min-height: 320px;
   }
 }
 
@@ -140,7 +140,7 @@
   .cardImg {
     img {
       max-width: 468px;
-      min-width: 205px;
+      // min-width: 205px;
     }
   }
 }
@@ -151,7 +151,7 @@
 
     img {
       max-width: 408px;
-      min-width: 205px;
+      // min-width: 205px;
     }
   }
 }
@@ -183,7 +183,7 @@
   .cardImg {
 
     img {
-      min-width: 350px;
+      // min-width: 350px;
       max-width: 500px;
     }
   }

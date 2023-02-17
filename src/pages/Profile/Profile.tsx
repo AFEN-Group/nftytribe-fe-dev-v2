@@ -40,7 +40,7 @@ const Profile = () => {
   const [res, setRes] = useState<any>()
   const [query, setQuery] = useState<string>('')
   const [currentPage, setCurrentPage] = useState('')
-  const [totalPages, setTotalPages] = useState('')
+  // const [totalPages, setTotalPages] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const [showModal, setShowModal] = useState<any>()
   const [currentChain, setCurrentChain] = useState<any>()
@@ -53,7 +53,8 @@ const Profile = () => {
   // const {error:getError,loading:getLoading,Response:response,fetchData:getData}=UseAxios()
   const {error:Error,loading:Loading,Response:postResponse,fetchData:Data}=UseAxios()
   const {userState,setUserState}=useContext(UserContext)
-
+  const cursor= postResponse?.data.cursor
+  const page = postResponse?.data.page
   useEffect(()=>{
     setRes(userState?.user)
   },[userState])
@@ -72,11 +73,11 @@ const Profile = () => {
  
 
   useEffect(() => {
-    console.log(currentPage);
+    // console.log();
     if(!query||query===''){
       Data({
         method: 'get',
-        url: `api/nft/user/${currentAddress}?page=${currentPage!==null && currentPage}&chain=${currentChainId}`,
+        url: `api/nft/user/${currentAddress}?page=${cursor?cursor:''}&chain=${currentChainId}`,
         axiosInstance: Protected(sessionStorage.getItem('token'))
       })
     }
@@ -94,21 +95,24 @@ const Profile = () => {
      axiosInstance:Protected(sessionStorage.getItem('token'))
     })
     
-  }, [currentAddress, currentPage,query])
+  }, [currentAddress,currentPage,query])
 
 
 
  useEffect(()=>{
-     console.log(postResponse);
+    
      type data={
       data?:any
      }
      const {data}=postResponse||({} as data)
-     setTotalPages(data?.cursor);
+    //  setTotalPages(data?.cursor);
   
     //  console.log(data.results);
      
-      if(!query)setCollectibles(data?.result)
+      if(!query){
+        page > 1 ? setCollectibles([...collectibles,...data?.result]) :setCollectibles(data?.result)
+      }
+
       else if(query!=='on_sale') setCollectibles(data.results)
       else setCollectibles(data.results)
     
@@ -116,11 +120,11 @@ const Profile = () => {
   },[postResponse] )
 
  
- console.log(collectibles);
+
  
   
   const nextPage = () => {
-     setCurrentPage(totalPages)   
+     setCurrentPage(cursor)  
   }
  
   const closeModal = () => {
@@ -418,7 +422,7 @@ const Sold = (props:any)=>{
 
 const Item= (data:any)=>{
 
-  console.log(data)
+  // console.log(data)
  
   const getImageUrl = (uri: any) => {
     // console.log(uri);
@@ -438,7 +442,7 @@ const Item= (data:any)=>{
   const { Response, error, fetchData, loading } = UseAxios()
 
 
-  console.log(data.nftData);
+  // console.log(data.nftData);
 
 
   const currentAddress: any = sessionStorage.getItem('currentAccount')
@@ -456,7 +460,7 @@ const Item= (data:any)=>{
     
    
   }
-  console.log(data?.nftData?.nftInfo, data?.nftData?.nftInfo?.address, data?.nftData?.id, data?.nftData?.listingInfo?.tokenId);
+  // console.log(data?.nftData?.nftInfo, data?.nftData?.nftInfo?.address, data?.nftData?.id, data?.nftData?.listingInfo?.tokenId);
   
   return(
     <div onClick={open} className="item">
