@@ -285,7 +285,7 @@ const ConnectWallet = (props: any) => {
                     <div className={style.wallets}>
                       <div className={style.activeWallet}>
                         <div className={style.awleft}>
-                          <img style={{ width: '40px' }} src={sessionStorage.getItem('walletType') === 'Metamask' ? Metamask : sessionStorage.getItem('walletType') === 'uauth'?Uath:"trustWallet"?TWT: Wc} alt="wallet" />
+                          <img style={{ width: '40px' }} src={sessionStorage.getItem('walletType') === 'Metamask' ? Metamask : sessionStorage.getItem('walletType') === 'uauth'?Uath: Wc} alt="wallet" />
                           <div className={style.awInfo}>
                             <h3>{shortenAddressSmall(currentAccount)}</h3>
 

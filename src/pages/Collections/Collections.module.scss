@@ -118,6 +118,10 @@
   align-items: flex-start;
   gap: 24px;
   flex-wrap: wrap;
+
+  >div{
+    height: 350px !important;
+  }
 }
 
 // Import

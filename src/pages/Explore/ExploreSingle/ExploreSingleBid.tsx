@@ -68,10 +68,10 @@ const ExploreSingle = () => {
     //const [priceType, setPriceType] = useState('auction')
     const [tab, setTab] = useState('art')
   
-    const [isLoaded, setIsLoaded] = useState(false)
-    // const [nft, setNft] = useState<any>()
+    
+    
     const [showPrompt, setShowPrompt] = useState(false)
-    // const [nftDetails, setNftDetails] = useState<any>()
+    
     const [activities, setActivities] = useState<any>()
     const [auctionData, setAuctionData] = useState<any>()
     //const [showBuy, setShowBuy] = useState(false)
@@ -153,6 +153,8 @@ const ExploreSingle = () => {
 const nft:any= Response?.data
 const timeout= new Date(nft?.timeout).getTime()-moment.now()
 // const timeleft= new Date(timeout-moment.now())
+
+
 const getTimeleft=()=>{
     const day = Math.floor(timeout/86400000)
     const hours= Math.floor((timeout-(day*86400000))/3600000)
@@ -163,91 +165,61 @@ const getTimeleft=()=>{
    const [tokenName,setTokenName]=useState('')
    
 
+   const auctionFetch = async () => {
+        console.log('starting');
+        
+        let erc721Contract
+
+        let marketPlaceContract
+
+        let web3: any = new Web3(window.ethereum)
+        if (window.ethereum) {
+            web3 = new Web3(window.ethereum);
+
+            erc721Contract = new web3.eth.Contract(
+                erc721Abi,
+                collectionAddress,
+            )
+
+            marketPlaceContract = await new web3.eth.Contract(
+                marketPlaceAbi,
+                erc721MarketplaceAddress,
+            )
+
+
+        } else {
+            toast.error(`Please connect wallet!`,
+                {
+                    duration: 3000,
+                }
+            )
+        }
+
+       console.log('continue')
+        const erc20token = new web3.eth.Contract(erc20.abi, nft.moreInfo.erc20TokenAddress)
+        const owner = await erc721Contract.methods.ownerOf(nft?.tokenId).call()
+        
+        
+        const name = await erc20token.methods.name().call()
+        // console.log("ownerr", owner)
+        const auctionInfo = await marketPlaceContract.methods.auctions(collectionAddress, nft.tokenId).call()
+        //alert('ggg')
+        // console.log("infoo>>>>", auctionInfo)
+        setTokenName(name)
+        setAuctionData(auctionInfo)
+
+        if (auctionInfo.highestBidder.toLocaleUpperCase() === walletAddress.toLocaleUpperCase()) {
+            setCanCollect(true)
+        } else {
+            setCanCollect(false)
+        }
+
+
+    }
 
     useEffect(() => {
-        const auctionFetch = async () => {
-   
-            let erc721Contract
-   
-            let marketPlaceContract
-            //let contract_address = erc721MarketplaceAddress
-            let web3: any = new Web3(window.ethereum)
-            if (window.ethereum) {
-                web3 = new Web3(window.ethereum);
-
-                erc721Contract = new web3.eth.Contract(
-                    erc721Abi,
-                    collectionAddress,
-                )
-
-                marketPlaceContract = await new web3.eth.Contract(
-                    marketPlaceAbi,
-                    erc721MarketplaceAddress,
-                )
-               
-
-            } else {
-                toast.error(`Please connect wallet!`,
-                  {
-                    duration: 3000,
-                  }
-                )
-            }
-            //erc721Contract = await new web3.eth.Contract(erc721Abi, collectionAddress)
-
-            const erc20token = new web3.eth.Contract(erc20.abi, nft.moreInfo.erc20TokenAddress)
-            const owner = await erc721Contract.methods.ownerOf(nft?.tokenId).call()
-            console.log(await erc20token.methods);
-            
-            const name= await erc20token.methods.name().call()
-            console.log("ownerr", owner)
-            const auctionInfo = await marketPlaceContract.methods.auctions(collectionAddress, nft.tokenId).call()
-            //alert('ggg')
-            console.log("infoo>>>>", auctionInfo)
-
-            setTokenName(name)
-
-            setAuctionData(auctionInfo)
-            
-          
-          
-            
-            
-          
-            // function updateCount() {
-            //     setCountX(countX + 1)
-            // }
-            // setInterval(updateCount, 1000);
-
-            //check if bid is still active
-            //const dateToday = Math.floor(Date.now() / 1000)
-            // //console.log("today>>>", dateToday)
-            // //console.log("end date>>>", dateFuture)
-            //console.log(parseInt(dateFuture), dateToday, parseInt(dateFuture) < dateToday)
-            //console.log("end date", parseInt(dateFuture))
-            //console.log("today's date", dateToday)
-
-
-            // if (!checkIfBIdTimePasses) {
-            //     setIsBidActive(false)
-            // } else {
-            //     setIsBidActive(true)
-            // }
-
-            //check if item can be collected
-            // console.log("bidder>>> ", auctionInfo.highestBidder.toLocaleUpperCase())
-            // console.log("my wallet>>> ", walletAddress.toLocaleUpperCase())
-            if (auctionInfo.highestBidder.toLocaleUpperCase() === walletAddress.toLocaleUpperCase()) {
-                setCanCollect(true)
-            } else {
-                setCanCollect(false)
-            }
-
-          
-        }
         auctionFetch()
-
-    }, [collectionAddress, id, erc721MarketplaceAddress, countX])
+    }, [collectionAddress,id,erc721MarketplaceAddress,countX,Response])
 
 
   const {userState,setUserState}=useContext(UserContext)
@@ -326,6 +298,7 @@ const getTimeleft=()=>{
         return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
     }
 
+//    console.log(auctionData);
    
     return (
         <>
@@ -613,43 +586,7 @@ const getTimeleft=()=>{
                                                 </div>
                                             ))
                                            }
-                                          
-                      {/*  <div className={style.offer}>
-                        <div className={style.offerUser}>
-                          <img src={User} alt="user" />
-                          <p>Michael Carson</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>0x120999...</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>0.07BNB</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>01/07/21</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>12:33:08</p>
-                        </div>
-                      </div>
-                      <div className={style.offer}>
-                        <div className={style.offerUser}>
-                          <img src={User} alt="user" />
-                          <p>Michael Carson</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>0x120999...</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>0.07BNB</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>01/07/21</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>12:33:08</p>
-                        </div>
-                      </div> */}
+                       
                                         </div>
                                     </div>
                                 )}

@@ -120,7 +120,7 @@ const Explore = () => {
    }
   };
   
-  const [update,setUpdate]=useState(false)
+  // const [update,setUpdate]=useState(false)
   useEffect(() => {
     getExploreCollectibles();
     getCategories()
@@ -129,7 +129,7 @@ const Explore = () => {
       // cancel the request
       controller.abort()
     }
-  }, [chain,filterQuery,page,update]);
+  }, [chain,filterQuery,page]);
   const nextPage = () => {
     if (totalPages >page) {
       setPage((page)=>page+1)
@@ -184,7 +184,7 @@ const Explore = () => {
 
  
   
-  console.log(chain,data);
+  // console.log(chain,data);
   
 
   // mobile filter
@@ -335,11 +335,11 @@ const Explore = () => {
                         </div>
                       </div>
                       <div className={style.expBx}>
-                        <div className={`${style.exploreCatM} 
+                        <div  className={`${style.exploreCatM } 
                     `}
                           onClick={(e) => setFilterQuery({...filterQuery,physical:!filterQuery.physical})}
                         >
-                          <p>Physical Item</p>
+                          <p >Physical Item</p>
 
                         </div>
                       </div>
@@ -483,6 +483,39 @@ ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate_
                     </p>
                   </div>
                   <div
+                    className={style.sBItem}
+                    onClick={() =>
+                      setFilter({ ...filter, blockChain: !filter.blockChain })
+                    }>
+                    <p>{t("Blockchain")}</p>
+                    <img
+                      src={filter.blockChain ? Arrow2 : Arrow1}
+                      alt="filter"
+                    />
+                  </div>
+                  {filter.blockChain && (
+                    <form
+                      className={`${dark === "true" ? style.filterBxD : style.filterBxL
+                        } animate__animated animate__fadeIn`}>
+                      {
+                        chain.map((chain: any) => (
+                          <div onClick={() => {
+                            setPage(1)
+                            setFilterQuery({ ...filterQuery, chain: chain.id })
+
+                          }} className={style.filterItem1}>
+                            <div className={style.filterTxt}>
+                              <p>{chain.name}</p>
+                            </div>
+                            <Radio on={filterQuery.chain === chain.id} />
+                          </div>
+                        ))
+                      }
+
+
+                    </form>
+                  )}
+                  <div
                     onClick={() =>
                       setFilter({ ...filter, price: !filter.price })
                     }
@@ -572,51 +605,9 @@ ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate_
                       </div> */}
                     </form>
                   )}
-                  <div
-                    className={style.sBItem}
-                    onClick={() =>
-                      setFilter({ ...filter, blockChain: !filter.blockChain })
-                    }>
-                    <p>{t("Blockchain")}</p>
-                    <img
-                      src={filter.blockChain ? Arrow2 : Arrow1}
-                      alt="filter"
-                    />
-                  </div>
-                  {filter.blockChain && (
-                    <form
-                      className={`${dark === "true" ? style.filterBxD : style.filterBxL
-                        } animate__animated animate__fadeIn`}>
-                          {
-                            chain.map((chain:any)=>(
-                              <div onClick={()=>{
-                              setPage(1)
-                              setFilterQuery({...filterQuery,chain:chain.id})
-                              
-                          }} className={style.filterItem1}>
-                                <div className={style.filterTxt}>
-                                  <p>{chain.name}</p>
-                                </div>
-                                <Radio on={filterQuery.chain===chain.id}/>
-                              </div>
-                            ))
-                          }
-                      
-                      
-                    </form>
-                  )}
+                
                  
-                  <form className={style.sBItem}>
-                    <p >{t("Physical Item")}</p>
-                    {/* <AcceptBtn onClick={setDefaults} /> */}
-                    <Radio on={filterQuery.physical} click={() => {
-                      setPage(1)
-                    setFilterQuery({ ...filterQuery, physical: !filterQuery.physical
-                      })}} />
-
-                   
-                    {/* <img src={Arrow1} alt="filter" /> */}
-                  </form>
+                 
 
                   
                   {filter.collection && (
@@ -641,9 +632,27 @@ ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate_
                   </div>
                   <div className={style.sBItem}>
                     <p>Favorited</p>
-                    <Radio click={''} />
+                    <Radio click={() => {
+                      if (filterQuery.isFavorite) setFilterQuery({ ...filterQuery, isFavorite: undefined })
+                      else
+                        setFilterQuery({ ...filterQuery, isFavorite: true })
+                    }}
+                      on={filterQuery.isFavorite} />
                     
                   </div>
+                  <form className={`${style.sBItem} disable_link`}>
+                    <p className="disable_link" >{t("Physical Item")}</p>
+                    {/* <AcceptBtn onClick={setDefaults} /> */}
+                    <Radio on={filterQuery.physical} click={() => {
+                      setPage(1)
+                      setFilterQuery({
+                        ...filterQuery, physical: !filterQuery.physical
+                      })
+                    }} />
+
+
+                    {/* <img src={Arrow1} alt="filter" /> */}
+                  </form>
                 </div>
               </div>
               {isLoading ? (
@@ -660,7 +669,7 @@ ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate_
                             return (
                               (nft?.id && nft?.url) && (
                                 
-                                  <ItemCard update={()=>setUpdate(!update)} key={nft.id} nftData={nft} />
+                                  <ItemCard  key={nft.id} nftData={nft} />
                               
 
                               )

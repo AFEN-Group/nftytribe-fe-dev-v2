@@ -1,5 +1,5 @@
 import useState from 'react-usestateref'
-import { useRef } from 'react'
+import { useContext, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import style from './Verify.module.scss'
 import Close from './assets/close.svg'
@@ -8,6 +8,7 @@ import { publicRequest } from '../../../utils/requestMethods'
 import Happy from './assets/happy.svg'
 import toast from 'react-hot-toast'
 import { e } from 'mathjs'
+import { UserContext } from 'src/context/UserContext'
 //import { Cancel } from '@material-ui/icons'
 
 const EnterOtp = (props: any) => {
@@ -23,6 +24,8 @@ const EnterOtp = (props: any) => {
         number5: "",
         number6: "",
     })
+
+    const { userState, setUserState } = useContext(UserContext)
 
     const number1Ref = useRef<any>()
     const number2Ref = useRef<any>()
@@ -87,8 +90,10 @@ const EnterOtp = (props: any) => {
                 await publicRequest.post(`api/user/email/verify`, otpData,{headers:{
                     'Authorization':`Bearer ${sessionStorage.getItem('token')}`
                 }})
+            setUserState({ ...userState, user: enterOtpReq.data })
+
             console.log(enterOtpReq)
-            window.location.reload()
+            
             isUpdated(true)
 
         } catch (err) {

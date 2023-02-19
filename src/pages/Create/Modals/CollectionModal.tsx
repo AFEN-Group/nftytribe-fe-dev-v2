@@ -54,8 +54,8 @@ const CollectionModal = (props: any) => {
                 <img src={Happy} alt="success" />
               </div>
             </div>
-            <Link to="/profile" className={style.modalBtnSingle}>
-              <button>View Profile</button>
+            <Link to="/collections" className={style.modalBtnSingle}>
+              <button>View  Collections</button>
             </Link>
           </motion.div>
           {/* )} */}
