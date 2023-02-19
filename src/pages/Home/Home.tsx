@@ -12,27 +12,26 @@ import Trending from './components/Trending'
 
 const Home = () => {
 
-  const [items, setItems] = useState([])
+  // const [items, setItems] = useState([])
   const [featured, setFeatured] = useState()
   const {Response,error,fetchData,loading}=UseAxios()
   const [isLoading,setIsLoading]=useState(false)
  
-  console.log(loading)
- const render= useMemo(()=>{
-    if(Response){
-      // console.log('rendering');
-      
-      const {data}:any= Response;
-      setItems(data?.data.collectibles);
-      setIsLoading(false)
-    }
-  },[Response])
+  useEffect(()=>{
+    fetchData({
+      method:'get',
+      url:'/api/nft/listings?chain=1',
+      axiosInstance:Protected(sessionStorage.getItem('token'))
+
+    })
+  },[])
+  
   return (
     <>
       {/* <Header /> */}
-      <Hero isLoading={isLoading} featured={items[0]}  />
+      <Hero isLoading={loading} featured={Response?.data?.results[0]}  />
       <Container>
-        <Trending data={items} />
+        <Trending data={Response?.data?.results} />
         <TopProjects />
       </Container>
       <Marketplace />

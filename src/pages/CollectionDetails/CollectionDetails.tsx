@@ -138,6 +138,7 @@ const CollectionDetails = () => {
       setCurrentPage(currentPage - 1);
     }
   };
+  // console.log(collection?.userId === userState?.user?.id);
 
   const floorPrice = numeral(collection?.floorPrice).format("0.0a");
   const bgref: any = useRef(null);
@@ -149,11 +150,8 @@ const CollectionDetails = () => {
           <div
             style={{ height: "400px", overflow: "hidden" }}
             className={`${style.coverBx} animate__animated animate__fadeInDown `}>
-            <div className={style.coverBtns}>
-              <Link to="/profile">
-                {" "}
-                <img src={Arrow2} className={style.arrow} />
-              </Link>
+           {collection?.userId===userState?.user?.id && <div className={style.coverBtns}>
+              
 
               <button
                 onClick={() => bgref?.current?.click()}
@@ -190,7 +188,7 @@ const CollectionDetails = () => {
                   }}
                 />
               </div>
-            </div>
+            </div>}
             <img
               style={{ width: "100%" }}
               src={collection?.bg || collection?.coverImage}

@@ -27,7 +27,7 @@ const Trending = ({data}:any) => {
   return (
     <>
       <div className={style.trending}>
-        {data.length >= 3 && (
+        {data?.length >= 3 && (
           <div className={style.trContent}>
             <div className={style.trTop}>
               <h1>
