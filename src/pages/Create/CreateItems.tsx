@@ -122,7 +122,7 @@ const CreateItems = () => {
   const getCollections = async () => {
 
     try {
-      const resp = await publicRequest.get(`api/collection?userId=${userState?.user?.id}`)
+      const resp = await publicRequest.get(`api/collection?owner=${userState?.user?.id}`)
       // console.log(resp.data)
       //setCollections(resp.data.data.splice(0, 9))
       setUserCollections(resp?.data.results)

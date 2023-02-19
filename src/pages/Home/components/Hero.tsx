@@ -180,6 +180,7 @@ const Hero = (props:any) => {
                 />
               </div>
               <motion.div
+              style={{display:'contents'}}
                 className={style.featured}
                 initial="hidden"
                 animate="visible"
