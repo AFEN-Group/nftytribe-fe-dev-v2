@@ -36,7 +36,7 @@ const EditProfile = () => {
   const {userState,setUserState}=useContext(UserContext)
   const {error,loading,Response,fetchData}= UseAxios()
   // const [authState, setAuthState] = useContext<any>(AuthContext)
-  const [user, setUser] = useState<any>(userState?.user)
+  const user:any=userState?.user
 
   const [imageFile, setImageFile] = useState<any>({
     file: '',
@@ -71,7 +71,7 @@ const EditProfile = () => {
       })
     }
   }
-  console.log(userState);
+ 
   
   // const [userState,setUserState]=useContext(UserContext)
   const handleSubmit = async (e: any) => {
@@ -125,6 +125,7 @@ const EditProfile = () => {
     setUpdated(false)
     setShowOtp(false)
   }
+console.log(userState);
 
   return (
     <>
