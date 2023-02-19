@@ -16,10 +16,10 @@ const ItemCard = (data: any) => {
   const dark = themeState.dark
   const {pathname}=useLocation()
   
-  const [liked, setLiked] = useState(data?.nftData.isLiked)
-  const [favorite, setFavorite] = useState(data?.nftData.isFavorite)
-  const [watchCount, setWatchCount] = useState(data?.nftData.watchCount)
-  const [watch, setWatch] = useState(data?.nftData.isWatched)
+  const [liked, setLiked] = useState(data?.nftData?.isLiked)
+  const [favorite, setFavorite] = useState(data?.nftData?.isFavorite)
+  const [watchCount, setWatchCount] = useState(data?.nftData?.watchCount)
+  const [watch, setWatch] = useState(data?.nftData?.isWatched)
   const getImageUrl = (uri: any) => {
     // console.log(uri);
     
@@ -69,7 +69,7 @@ const ItemCard = (data: any) => {
    try{ 
     await fetchData({
       method: 'post',
-      url: action === 'watch'?`api/nft/listings/${data?.nftData.id}/watch`:`api/nft/${action}/${data?.nftData?.id}`,
+      url: action === 'watch'?`api/nft/listings/${data?.nftData?.id}/watch`:`api/nft/${action}/${data?.nftData?.id}`,
       axiosInstance: Protected(sessionStorage.getItem('token'))
 
     })
