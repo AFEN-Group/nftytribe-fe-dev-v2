@@ -179,7 +179,7 @@ const Hero = (props:any) => {
                   alt="dot"
                 />
               </div>
-              {/* <motion.div
+              <motion.div
                 className={style.featured}
                 initial="hidden"
                 animate="visible"
@@ -202,7 +202,7 @@ const Hero = (props:any) => {
                 }}
               >
                 {props.isLoading ? <ItemSkeleton /> : <ItemCard nftData={props.featured} />}
-              </motion.div> */}
+              </motion.div>
               <div
                 className={`${style.leftBtns} ${style.forM} animate__animated animate__slideInUp`}
                 id="heroBtns"
