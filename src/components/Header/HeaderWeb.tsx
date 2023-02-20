@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ThemeContext } from "../../context/ThemeContext";
 import { publicRequest } from "../../utils/requestMethods";
 import { CircularProgress } from "@material-ui/core";
-import { gsap, Power3 } from 'gsap'
+import { gsap, Power3 } from "gsap";
 import style from "./Header.module.scss";
 import Logo from "./assets/logo.svg";
 import Logo2 from "./assets/logo-light.svg";
@@ -31,6 +31,7 @@ import ConnectWallet from "../ConnectWallet/ConnectWallet";
 import LangDropDown from "../LangDropdown/Lang2";
 import LangIconDropDown from "../LangDropdown/Lang3";
 import { useTranslation } from "react-i18next";
+import Notification from "../notification/notification";
 
 const HeaderWeb = (props: any) => {
   //const [isConnected, setIsConnected] = useState(false)
@@ -122,27 +123,28 @@ const HeaderWeb = (props: any) => {
   const handleModal = () => {
     setShowConnect(!showConnect);
   };
-  
-console.log('this is the',currentAccount);
+
+  console.log("this is the", currentAccount);
 
   const { t } = useTranslation();
   return (
     <>
       <div
         className={style.section}
-      // className={`${style.section} ${
-      //   dark === 'true' ? 'darkTheme' : 'lightTheme'
-      // }`}
+        // className={`${style.section} ${
+        //   dark === 'true' ? 'darkTheme' : 'lightTheme'
+        // }`}
       >
         <ConnectWallet
           handleModal={handleModal}
           showConnect={showConnect}
-        //handleClose={handleClose}
+          //handleClose={handleClose}
         />
         <div
           //className={style.container}
-          className={`${style.container} ${dark === "true" ? "darkTheme" : "lightTheme"
-            }`}
+          className={`${style.container} ${
+            dark === "true" ? "darkTheme" : "lightTheme"
+          }`}
           id="container"
           onMouseLeave={() => setShowDropDown("None")}>
           {!currentAccount ? (
@@ -153,8 +155,9 @@ console.log('this is the',currentAccount);
 
               <div
                 // className={style.navBox}
-                className={`${dark === "true" ? style.navBoxD : style.navBoxL
-                  }`}>
+                className={`${
+                  dark === "true" ? style.navBoxD : style.navBoxL
+                }`}>
                 {/* <Link to="/">
                   <p>Home</p>
                 </Link> */}
@@ -173,15 +176,14 @@ console.log('this is the',currentAccount);
                 {/* <div className={style.nItem}>
                   <LangDropDown />
                 </div> */}
-
-
               </div>
 
               <div className={style.buttonsBox}>
                 <div className={style.buttons}>
                   <div
-                    className={`${style.btn} ${dark === "true" ? "yellowBtn" : "blueBtn"
-                      }`}
+                    className={`${style.btn} ${
+                      dark === "true" ? "yellowBtn" : "blueBtn"
+                    }`}
                     onClick={() => setShowConnect(!showConnect)}
                     //onClick={showCon}
                     id="showIcon">
@@ -233,8 +235,9 @@ console.log('this is the',currentAccount);
                 {searchTerm?.length >= 3 && searchRes?.length < 1 && (
                   <div
                     //className="animate__animated animate__fadeIn navSearchRes"
-                    className={`animate__animated animate__fadeIn animate__faster  ${style.searchResults
-                      } ${dark === "true" ? "darkTheme" : "lightTheme"}`}>
+                    className={`animate__animated animate__fadeIn animate__faster  ${
+                      style.searchResults
+                    } ${dark === "true" ? "darkTheme" : "lightTheme"}`}>
                     <div>
                       <div className={style.noResult}>
                         <p>{t("not found")}</p>
@@ -245,8 +248,9 @@ console.log('this is the',currentAccount);
                 {searchTerm?.length >= 3 && searchRes?.length >= 1 && (
                   <div
                     //className="animate__animated animate__fadeIn navSearchRes"
-                    className={`animate__animated animate__fadeIn animate__faster  ${style.searchResults
-                      } ${dark === "true" ? "darkTheme" : "lightTheme"}`}>
+                    className={`animate__animated animate__fadeIn animate__faster  ${
+                      style.searchResults
+                    } ${dark === "true" ? "darkTheme" : "lightTheme"}`}>
                     <div>
                       {isLoading ? (
                         <div className={style.ld}>
@@ -271,12 +275,15 @@ console.log('this is the',currentAccount);
                 )}
               </div>
               <div className={style.buttonsBox}>
+                <Notification />
                 <img
+                  style={{ cursor: "pointer" }}
                   src={dark === "true" ? User2 : User}
                   alt="user"
                   onMouseOver={() => setShowDropDown("Profile")}
                 />
                 <img
+                  style={{ cursor: "pointer" }}
                   src={dark === "true" ? Wallet2 : Wallet}
                   alt="wallet"
                   onClick={() => setShowConnect(!showConnect)}
@@ -290,8 +297,9 @@ console.log('this is the',currentAccount);
               </div>
               {showDropDown === "Profile" && (
                 <div
-                  className={`animate__animated animate__fadeIn animate__faster  ${style.dropDown
-                    } ${dark === "true" ? "darkTheme" : "lightTheme"}`}
+                  className={`animate__animated animate__fadeIn animate__faster  ${
+                    style.dropDown
+                  } ${dark === "true" ? "darkTheme" : "lightTheme"}`}
                   onMouseLeave={() => setShowDropDown("None")}>
                   <div className={style.dropContent}>
                     {/* <div className={style.dropTop}>
@@ -345,8 +353,8 @@ console.log('this is the',currentAccount);
                         <p>Language</p>
                       </Link> */}
                       <div className={style.dropItemL}>
-                        <LangDropDown /></div>
-
+                        <LangDropDown />
+                      </div>
 
                       {/* <Link to="/" className={style.dropItem}>
                         <img src={Notification} alt="notification" />
