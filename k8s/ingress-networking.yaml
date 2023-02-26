@@ -3,14 +3,14 @@ kind: Ingress
 metadata:
   name: nftytribe-client-ingress
   annotations:
-    cert-manager.io/cluster-issuer: "nftytribe-client-letsencrypt"
+    # cert-manager.io/cluster-issuer: "nftytribe-client-letsencrypt"
     # use the shared ingress-nginx
-    kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/ingress.class: "traefik"
 spec:
-  tls:
-    - hosts:
-        - staging.nftytribe.io
-      secretName: nftytribe-tls
+  # tls:
+  #   - hosts:
+  #       - staging.nftytribe.io
+  #     secretName: nftytribe-tls
   rules:
     - host: staging.nftytribe.io
       http:
