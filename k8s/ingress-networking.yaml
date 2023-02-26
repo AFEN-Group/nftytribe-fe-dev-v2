@@ -2,11 +2,12 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: nftytribe-client-ingress
-  annotations:
-    # cert-manager.io/cluster-issuer: "nftytribe-client-letsencrypt"
-    # use the shared ingress-nginx
-    kubernetes.io/ingress.class: "traefik"
+  # annotations:
+  # cert-manager.io/cluster-issuer: "nftytribe-client-letsencrypt"
+  # use the shared ingress-nginx
+  # kubernetes.io/ingress.class: "traefik"
 spec:
+  ingressClassName: traefik
   # tls:
   #   - hosts:
   #       - staging.nftytribe.io
