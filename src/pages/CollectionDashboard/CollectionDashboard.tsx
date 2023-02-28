@@ -311,7 +311,7 @@ const CollectionDashboard = () => {
 
                         </div> */}
 
-              {!collection
+              {/* {!collection
                 ? null
                 : collection?.results.map((collection: any, i: any) => {
                     return (
@@ -339,7 +339,7 @@ const CollectionDashboard = () => {
                           </div>
                           <div className={style.tpRight}>
                             <div className={style.tprInfo}>
-                              <h2>{collection?.title || "Untitled"}</h2>
+                              <h2>{collection?.name || "Untitled"}</h2>
                               <p>Floor price: 0</p>
                             </div>
                             <div className={style.tprNumbers}>
@@ -350,7 +350,7 @@ const CollectionDashboard = () => {
                         </Link>
                       )
                     );
-                  })}
+                  })} */}
             </div>
           </div>
         </div>

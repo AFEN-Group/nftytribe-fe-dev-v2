@@ -518,12 +518,18 @@
 }
 
 @media (max-width: 800px) {
-  .picBtn {
+
+  .itemBx {
+          margin: auto;
+          width: 80%;
+        } 
+        .picBtn {
     button {
       width: 80vw;
       height: 44px;
     }
 
+       
     .fileInput2 {
       input {
         height: 44px;
@@ -546,4 +552,6 @@
 
 
 }
+
+
 

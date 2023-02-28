@@ -34,6 +34,8 @@
         gap: 12px;
     }
 
+    
+
 
 
    }
@@ -107,4 +109,15 @@
                     }
                 }
         }
+}
+@media screen and (max-width:600px) {
+    .sold {
+        width: 90%;
+        margin: auto;
+        overflow-x: scroll;
+
+        >div {
+            min-width: 700px;
+        }
+    }
 }

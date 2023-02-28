@@ -331,7 +331,11 @@
   }
 
   .topProTable {
-    display: none;
+    // display: none;
+    overflow-x: scroll;
+    >div{
+      min-width: 1200px;
+    }
   }
 
   .topProContainer {

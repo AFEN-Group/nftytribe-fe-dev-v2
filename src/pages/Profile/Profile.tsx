@@ -268,7 +268,7 @@ const Profile = () => {
 
 
           <div className={style.filtersM}>
-            <Filters />
+            <Filters setQuery={(e:string)=>setQuery(e)} />
           </div>
 
           {isLoading ? (

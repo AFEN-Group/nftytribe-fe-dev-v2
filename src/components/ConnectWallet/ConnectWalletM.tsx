@@ -255,7 +255,7 @@ const ConnectWalletM = (props: any) => {
                                                         src={dark === 'true' ? Check2 : Check}
                                                         alt="check"
                                                     />
-                                                    <p>0.00</p>
+                                                    {/* <p>0.00</p> */}
                                                 </div>
                                             </div>
                                             {/* <div className={style.activeWallet}>

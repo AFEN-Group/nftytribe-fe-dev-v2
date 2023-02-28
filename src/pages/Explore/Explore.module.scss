@@ -435,7 +435,11 @@
 
   .filterDrop {
     position: absolute;
-    padding: 0 1em 2em 1em;
+    // padding: 0 1em 2em 1em;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     border: 1px solid #52525B !important;
     border-radius: 4px;
     z-index: 1 !important;
@@ -498,8 +502,11 @@
     }
 
     .filterDrop {
-      width: 65%;
-      left: 4em;
+      width: fit-content;
+      left: 25%;
+      text-transform: capitalize;
+      // right: 0;
+      // transform: translateX(-50%);
     }
 
   }

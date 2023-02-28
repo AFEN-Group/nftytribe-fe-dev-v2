@@ -191,8 +191,8 @@
 }
 
 .awleft {
-  @include flexRegular(row, flex-start);
-  align-items: flex-start;
+  @include flexRegular(row, center);
+  // align-items: flex-start;
 
   img {
     margin-right: 1em;

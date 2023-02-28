@@ -8,7 +8,7 @@ import 'slick-carousel/slick/slick-theme.css'
 
 //import arrow from '../assets/arrowM.svg'
 
-const Filters = () => {
+const Filters = ({setQuery}) => {
     const [themeState] = useContext(ThemeContext)
     const dark = themeState.dark
     const [filter, setFilter] = useState()
@@ -52,22 +52,14 @@ const Filters = () => {
                     <div className={style.filterBx}>
                         <div className={`${style.filterM} 
                     `} >
-                            <p>All</p>
+                            <p onClick={()=>setQuery('')}>All</p>
 
                         </div>
                     </div>
                     <div className={style.filterBx}>
                         <div className={`${style.filterM} 
                     `} >
-                            <p>Collected</p>
-
-
-                        </div>
-                    </div>
-                    <div className={style.filterBx}>
-                        <div className={`${style.filterM} 
-                    `} >
-                            <p>On Sale</p>
+                            <p onClick={() => setQuery('collected')}>Collected</p>
 
 
                         </div>
@@ -75,23 +67,17 @@ const Filters = () => {
                     <div className={style.filterBx}>
                         <div className={`${style.filterM} 
                     `} >
-                            <p>Created</p>
+                            <p onClick={() => setQuery('on_sale')}>On Sale</p>
 
 
                         </div>
                     </div>
+                    
+                   
                     <div className={style.filterBx}>
                         <div className={`${style.filterM} 
                     `} >
-                            <p>Activity</p>
-
-
-                        </div>
-                    </div>
-                    <div className={style.filterBx}>
-                        <div className={`${style.filterM} 
-                    `} >
-                            <p>Sold</p>
+                            <p onClick={() => setQuery('sold')}>Sold</p>
 
 
                         </div>
