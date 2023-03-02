@@ -40,17 +40,17 @@ const TopProjects = () => {
   const daysAgo = (day: any) => {
     const date = new Date(today.getTime() - day * 60 * 60 * 24 * 1000);
     return (
-      date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()
+     date.getFullYear()  + "-" + (date.getMonth() + 1) + "-" + date.getDate()
     );
   };
   useEffect(() => {
     fetchData({
-      url: `api/collection/stats/?startDate=${daysAgo(28)}&endDate=${
-        today.getDate() +
+      url: `api/collection/stats/?startDate=${daysAgo(timeago)}&endDate=${
+        today.getFullYear() +
         "-" +
         (today.getMonth() + 1) +
         "-" +
-        today.getFullYear()
+      today.getDate()  
       }`,
       method: "get",
       axiosInstance: Protected(sessionStorage.getItem("token")),

@@ -364,7 +364,7 @@ const getTimeleft=()=>{
                                             nft?.url ? (
                                                 <img
                                                     src={
-                                                        nft?.url.includes('ipfs/') ||
+                                                            nft?.sImg ?`data:image/png;base64,${nft.sImg}`:  nft?.url.includes('ipfs/') ||
                                                             nft?.url.includes('ipfs://')
                                                             ? getImage(nft?.url)
                                                             : nft?.metadata?.image
@@ -564,6 +564,24 @@ const getTimeleft=()=>{
                                         className={`${style.offers} animate__animated animate__fadeIn`}
                                     >
                                         <div className={style.offersContent}>
+                                            <div style={{fontWeight:'bolder'}} className={style.offer}>
+                                                <div style={{ width: '15%' }} className={style.offerUser}>
+
+                                                    <p>User Name</p>
+                                                </div>
+                                                <div style={{ width: '25%' }} className={style.offerAddr}>
+                                                    <p>Wallet Address</p>
+                                                </div>
+                                                <div style={{ width: '15%' }} className={style.offerAddr}>
+                                                    <p>Bid</p>
+                                                </div>
+                                                <div style={{ width: '15%' }} className={style.offerAddr}>
+                                                    <p>Date</p>
+                                                </div>
+                                                <div className={style.offerAddr}>
+                                                    <p>time</p>
+                                                </div>
+                                            </div>
                                            {
                                           bids.length>0 &&  bids?.map((result:any)=>(
                                                 <div className={style.offer}>
@@ -574,10 +592,10 @@ const getTimeleft=()=>{
                                                   <div style={{ width: '25%' }} className={style.offerAddr}>
                                                         <p>{shortenAddress(result?.user.walletAddress)}</p>
                                                     </div>
-                                                  <div style={{ width:'fit-content' }} className={style.offerAddr}>
-                                                        <p>{result.amount + tokenName}</p>
+                                                  <div style={{ width: '15%' }} className={style.offerAddr}>
+                                                        <p>{result.amount}</p>
                                                     </div>
-                                                    <div className={style.offerAddr}>
+                                                    <div style={{ width: '15%' }} className={style.offerAddr}>
                                                         <p>{getDate(result.createdAt)}</p>
                                                     </div>
                                                     <div className={style.offerAddr}>

@@ -121,3 +121,17 @@
         }
     }
 }
+
+.hoverTag{
+    background-color: #1B1819;
+    color: white;
+    padding: 2px !important;
+    font-size: 8px;
+    box-shadow: 0 0 2px grey;
+    position: absolute;
+    height: 14px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    margin: 0;
+}

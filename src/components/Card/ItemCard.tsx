@@ -8,7 +8,7 @@ import style from './Card.module.scss'
 import { ThemeContext } from '../../context/ThemeContext'
 import UseAxios from '../../hooks/AxiosConfig/useAxios'
 import Protected from '../../hooks/AxiosConfig/axiosInstance'
-import { Star } from './CollectionCard'
+import { Like, Star } from './CollectionCard'
 
 
 const ItemCard = (data: any) => {
@@ -42,6 +42,8 @@ const ItemCard = (data: any) => {
     return`data:image/png;base64,${dataURI}`
   }
 
+  const [tag, setTag] = useState(false)
+  const [Wtag, setWTag] = useState(false)
 
   
 
@@ -87,22 +89,39 @@ const ItemCard = (data: any) => {
 
     }
   }
-
-  
-    
-
-    
-  const time = (data: string) => {
+  const [et, setEt] = useState(() => {
     const now = new Date();
-    const date = new Date(data)
-    const diff = now.getTime() - date.getTime();
+    const date = new Date(data?.nftData?.timeout)
+    const diff = date.getTime() - now.getTime();
+    const seconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    return`${days}d ${days > 0 ? `${Math.abs((days * 24) - hours)}` : hours}h ${hours > 0 ? `${Math.abs((hours * 60) - minutes)}` : minutes}m `
+  })
+   const time = () => {
+    const now = new Date();
+    const date = new Date(data?.nftData?.timeout)
+    const diff = date.getTime() - now.getTime();
   const seconds = Math.floor(diff / 1000);
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
     
-    return `${days}d ${days>0?`${Math.abs((days*24)-hours)}`:hours}h ${hours>0?`${Math.abs((hours*60)-minutes)}`:minutes}m `
-  }   
+    setEt(`${days}d ${days>0?`${Math.abs((days*24)-hours)}`:hours}h ${hours>0?`${Math.abs((hours*60)-minutes)}`:minutes}m `)
+  }
+  useEffect(()=>{
+    const interval=setInterval(()=>time(),60000)
+
+    return ()=> clearInterval(interval)
+  },[])
+   
+   
+    
+
+    
+    
   // console.log(data);
   
   return (
@@ -169,10 +188,16 @@ const ItemCard = (data: any) => {
 
                 <div>
                   <Star click={() => patchData('favorite')} favorited={favorite} />
+            
 
-                  <svg style={{ marginLeft: '6px' }} onClick={() => patchData('like')} width="20" height="18" viewBox="0 0 32 27" fill={liked ? "red" : 'none'} xmlns="http://www.w3.org/2000/svg">
+            <svg onMouseEnter={() => {
+
+
+              setTag(true)
+            }} onMouseLeave={() => setTag(false)} style={{ marginLeft: '6px' }} onClick={() => patchData('like')} width="20" height="18" viewBox="0 0 32 27" fill={liked ? "red" : 'none'} xmlns="http://www.w3.org/2000/svg">
                     <path d="M9.60059 1.5C5.42402 1.5 2.03809 4.88594 2.03809 9.0625C2.03809 16.625 10.9756 23.5 15.7881 25.0991C20.6006 23.5 29.5381 16.625 29.5381 9.0625C29.5381 4.88594 26.1521 1.5 21.9756 1.5C19.4181 1.5 17.1562 2.76981 15.7881 4.71338C15.0907 3.72008 14.1643 2.90944 13.0873 2.35009C12.0102 1.79073 10.8142 1.49914 9.60059 1.5Z" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
+            {tag && <div style={{right:'10px'}}className='hoverTag'>Like</div>}
 
 
                 </div>
@@ -186,11 +211,15 @@ const ItemCard = (data: any) => {
                     </svg>}
                   </div>
 
-                  <div className="watch">
-                    <svg onClick={()=>patchData('watch')} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <div style={{position:'relative'}} className="watch">
+              <svg onMouseEnter={() => {
+                setWTag(true)
+              }} onMouseLeave={() => setWTag(false)} onClick={()=>patchData('watch')} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M8.25 12C8.25 9.92893 9.92893 8.25 12 8.25C14.0711 8.25 15.75 9.92893 15.75 12C15.75 14.0711 14.0711 15.75 12 15.75C9.92893 15.75 8.25 14.0711 8.25 12ZM12 9.75C10.7574 9.75 9.75 10.7574 9.75 12C9.75 13.2426 10.7574 14.25 12 14.25C13.2426 14.25 14.25 13.2426 14.25 12C14.25 10.7574 13.2426 9.75 12 9.75Z" fill="#3F3F46" />
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M4.32343 10.6464C3.90431 11.2503 3.75 11.7227 3.75 12C3.75 12.2773 3.90431 12.7497 4.32343 13.3536C4.72857 13.9374 5.33078 14.5703 6.09267 15.155C7.61978 16.3271 9.71345 17.25 12 17.25C14.2865 17.25 16.3802 16.3271 17.9073 15.155C18.6692 14.5703 19.2714 13.9374 19.6766 13.3536C20.0957 12.7497 20.25 12.2773 20.25 12C20.25 11.7227 20.0957 11.2503 19.6766 10.6464C19.2714 10.0626 18.6692 9.42972 17.9073 8.84497C16.3802 7.67292 14.2865 6.75 12 6.75C9.71345 6.75 7.61978 7.67292 6.09267 8.84497C5.33078 9.42972 4.72857 10.0626 4.32343 10.6464ZM5.17941 7.65503C6.90965 6.32708 9.31598 5.25 12 5.25C14.684 5.25 17.0903 6.32708 18.8206 7.65503C19.6874 8.32028 20.4032 9.06244 20.9089 9.79115C21.4006 10.4997 21.75 11.2773 21.75 12C21.75 12.7227 21.4006 13.5003 20.9089 14.2089C20.4032 14.9376 19.6874 15.6797 18.8206 16.345C17.0903 17.6729 14.684 18.75 12 18.75C9.31598 18.75 6.90965 17.6729 5.17941 16.345C4.31262 15.6797 3.59681 14.9376 3.0911 14.2089C2.59937 13.5003 2.25 12.7227 2.25 12C2.25 11.2773 2.59937 10.4997 3.0911 9.79115C3.59681 9.06244 4.31262 8.32028 5.17941 7.65503Z" fill="#3F3F46" />
                     </svg>
+              {Wtag && <div style={{ top:'20px',right: '10px' }} className='hoverTag'>watch</div>}
+
                     {watchCount}
                   </div>
                 </div>
@@ -205,7 +234,7 @@ const ItemCard = (data: any) => {
                {parseInt(data?.nftData?.price)}{data?.nftData?.moreInfo?.erc20TokenSymbol}
            </h3>
           {data?.nftData?.listingType!=='NORMAL'&& <h3>
-              {time(data?.nftData?.createdAt)}
+              {et}
            </h3>}
            
           </div>
