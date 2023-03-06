@@ -135,3 +135,11 @@
     align-items: center;
     margin: 0;
 }
+
+.copy {
+    width: 100%;
+    padding: 24px;
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.15);
+    }
+}

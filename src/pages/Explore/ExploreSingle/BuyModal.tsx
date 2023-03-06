@@ -19,6 +19,7 @@ import NumberInput from '../../../components/Inputs/NumberInput'
 import globals from '../../../utils/globalVariables'
 import { motion } from 'framer-motion'
 import erc20 from '../../../smart_contracts/afenToken.json'
+import {WhatsappShareButton} from 'react-share'
 
 
 declare const window: any

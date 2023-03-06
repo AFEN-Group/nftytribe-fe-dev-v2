@@ -413,7 +413,7 @@ const getTimeleft=()=>{
                                             <p>Offers</p>
                                         </div>
                                     </div>
-                                    <div className={style.rightIcons}>
+                                    <div onClick={()=>setShowDrop(!showDrop)} className={style.rightIcons}>
                                         <img src={dark === 'true' ? Share2 : Share} alt="share" />
                                         {/* <img src={dark === 'true' ? Dots2 : Dots} alt="dots" /> */}
                                     </div>
@@ -423,13 +423,7 @@ const getTimeleft=()=>{
                                             <div className={`${style.drop} ${dark === 'true' ? 'darkTheme' : 'lightTheme'} animate__animated animate__fadeInUp animate__faster`}
                                             //onClick={() => setShowDrop(!showDrop)}
                                             >
-                                                {/* {!showShare ? ( */}
-                                                {/* <div className={style.dropContent}>
-                                                        <p onClick={() => setShowShare(!showShare)}>
-                                                            Share
-                                                        </p>
-                                                        <p className='disable_link'>Report</p> */}
-                                                {/* </div>) : ( */}
+
                                                 <div className={style.dropContent2}>
                                                     <h3>Share NFT</h3>
                                                     <TwitterShareButton
@@ -443,6 +437,7 @@ const getTimeleft=()=>{
                                                             <img src={`${dark === 'true' ? Twitter2 : Twitter}`} alt="twitter" />
                                                         </div>
                                                     </TwitterShareButton>
+                                                    <div className='copy' onClick={() => navigator.clipboard.writeText(url)}>Copy URL</div>
                                                 </div>
                                                 {/* )} */}
 

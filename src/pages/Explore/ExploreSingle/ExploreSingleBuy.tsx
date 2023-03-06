@@ -358,6 +358,7 @@ console.log(nft);
                               <img src={`${dark === 'true' ? Twitter2 : Twitter}`} alt="twitter" />
                             </div>
                           </TwitterShareButton>
+                          <div className='copy' onClick={()=>navigator.clipboard.writeText(url)}>Copy URL</div>
                         </div>
                         {/* )} */}
 
