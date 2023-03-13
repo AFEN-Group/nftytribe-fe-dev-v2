@@ -27,7 +27,7 @@ import EditProfile from "./pages/Profile/EditProfile";
 import Footer from "./components/Footer/Footer";
 //import LaunchPartners from './pages/LaunchPartners/LaunchPartners'
 import Rewards from "./pages/Rewards/Rewards";
-import Staking from "./pages/Staking/Staking";
+import Staking from "./pages/Staking/Staking"; 
 import NotFound from "./pages/NotFound/NotFound";
 import useLanguage, { LanguageContext } from "./context/Language";
 import toast, { Toaster } from "react-hot-toast";

@@ -187,7 +187,7 @@ const ItemCard = (data: any) => {
                 <div></div>
 
                 <div>
-                  <Star click={() => patchData('favorite')} favorited={favorite} />
+                  {/* <Star click={() => patchData('favorite')} favorited={favorite} /> */}
             
 
             <svg onMouseEnter={() => {
@@ -220,7 +220,7 @@ const ItemCard = (data: any) => {
                     </svg>
               {Wtag && <div style={{ top:'20px',right: '10px' }} className='hoverTag'>watch</div>}
 
-                    {watchCount}
+                    {/* {watchCount} */}
                   </div>
                 </div>
                 <p>{data?.nftData?.name}</p>

@@ -3,7 +3,7 @@ import { ThemeContext } from "../../context/ThemeContext";
 // import Header from "../../components/Header/Header";
 import Hero from "./components/Hero";
 import style from "./About.module.scss";
-import vidImg from "./assets/vidImg.svg";
+// import vidImg from "";
 import Info from "./components/Info";
 import Container from "../../components/Container/Container";
 import ContainerG from "../../components/Container/ContainerG";
@@ -32,6 +32,7 @@ const About = () => {
     window.scrollTo(0, 0);
   }, []);
   const { t } = useTranslation();
+  
   return (
     <>
       {/* <Header /> */}
@@ -41,11 +42,14 @@ const About = () => {
           <h1>
             {t("welcome to the")}{" "}
             <span className={dark === "true" ? "yellowTxt" : "blueTxt"}>
-              {t("tribe")}
+              {/* {t("tribe")} */}Tribe!
             </span>{" "}
           </h1>
           <div className={style.sTwoVid}>
-            <img src={vidImg} alt="vid" />
+            <video width="100px" height="100px" autoPlay >
+            <source src={require("../../assets/svgs/vid.mp4")} type="video/mp4" /></video>
+            {/* <video src="https://drive.google.com/file/d/1nMkC8FbQAm1A_zhhoKIzdpN67RfLrCrs/view?usp=share_link"/> */}
+            {/* <img src={vidImg} alt="vid" /> */}
           </div>
         </div>
 

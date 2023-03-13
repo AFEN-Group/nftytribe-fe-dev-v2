@@ -28,11 +28,22 @@ const Marketplace = () => {
         <div data-aos="fade-up" className={style.mkContent}>
           <div className={style.mkLeft}>
             <div className={style.mkLeftContent}>
-              <h1>{t("nftytribe-categories")}</h1>
-              <p>{t("browse-nft")} </p>
+              <h1>
+                Explore Our Diverse Categories
+                {/* {t("nftytribe-categories")} */}
+                </h1>
+              <p>
+                Browse our different categories and discover unique NFTs that suit your interests 
+                {/* {t("browse-nft")}  */}
+                </p>
 
               <Link to="/explore" className={`${style.mkBtn} ${style.forW}`}>
-                <p>{t("explore-marketplace")}</p>
+                <p>
+                  View Categories
+
+                  {/* {t("explore-marketplace")}
+                   */}
+                  </p>
                 <img src={nArrow} alt="more" />
               </Link>
             </div>

@@ -47,16 +47,21 @@ const SubscribeForm = ({ status, message, onValidated }) => {
   return (
     <>
       <form className={style.lbody} onSubmit={handleSubmit}>
-        <p>{t("subscribe-text")}</p>
+        <p>Subscribe to our Newsletter
+</p>
+        <p>
+          Be the first to know about exciting drops, events, and featured creators on NftyTribe. 
+          {/* {t("subscribe-text")} */}
+          </p>
         <TextInput
           type="email"
           inputName="email"
-          labelName={t("email-placeholder")}
+          labelName={'Enter your email address'}
           inputHandler={inputHandler}
           onKeyUp={(e) => handleKey}
         />
         <br />
-        <button className={style.sub}>{t("subscribe-btn")}</button>
+        <button className={style.sub}>{'Subscribe'}</button>
       </form>
 
       <motion.div className={style.subResponse}>

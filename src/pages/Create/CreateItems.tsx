@@ -273,15 +273,20 @@ const CreateItems = () => {
   const Mint=async()=>{
     try {
       // @ts-ignore
-      const contract = new web3.eth.Contract(abi, userInput.collection_address)
+      const contract = new web3.eth.Contract(abi, contracts.BSC_erc721MintableAddress)
       // @ts-ignore
       const collectionContract = new web3.eth.Contract(collectionabi,userInput.collection_address)
 
      if(userInput.collection_address!==contracts.BSC_erc721MintableAddress){
-       const req = await collectionContract.methods.mint(Response?.data?.uri, userInput.royalties).send({from:wallet_address})
+       const charge = await contract.methods.mintingCharge().call()
+       console.log(charge,userInput.collection_address);
+       
+       
+       const req = await collectionContract.methods.mint(Response?.data?.uri, userInput.royalties).send({from:wallet_address,value:charge*2})
        console.log(req)
      }
-     else {const charge = await contract.methods.mintingCharge().call()
+     else {
+      const charge = await contract.methods.mintingCharge().call()
       // console.log(contract, userInput.collection_address);
       
        // @ts-ignore

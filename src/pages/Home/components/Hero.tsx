@@ -53,7 +53,7 @@ const Hero = (props:any) => {
 
   const handleImport = () => {
     if (currentAccount) {
-      navigate('/collections')
+      navigate('/createOptions')
     }
   }
 
@@ -87,7 +87,10 @@ const Hero = (props:any) => {
                       NFTs and seamlessly send and receive physical items tied
                       to NFTs.  */}
                       {/* NftyTribe is a multi-chain NFT marketplace facilitating next-level experiences in exchanging NFTs. Users can trade NFTs and seamlessly send and receive physical items tied to NFTs.. */}
-                      {t("description")}
+                      {/* {t("description")}
+                       */}
+                      Whether you are an artist looking to showcase your talent, or a collector searching for the perfect addition to your collection, NftyTribe has everything you need. 
+
                     </span>
                   </p>
                   <div
@@ -106,7 +109,7 @@ const Hero = (props:any) => {
 
                     >
                       {/* {t("import")} */}
-                      Create Collection
+                      Create NFT
                     </button>
                     {/* </Link> */}
                     <Link to="/explore">
@@ -255,41 +258,41 @@ const Hero = (props:any) => {
                 } `}
             >
               <ul className={style.hb1Content}>
-                <li>Nftytribe beta is live! {' >'}</li>
+                <li>NFTYTRIBE IS LIVE! {' >'}</li>
                 <li></li>
-                <li>Nftytribe beta is live! {' >'}</li>
+                <li>NFTYTRIBE IS LIVE! {' >'}</li>
                 <li></li>
-                <li>Nftytribe beta is live! {' >'}</li>
+                <li>NFTYTRIBE IS LIVE! {' >'}</li>
                 <li></li>
-                <li>Nftytribe beta is live! {' >'}</li>
+                <li>NFTYTRIBE IS LIVE! {' >'}</li>
                 <li></li>
-                <li>Nftytribe beta is live! {' >'}</li>
+                <li>NFTYTRIBE IS LIVE! {' >'}</li>
                 <li></li>
-                <li>Nftytribe beta is live! {' >'}</li>
+                <li>NFTYTRIBE IS LIVE! {' >'}</li>
                 <li></li>
-                <li>Nftytribe beta is live! {' >'}</li>
+                <li>NFTYTRIBE IS LIVE! {' >'}</li>
                 <li></li>
-                <li>Nftytribe beta is live! {' >'}</li>
+                <li>NFTYTRIBE IS LIVE! {' >'}</li>
                 <li></li>
               </ul>
             </div>
             <div className={style.hBanner2}>
               <ul className={style.hb2Content}>
-                <li>Nftytribe beta is live! {' >'}</li>
+                <li>NFTYTRIBE IS LIVE! {' >'}</li>
                 <li></li>
-                <li>Nftytribe beta is live! {' >'}</li>
+                <li>NFTYTRIBE IS LIVE! {' >'}</li>
                 <li></li>
-                <li>Nftytribe beta is live! {' >'}</li>
+                <li>NFTYTRIBE IS LIVE! {' >'}</li>
                 <li></li>
-                <li>Nftytribe beta is live! {' >'}</li>
+                <li>NFTYTRIBE IS LIVE! {' >'}</li>
                 <li></li>
-                <li>Nftytribe beta is live! {' >'}</li>
+                <li>NFTYTRIBE IS LIVE! {' >'}</li>
                 <li></li>
-                <li>Nftytribe beta is live! {' >'}</li>
+                <li>NFTYTRIBE IS LIVE! {' >'}</li>
                 <li></li>
-                <li>Nftytribe beta is live! {' >'}</li>
+                <li>NFTYTRIBE IS LIVE! {' >'}</li>
                 <li></li>
-                <li>Nftytribe beta is live! {' >'}</li>
+                <li>NFTYTRIBE IS LIVE! {' >'}</li>
                 <li></li>
               </ul>
             </div>

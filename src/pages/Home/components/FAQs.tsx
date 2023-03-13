@@ -31,8 +31,15 @@ const FAQs = () => {
                 <img src={Up} alt="up" />
               </div>
               <div className={style.faqText}>
-                <h2>{t("getting-started")}</h2>
-                <p>{t("account creating")}</p>
+                <h2>
+                  {/* {t("getting-started")} */}
+                    How can I buy or sell NFTs on NftyTribe?
+
+                  </h2>
+                <p>
+                    To buy or sell NFTs on NftyTribe, you need to connect your wallet and create an account. 
+                  {/* {t("account creating")} */}
+                </p>
               </div>
               
               </a>
@@ -47,8 +54,15 @@ const FAQs = () => {
                 <img src={Home} alt="home" />
               </div>
               <div className={style.faqText}>
-                <h2>{t("buying-nft")}</h2>
-                <p>{t("get help navigating")}</p>
+                <h2>
+                    What are the fees for using NftyTribe?
+                  {/* {t("buying-nft")} */}
+                  </h2>
+                <p>
+                    NftyTribe charges a flat $5 fee for minting NFTs, and a 2% selling fee. However, users can simply upload their NFTs at zero cost using our lazy minting feature.
+                  {/* 
+                  {t("get help navigating")} */}
+                  </p>
               </div>
                
               </a>
@@ -63,8 +77,15 @@ const FAQs = () => {
                 <img src={Pie} alt="pie" />
               </div>
               <div className={style.faqText}>
-                <h2>{t("selling-nft")}</h2>
-                <p>{t("Everything you need")}</p>
+                <h2>
+                    How does lazy minting work on NftyTribe?
+
+                  {/* {t("selling-nft")} */}
+                  </h2>
+                <p>
+                    With lazy minting, NftyTribe users can simply upload their NFTs at zero cost, and our system will automatically subtract fees when a buyer purchases them. 
+                  {/* {t("Everything you need")} */}
+                  </p>
               </div>
               
               </a>
