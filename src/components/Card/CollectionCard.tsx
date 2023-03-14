@@ -71,9 +71,9 @@ const CollectionCard = (data: any) => {
             <div>
             </div>
             <div>
-              <Star click={()=>patchData('favorite')} favorited={data?.data?.isFavorite}/>
              
-            <Like data={data} patchData={() => patchData('like') }/>
+             
+            <Like data={data} patchData={() =>patchData('favorite')  }/>
               
             </div>
             
@@ -149,7 +149,7 @@ export const Like=(props:any)=>{
     }} onMouseLeave={() => setTag(false)} style={{ marginLeft: '12px' }} onClick={props.patchData} width="32" height="27" viewBox="0 0 32 27" fill={props.data?.data?.isLiked ? "red" : 'none'} xmlns="http://www.w3.org/2000/svg">
       <path d="M9.60059 1.5C5.42402 1.5 2.03809 4.88594 2.03809 9.0625C2.03809 16.625 10.9756 23.5 15.7881 25.0991C20.6006 23.5 29.5381 16.625 29.5381 9.0625C29.5381 4.88594 26.1521 1.5 21.9756 1.5C19.4181 1.5 17.1562 2.76981 15.7881 4.71338C15.0907 3.72008 14.1643 2.90944 13.0873 2.35009C12.0102 1.79073 10.8142 1.49914 9.60059 1.5Z" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
-              { tag && <div className='hoverTag'>Like</div> }
+              { tag && <div className='hoverTag'>Favorite</div> }
 
             </>
   )

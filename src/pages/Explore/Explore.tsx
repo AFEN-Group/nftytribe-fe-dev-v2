@@ -66,9 +66,12 @@ const Explore = () => {
     const getParams= ()=>{
       let params;
       for(let key in filterQuery){
-      if(params)  params=`${params}&${key}=${filterQuery[key]}`
-      else params = `${key}=${filterQuery[key]}`
+        if(filterQuery[key]!==null){
+            if(params )  params=`${params}&${key}=${filterQuery[key]}`
+      else  params = `${key}=${filterQuery[key]}`
       }
+        }
+    
       return params
     }
     

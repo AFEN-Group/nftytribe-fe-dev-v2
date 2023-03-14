@@ -18,11 +18,12 @@ import logo1 from "./logos/chainlogo.svg";
 import logo2d from "./logos/logo2-d.png";
 import logo2w from "./logos/logo2-w.png";
 import logo3 from "./logos/logo3.png";
-import logo4d from "./logos/logo4-d.png";
-import logo4w from "./logos/logo4-w.png";
+import logo4d from "./logos/Biance PAY LOGO .png";
+import logo4w from "./logos/binance 02.png";
 import logo5 from "./logos/nirvlogo.svg";
 import logo6 from "./logos/pllogo.svg";
-import meta from "./logos/meta.png";
+import meta from "./logos/Full text Logo Yellow II.png";
+import meta1 from "./logos/Full text logo YellowI.png";
 import { useTranslation } from "react-i18next";
 
 const About = () => {
@@ -46,7 +47,7 @@ const About = () => {
             </span>{" "}
           </h1>
           <div className={style.sTwoVid}>
-            <video width="100px" height="100px" autoPlay >
+            <video width="500px" height="500px" autoPlay >
             <source src={require("../../assets/svgs/vid.mp4")} type="video/mp4" /></video>
             {/* <video src="https://drive.google.com/file/d/1nMkC8FbQAm1A_zhhoKIzdpN67RfLrCrs/view?usp=share_link"/> */}
             {/* <img src={vidImg} alt="vid" /> */}
@@ -74,7 +75,7 @@ const About = () => {
               <img src={logo6} alt="logo1" />
             </div>
             <div className={style.angel}>
-              <img src={meta} alt="logo5" id="logo5" />
+              <img src={dark === "true" ? meta : meta1} alt="logo5" id="logo5" />
             </div>
           </div>
         </div>

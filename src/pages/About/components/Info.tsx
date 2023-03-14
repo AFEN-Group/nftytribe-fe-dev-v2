@@ -26,7 +26,7 @@ const Info = () => {
               className={`${style.faqBox} ${
                 dark === "true" ? "darkGradient" : "lightGradient"
               }`}>
-              <a href="https://awake-cornucopia-fbb.notion.site/Getting-Started-with-NftyTribe-924b743823994844868ad3164115c370">
+              <div >
 
               <div className={style.faqImg}>
                 <img src={Up} alt="up" />
@@ -36,13 +36,13 @@ const Info = () => {
                 <p>{t("to fully maximise")}</p>
               </div>
                
-              </a>
+              </div>
             </div>
             <div
               className={`${style.faqBoxC} ${
                 dark === "true" ? "darkGradient" : "lightGradient"
               }`}>
-              <a href="https://awake-cornucopia-fbb.notion.site/NftyTribe-FAQs-and-User-guides-06062b612e2d41649c95c9b2baff7502">
+              <div >
 
               <div className={style.faqImg}>
                 <img src={Home} alt="home" />
@@ -54,13 +54,13 @@ const Info = () => {
                 {/* <button className={dark === "true" ? "yellowBtn" : "blueBtn"}>
                   Learn more
                 </button> */}
-              </a>
+              </div>
             </div>
             <div
               className={`${style.faqBox} ${
                 dark === "true" ? "darkGradient" : "lightGradient"
               }`}>
-              <a href="https://awake-cornucopia-fbb.notion.site/NftyTribe-FAQs-and-User-guides-06062b612e2d41649c95c9b2baff7502">
+              <div >
 
               <div className={style.faqImg}>
                 <img src={Pie} alt="pie" />
@@ -72,7 +72,7 @@ const Info = () => {
                 {/* <button className={dark === "true" ? "yellowBtn" : "blueBtn"}>
                   Learn more
                 </button> */}
-              </a>
+              </div>
             </div>
           </div>
         </div>
