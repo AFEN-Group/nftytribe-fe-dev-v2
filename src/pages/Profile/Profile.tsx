@@ -89,6 +89,13 @@ const Profile = () => {
         axiosInstance: Protected(sessionStorage.getItem('token'))
       })
     }
+    else if (query==='watchlist'){
+      Data({
+        method: 'get',
+        url: `api/nft/listings?isWatched=${true}&chain=${chain.filter((chain: any) => { return chain.chain === currentChainId })[0].id}`,
+        axiosInstance: Protected(sessionStorage.getItem('token'))
+      })
+    }
    else Data({
      method:'get',
      url:  `api/nft/transactions/?type=${query}&page=${currentPage}&limit=10`,
@@ -261,9 +268,17 @@ const Profile = () => {
             >
               <p>Sold</p>
             </div>
-            {/* <div className={style.filterItem}>
-              <p>Physical Items</p>
-            </div> */}
+            <div className={
+              query === 'watchlist' && dark === 'true'
+                ? style.darkActive
+                : query === 'watchlist' && dark !== 'true'
+                  ? style.lightActive
+                  : style.filterItem
+            }
+              onClick={(e) => setQuery('watchlist')}
+            >
+              <p>My Watchlist</p>
+            </div> 
           </div>
 
 
@@ -333,15 +348,15 @@ const Profile = () => {
                       </div>
                     </>
 
-                  ) 
+                    ) : collectibles?.length >= 1 && (query === 'watchlist') ?<Watchlist array={collectibles} />
                     :collectibles?.length >= 1 && query === 'sold'? (
                     <Sold array={collectibles} />)  :(
-                <div className={style.noContent}>
-                    {/* <ItemCard nftData={nft} /> */}
-                  <div className={style.noResults}>
-                    <img src={Sad} alt="sad" />
-                    <h2>No items found</h2>
-                    <Link to="/explore" className={style.explore}>
+                  <div className={style.noContent}>
+                        {/* <ItemCard nftData={nft} /> */}
+                      <div className={style.noResults}>
+                      <img src={Sad} alt="sad" />
+                      <h2>No items found</h2>
+                      <Link to="/explore" className={style.explore}>
                       <p>Explore marketplace</p>
                       <img src={Arrow} alt="arrow" />
                     </Link>
@@ -419,6 +434,66 @@ const Sold = (props:any)=>{
   )
 }
 
+const Watchlist = (props: any) => {
+  console.log(props.array);
+  function dataURItoBlob(dataURI: any) {
+    return `data:image/png;base64,${dataURI}`
+  }
+  const getImageUrl = (uri: any) => {
+    // console.log(uri);
+
+    let url
+    if (uri?.includes('ipfs://')) {
+      // eslint-disable-next-line
+      url = 'https://ipfs.io/ipfs/' + `${uri.split('ipfs://')[1]}`
+    }
+    else url = uri
+    // console.log(url);
+    return url
+
+
+  }
+
+  const getuserbyId = async (id: any) => {
+    const res = await Protected(sessionStorage.getItem('token'))['get'](`/api/user/${id}`)
+
+    return res.data
+
+  }
+
+
+
+
+  return (
+    <div className='sold'>
+      <div className="tableHead">
+
+        <div className="name">Item</div>
+       
+        <div className="address">Token ID</div>
+        <div className="value">Number of watchers</div>
+      </div>
+
+      {
+        props.array && props?.array?.map((item: any) => (
+          <div className="tableRow">
+
+            <div className="name">
+              <div className="img">
+                <img src={dataURItoBlob(item.sImg)} alt="alt" />
+              </div>
+              {item?.name}
+            </div>
+            <div className="address">{item.tokenId}</div>
+           
+            <div className="value">{item?.watchCount}</div>
+          </div>
+        ))
+      }
+
+    </div>
+  )
+}
 
 const Item= (data:any)=>{
 

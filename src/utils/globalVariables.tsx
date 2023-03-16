@@ -1,7 +1,8 @@
 // eslint-disable-next-line
 export default {
     baseURL: 'https://Dev.api.v2.nftytribe.io',
-    // baseURL:'https://e2ca-197-210-77-145.eu.ngrok.io',
+    // baseURL:'https://a82b-197-210-76-8.eu.ngrok.io',
+   
     mainnetEth: {
         chain: 'ethereum',
         chainId: '0x1',
