@@ -278,15 +278,16 @@ const CreateItems = () => {
       const collectionContract = new web3.eth.Contract(collectionabi,userInput.collection_address)
 
      if(userInput.collection_address!==contracts.BSC_erc721MintableAddress){
-       const charge = await contract.methods.mintingCharge().call()
+       const charge = await collectionContract.methods.mintingCharge().call()
        console.log(charge,userInput.collection_address);
        
        
-       const req = await collectionContract.methods.mint(Response?.data?.uri, userInput.royalties).send({from:wallet_address,value:charge*2})
+       const req = await collectionContract.methods.mint(Response?.data?.uri, userInput.royalties).send({ from: wallet_address, value: charge })
        console.log(req)
      }
      else {
       const charge = await contract.methods.mintingCharge().call()
+      
       // console.log(contract, userInput.collection_address);
       
        // @ts-ignore

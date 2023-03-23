@@ -291,12 +291,7 @@ const BuyModal = (props: any) => {
                     // value={userInput.bid}
                     />
                   </div>)}
-                {/* <div className={style.pbItem}>
-                  <p>Total </p>
-                  <div className={style.pbBlue}>
-                    <p>xx ETH</p>
-                  </div>
-                </div> */}
+               
               </div>
               <div className={style.modalBtns2}>
                 {props?.nftDetails?.is_multiple ? (

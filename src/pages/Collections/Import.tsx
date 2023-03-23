@@ -65,6 +65,9 @@ const Import = (props: any) => {
       setErr(1)
     }
   },[error,Response])
+
+  console.log(error?.message);
+  
   return (
     <div className={style.import}>
       <div className={style.importContent}>
@@ -101,9 +104,9 @@ const Import = (props: any) => {
                 </p>
                 <img src={Close} alt="close" onClick={props.closeImport} />
               </div>
-              <form className={style.modalBody}>
+              <form  className={style.modalBody}>
                 <div className={style.modalInput}>
-                  <p>Blockchain</p>
+                  <p style={{width:'fit-content'}}>Blockchain</p>
                   <select name="chain" onChange={inputHandler}>
                     {/* <option value="rinkeby">Rinkeby</option>
                     <option value="bsc testnet">BSC Testnet </option> */}
@@ -136,7 +139,7 @@ const Import = (props: any) => {
                   </button>
                 </div>
                 {/* @ts-ignore */}
-               <p style={{textAlign:'center',color:'red'}}> {error && error?.data.error[0].msg}</p>
+               {/* <p style={{textAlign:'center',color:'red'}}> {error && error?.message??error?.data.error[0].msg}</p> */}
               </form>
             </motion.div>
           )}

@@ -92,7 +92,7 @@ const CreateCollection = () => {
     }
     if (currentChain === '0x38'||currentChain=='0x61') {
       setChain('bsc')
-      setErc721FactoryAddress('0x34d7222be5E93cb8835C0F5eDa63261f3F2F9Bd5')
+      setErc721FactoryAddress('0x4cB70A623C670727324081A349242474268707B3')
       // setErc721FactoryAddress(contracts.BSC_erc721FactoryAddress)
       setErc1155FactoryAddress(contracts.BSC_erc1155FactoryAdddress)
     }
@@ -139,18 +139,18 @@ const CreateCollection = () => {
           )
           try {
             const newCollection = await factoryContract.methods
-              .createCollection(
+              .createCollection([
                 userInput.name,
                 userInput.symbol,
                 "",
                 "https://ipfs.io/ipfs/",
                 10000,
-              )
+              ])
               .send({ from: wallet_address })
             console.log(newCollection)
             const transactionHash = newCollection?.transactionHash
             const newCollectionAddress =
-             await newCollection?.events?.OwnershipTransferred[0].address
+             await newCollection?.events?.OwnershipTransferred.address
             //console.log(newCollectionAddress, ' address'
              
             //image upload
@@ -295,7 +295,7 @@ const CreateCollection = () => {
                     let file= e.target?.files[0]
                     setImageFile({file:file})
                   }} />
-                  {imageFile.file && (
+                  {imageFile?.file && (
                     <div className={style.fileBx}>
                       
                       <img

@@ -2,43 +2,94 @@
     {
         "inputs": [
             {
-                "internalType": "string",
-                "name": "_name",
-                "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "_symbol",
-                "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "_contractURI",
-                "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "_tokenURIPrefix",
-                "type": "string"
-            },
-            {
-                "internalType": "uint96",
-                "name": "_royaltyLimit",
-                "type": "uint96"
-            },
-            {
-                "internalType": "address payable",
-                "name": "_mintableAddress",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "sender",
-                "type": "address"
+                "components": [
+                    {
+                        "internalType": "string",
+                        "name": "name",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "symbol",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "contractURI",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "tokenURIPrefix",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "uint96",
+                        "name": "royaltyLimit",
+                        "type": "uint96"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "mintingCharge",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "bool",
+                        "name": "chargeInETH",
+                        "type": "bool"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "brokerage",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "contract IRouter",
+                        "name": "router",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "WETH",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "USDC",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "AADMIN",
+                        "type": "address"
+                    }
+                ],
+                "internalType": "struct SharedDefinitions.ERC721MintableParams",
+                "name": "params",
+                "type": "tuple"
             }
         ],
         "stateMutability": "nonpayable",
         "type": "constructor"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "previousAdmin",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "newAdmin",
+                "type": "address"
+            }
+        ],
+        "name": "AdminChanged",
+        "type": "event"
     },
     {
         "anonymous": false,
@@ -96,6 +147,32 @@
             {
                 "indexed": true,
                 "internalType": "address",
+                "name": "beacon",
+                "type": "address"
+            }
+        ],
+        "name": "BeaconUpgraded",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint8",
+                "name": "version",
+                "type": "uint8"
+            }
+        ],
+        "name": "Initialized",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
                 "name": "previousOwner",
                 "type": "address"
             },
@@ -135,8 +212,60 @@
         "type": "event"
     },
     {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "implementation",
+                "type": "address"
+            }
+        ],
+        "name": "Upgraded",
+        "type": "event"
+    },
+    {
         "stateMutability": "payable",
         "type": "fallback"
+    },
+    {
+        "inputs": [],
+        "name": "USDC",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "WETH",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address[]",
+                "name": "_addresses",
+                "type": "address[]"
+            }
+        ],
+        "name": "addEcosystemContracts",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
     },
     {
         "inputs": [
@@ -165,6 +294,19 @@
             }
         ],
         "name": "balanceOf",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "brokerage",
         "outputs": [
             {
                 "internalType": "uint256",
@@ -209,6 +351,53 @@
                 "internalType": "uint256",
                 "name": "",
                 "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "tokenURI",
+                "type": "string"
+            },
+            {
+                "internalType": "uint96",
+                "name": "_royalty",
+                "type": "uint96"
+            },
+            {
+                "internalType": "address",
+                "name": "_to",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "_receiver",
+                "type": "address"
+            }
+        ],
+        "name": "delegatedMint",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "ecosystemContract",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
             }
         ],
         "stateMutability": "view",
@@ -334,12 +523,12 @@
     },
     {
         "inputs": [],
-        "name": "mintableAddress",
+        "name": "mintingCharge",
         "outputs": [
             {
-                "internalType": "address payable",
+                "internalType": "uint256",
                 "name": "",
-                "type": "address"
+                "type": "uint256"
             }
         ],
         "stateMutability": "view",
@@ -404,6 +593,32 @@
         "type": "function"
     },
     {
+        "inputs": [],
+        "name": "proxiableUUID",
+        "outputs": [
+            {
+                "internalType": "bytes32",
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address[]",
+                "name": "_addresses",
+                "type": "address[]"
+            }
+        ],
+        "name": "removeEcosystemContracts",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
         "inputs": [
             {
                 "internalType": "address[]",
@@ -421,6 +636,19 @@
         "name": "renounceOwnership",
         "outputs": [],
         "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "router",
+        "outputs": [
+            {
+                "internalType": "contract IRouter",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
         "type": "function"
     },
     {
@@ -550,12 +778,56 @@
     {
         "inputs": [
             {
+                "internalType": "uint256",
+                "name": "_brokerage",
+                "type": "uint256"
+            }
+        ],
+        "name": "setBrokerage",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
                 "internalType": "string",
                 "name": "_contractURI",
                 "type": "string"
             }
         ],
         "name": "setContractURI",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "mintingCharge_",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bool",
+                "name": "_chargeInETH",
+                "type": "bool"
+            }
+        ],
+        "name": "setMintingCharge",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "contract IRouter",
+                "name": "_router",
+                "type": "address"
+            }
+        ],
+        "name": "setRouter",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -721,6 +993,37 @@
         "name": "transferOwnership",
         "outputs": [],
         "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "newImplementation",
+                "type": "address"
+            }
+        ],
+        "name": "upgradeTo",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "newImplementation",
+                "type": "address"
+            },
+            {
+                "internalType": "bytes",
+                "name": "data",
+                "type": "bytes"
+            }
+        ],
+        "name": "upgradeToAndCall",
+        "outputs": [],
+        "stateMutability": "payable",
         "type": "function"
     },
     {
