@@ -7,7 +7,56 @@
   z-index: 2;
   width: 100%;
 }
+.notification{
+  border: 1px solid #52525B;
+  width: 600px;
+  height: 600px;
+  position: absolute;
+  z-index: 999;
+  top: 60px;
+  background:linear-gradient(0deg, #FFFFFF, #FFFFFF);
+  border-radius: 0 24px 0 24px ;
+  padding: 42px;
+  box-sizing: border-box;
+  right: 0;
 
+      h2{
+        //styleName: Headers/header 5;
+          font-family:Neue-bold;
+          font-size: 24px;
+          font-weight: 800;
+          line-height: 31px;
+          letter-spacing: 0em;
+          text-align: left;
+          display: flex;
+          justify-content: space-between;
+      }
+
+      >div{
+        box-shadow: 0px 5px 30px 0px #00000033;
+        background: #FFFFFF;
+        height: 70px;
+          width: 100%;
+          border-radius: 4px;
+          margin-top: 12px;
+          display: flex;
+          align-items: center;
+          padding: 12px;
+          gap: 12px;
+        
+            p{
+                
+                font-family: Raleway;
+                font-size: 16px;
+                font-weight: 400;
+                line-height: 20px;
+                letter-spacing: 0px;
+                text-align: left;
+                color: #52525B;
+              
+          }
+      }
+}
 .container {
   // on scroll
   width: 100%;

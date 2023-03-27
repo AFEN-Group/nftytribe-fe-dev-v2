@@ -32,6 +32,9 @@ import LangDropDown from "../LangDropdown/Lang2";
 import LangIconDropDown from "../LangDropdown/Lang3";
 import { useTranslation } from "react-i18next";
 import Notification from "../notification/notification";
+import { ChainContext } from "src/context/chain";
+import UseAxios from "src/hooks/AxiosConfig/useAxios";
+import Protected from "src/hooks/AxiosConfig/axiosInstance";
 
 const HeaderWeb = (props: any) => {
   //const [isConnected, setIsConnected] = useState(false)
@@ -68,21 +71,9 @@ const HeaderWeb = (props: any) => {
     }
   };
 
-  //Hide nav on scroll up and show on scroll down
-  // useEffect(() => {
-  //   let lastScrollTop = 0;
-  //       const nav = document.getElementById(navBox)
-  //       window.addEventListener("scroll", function(){
-  //           let scrollTop = window.pageXOffset || document.documentElement.scrollTop;
-  //           if(scrollTop > lastScrollTop){
-  //               setNavStatus(style.navRemove)
-  //           } else {
-  //               setNavStatus(style.navOn)
-  //           }
-  //           lastScrollTop = scrollTop;
-  //       })
-  // }, [])
-
+ 
+ 
+  
   useEffect(() => {
     //   // When the user scrolls down Xpx from the top of the page, add styles to the navbar
     window.onscroll = function () {
@@ -124,11 +115,12 @@ const HeaderWeb = (props: any) => {
     setShowConnect(!showConnect);
   };
 
-  console.log("this is the", currentAccount);
+  // console.log("this is the", not.Response);
 
   const { t } = useTranslation();
   return (
     <>
+    
       <div
         className={style.section}
         // className={`${style.section} ${
@@ -275,7 +267,8 @@ const HeaderWeb = (props: any) => {
                 )}
               </div>
               <div className={style.buttonsBox}>
-                <Notification />
+                  <Notification   />
+              
                 <img
                   style={{ cursor: "pointer" }}
                   src={dark === "true" ? User2 : User}

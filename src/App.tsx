@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import WalletContext from "./context/WalletContext";
 import UserConnect from "./web3-Service/UserConnect";
 
@@ -28,6 +28,7 @@ import Footer from "./components/Footer/Footer";
 //import LaunchPartners from './pages/LaunchPartners/LaunchPartners'
 import Rewards from "./pages/Rewards/Rewards";
 import Staking from "./pages/Staking/Staking"; 
+import {io} from 'socket.io-client'
 import NotFound from "./pages/NotFound/NotFound";
 import useLanguage, { LanguageContext } from "./context/Language";
 import toast, { Toaster } from "react-hot-toast";
@@ -38,6 +39,9 @@ import Header from "./components/Header/Header";
 import { UserContext } from "./context/UserContext";
 import UseAxios from "./hooks/AxiosConfig/useAxios";
 import { ChainContext } from "./context/chain";
+import config from '../src/utils/globalVariables'
+
+
 
 function App() {
   const AOS = require("aos");
@@ -68,11 +72,13 @@ function App() {
     Response: chains,
     fetchData: getChains,
   } = UseAxios();
-
+  const [socketState,setSocketState] =useState<any>()
   useEffect(() => {
     if (user) {
       const { data } = user;
       setUserState({ ...userState, user: data });
+     
+     
     }
     if (user && userState?.currentAccount) {
       login();
@@ -136,6 +142,8 @@ function App() {
           walletAddress: userState.currentAccount,
         },
       });
+
+     
       console.log(response);
 
       sessionStorage.setItem("walletType", userState?.walletType);
@@ -167,10 +175,32 @@ function App() {
     /* @ts-ignore */
     if (chains) setChain(chains.data);
   }, [chains]);
+  
+  
+  useEffect(()=>{
+   if(userState?.user){
+    const socket = io(config.baseURL, {
+      auth: {
+        token: sessionStorage.getItem('token')
+      },
+      transports: ['websocket']
 
+    } as {
+      auth: {
+        token: string
+      }
+
+    })
+    socket.on('info', (data: any) => {
+      console.log(data);
+
+    })
+    setSocketState(socket);
+   } 
+  },[userState?.user])
   return (
     <Web3ContextProvider>
-      <ChainContext.Provider value={{ chain }}>
+      <ChainContext.Provider value={{ chain,socketState }}>
         <LanguageContext.Provider value={langState}>
           <WalletContext.Provider value={data}>
             <>
