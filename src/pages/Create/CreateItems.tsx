@@ -490,6 +490,23 @@ const CreateItems = () => {
                     </label>
                   </div>
                 </div>
+              </div> 
+              <div className={style.fieldBx2}>
+                <img className={style.toggleCheck} src={check} alt="toggle" />
+                <p>Has Physical Item</p>
+                <div className={style.toggle}>
+                  <div className={style.toggleBox}>
+                    <label className={style.switchToggle}>
+                      <input
+                        // onChange={handleLazy}
+                        type="checkbox"
+                        name="lazyMinting"
+                      />
+                      <span
+                        className={`${style.sliderToggle} ${style.round}`}></span>
+                    </label>
+                  </div>
+                </div>
               </div>
 
               <div className={style.submitBx}>

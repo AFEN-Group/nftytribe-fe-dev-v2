@@ -90,8 +90,46 @@ const CreateItemOptions = () => {
 
   const { t } = useTranslation();
   console.log(chain)
+  const [chose,setCreate]=useState(true)
   return (
     <>
+    {
+        chose && <div className={style.createOptions}>
+        
+            <div
+              //className={style.cOptContent2}
+              className={`${style.cOptContent2} animate__animated animate__fadeIn `}>
+              <div className={style.cOptTop2}>
+                <h1>
+                  <span id="heroTitle">{t("Choose Collectible")}</span>{" "}
+                </h1>
+                <p>
+                  <span>{t("Select")}</span>{" "}
+                </p>
+              </div>
+              <div
+                className={`${style.cOptBody} animate__animated animate__fadeInUp animate__delay-1s`}>
+                <div className={style.optBoxes2}>
+                  <div
+                  //  href={undefined}
+                   onClick={()=>setCreate(!chose)}
+                    className={style.optBox2}>
+                    <img className={style.tImg} src={Polygon} alt="single" />
+                    <p>NFT</p>
+                  </div>
+                  <Link
+                    to={`/collections`}
+                    className={`${style.optBox2} `}
+                  >
+                    <img className={style.tImg} src={Multiple} alt="single" />
+                    <p>Collection</p>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          
+        </div >
+    }
       {/* <Header /> */}
       <Container>
         {showModal && (
@@ -99,7 +137,7 @@ const CreateItemOptions = () => {
         )}
         {showPrompt && <UpdatePrompt closePrompt={closePrompt} />}
 
-        <div className={style.createOptions}>
+       {!chose&& <div className={style.createOptions}>
           {chain === "" ? (
             <div className={style.cOptContent1}>
               <div className={style.cOptTop}>
@@ -180,7 +218,7 @@ const CreateItemOptions = () => {
               </div>
             </div>
           )}
-        </div >
+        </div >}
       </Container >
     </>
   );
