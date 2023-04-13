@@ -216,6 +216,10 @@ const HeaderWeb = (props: any) => {
                     <p>{t("create")}</p>
                   </Link>
                 </div>
+<a href="" style={{margin:'auto'}}>
+  <img style={{width:'70px',background:'black'}} src={require('./art expo 7.png')} alt="" />
+</a>
+                
                 {/* <div className={style.searchBox}>
                   <input
                     type="text"

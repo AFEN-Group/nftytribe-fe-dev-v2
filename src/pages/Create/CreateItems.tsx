@@ -18,11 +18,14 @@ import icon from './assets/upload.svg'
 import check from './assets/check.svg'
 import globals from '../../utils/globalVariables'
 import logo from './assets/logo-sm.svg'
-
+import moment from 'moment'
+import physicalAbi from '../../smart_contracts/physical.json'
 import Web3 from 'web3'
 import contracts from '../../web3-Service/contractAddress'
+import tokenAbi from '../../smart_contracts/afenToken.json'
 
 import abi from '../../smart_contracts/erc721Mintable.json'
+// import erc721Abi from '../../smart_contracts/erc721Collection.json'
 import collectionabi from '../../smart_contracts/collections.json'
 import erc721MarketplaceAbi from '../../smart_contracts/erc721Market.json'
 import erc721CollectionAbi from '../../smart_contracts/erc721Collection.json'
@@ -37,6 +40,7 @@ import { useTranslation } from "react-i18next";
 import Protected from '../../hooks/AxiosConfig/axiosInstance'
 import { UserContext } from '../../context/UserContext'
 import UseAxios from '../../hooks/AxiosConfig/useAxios'
+import PutOnSaleModal from './physical'
 
 declare const window: any
 
@@ -69,7 +73,7 @@ const CreateItems = () => {
   const [erc1155MarketplaceAddress, setErc1155MarketplaceAddress] = useState<any>('')
   const wallet_address = sessionStorage.getItem('currentAccount')
   const web3= new Web3(window.ethereum)
-
+  const [showList,setShowList]=useState<boolean>(false)
   const [err, setErr] = useState<any>({
     title: "",
     price: "",
@@ -108,6 +112,7 @@ const CreateItems = () => {
   const [cardImage, setCardImage] = useState('')
   const [imageFile, setImageFile] = useState<any>('')
   const [userCollections, setUserCollections] = useState([])
+  const [isPhysical, setIsPhysical] = useState<boolean>(false)
 
 
   useEffect(() => {
@@ -189,16 +194,17 @@ const CreateItems = () => {
       });
     }
     if (
+      !isPhysical&&
       userInputRef.current.title !== "" &&
-      // userInputRef.current.price !== "" &&
-      userInputRef.current.category !== "0" 
-      
-     
+      userInputRef.current.category !== "0"
     ) {
       setValidated(true);
     }
+    else if (isPhysical && userInputRef.current.address !== "" && userInputRef.current.city !== "" && userInputRef.current.state !== "" && userInputRef.current.weight !== "" && userInputRef.current.country !== "" && userInputRef.current.price !== ""){
+      setValidated(true);
+    }
   };
-  console.log(userInput);
+  // console.log(isPhysical && userInputRef.current.address !== "" && userInputRef.current.city !== "" && userInputRef.current.state !== "" && userInputRef.current.weight !== "" && userInputRef.current.country !== "" && userInputRef.current.price !== "");
   
   const selectMedia = async (e: any) => {
 
@@ -217,6 +223,7 @@ const CreateItems = () => {
     setShowModal(false)
     
   }
+  const [imgKey, setImgKey]=useState()
   const {fetchData,Response,loading,error}=UseAxios()
   const onSubmit = async (e: any) => {
     e.preventDefault();
@@ -238,25 +245,23 @@ const CreateItems = () => {
       try {
         const imgRes= await Protected(sessionStorage.getItem('token'))['post']('api/uploads/temp/nft',formData)
       const key=imgRes.data.key
-
-     await fetchData({
-        method:'post',
-        url:'api/nft/create-nft',
-        axiosInstance:Protected(sessionStorage.getItem('token')),
-        requestConfig:{
-          name:userInput.title,
-          description:userInput.description,
-          website:'www.kachi.com',
-          imageKey:key,
-          lazyMint:false
-        }
-      })
+      setImgKey(key)
      
+         await fetchData({
+           method: 'post',
+           url: 'api/nft/create-nft',
+           axiosInstance: Protected(sessionStorage.getItem('token')),
+           requestConfig: {
+             name: userInput.title,
+             description: userInput.description,
+             website: 'www.kachi.com',
+             imageKey: key,
+             lazyMint: false
+           }
+         })
+       
+          
      
-   
-
-      
-      
      
       } catch (error) {
         console.log(error);
@@ -270,6 +275,8 @@ const CreateItems = () => {
     }
   };
 //  console.log(collectionabi)
+const [mintedId,setId]=useState()
+const create=UseAxios()
   const Mint=async()=>{
     try {
       // @ts-ignore
@@ -286,14 +293,41 @@ const CreateItems = () => {
        console.log(req)
      }
      else {
+      console.log('minting');
+      
       const charge = await contract.methods.mintingCharge().call()
+      console.log(charge);
       
-      // console.log(contract, userInput.collection_address);
+     
+     const mint= await contract.methods.mint(Response?.data?.uri, userInput.royalties).send({ from: wallet_address, value: charge })
+     setId(mint.events.Transfer.returnValues.tokenId);
       
-       // @ts-ignore
-
-      await contract.methods.mint(Response?.data?.uri, userInput.royalties).send({ from: wallet_address, value: charge })}
-      setStep(4)
+    }
+    
+    
+      console.log("mintied");
+     
+     
+      
+      if (isPhysical) {
+        await create.fetchData({
+          method: 'post',
+          url: 'api/nft/physical-item',
+          axiosInstance: Protected(sessionStorage.getItem('token')),
+          requestConfig: {
+            address: userInput.address,
+            city: userInput.city,
+            state: userInput.state,
+            country: userInput.country,
+            weight: userInput.weight,
+            deliveryChannels: ["topship"],
+            // imageKey: imgKey,
+            //  lazyMint:false
+          }
+        })
+      } 
+         //   }
+     else setStep(4)
      
       
     } catch (error) {
@@ -301,12 +335,68 @@ const CreateItems = () => {
       
     }
   }
+console.log(tokenAbi);
 
   useEffect(()=>{
    if(Response) Mint()
    else return
   },[Response])
   const { t } = useTranslation();
+   
+  const List= async()=>{// @ts-ignore
+    const physicalContract = new web3.eth.Contract(physicalAbi,
+      contracts.BSC_PhysicalItem,
+    )
+      //  @ts-ignore
+            const TokenContract = new web3.eth.Contract(erc721CollectionAbi, userInput.collection_address)
+    // console.log(await physicalContract.methods);
+    // @ts-ignore
+  
+    const token = new web3.eth.Contract(tokenAbi.abi, userInput.erc20)
+
+
+
+        await TokenContract.methods.approve(contracts.BSC_PhysicalItem, mintedId).send({ from: wallet_address })
+
+ console.log( userInput.price);
+          const decimal = parseInt(await token.methods.decimals().call({ from: wallet_address }))
+          let amount = parseInt(userInput.price) * 10 ** decimal
+    console.log(amount, mintedId,
+             JSON.stringify(amount),
+              userInput.market_type,
+               moment().unix(),
+               moment().add(30, 'days').unix(),
+               '0',
+                userInput.collection_address,
+                 userInput.erc20,// @ts-ignore
+                 create?.Response?.key??create?.Response.data.key);
+
+        await physicalContract.methods.putOnSale(mintedId,
+             JSON.stringify(amount),
+              userInput.market_type,
+               moment().unix(), 
+               moment().add(30, 'days').unix(),
+               '0',
+                userInput.collection_address,
+                 userInput.erc20,// @ts-ignore
+                web3.utils.asciiToHex(create?.Response?.key??create?.Response.data.key))
+                 .send({ from: wallet_address })
+
+        try {
+         
+                 
+                 
+          // setCompleted(!completed)
+        } catch (error) {
+
+        }
+
+
+  }
+ 
+  useEffect(()=>{if(create.Response)List()},[create.Response])
+
+
   return (
     <>
       {/* <Header /> */}
@@ -319,6 +409,7 @@ const CreateItems = () => {
           msg={msg}
         />
       )}
+      {/* {!showList && <PutOnSaleModal />} */}
       <Container>
         <div
           className={`${style.create} animate__animated animate__fadeInLeft`}>
@@ -371,7 +462,7 @@ const CreateItems = () => {
               </div>
             </div>
             <div className={style.right}>
-              <div className={style.fieldBx}>
+             <><div className={style.fieldBx}>
                 <p>{t("Title")}</p>
                 <TextInput
                   type="text"
@@ -389,22 +480,168 @@ const CreateItems = () => {
                   inputHandler={inputHandler}
                   value={userInput.description}
                 />
-              </div>
-              {/* <div className={style.fieldBx}>
-                <p>{t("Price")}</p>
-                <TextInput
-                  type="text"
-                  inputName="price"
-                  holder={`Enter ${currentChain === '0x1' ? 'ETH' : currentChain === '0x38' ? 'BNB' : ''} Price`}
-                  max="12"
-                  inputHandler={inputHandler}
-                  value={userInput.price}
-                />
-                <div className={style.iDesc}><p>({currentChain === globals.mainnetEth.chainId ? 'ETH' : currentChain === globals.mainnetBsc.chainId ? 'BNB' : ''} price)</p></div>
+              </div></>
+             {isPhysical&&<> 
+                <div className={style.fieldBx}>
+                  <p>{t("Price")}</p>
+                  <TextInput
+                    type="text"
+                    inputName="price"
+                    holder={`Enter ${currentChain === '0x1' ? 'ETH' : currentChain === '0x38' ? 'BNB' : ''} Price`}
+                    max="12"
+                    inputHandler={inputHandler}
+                    value={userInput.price}
+                  />
+                  <div className={style.iDesc}><p>({currentChain === globals.mainnetEth.chainId ? 'ETH' : currentChain === globals.mainnetBsc.chainId ? 'BNB' : ''} price)</p></div>
 
-              </div> */}
-              
-              
+                </div> <div className={style.fieldBx}>
+                  <p>Erc20 token</p>
+                  <TextInput
+                    type="text"
+                    inputName="erc20"
+                    holder={`Enter ERC20 token address`}
+                    // max="12"
+                    inputHandler={inputHandler}
+                    value={userInput.erc20}
+                  />
+                  {/* <div className={style.iDesc}><p>({currentChain === globals.mainnetEth.chainId ? 'ETH' : currentChain === globals.mainnetBsc.chainId ? 'BNB' : ''} price)</p></div> */}
+
+                </div>  
+                <div className={style.fieldBx}>
+                  <p>Address</p>
+                  <TextInput
+                    type="text"
+                    inputName="address"
+                    holder={`Enter Delivery Address`}
+                    // max="12"
+                    inputHandler={inputHandler}
+                    value={userInput.address}
+                  />
+                  {/* <div className={style.iDesc}><p>({currentChain === globals.mainnetEth.chainId ? 'ETH' : currentChain === globals.mainnetBsc.chainId ? 'BNB' : ''} price)</p></div> */}
+
+                </div>  <div className={style.fieldBx}>
+                  <p>City</p>
+                  <TextInput
+                    type="text"
+                    inputName="city"
+                    holder={`Enter City`}
+                    max="12"
+                    inputHandler={inputHandler}
+                    value={userInput.city}
+                  />
+                  {/* <div className={style.iDesc}><p>({currentChain === globals.mainnetEth.chainId ? 'ETH' : currentChain === globals.mainnetBsc.chainId ? 'BNB' : ''} price)</p></div> */}
+
+                </div>  <div className={style.fieldBx}>
+                  <p>State</p>
+                  <TextInput
+                    type="text"
+                    inputName="state"
+                    holder={`Enter State`}
+                    max="12"
+                    inputHandler={inputHandler}
+                    value={userInput.state}
+                  />
+                  {/* <div className={style.iDesc}><p>({currentChain === globals.mainnetEth.chainId ? 'ETH' : currentChain === globals.mainnetBsc.chainId ? 'BNB' : ''} price)</p></div> */}
+
+                </div>  <div className={style.fieldBx}>
+                  <p>Country</p>
+                  <TextInput
+                    type="text"
+                    inputName="country"
+                    holder={`Enter Country`}
+                    max="12"
+                    inputHandler={inputHandler}
+                    value={userInput.country}
+                  />
+                  {/* <div className={style.iDesc}><p>({currentChain === globals.mainnetEth.chainId ? 'ETH' : currentChain === globals.mainnetBsc.chainId ? 'BNB' : ''} price)</p></div> */}
+
+                </div>  <div className={style.fieldBx}>
+                  <p>Weight</p>
+                  <TextInput
+                    type="text"
+                    inputName="weight"
+                    holder={`Enter Item Weight`}
+                    max="12"
+                    inputHandler={inputHandler}
+                    value={userInput.weight}
+                  />
+                  <div className={style.iDesc}><p>(Kg)</p></div>
+
+                </div>
+              <div className={style.fieldBx}>
+                <div className={style.smBtns}>
+                  <div
+                    className={
+                      userInput.market_type === "1" && dark === "true"
+                        ? style.sAdark
+                        : userInput.market_type === "1" && dark !== "true"
+                          ? style.sAlight
+                          : style.smBtn
+                    }
+                    onClick={() =>
+                      setUserInput({
+                        ...userInput,
+                        market_type: "1",
+                      })
+                    }>
+                    {t("Fixed price")}
+                  </div>
+                  {/* <div
+                    className={`${style.smBtn} ${
+                      priceType === 'bids' ? style.smBtnA : ''
+                    } `}
+                    onClick={() => setPriceType('bids')}
+                  >
+                    Open for bids
+                  </div> */}
+                  {itemType !== "multiple" && (
+                    <div
+                      className={
+                        userInput.market_type === "2" && dark === "true"
+                          ? style.sAdark
+                          : userInput.market_type === "2" && dark !== "true"
+                            ? style.sAlight
+                            : style.smBtn
+                      }
+                      onClick={() =>
+                        setUserInput({
+                          ...userInput,
+                          market_type: "2",
+                        })
+                      }>
+                      {t("Timed auction")}
+                    </div>
+                  )}
+                </div>
+              </div>
+              {userInput.market_type === "2" && (
+                <>
+                  <div className={style.fieldBx}>
+                    <p>{t("Start Date")}</p>
+                    <SelectDate
+                      type="text"
+                      inputName="starting_time"
+                      //onFocus={(e: any) => e.target.type = 'datetime-local'}
+                      holder="Choose Start Date"
+                      //value={userInput.price}
+                      inputHandler={inputHandler}
+                    //step="1"
+                    />
+                  </div>
+                  <div className={style.fieldBx}>
+                    <p>{t("End Date")}</p>
+                    <SelectDate
+                      type="text"
+                      inputName="ending_time"
+                      //onFocus={(e: any) => e.target.type = 'datetime-local'}
+                      holder="Choose End Date"
+                      //value={userInput.price}
+                      inputHandler={inputHandler}
+                    />
+                  </div>
+                </>
+              )}
+              </>}
               <p>
                 Choose Collection (Nftytribe collection is chosen by default)
               </p>
@@ -498,7 +735,7 @@ const CreateItems = () => {
                   <div className={style.toggleBox}>
                     <label className={style.switchToggle}>
                       <input
-                        // onChange={handleLazy}
+                        onChange={()=>setIsPhysical(!isPhysical)}
                         type="checkbox"
                         name="lazyMinting"
                       />
