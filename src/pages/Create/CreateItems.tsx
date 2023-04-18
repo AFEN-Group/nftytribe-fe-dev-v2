@@ -358,7 +358,7 @@ console.log(tokenAbi);
 
         await TokenContract.methods.approve(contracts.BSC_PhysicalItem, mintedId).send({ from: wallet_address })
 
- console.log( userInput.price);
+      console.log( userInput.price);
           const decimal = parseInt(await token.methods.decimals().call({ from: wallet_address }))
           let amount = parseInt(userInput.price) * 10 ** decimal
     console.log(amount, mintedId,
@@ -382,15 +382,7 @@ console.log(tokenAbi);
                 web3.utils.asciiToHex(create?.Response?.key??create?.Response.data.key))
                  .send({ from: wallet_address })
 
-        try {
-         
-                 
-                 
-          // setCompleted(!completed)
-        } catch (error) {
-
-        }
-
+        setStep(4)
 
   }
  

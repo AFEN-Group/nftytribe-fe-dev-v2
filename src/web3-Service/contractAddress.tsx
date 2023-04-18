@@ -18,7 +18,8 @@ export default {
   BSC_erc721FactoryAddress: '0x4cB70A623C670727324081A349242474268707B3', //test
   // BSC_erc721FactoryAddress: '0x96788ce9a1a51338060a8e8c4cadf0f0f29ef3f3',//main
   BSC_erc721MarketplaceAddress: '0xd64f379A9e4548490E06B75045F70Cf6AF161A57',
-  BSC_PhysicalItem: '0x632B0d4135fcda8Ca662faAead4FAb558d24b818'
+  // BSC_PhysicalItem: '0x632B0d4135fcda8Ca662faAead4FAb558d24b818',
+ BSC_PhysicalItem: '0x59d36cca2f1425e66F0fc458c17Ec9d54021FA2d'
   // '0x71F722A1F16AF147e2fa088224BF1f0955f1075a'
   ,//test
   // BSC_erc721MarketplaceAddress: '0xb80a5067c6373c8d53dae3f1bf0b1aea83349b92',//main
