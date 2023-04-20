@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useRef, useState } from "react";
 import WalletContext from "./context/WalletContext";
 import UserConnect from "./web3-Service/UserConnect";
@@ -40,6 +40,7 @@ import { UserContext } from "./context/UserContext";
 import UseAxios from "./hooks/AxiosConfig/useAxios";
 import { ChainContext } from "./context/chain";
 import config from '../src/utils/globalVariables'
+import Verification from "./pages/Profile/Modals/Verification";
 
 
 
@@ -198,6 +199,7 @@ function App() {
     setSocketState(socket);
    } 
   },[userState?.user])
+  
   return (
     <Web3ContextProvider>
       <ChainContext.Provider value={{ chain,socketState }}>
@@ -226,7 +228,12 @@ function App() {
                       element={<ExploreBid />}></Route>
                     <Route
                       path="/collections"
-                      element={<Collections />}></Route>
+                      element={<Collections />}></Route> 
+                    <Route
+                        path="/verify"
+                        element={<Verification  />}>
+                      
+                     </Route>
 
                     <Route
                       path="/collectionDetails/:collectionId"

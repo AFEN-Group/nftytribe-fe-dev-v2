@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ThemeContext } from '../../context/ThemeContext'
 // import { AuthContext } from '../../context/AuthContext'
 import { CircularProgress } from '@material-ui/core'
@@ -126,13 +126,11 @@ const EditProfile = () => {
     setShowOtp(false)
   }
 console.log(userState);
-
+const navigate=useNavigate()
   return (
     <>
  
-      {showVerify &&
-        <Verification closeVerify={closeModal} />
-      }
+    
       {updated && <UpdateComplete closeModal={closeModal} />}
       {showOtp && <EnterOtp closeModal={closeModal} currentAddress={currentAddress} />}
 
@@ -272,7 +270,7 @@ console.log(userState);
                 <div className={`${style.inputField} ${style.mgTop5}  `}>
                   <p>Verification</p>
                   <h4>To get verified and a blue tick</h4>
-                  <button disabled type='button' onClick={() => setShowVerify(true)}>Verify</button>
+                  <button  type='button' onClick={() => navigate('/verify')}>Verify</button>
                 </div>
                 <div className={style.editBtn}>
                   <button
