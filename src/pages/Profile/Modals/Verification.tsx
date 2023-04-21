@@ -10,10 +10,16 @@ import step1 from './assets/step1.svg'
 import step2 from './assets/step2.svg'
 import stepc from './assets/stepC.svg'
 import shapes from './assets/shapes.svg'
-
+import { useEffect, useRef } from 'react'
+import UseAxios from 'src/hooks/AxiosConfig/useAxios'
+import Protected from 'src/hooks/AxiosConfig/axiosInstance'
+import axios from 'axios'
+import baseUrl from '../../../utils/globalVariables'
+import UpdateComplete from './UpdateComplete'
 const Verification = (props: any) => {
     const [isLoading, setIsLoading] = useState(false)
     const [userInput, setUserInput, userInputRef] = useState<any>({
+        socialLinks:[]
         // chain: 'rinkeby',
         // address: '',
     })
@@ -34,7 +40,8 @@ const Verification = (props: any) => {
             setIsEmpty(false)
         }
     }
-
+    console.log(userInput);
+    const upload=UseAxios()
     const selectMedia = async (e: any) => {
         setIsLoading(true)
         if (e.target.files && e.target.files.length > 0) {
@@ -59,11 +66,67 @@ const Verification = (props: any) => {
             //   }
         }
     }
+    const [socials,setSocials]=useState({})
+    const videoRef = useRef(null)
+    const pictureRef = useRef(null)
+    const [showPrev,setShowPrev]=useState(false)
+    const [liveImage,setLiveImage]=useState<any>()
+    const takePicture = () => {
+        if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
+            navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+               
+                let video: any = videoRef.current;
+               
+                video.srcObject = stream;
+                video.play()
+            })
+        }
+    }
+    function dataURLtoFile(dataurl:any, filename: any) {
 
+        var arr = dataurl.split(','),
+            mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]),
+            n = bstr.length,
+            u8arr = new Uint8Array(n);
 
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+
+        return new File([u8arr], filename, { type: mime });
+    }
+
+    
+    const Capture=()=>{
+        let video= videoRef.current
+       let width=500;
+       let height=width/(16/9)
+       let photo: any=pictureRef.current
+       photo.width=width
+       photo.height=height
+       photo.style=style
+       let ctx=photo.getContext('2d')
+       ctx.drawImage(video,0,0,width,height)
+        let image_data_url = photo.toDataURL('image/jpeg');
+        setLiveImage(dataURLtoFile(image_data_url,'selfie'))
+       setShowPrev(!showPrev)
+    }
+    console.log(liveImage);
+    
+    useEffect(()=>{if(showPrev)takePicture()},[showPrev])
+   const header={
+       Authorization: `Bearer ${sessionStorage.getItem('token')}`
+   }
+    const [updated, setUpdated] = useState(false)
+    const [error, setError] = useState(false)
     return (
-        <div style={{paddingTop:'2em'}}>
-            
+        <div >
+            {updated && <UpdateComplete closeModal={()=>navigate(-1)} />}
+            {showPrev&&<div className={style.imagePrev}>
+                 <video  style={{width:'400px',height:'600px'}} ref={videoRef} ></video>
+                 <button onClick={Capture}>Take Photo</button>
+            </div>}
             <div className={style.modalContainer}>
                 {!completed && (
                     <div
@@ -75,7 +138,7 @@ const Verification = (props: any) => {
                             <p>
                                 Please check the completed fields before submitting your request
                             </p>
-                          
+                            { error &&<p style={{color:'red'}}> Please Update all neccessary details</p>}
                         </div>
                         <form className={style.modalBody}>
                         
@@ -83,10 +146,10 @@ const Verification = (props: any) => {
                                 <p>Your name</p>
                                 <input
                                     type="text"
-                                    //name="address"
+                                    name="fullName"
                                     //value={userInput.address}
                                     onChange={inputHandler}
-                                    placeholder="Enter first name"
+                                    placeholder="Enter Full name"
                                 />
                             </div>
                      
@@ -95,20 +158,20 @@ const Verification = (props: any) => {
                                     <p>Email Address</p>
                                     <input
                                         type="email"
-                                    //name="address"
+                                    name="email"
                                     //value={userInput.address}
-                                    //onChange={inputHandler}
-                                    //placeholder="Enter last name"
+                                    onChange={inputHandler}
+                                        placeholder="yourname@gmail.com"
                                     />
                                 </div>
                                 <div >
                                     <p>Phone Number</p>
                                     <input
-                                        type="text"
-                                        //name="address"
+                                        type="number"
+                                        name="phoneNumber"
                                         //value={userInput.address}
                                         onChange={inputHandler}
-                                    //placeholder="Enter last name"
+                                    placeholder="Enter phone Number"
                                     />
                                 </div>
                             </div>
@@ -117,7 +180,7 @@ const Verification = (props: any) => {
                                 <div style={{ backgroundColor:'#424141'}}className={style.fileContainer}>
                                     {!imageFile && (
                                         <div  className={style.fileTxt}>
-                                            <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+                                            <svg onClick={() => setShowPrev(true)} width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
                                                 <circle cx="36.6205" cy="36" r="27.931" fill="#3CC13B" />
                                                 <rect x="20.4829" y="19.8621" width="31.0345" height="31.0345" fill="url(#pattern0)" />
                                                 <circle cx="36" cy="36" r="35.6897" stroke="#D4D3D8" stroke-width="0.62069" />
@@ -130,15 +193,15 @@ const Verification = (props: any) => {
                                             </svg>
 
                                             <p>Tap on the button to take a  selfie</p>
-                                           
+                                           <canvas ref={pictureRef}></canvas>
                                         </div>
                                     )}
-                                    <input
+                                    {/* <input
                                         type="file"
                                         name="img"
                                         onChange={selectMedia}
                                         required
-                                    />
+                                    /> */}
                                     {imageFile && (
                                         <div className={style.fileBx}>
                                             {/* <img src={guy} alt="guy" /> */}
@@ -149,17 +212,46 @@ const Verification = (props: any) => {
                                             />
                                         </div>
                                     )}
+                            
+                            
+                            
+                            
+                            
                                 </div>
 
+                            </div>
+                            <div className={style.modalInput}>
+                                <p>Social link(s)</p>
+                                <input
+                                    type="text"
+                                    // name="address"
+                                    //value={userInput.address}
+                                    onChange={(e) => setSocials({ ...socials, one: e.target.value })}
+                                    placeholder="http/twitterusername.com"
+                                /> 
+                                 <input
+                                    type="text"
+                                    //name="address"
+                                    //value={userInput.address}
+                                    onChange={(e) => setSocials({ ...socials, two:e.target.value })}
+                                    placeholder="http/twitterusername.com"
+                                /> 
+                                 <input
+                                    type="text"
+                                    //name="address"
+                                    //value={userInput.address}
+                                    onChange={(e) => setSocials({ ...socials, three: e.target.value })}
+                                    placeholder="http/twitterusername.com"
+                                />  
                             </div>
                             <div className={style.modalInput}>
                                 <p>Upload gov issued ID</p>
                                 <div className={style.fileContainer}>
                                     {!imageFile && (
                                         <div className={style.fileTxt}>
-                                            <img src={shapes} alt="upload" />
-                                            <p>Upload file</p>
-                                            <p>PNG, GIF, WEBP, Maximum 100mb</p>
+                                            <img src={require('./assets/cloud.png')} alt="upload" />
+                                           
+                                            <p style={{color:'black'}}>Upload an image of your selected ID. Image should be PNG/JPEG format</p>
                                         </div>
                                     )}
                                     <input
@@ -183,19 +275,49 @@ const Verification = (props: any) => {
                             </div>
                             <div className={style.modalBtns}>
 
-                                <button className={style.btn2} onClick={props.closeVerify}>
-                                    {' '}
-                                    Cancel
-                                </button>
-
-                                <button
-                                    className={style.btn1}
-                                    disabled={isEmpty || isLoading}
-                                >
-                                    Submit
-                                </button>
+                               
                             </div>
+                            <div className={style.modalInput}>
+                                    <p>Refferal Code (optional)</p>
+                                    <input
+                                        type="text"
+                                        //name="address"
+                                        //value={userInput.address}
+                                        onChange={inputHandler}
+                                        placeholder="*******"
+                                    />
+                                </div>
+                            
+                            <div
+                                onClick={async () => {
+                                    // console.log(liveImage &&  && userInput.fullName && imageFile, liveImage, socials.one, userInput.fullName, imageFile);
 
+                                    const form = new FormData()
+                                    if (liveImage && Object.values(socials).length && userInput.fullName && imageFile) {
+
+                                        form.append('selfie', liveImage)
+                                        form.append('phoneNumber', userInput.phoneNumber)
+                                        form.append('fullName', userInput.fullName)
+                                        form.append('professionalName', userInput.fullName)
+                                        form.append('id', imageFile)
+                                        form.append('socialLinks', JSON.stringify(Object.values(socials)))
+                                       
+                                        let res = await axios.post(`${baseUrl.baseURL}/api/user/kyc-v1`, form, { headers: header }).catch(error=>setError(true))
+                                        if(res)setUpdated(true)
+
+                                      
+                                    }
+                                }} className={style.button}>
+                                    <div
+                                       
+                                        //onClick={showCon}
+                                        id="showIcon">
+                                       Submit
+                                    </div>
+                                </div>
+                              
+                              
+                         
                         </form>
                     </div>
                 )}

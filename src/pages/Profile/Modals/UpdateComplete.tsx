@@ -8,21 +8,21 @@ import Happy from './assets/happy.svg'
 const UpdateComplete = (props: any) => {
 
     return (
-        <div>
+        <div >
             <div
-                className={`${style.overlay} animate__animated animate__fadeIn `}
+            style={{width:'100vw',position:'fixed',zIndex:'999',height:'100vh',background:'rgba(0,0,0 ,0.5)'}}  className={`${style.overlay} animate__animated animate__fadeIn `}
             ></div>
-            <div className={style.modalContainer}>
+            <div style={{position:'fixed',zIndex:'999',display:'flex',justifyContent:'center',alignItems:'center',width:'100%',height:'100vh'}}   className={style.modalContainer}>
 
                 <div
-                    className={`${style.modal2} animate__animated animate__zoomInUp `}
+                 style={{ width:'400px' }} className={`${style.modal2} animate__animated animate__zoomInUp `}
                 >
                     <div className={style.modalTop}>
                         <h1>Updated!</h1>
                         <p>
                             Your profile was updated successfully.
                         </p>
-                        <img src={Close} alt="close" onClick={props.closeModal} />
+                     
                     </div>
                     <div className={style.modalBody2}>
                         <div className={style.successImg}>
@@ -30,7 +30,7 @@ const UpdateComplete = (props: any) => {
                         </div>
                     </div>
                     <Link to="/profile" className={style.modalBtnSingle}>
-                        <button>Continue</button>
+                        <button onClick={props.closeModal}>Continue</button>
                     </Link>
                 </div>
 
