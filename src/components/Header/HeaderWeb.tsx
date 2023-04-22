@@ -215,10 +215,11 @@ const HeaderWeb = (props: any) => {
                   <Link to="/createOptions">
                     <p>{t("create")}</p>
                   </Link>
+                
                 </div>
-<a href="" style={{margin:'auto'}}>
-  <img style={{width:'70px',background:'black'}} src={require('./art expo 7.png')} alt="" />
-</a>
+                 <a href="" style={{margin:'auto'}}>
+                    Art Expo
+                  </a>
                 
                 {/* <div className={style.searchBox}>
                   <input

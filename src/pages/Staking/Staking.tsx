@@ -15,6 +15,7 @@ import useStaking from "../../hooks/staking";
 import { CircularProgress } from '@material-ui/core'
 import Switch from '../../components/Modals/Switch'
 import toast from 'react-hot-toast'
+import Web3 from "web3";
 
 const Staking = () => {
   // useEffect(() => {
@@ -67,16 +68,19 @@ const Staking = () => {
       setValidated(true)
     }
   }
+  
   const [themeState] = useContext<any>(ThemeContext);
   const dark = themeState.dark;
   const [option, setOption] = useState("stake");
-  const { statistics, responses, loading, stake, collectReward, unstake, loadedStats } =
+  const { getStatistics,statistics, responses, loading, stake, collectReward, unstake,PanicUnstake, loadedStats } =
     useStaking();
 
 
   const closeModal = () => {
     setShowModal(false)
   }
+  console.log(statistics?.reward);
+  
   const walletAddress: any = sessionStorage.getItem('currentAccount')
   const handleStake = async () => {
     if (walletAddress) {
@@ -90,6 +94,9 @@ const Staking = () => {
             console.log(stakeFunction)
           } catch (err) {
             console.log(err)
+          }
+          finally {
+            getStatistics()
           }
 
           setIsLoading(false)
@@ -108,11 +115,18 @@ const Staking = () => {
       )
     }
   }
+  // console.log(statistics);
+  
 
   const handleWithdraw = async () => {
+    // setUnstakeModal(!unstakeModal)
+    if (parseInt(statistics.userStakeData.stake) < parseInt(userInput.unstake)) {
+      setStakingError({ error: true, type: 'unstaking' })
+    }
+    else{ 
     if (walletAddress) {
       if (userInput.unstake !== '' && Number(userInput.unstake) !== 0) {
-        if (userInput.unstake <= statistics.unstakable) {
+        if (userInput.unstake <= statistics?.unstakable) {
           if (currentChain === "0x61") {
             //setChain(network)
             setErr("")
@@ -124,13 +138,17 @@ const Staking = () => {
             } catch (err) {
               console.log(err)
             }
+            finally {
+              getStatistics()
+            }
             setIsLoading(false)
           } else {
             setBlockChain("Binance")
             setShowModal(true)
           }
         } else {
-          setErr('You have some stakes locked!')
+          setUnstakeModal(!unstakeModal)
+        
         }
       } else {
         setErr('Please enter a value')
@@ -141,15 +159,78 @@ const Staking = () => {
           duration: 5000,
         }
       )
-    }
+    }}
   }
-  //   console.log(statistics);
+  const handlePanic = async () => {
+    setUnstakeModal(!unstakeModal)
+    if(parseInt(statistics.userStakeData.stake)<parseInt(userInput.unstake)){
+      setStakingError({error:true,type:'unstaking'})
+    }
+    
+  else{
+      if (walletAddress) {
+        if (userInput.unstake !== '' && Number(userInput.unstake) !== 0) {
+
+          if (currentChain === "0x38") {
+            //setChain(network)
+            setErr("")
+            setIsLoading(true)
+            try {
+
+              const unstakeFunction = await PanicUnstake(userInput.unstake)
+              console.log(unstakeFunction)
+              //console.log(loading.errMsg)
+            } catch (err) {
+              console.log(err)
+            }
+            finally {
+              getStatistics()
+            }
+            setIsLoading(false)
+          } else {
+            setBlockChain("Binance")
+            setShowModal(true)
+          }
+
+        } else {
+          setErr('Please enter a value')
+        }
+      } else {
+        toast.error(`Please connect your wallet`,
+          {
+            duration: 5000,
+          }
+        )
+      }
+  }
+   
+  }
+
+  const [unstakeModal,setUnstakeModal]=useState(false)
+  const [closed,setClosed]=useState(false)
+  const [stakingError,setStakingError]=useState({error:false,type:''})
+    console.log(statistics);
   return (
     <>
-      {/* <Header /> */}
+   
       {showModal && (
         <Switch closeModal={closeModal} blockChain={blockChain} />
       )}
+      {
+        unstakeModal && <Switch
+        button={'Unstake'} message=
+        {'Your staked tokens are locked for 12 months .\n\nNote that Emergency unstake will attract a 5% fee on token withdrawal.'} closeModal={()=>setUnstakeModal(!unstakeModal)} clicked={handlePanic} header={'Hi there'}/>
+      }
+      {
+        stakingError.error  && <Switch
+          button={'Unstake'} message=
+          {'Insufficient Tokens'} closeModal={() => setStakingError({...stakingError,error:!stakingError.error})} clicked={() => setStakingError({...stakingError,error:!stakingError.error})} header={'Hi there'} />
+      }
+      {
+        closed && <Switch
+          button={'Close'} message=
+          {'Staking is Closed for now'} closeModal={() => setClosed(!closed)} clicked={() => setClosed(!closed)} header={'Hi there'} />
+      }
       <div
         className={`${style.container} ${dark === "true" ? "darkTheme" : "lightTheme"
           }`}>
@@ -229,16 +310,18 @@ const Staking = () => {
               <div className={style.btmLeft}>
                 <div className={style.btmLeftTabs}>
                   <p
+
                     onClick={() => setOption("stake")}
                     className={option === "stake" ? style.active : ""}>
-                    Stake
+                    Stake 
                   </p>
              
                   <p
                     onClick={() => setOption("withdraw")}
                     className={`${style.mgLeft} ${option === "withdraw" ? style.active : ""
                       }`}>
-                    Withdraw
+                   Unstake
+
                   </p>
                 </div>
                 <div className={style.btmBx1}>
@@ -266,7 +349,10 @@ const Staking = () => {
 
                       />
                       {/* <p className={style.inputLabel}>(BSC)</p> */}
-                      <button onClick={handleStake}
+                      <button onClick={
+                        ()=>setClosed(true)
+                        // handleStake
+                      }
                         disabled={isLoading || !validated}>
                         {!isLoading ? (
                           'Stake'
@@ -283,7 +369,7 @@ const Staking = () => {
                   {option === "withdraw" && (
                     <>
                       <p className={style.bal}>
-                        Available bal:{" "}
+                        Staked bal:{" "}
                         <span>
                           {" "}
                           {statistics &&
@@ -304,7 +390,7 @@ const Staking = () => {
                         <button
                           disabled={isLoading || !validated}
                           onClick={handleWithdraw}>
-                          Withdraw
+                         Unstake
                         </button>
                         {err !== "" && (
                           <p className="redtxt">{err}</p>
@@ -317,31 +403,31 @@ const Staking = () => {
               <div className={style.btmRight}>
                 <h2>Rewards</h2>
                 <div className={style.btmBx2}>
-                  <p>
+                  <p >
                     Stake -{" "}
-                    {statistics &&
+                   {statistics &&
                       statistics.userStakeData &&
-                      statistics.userStakeData.stake}{" "}
+                      Web3.utils.fromWei(statistics.userStakeData.stake, 'ether')}{" "}
                     Afen
                   </p>
-                  <p>
+                  <p style={{ display: 'flex',alignItems:"center" }}>
                     Reward -{" "}
+                  <span style={{fontSize:'0.8em'}}>
                     {statistics &&
-                      statistics.userStakeData &&
-                      statistics.userStakeData.reward}{" "}
+                      round(statistics.userStakeData &&
+                      statistics.reward,6) }{" "}
+                    </span>
                     Afen
                   </p>
                   {statistics &&
                     statistics.userStakeData &&
-                    statistics.userStakeData.reward > 0 && (
+                    statistics.reward>0  && (
                       <>
                         {" "}
                         <h3>+{statistics && round(statistics.apy)}% APY</h3>
                         <button
-                          onClick={collectReward.bind(
-                            this,
-                            statistics.userStakeData.reward
-                          )}>
+                          onClick={()=>collectReward()
+                }>
                           Claim reward
                         </button>
                       </>

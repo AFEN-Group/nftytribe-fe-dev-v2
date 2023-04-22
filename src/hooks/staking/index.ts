@@ -1,7 +1,9 @@
-import { Web3Context } from "./../../context/Web3Context";
+import { Web3Context } from "../../context/Web3Context";
 import { useContext, useEffect, useState } from "react";
 import { chain } from "mathjs";
+import contractAddress from '../../smart_contracts/staking.json'
 import axios from "axios";
+import { ethers } from "ethers";
 const useStaking = () => {
   const { contracts, web3, selectedAddress }: any = useContext(Web3Context);
   const [statistics, setStatistics] = useState<any>();
@@ -30,8 +32,11 @@ const useStaking = () => {
       ),
       await stakingContract.methods.stakeHolders(selectedAddress).call(),
     ]);
+    console.log(userStat);
+    
     const [unstakable, userStakeData] = userStat;
     return {
+      
       unstakable,
       userStakeData,
     };
@@ -39,8 +44,10 @@ const useStaking = () => {
   const getStatistics = async () => {
     const { stakingContract ,afencontract} = contracts;
     
-     console.log(afencontract.methods);
+    //  console.log(afencontract.methods);
      
+    console.log(stakingContract.methods)
+
     const stats = await Promise.all([
       chain(await stakingContract.methods.APY().call())
         .divide(1000)
@@ -53,10 +60,11 @@ const useStaking = () => {
           method: "get",
         })
       ).data.usdPrice,
-      web3.utils.fromWei(await afencontract.methods.balanceOf(selectedAddress).call())
+      web3.utils.fromWei(await afencontract.methods.balanceOf(selectedAddress).call(),'ether'),
+      web3.utils.fromWei(await stakingContract.methods.calculateReward(selectedAddress).call(),'ether')
     ]);
    
-    const [apy, totalStakedInVault, usdPrice,balance] = stats;
+    const [apy, totalStakedInVault, usdPrice,balance,reward] = stats;
     //  console.log(balance);
      
 
@@ -69,6 +77,7 @@ const useStaking = () => {
       tvl,
       usdPrice,
       balance,
+      reward,
       hint: {
         stake,
         earn,
@@ -77,7 +86,8 @@ const useStaking = () => {
     });
     setLoadedStats(true)
   };
-
+  console.log(contracts);
+  
   const stake = async (amount: string) => {
     try {
       if (!selectedAddress) {
@@ -94,20 +104,36 @@ const useStaking = () => {
       });
 
       const { stakingContract } = contracts;
-      const res = await stakingContract.methods
+      const isApproved= await contracts.afencontract.methods.allowance(selectedAddress,contractAddress.contractAddress).call()
+      if(isApproved<web3.utils.toWei(amount)){
+        await contracts.afencontract.methods.approve(contractAddress.contractAddress,ethers.constants.MaxUint256.toString()).send({from:selectedAddress})
+        const res = await stakingContract.methods
+          .stake(web3.utils.toWei(amount))
+          .send({ from: selectedAddress });
+        setLoading({ ...loading, stake: false });
+        setResponses({ ...responses, stake: res });
+        setLoadedStats(true)
+        return res;
+      }
+      else {const res = await stakingContract.methods
         .stake(web3.utils.toWei(amount))
         .send({ from: selectedAddress });
       setLoading({ ...loading, stake: false });
       setResponses({ ...responses, stake: res });
       setLoadedStats(true)
-      return res;
+      return res;}
+      
+     
 
     } catch (err) {
       console.log(err);
       setLoading({ ...loading, stake: false });
     }
   };
-
+  
+  // useEffect(()=>{
+  //   throw new Error(JSON.stringify({ message: "amount cannot be empty!" }))
+  // },[])
   const unstake = async (amount: string) => {
     try {
       if (!selectedAddress) {
@@ -130,6 +156,8 @@ const useStaking = () => {
       });
 
       const { stakingContract } = contracts;
+      console.log(stakingContract);
+      
       const res = await stakingContract.methods
         .requestUnstake(web3.utils.toWei(amount))
         .send({ from: selectedAddress });
@@ -143,8 +171,40 @@ const useStaking = () => {
       setLoading({ ...loading, unstake: false });
     }
   };
+  const { stakingContract } = contracts;
+  console.log(stakingContract?.methods);
+  
+  const collectReward = async () => {
+    try {
+      if (!selectedAddress) {
+        throw new Error(
+          JSON.stringify({ message: "please connect your wallet!" })
+        );
+      }
 
-  const collectReward = async (amount: string) => {
+   
+
+      setLoading({
+        ...loading,
+        collectReward: true,
+      });
+
+      
+      
+      // console.log(stakingContract.methods);
+      
+      const res = await stakingContract.methods
+        .claimReward()
+        .send({ from: selectedAddress });
+      setLoading({ ...loading, collectReward: false });
+      setResponses({ ...responses, collectReward: res });
+      return res;
+    } catch (err) {
+      console.log(err);
+      setLoading({ ...loading, collectReward: false });
+    }
+  };
+  const PanicUnstake= async(amount:string)=>{
     try {
       if (!selectedAddress) {
         throw new Error(
@@ -158,22 +218,23 @@ const useStaking = () => {
 
       setLoading({
         ...loading,
-        collectReward: true,
+        unstake: true,
       });
 
-      const { stakingContract } = contracts;
+
+
+      await stakingContract.methods.requestUnstake(web3.utils.toWei(amount)).send({from:selectedAddress})
       const res = await stakingContract.methods
-        .claimReward(web3.utils.toWei(amount))
+        .panicUnstake(web3.utils.toWei(amount))
         .send({ from: selectedAddress });
-      setLoading({ ...loading, collectReward: false });
-      setResponses({ ...responses, collectReward: res });
+
+      setLoading({ ...loading, unstake: false });
       return res;
     } catch (err) {
       console.log(err);
-      setLoading({ ...loading, collectReward: false });
+      setLoading({ ...loading, unstake: false });
     }
-  };
-
+  }
   useEffect(() => {
     if (contracts.stakingContract) {
       getStatistics();
@@ -194,6 +255,7 @@ const useStaking = () => {
     loadedStats,
     stake,
     unstake,
+    PanicUnstake,
     collectReward,
   };
 };
