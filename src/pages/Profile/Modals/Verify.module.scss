@@ -1,7 +1,9 @@
 @import '../../../variables';
 @import '../../../mixins';
 
-
+canvas{
+    width: 100%;
+}
 .modalContainer {
     //@include flexRegular(column, center);
     display: flex;
@@ -259,6 +261,7 @@
     width: 100%;
 }
 
+
 .fileContainer //.fileBxD
 
     {
@@ -304,7 +307,9 @@
 }
 
 .fileTxt {
-    padding: 4em;
+    padding: 2em;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .fileBx {
@@ -488,7 +493,7 @@
 
 
     .modal {
-        padding: 16vh 1em 3em 1em;
+        padding: 90vh 1em 3em 1em;
 
         &::-webkit-scrollbar {
             display: none;

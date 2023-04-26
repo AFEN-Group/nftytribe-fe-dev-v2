@@ -193,7 +193,7 @@ const Verification = (props: any) => {
                                             </svg>
 
                                             <p>Tap on the button to take a  selfie</p>
-                                           <canvas ref={pictureRef}></canvas>
+                                           <canvas className='canv' ref={pictureRef}></canvas>
                                         </div>
                                     )}
                                     {/* <input

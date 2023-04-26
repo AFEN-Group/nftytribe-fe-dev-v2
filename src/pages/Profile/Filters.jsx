@@ -82,6 +82,14 @@ const Filters = ({setQuery}) => {
 
                         </div>
                     </div>
+                    <div className={style.filterBx}>
+                        <div className={`${style.filterM} 
+                    `} >
+                            <p onClick={() => setQuery('watchlist')}>My WatchList</p>
+
+
+                        </div>
+                    </div>
 
                 </Slider>
 
