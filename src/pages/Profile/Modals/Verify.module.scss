@@ -5,7 +5,7 @@ canvas{
     width: 100%;
 }
 .modalContainer {
-    //@include flexRegular(column, center);
+    
     display: flex;
     justify-content: center;
     //align-items: center;
@@ -104,8 +104,8 @@ canvas{
     }
 
     img {
-        // position: absolute;
-        right: -5em;
+        position: absolute;
+        right: -1em;
         top: -1em;
         cursor: pointer;
         color: #000 !important;
@@ -203,6 +203,7 @@ canvas{
 
         input {
             outline: none;
+            width: 40px;
             background: #ffffff;
             border: 2px solid #71717a;
             border-radius: 10px;

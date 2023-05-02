@@ -50,6 +50,7 @@ const Profile = () => {
 
   
  
+ 
   // const {error:getError,loading:getLoading,Response:response,fetchData:getData}=UseAxios()
   const {error:Error,loading:Loading,Response:postResponse,fetchData:Data}=UseAxios()
   const {userState,setUserState}=useContext(UserContext)
@@ -167,6 +168,8 @@ const Profile = () => {
       }
     };
   }, [interDemo]);
+  
+  
   return (
     <>
       {/* <Header /> */}

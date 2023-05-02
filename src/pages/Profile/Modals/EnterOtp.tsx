@@ -10,7 +10,7 @@ import toast from 'react-hot-toast'
 import { e } from 'mathjs'
 import { UserContext } from 'src/context/UserContext'
 //import { Cancel } from '@material-ui/icons'
-
+import '../index.scss'
 const EnterOtp = (props: any) => {
 
     const [isLoading, setIsLoading] = useState(false)
@@ -110,9 +110,11 @@ const EnterOtp = (props: any) => {
     return (
         <div>
             <div
-                className={`${style.overlay} animate__animated animate__fadeIn `}
-            ></div>
-            <div className={style.modalContainer}>
+                className={`overlay animate__animated animate__fadeIn `}
+            >
+
+
+                <div className={style.modalContainer}>
                 {!updated ? (
                     <form
                         className={`${style.modal2} animate__animated animate__zoomInUp `}
@@ -169,7 +171,9 @@ const EnterOtp = (props: any) => {
                     </div>)}
 
 
+            </div>  
             </div>
+          
         </div>
 
     )

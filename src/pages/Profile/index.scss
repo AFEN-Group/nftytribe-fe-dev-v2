@@ -122,6 +122,15 @@
     }
 }
 
+.overlay{
+    background: rgba(0, 0, 0, 0.15);
+    position: fixed;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .hoverTag{
     background-color: #1B1819;
     color: white;
