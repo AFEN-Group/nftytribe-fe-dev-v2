@@ -179,7 +179,7 @@
 
 // ----- CreateItem
 .create {
-  padding: 12em 0 2em 0;
+  padding: 6em 0 2em 0;
 }
 
 .createContent {
@@ -584,6 +584,7 @@
   //   rgba(255, 255, 255, 0.48) 0%,
   //   rgba(196, 196, 196, 0.14) 100%
   // );
+  overflow: scroll;
   background: rgba(0, 0, 0, 0.477);
   position: fixed;
   @include flexRegular(column, center);
@@ -600,12 +601,15 @@
   //@include flexRegular(column, center);
   display: flex;
   justify-content: center;
-  //align-items: center;
+  position: fixed;
+  z-index: 999;
+  width: 100%;
+  align-items: center;
 }
 
 .modal,
 .modalSm {
-  position: fixed;
+  // position: fixed;
 
   margin: auto;
   width: 50vw;
@@ -623,6 +627,7 @@
   align-items: center;
   transition: 0.6s ease-in;
   padding: 5em 3em;
+  overflow: scroll;
 }
 
 .modal {
