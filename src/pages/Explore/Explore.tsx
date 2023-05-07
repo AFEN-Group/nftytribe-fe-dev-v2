@@ -643,8 +643,10 @@ ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate_
                       on={filterQuery.isFavorite} />
                     
                   </div>
-                  <form className={`${style.sBItem} disable_link`}>
-                    <p className="disable_link" >{t("Physical Item")}</p>
+                  <form className={`${style.sBItem}`}>
+                    <p
+                    //  className="disable_link"
+                      >{t("Physical Item")}</p>
                     {/* <AcceptBtn onClick={setDefaults} /> */}
                     <Radio on={filterQuery.physical} click={() => {
                       setPage(1)
