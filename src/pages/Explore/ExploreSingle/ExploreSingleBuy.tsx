@@ -1,12 +1,13 @@
 import { useEffect, useContext } from 'react'
 import useState from 'react-usestateref'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { ThemeContext } from '../../../context/ThemeContext'
 // import { AuthContext } from '../../../context/AuthContext'
-
+import './index.scss'
 import { publicRequest } from '../../../utils/requestMethods'
 //import { format } from 'timeago.js'
-import { CircularProgress } from '@material-ui/core'
+import Close from './assets/close.svg'
+
 import axios from 'axios'
 import style from './ExploreSingle.module.scss'
 import Back from './assets/arrow.svg'
@@ -21,8 +22,9 @@ import Dots2 from './assets/dots2.svg'
 import Dots from './assets/dots.svg'
 import User from './assets/user3.svg'
 import User2 from './assets/user4.svg'
-// import Eye from './assets/eye.svg'
-// import Eye2 from './assets/eye2.svg'
+import { motion } from 'framer-motion'
+import Happy from './assets/happy.svg'
+
 import Container from '../../../components/Container/Container'
 import UpdatePrompt from '../../../components/Modals/UpdatePrompt/UpdatePrompt'
 
@@ -53,6 +55,8 @@ import { UserContext } from '../../../context/UserContext'
 import UseAxios from '../../../hooks/AxiosConfig/useAxios'
 import Protected from '../../../hooks/AxiosConfig/axiosInstance'
 import { ChainContext } from '../../../context/chain'
+import TextInput from 'src/components/Inputs/TextInput'
+import SelectOption from 'src/components/Inputs/SelectOption'
 declare const window: any
 
 // const erc721Mintable_address = contracts.erc721MintableAddress
@@ -242,9 +246,10 @@ const ExploreSingleBuy = () => {
     
   }
 console.log(nft);
-
+  const [purchaseDt,setPDT]=useState(false)
   return (
     <>
+    <DTPopUp step={3}/>
       {/* <Header /> */}
       {showBuy && (
         <BuyModal
@@ -276,9 +281,19 @@ console.log(nft);
                 <img src={dark === 'true' ? Back2 : Back} alt="back" />
                 <p>Back</p>
               </div>
-              <div className={style.titleBx}>
-                <h2>{nft?.metadata?.name || nft?.name}</h2>
+              <div className={style.titleBx + "  header_container"}>
+                <div >
+                    <h2>{nft?.metadata?.name || nft?.name}</h2>
                 <p>from the {nft?.name || 'Afen'} collection.</p>
+                </div>
+                <div className='nb'>
+                  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11 21C16.5228 21 21 16.5228 21 11C21 5.47715 16.5228 1 11 1C5.47715 1 1 5.47715 1 11C1 16.5228 5.47715 21 11 21Z" stroke="#52525B" stroke-width="2" />
+                    <path d="M11 15.5V16M11 6V12V6Z" stroke="#52525B" stroke-width="2" stroke-linecap="round" />
+                  </svg>
+                  This NFT has a digital twin
+                </div>
+              
               </div>
             </div>
             <div className={style.body}>
@@ -422,11 +437,11 @@ console.log(nft);
                     )}
                    {pathname.includes('item')&& <div className={style.Btns}>
                       {nft?.ownerOf !== walletAddress ? (
-                        <button
+                       <button
                           // disabled={
                           //   isLoading
                           // }
-                          className={`${nft?.isListed ? style.regBtn : style.regBtn2
+                          className={`${nft?.listingType ? style.regBtn : style.regBtn2
                             } ${dark === 'true' ? 'yellowBtn' : 'blueBtn'} `}
                           onClick={handleSubmit}
                         >
@@ -434,10 +449,12 @@ console.log(nft);
                             'Not On Sale'
                             : 'Buy'}
                         </button>
+                        
+                       
                       ) : (
                         <button
                           // disabled={
-                          //   !isLoaded || isLoading
+                        
                           //   // || nftDetails?.on_sale // remove on sale check
                           // }
                           className={`${style.regBtn} ${dark === 'true' ? 'lightBorder' : 'darkBorder'} 
@@ -455,7 +472,7 @@ console.log(nft);
                     </div>}
                     {!pathname.includes('item')&&<div className={style.Btns}>
                       {nft?.user.walletAddress !== walletAddress ? (
-                        <button
+                        <>{!nft?.physical && <button
                           // disabled={
                           //   isLoading
                           // }
@@ -466,7 +483,32 @@ console.log(nft);
                           {!nft?.listingType ?
                             'Not On Sale'
                             : 'Buy'}
-                        </button>
+                        </button>}
+
+                          {
+                            nft?.physical && <>
+                              <button
+                                style={{background:'white'}}
+                                className={`${nft?.listingType ? style.regBtn : style.regBtn2
+                                  } `}
+                                onClick={handleSubmit}
+                              >
+                                {!nft?.listingType ?
+                                  'Not On Sale'
+                                  : 'Buy'}
+                              </button>
+                              <button
+                                
+                                className={`${nft?.listingType ? style.regBtn : style.regBtn2
+                                  } ${dark === 'true' ? 'yellowBtn' : 'blueBtn'} requestBtn `}
+                                onClick={()=>console.log('physical') 
+                                }
+                              >
+                                Rrequest DT item
+                              </button>
+                            </>
+                          }
+                        </>
                       ) : (
                         <button
                          
@@ -514,37 +556,11 @@ console.log(nft);
                         </div>
                         <div className={style.aDate}>
                           <p>{activity?.timeStamp.substr(0, 10)}</p>
-                          {/* <p>{activity.timestamp}</p> */}
+                        
                         </div>
                       </div>
                     ))}
-                    {/* <div className={style.activitySingle}></div> */}
-
-                    {/* <div>
-                      {activities?.map((activity: any, i: any) => {
-                        return (
-                          activity?._id && (
-                            <div
-                              className={style.activitySingle}
-                              key={activity._id}
-                            >
-                              <div className={style.aAddress}>
-                                <p>{activity.from}</p>
-                              </div>
-                              <div className={style.aType}>
-                                <p>{activity.type}jjjjj</p>
-                              </div>
-                              <div className={style.aDate}>
-                                <p>{activity.timestamp.substr(0, 10)}</p>
-                              </div>
-                              <div className="">
-                                <p>hhhhh</p>
-                              </div>
-                            </div>
-                          )
-                        )
-                      })}
-                    </div> */}
+             
                   </div>
                 )}
                 {tab === 'offers' && (
@@ -556,73 +572,9 @@ console.log(nft);
                         <div className={style.offerUser}>
                           <p>No offers</p>
                         </div>
-                        {/* <div className={style.offerAddr}>
-                          <p>0x120999...</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>0.07BNB</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>01/07/21</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>12:33:08</p>
-                        </div> */}
+                  
                       </div>
-                      {/* <div className={style.offer}>
-                        <div className={style.offerUser}>
-                          <img src={User} alt="user" />
-                          <p>Michael Carson</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>0x120999...</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>0.07BNB</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>01/07/21</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>12:33:08</p>
-                        </div>
-                      </div>
-                      <div className={style.offer}>
-                        <div className={style.offerUser}>
-                          <img src={User} alt="user" />
-                          <p>Michael Carson</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>0x120999...</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>0.07BNB</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>01/07/21</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>12:33:08</p>
-                        </div>
-                      </div>
-                      <div className={style.offer}>
-                        <div className={style.offerUser}>
-                          <img src={User} alt="user" />
-                          <p>Michael Carson</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>0x120999...</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>0.07BNB</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>01/07/21</p>
-                        </div>
-                        <div className={style.offerAddr}>
-                          <p>12:33:08</p>
-                        </div>
-                      </div> */}
+                    
                     </div>
                   </div>
                 )}
@@ -636,3 +588,235 @@ console.log(nft);
 }
 
 export default ExploreSingleBuy
+
+
+const DTPopUp=(props:any)=>{
+  const [completed,setCompleted]=useState(false)
+
+  return(
+    <div className='dt_overlay'>
+      {completed && (
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: {
+              opacity: 0,
+              scale: 0.7,
+            },
+            visible: {
+              opacity: 1,
+              scale: 1,
+              transition: {
+                duration: 0.1,
+                //delay: 0.3,
+                scale: {
+                  duration: .01,
+                },
+              },
+            },
+          }}
+          className={`${style.modal} `}
+        >
+          <div className={style.modalTop}>
+            <h1>Congratulations</h1>
+            <p className={style.mText}>
+              You have successfully purchased item{' '}
+              <strong> {' ' + props.nft?.name} </strong>,You have succesfully purchased item #00446 with a digital twin, go to “collected items” to claim item.
+            </p>
+            <img src={Close} alt="close" onClick={props.handleClose} />
+          </div>
+          <div className={style.modalBody2}>
+            <div className={style.successImg}>
+              <img src={Happy} alt="success" />
+            </div>
+          </div>
+          <Link to="/profile" className={style.modalBtnSingle}>
+            <button>View Profile</button>
+          </Link>
+        </motion.div>
+      )}
+    { !completed&&<> {props.step < 3 && <form action="">
+        <h2>
+          Digital twin delivery information
+        </h2>
+        {props.step === 1 && <><p>
+          Verify your details for recieving the physical item
+        </p>
+          <div className="inputs">
+            <div className={style.fieldBx}>
+              <TextInput
+                type="tel"
+                inputName="name"
+                holder="Name"
+                inputHandler={(e: any) => {
+                  // setParams({ ...onsaleParams, [e.target.name]: e.target.value })
+
+                }}
+                // value={onsaleParams.erc20}
+                required
+              />
+            </div>   <div className={style.fieldBx}>
+              <TextInput
+                type="tel"
+                inputName="erc20"
+                holder="Phone Number"
+                inputHandler={(e: any) => {
+                  // setParams({ ...onsaleParams, [e.target.name]: e.target.value })
+
+                }}
+                // value={onsaleParams.erc20}
+                required
+              />
+            </div>   <div className={style.fieldBx}>
+              <TextInput
+                type=""
+                inputName="erc20"
+                holder="Country"
+                inputHandler={(e: any) => {
+                  // setParams({ ...onsaleParams, [e.target.name]: e.target.value })
+
+                }}
+                // value={onsaleParams.erc20}
+                required
+              />
+            </div>   <div className={style.fieldBx}>
+              <TextInput
+                type="tel"
+                inputName="erc20"
+                holder="State"
+                inputHandler={(e: any) => {
+                  // setParams({ ...onsaleParams, [e.target.name]: e.target.value })
+
+                }}
+                // value={onsaleParams.erc20}
+                required
+              />
+            </div><div className={style.fieldBx}>
+              <TextInput
+                type="tel"
+                inputName="erc20"
+                holder="Street Address"
+                inputHandler={(e: any) => {
+                  // setParams({ ...onsaleParams, [e.target.name]: e.target.value })
+
+                }}
+                // value={onsaleParams.erc20}
+                required
+              />
+            </div>
+          </div>
+          <div className={'Btns'}>
+            <button
+              style={{ background: 'white' }}
+              className={'regBtn'}
+              onClick={() => { }}
+            >
+              Cancel
+            </button>
+            <button
+
+              className={`regBtn
+                      blueBtn`}
+              onClick={() => console.log('physical')
+              }
+            >
+              Verify
+            </button>
+
+
+
+
+
+          </div></>}  {props.step === 2 && <><p>
+            Kindly choose your mode of delivery that comes with its rate
+          </p>
+            <div className="inputs">
+              <div className={'fieldBx'}>
+                <p>Mode Of delivery</p>
+                <SelectOption
+                  options={[]}
+                // inputHandler={(e: any) => setParams({ ...onsaleParams, marketType: e.target.value })}
+                // value={onsaleParams.marketType}
+                />
+              </div>   <div className={'fieldBx'}>
+                <p>Rate Of delivery</p>
+                <TextInput
+                  type="tel"
+                  inputName="erc20"
+                  holder="Phone Number"
+                  inputHandler={(e: any) => {
+                    // setParams({ ...onsaleParams, [e.target.name]: e.target.value })
+
+                  }}
+                  // value={onsaleParams.erc20}
+                  required
+                />
+              </div>
+            </div>
+            <div className={'Btns'}>
+              <button
+                style={{ background: 'white' }}
+                className={'regBtn'}
+                onClick={() => { }}
+              >
+                Cancel
+              </button>
+              <button
+
+                className={`regBtn
+                      blueBtn`}
+                onClick={() => console.log('physical')
+                }
+              >
+                Verify
+              </button>
+
+
+
+
+
+            </div></>}
+
+      </form>} 
+       {props.step === 3 && <form action="">
+        <h2>
+          Digital twin delivery checkout
+        </h2>
+     <p>
+          Please ,review your delivery mode for the purchase of Bored Ape 3345 digital Item
+          </p>
+         
+         <div className="checkout">
+          <div><span>Delivery Mode</span> <span>TopShip</span></div>
+          <div><span>Delivery Fee</span><span>XXX BNB</span></div>
+         </div>
+        <p>Item can be shipped to Nigeria, Ghana, South Africa only.</p>
+            <div className={'Btns'}>
+              <button
+                style={{ background: 'white' }}
+                className={'regBtn'}
+                onClick={() => { }}
+              >
+                Cancel
+              </button>
+              <button
+
+                className={`regBtn
+                      blueBtn`}
+                onClick={() => console.log('physical')
+                }
+              >
+                Confirm
+              </button>
+
+
+
+
+
+            </div>
+
+      </form>}</>}
+    </div>
+  )
+}
