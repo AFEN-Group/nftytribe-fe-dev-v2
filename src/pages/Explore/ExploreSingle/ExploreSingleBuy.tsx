@@ -245,11 +245,19 @@ const ExploreSingleBuy = () => {
     setShowPutOnSale(false)
     
   }
-console.log(nft);
+console.log(nft,userState);
   const [purchaseDt,setPDT]=useState(false)
+ const PurchaseDt=(e:any)=>{
+  e.preventDefault()
+  if(userState.user.email){
+      setPDT(true)
+  }
+  else setShowPrompt(true)
+ }
+ const [step,setStep]=useState(1) 
   return (
     <>
-    <DTPopUp step={3}/>
+    {purchaseDt &&<DTPopUp changeStep={(e:any)=>setStep(e)} step={step}/>}
       {/* <Header /> */}
       {showBuy && (
         <BuyModal
@@ -501,8 +509,7 @@ console.log(nft);
                                 
                                 className={`${nft?.listingType ? style.regBtn : style.regBtn2
                                   } ${dark === 'true' ? 'yellowBtn' : 'blueBtn'} requestBtn `}
-                                onClick={()=>console.log('physical') 
-                                }
+                                onClick={PurchaseDt}
                               >
                                 Rrequest DT item
                               </button>
@@ -592,7 +599,36 @@ export default ExploreSingleBuy
 
 const DTPopUp=(props:any)=>{
   const [completed,setCompleted]=useState(false)
+  const [onsaleParams,setParams]=useState<any>({})
+  const Verify=UseAxios()
+  const rates=UseAxios()
+  const { collectionAddress, id } = useParams()
 
+  const verify=(e:any)=>{
+     e.preventDefault()
+    Verify.fetchData({
+      method: 'post',
+      url: 'api/shipment/verify-address',
+      axiosInstance: Protected(sessionStorage.getItem('token')),
+      requestConfig: {
+
+        "name": onsaleParams.name,
+        "phone": onsaleParams.phone,
+        "address": `${onsaleParams.address},${onsaleParams.country},${onsaleParams.state}`
+      }
+    })
+  }
+
+  useEffect(()=>{rates.fetchData({
+    method:'get',
+    url:`api/shipment/${id}/rates`,
+    axiosInstance:Protected(sessionStorage.getItem('token')),
+
+  })},[])
+
+  
+  
+  useEffect(()=>{if(Verify.Response)props.changeStep(2)},[Verify.Response])
   return(
     <div className='dt_overlay'>
       {completed && (
@@ -650,76 +686,75 @@ const DTPopUp=(props:any)=>{
                 inputName="name"
                 holder="Name"
                 inputHandler={(e: any) => {
-                  // setParams({ ...onsaleParams, [e.target.name]: e.target.value })
+                  setParams({ ...onsaleParams, [e.target.name]: e.target.value })
 
                 }}
-                // value={onsaleParams.erc20}
+                value={onsaleParams.name}
                 required
               />
             </div>   <div className={style.fieldBx}>
               <TextInput
                 type="tel"
-                inputName="erc20"
+                inputName="phone"
                 holder="Phone Number"
                 inputHandler={(e: any) => {
-                  // setParams({ ...onsaleParams, [e.target.name]: e.target.value })
-
+                  setParams({ ...onsaleParams, [e.target.name]: e.target.value })
                 }}
-                // value={onsaleParams.erc20}
+                value={onsaleParams['phone']}
                 required
               />
             </div>   <div className={style.fieldBx}>
               <TextInput
                 type=""
-                inputName="erc20"
+                inputName="country"
                 holder="Country"
                 inputHandler={(e: any) => {
-                  // setParams({ ...onsaleParams, [e.target.name]: e.target.value })
+                  setParams({ ...onsaleParams, [e.target.name]: e.target.value })
 
                 }}
-                // value={onsaleParams.erc20}
+                value={onsaleParams.country}
                 required
               />
             </div>   <div className={style.fieldBx}>
               <TextInput
                 type="tel"
-                inputName="erc20"
+                inputName="state"
                 holder="State"
                 inputHandler={(e: any) => {
-                  // setParams({ ...onsaleParams, [e.target.name]: e.target.value })
+                  setParams({ ...onsaleParams, [e.target.name]: e.target.value })
 
                 }}
-                // value={onsaleParams.erc20}
+                value={onsaleParams.state}
                 required
               />
             </div><div className={style.fieldBx}>
               <TextInput
                 type="tel"
-                inputName="erc20"
+                inputName="address"
                 holder="Street Address"
                 inputHandler={(e: any) => {
-                  // setParams({ ...onsaleParams, [e.target.name]: e.target.value })
+                  setParams({ ...onsaleParams, [e.target.name]: e.target.value })
 
                 }}
-                // value={onsaleParams.erc20}
+                value={onsaleParams.address}
                 required
               />
             </div>
           </div>
           <div className={'Btns'}>
             <button
+              disabled={Verify.loading}
               style={{ background: 'white' }}
               className={'regBtn'}
-              onClick={() => { }}
+              onClick={props.close}
             >
               Cancel
             </button>
             <button
-
+              disabled={Verify.loading}
               className={`regBtn
                       blueBtn`}
-              onClick={() => console.log('physical')
-              }
+              onClick={verify}
             >
               Verify
             </button>
@@ -728,28 +763,29 @@ const DTPopUp=(props:any)=>{
 
 
 
-          </div></>}  {props.step === 2 && <><p>
+          </div></>}
+        {props.step === 2 && <><p>
             Kindly choose your mode of delivery that comes with its rate
           </p>
             <div className="inputs">
               <div className={'fieldBx'}>
                 <p>Mode Of delivery</p>
                 <SelectOption
-                  options={[]}
-                // inputHandler={(e: any) => setParams({ ...onsaleParams, marketType: e.target.value })}
-                // value={onsaleParams.marketType}
+                options={rates.Response?.data?.data?.couriers.map((data:any) => {
+                  return {
+                    text: data.courier_name,
+                    value:data.total}})}
+                inputHandler={(e: any) => setParams({ ...onsaleParams, rates: e.target.value })}
+                value={onsaleParams.rates}
                 />
               </div>   <div className={'fieldBx'}>
                 <p>Rate Of delivery</p>
                 <TextInput
                   type="tel"
-                  inputName="erc20"
+                  inputName="rates"
                   holder="Phone Number"
-                  inputHandler={(e: any) => {
-                    // setParams({ ...onsaleParams, [e.target.name]: e.target.value })
-
-                  }}
-                  // value={onsaleParams.erc20}
+                 
+                  value={onsaleParams.rates}
                   required
                 />
               </div>

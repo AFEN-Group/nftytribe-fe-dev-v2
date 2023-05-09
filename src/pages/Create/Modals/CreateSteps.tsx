@@ -242,7 +242,7 @@ const wallet_address=sessionStorage.getItem('currentAccount')
                   <TextInput
                     type="text"
                     inputName="state"
-                    holder="Enter Category"
+                    holder="Enter State"
                     inputHandler={inputHandler}
                     value={userInput.state}
                   />
