@@ -627,8 +627,11 @@ const DTPopUp=(props:any)=>{
   })},[])
 
   
-  
+  const [rate,setRate]=useState<any>()
   useEffect(()=>{if(Verify.Response)props.changeStep(2)},[Verify.Response])
+
+  const book= UseAxios()
+  
   return(
     <div className='dt_overlay'>
       {completed && (
@@ -687,7 +690,7 @@ const DTPopUp=(props:any)=>{
                 holder="Name"
                 inputHandler={(e: any) => {
                   setParams({ ...onsaleParams, [e.target.name]: e.target.value })
-
+               
                 }}
                 value={onsaleParams.name}
                 required
@@ -772,10 +775,15 @@ const DTPopUp=(props:any)=>{
                 <p>Mode Of delivery</p>
                 <SelectOption
                 options={rates.Response?.data?.data?.couriers.map((data:any) => {
+                  console.log(data);
+                  
                   return {
                     text: data.courier_name,
-                    value:data.total}})}
-                inputHandler={(e: any) => setParams({ ...onsaleParams, rates: e.target.value })}
+                    value:JSON.stringify({total:data.total,courier_id:data.courier_id,service_code:data.service_code})}})}
+                inputHandler={(e: any) => {
+                 let value= JSON.parse(e.target.value);
+                  
+                  setParams({ ...onsaleParams, rates: value.total }); setRate(value)}}
                 value={onsaleParams.rates}
                 />
               </div>   <div className={'fieldBx'}>
@@ -802,10 +810,21 @@ const DTPopUp=(props:any)=>{
 
                 className={`regBtn
                       blueBtn`}
-                onClick={() => console.log('physical')
+                onClick={() => {
+                      book.fetchData({
+                        method:'post',
+                        url:'api/shipment/book/'+ id,
+                        axiosInstance:Protected(sessionStorage.getItem('token')),
+                        requestConfig:{
+                          "request_token": rates.Response?.data?.data?.request_token ,
+                          "service_code": rate?.service_code,
+                          "courier_id": rate?.courier_id
+                        }
+                      })
+                }
                 }
               >
-                Verify
+                Confirm
               </button>
 
 
