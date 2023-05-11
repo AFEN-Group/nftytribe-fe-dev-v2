@@ -260,7 +260,7 @@ console.log(nft,userState);
  const [step,setStep]=useState(1) 
   return (
     <>
-    {purchaseDt &&<DTPopUp nft={nft} changeStep={(e:any)=>setStep(e)} step={step}/>}
+    {purchaseDt &&<DTPopUp close={()=>setPDT(false)} nft={nft} changeStep={(e:any)=>setStep(e)} step={step}/>}
       {/* <Header /> */}
       {showBuy && (
         <BuyModal
@@ -653,7 +653,7 @@ const DTPopUp=(props:any)=>{
     url:`api/shipment/${id}/rates`,
     axiosInstance:Protected(sessionStorage.getItem('token')),
 
-  })},[])
+  })},[Verify.Response])
 
   
   const [rate,setRate]=useState<any>()
@@ -683,7 +683,9 @@ const DTPopUp=(props:any)=>{
         erc721Abi,
         props.nft.moreInfo.collectionAddress || erc721MintableAddress,
       )
-
+      console.log(physicalMarket,
+        erc721MarketplaceAddress,);
+      
       PhysicalMarket = new web3.eth.Contract(
         physicalMarket,
         erc721MarketplaceAddress,
@@ -701,7 +703,7 @@ const DTPopUp=(props:any)=>{
         } 
        
       erc20token = new web3.eth.Contract(erc20.abi, props.nft.moreInfo.erc20TokenAddress)
-      // console.log(props.nft, 'helllo')
+      console.log(erc20.abi, props.nft.moreInfo.erc20TokenAddress)
 
       if (props?.nft?.amount < 2) {
         try {
@@ -711,15 +713,16 @@ const DTPopUp=(props:any)=>{
             { from: userWallet }
           )
           // console.log(decimal);
-          const amount = (parseInt(props.nft.price)+deliveryInToken()?deliveryInToken():0) * (10 ** decimal)
+          const amount = (parseInt(props.nft.price)+(deliveryInToken()?deliveryInToken():0)) * (10 ** decimal)
           // console.log(amount);
 
-
-          await erc20token.methods.approve(PhysicalMarket, (`${amount}`)).send({ from: userWallet })
+          console.log(amount);
+          
+          await erc20token.methods.approve(erc721MarketplaceAddress, `${amount}`).send({ from: userWallet })
 
 
           const buyItem = await PhysicalMarket.methods
-            .buy(props?.nft.tokenId, props.nft.moreInfo.contractAddress,amount)
+            .buy(props?.nft.tokenId, props.nft.moreInfo.contractAddress,`${amount}`)
             .send({ from: userWallet })
           console.log(buyItem)
           setIsLoading(false)
@@ -769,9 +772,9 @@ const DTPopUp=(props:any)=>{
             <h1>Congratulations</h1>
             <p className={style.mText}>
               You have successfully purchased item{' '}
-              <strong> {' ' + props.nft?.name} </strong>,You have succesfully purchased item #00446 with a digital twin, go to “collected items” to claim item.
+              <strong> {' ' + props.nft?.name} </strong>, with a digital twin, go to “collected items” to claim item.
             </p>
-            <img src={Close} alt="close" onClick={props.handleClose} />
+            <img src={Close} alt="close" onClick={props.close} />
           </div>
           <div className={style.modalBody2}>
             <div className={style.successImg}>
@@ -790,7 +793,7 @@ const DTPopUp=(props:any)=>{
         {props.step === 1 && <><p>
           Verify your details for recieving the physical item
         </p>
-        <p style={{fontSize:'10px',color:'red',textAlign:'center'}}>{Verify.error?.data?.message?.errors[0]}</p>
+          <p style={{ fontSize: '10px', color: 'red', textAlign: 'center' }}>{Verify.error?.data?.message&&Verify.error?.data?.message?.errors[0]}</p>
           <div className="inputs">
             <div className={style.fieldBx}>
               <TextInput
@@ -911,7 +914,7 @@ const DTPopUp=(props:any)=>{
               <button
                 style={{ background: 'white' }}
                 className={'regBtn'}
-                onClick={() => { }}
+                onClick={props.close}
               >
                 Cancel
               </button>
@@ -962,7 +965,7 @@ const DTPopUp=(props:any)=>{
               disabled={isLoading}
                 style={{ background: 'white' }}
                 className={'regBtn'}
-                onClick={() => { }}
+                onClick={props.close}
               >
                 Cancel
               </button>
