@@ -23,7 +23,7 @@ export default {
   // '0x71F722A1F16AF147e2fa088224BF1f0955f1075a'
   ,//test
   // BSC_erc721MarketplaceAddress: '0xb80a5067c6373c8d53dae3f1bf0b1aea83349b92',//main
-
+  physical_market:'0xB1d6A5552483FC639713644F135982c5f1761459',
   //BSC_erc1155MintableAdddress: '0xE1C075aA57722FbAd50BE4C87737fD9495aA0e1e',
   BSC_erc1155MintableAdddress: '0xceef91849d0871f8fab17ee4623e08406ecafef4',
   //BSC_erc1155FactoryAdddress: '0x01D5E051e07D4460D4C098f91a060cA3a25FCD57',

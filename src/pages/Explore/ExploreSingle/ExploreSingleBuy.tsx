@@ -7,6 +7,7 @@ import './index.scss'
 import { publicRequest } from '../../../utils/requestMethods'
 //import { format } from 'timeago.js'
 import Close from './assets/close.svg'
+import erc20 from '../../../smart_contracts/afenToken.json'
 
 import axios from 'axios'
 import style from './ExploreSingle.module.scss'
@@ -36,6 +37,7 @@ import toast from 'react-hot-toast'
 import erc1155Abi from '../../../smart_contracts/erc1155Mintable.json'
 // import erc1155MarketplaceAbi from "../../../smart_contracts/erc1155Market.json"
 import marketPlaceAbi from '../../../smart_contracts/erc721Market.json'
+import physicalMarket from '../../../smart_contracts/physicalMarket.json'
 import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
 import erc721MarketplaceAbi from '../../../smart_contracts/erc721Market.json'
 //import erc721CollectionAbi from '../../../smart_contracts/erc721Collection.json'
@@ -57,6 +59,7 @@ import Protected from '../../../hooks/AxiosConfig/axiosInstance'
 import { ChainContext } from '../../../context/chain'
 import TextInput from 'src/components/Inputs/TextInput'
 import SelectOption from 'src/components/Inputs/SelectOption'
+import { TokenContext } from 'src/App'
 declare const window: any
 
 // const erc721Mintable_address = contracts.erc721MintableAddress
@@ -257,7 +260,7 @@ console.log(nft,userState);
  const [step,setStep]=useState(1) 
   return (
     <>
-    {purchaseDt &&<DTPopUp changeStep={(e:any)=>setStep(e)} step={step}/>}
+    {purchaseDt &&<DTPopUp nft={nft} changeStep={(e:any)=>setStep(e)} step={step}/>}
       {/* <Header /> */}
       {showBuy && (
         <BuyModal
@@ -603,7 +606,33 @@ const DTPopUp=(props:any)=>{
   const Verify=UseAxios()
   const rates=UseAxios()
   const { collectionAddress, id } = useParams()
+  const [erc721MintableAddress, setErc721MintableAddress] = useState<any>('')
+  const [erc721MarketplaceAddress, setErc721MarketplaceAddress] = useState<any>('')
+  // erc 1155 addresses
+  const [erc1155MintableAddress, setErc1155MintableAddress] = useState<any>('')
+  const [erc1155MarketplaceAddress, setErc1155MarketplaceAddress] = useState<any>('')
+  const [chainId, setChainId, chainIdRef] = useState<string>()
 
+  useEffect(() => {
+
+    const currentChain = sessionStorage.getItem('chain')
+
+    if (currentChain === '0x1') {
+
+      setErc721MintableAddress(contracts.erc721MintableAddress)
+      setErc721MarketplaceAddress(contracts.erc721MarketplaceAddress)
+      setErc1155MintableAddress(contracts.erc1155MintableAdddress)
+      setErc1155MarketplaceAddress(contracts.erc1155MarketplaceAddress)
+    }
+    if (currentChain === '0x38' || currentChain === '0x61') {
+      // setChain('bsc testnet')
+      setChainId('bsc')
+      setErc721MintableAddress(contracts.BSC_erc721MintableAddress)
+      setErc721MarketplaceAddress(contracts.physical_market)
+      setErc1155MintableAddress(contracts.BSC_erc1155MintableAdddress)
+      setErc1155MarketplaceAddress(contracts.BSC_erc1155MarketplaceAdddress)
+    }
+  }, [])
   const verify=(e:any)=>{
      e.preventDefault()
     Verify.fetchData({
@@ -631,6 +660,85 @@ const DTPopUp=(props:any)=>{
   useEffect(()=>{if(Verify.Response)props.changeStep(2)},[Verify.Response])
 
   const book= UseAxios()
+  useEffect(()=>{if(book.Response)props.changeStep(3)},[book.Response])
+  const [isLoading,setIsLoading]=useState(false)
+  const userWallet =sessionStorage.getItem('currentAccount')
+  const tokenInfo:any= useContext(TokenContext)
+
+  // console.log(tokenInfo,props?.nft.price);
+  
+  const handleSubmit = async (e: any) => {
+    e.preventDefault()
+    setIsLoading(true)
+    let PhysicalMarket
+    let erc721Contract
+    let erc1155Contract
+    let erc20token
+    let web3: any
+    if (window.ethereum && userWallet) {
+
+      web3 = new Web3(window.ethereum)
+
+      erc721Contract = new web3.eth.Contract(
+        erc721Abi,
+        props.nft.moreInfo.collectionAddress || erc721MintableAddress,
+      )
+
+      PhysicalMarket = new web3.eth.Contract(
+        physicalMarket,
+        erc721MarketplaceAddress,
+      )
+       const deliveryInToken=()=>{
+        console.log(tokenInfo);
+        
+         const erc20= tokenInfo?.filter((token:any)=>{
+          
+          
+          return token.tokenAddress===props.nft.moreInfo.erc20TokenAddress})
+         const priceIntoken= onsaleParams.rates/erc20[0]?.usdPrice
+
+         return priceIntoken
+        } 
+       
+      erc20token = new web3.eth.Contract(erc20.abi, props.nft.moreInfo.erc20TokenAddress)
+      // console.log(props.nft, 'helllo')
+
+      if (props?.nft?.amount < 2) {
+        try {
+
+          // console.log(erc20token)
+          const decimal = await erc20token.methods.decimals().call(
+            { from: userWallet }
+          )
+          // console.log(decimal);
+          const amount = (parseInt(props.nft.price)+deliveryInToken()?deliveryInToken():0) * (10 ** decimal)
+          // console.log(amount);
+
+
+          await erc20token.methods.approve(PhysicalMarket, (`${amount}`)).send({ from: userWallet })
+
+
+          const buyItem = await PhysicalMarket.methods
+            .buy(props?.nft.tokenId, props.nft.moreInfo.contractAddress,amount)
+            .send({ from: userWallet })
+          console.log(buyItem)
+          setIsLoading(false)
+          setCompleted(true)
+        } catch (err) {
+          console.log(err)
+          setIsLoading(false)
+        }
+      }
+     
+   
+      setIsLoading(false)
+
+    } else {
+      setIsLoading(false)
+    }
+
+  }
+  
   
   return(
     <div className='dt_overlay'>
@@ -682,6 +790,7 @@ const DTPopUp=(props:any)=>{
         {props.step === 1 && <><p>
           Verify your details for recieving the physical item
         </p>
+        <p style={{fontSize:'10px',color:'red',textAlign:'center'}}>{Verify.error?.data?.message?.errors[0]}</p>
           <div className="inputs">
             <div className={style.fieldBx}>
               <TextInput
@@ -779,11 +888,11 @@ const DTPopUp=(props:any)=>{
                   
                   return {
                     text: data.courier_name,
-                    value:JSON.stringify({total:data.total,courier_id:data.courier_id,service_code:data.service_code})}})}
+                    value:JSON.stringify({total:data.totalUsd,courier_id:data.courier_id,service_code:data.service_code,service:data.courier_name})}})}
                 inputHandler={(e: any) => {
                  let value= JSON.parse(e.target.value);
                   
-                  setParams({ ...onsaleParams, rates: value.total }); setRate(value)}}
+                  setParams({ ...onsaleParams, rates: value.total,service:value.service }); setRate(value)}}
                 value={onsaleParams.rates}
                 />
               </div>   <div className={'fieldBx'}>
@@ -793,7 +902,7 @@ const DTPopUp=(props:any)=>{
                   inputName="rates"
                   holder="Phone Number"
                  
-                  value={onsaleParams.rates}
+                  value={`$${onsaleParams.rates}`}
                   required
                 />
               </div>
@@ -810,7 +919,8 @@ const DTPopUp=(props:any)=>{
 
                 className={`regBtn
                       blueBtn`}
-                onClick={() => {
+                onClick={(e) => {
+                        e.preventDefault()
                       book.fetchData({
                         method:'post',
                         url:'api/shipment/book/'+ id,
@@ -839,16 +949,17 @@ const DTPopUp=(props:any)=>{
           Digital twin delivery checkout
         </h2>
      <p>
-          Please ,review your delivery mode for the purchase of Bored Ape 3345 digital Item
+          Please ,review your delivery mode for the purchase of {props?.nft.name + props.nft.tokenId} digital Item
           </p>
          
          <div className="checkout">
-          <div><span>Delivery Mode</span> <span>TopShip</span></div>
-          <div><span>Delivery Fee</span><span>XXX BNB</span></div>
+          <div><span>Delivery Mode</span> <span>{onsaleParams?.service}</span></div>
+          <div><span>Delivery Fee</span><span>${onsaleParams?.rates}</span></div>
          </div>
         <p>Item can be shipped to Nigeria, Ghana, South Africa only.</p>
             <div className={'Btns'}>
               <button
+              disabled={isLoading}
                 style={{ background: 'white' }}
                 className={'regBtn'}
                 onClick={() => { }}
@@ -856,10 +967,10 @@ const DTPopUp=(props:any)=>{
                 Cancel
               </button>
               <button
-
+              disabled={isLoading}
                 className={`regBtn
                       blueBtn`}
-                onClick={() => console.log('physical')
+                onClick={handleSubmit
                 }
               >
                 Confirm

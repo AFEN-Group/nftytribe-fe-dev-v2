@@ -41,6 +41,7 @@ import UseAxios from "./hooks/AxiosConfig/useAxios";
 import { ChainContext } from "./context/chain";
 import config from '../src/utils/globalVariables'
 import Verification from "./pages/Profile/Modals/Verification";
+import { createContext } from "react";
 
 
 
@@ -200,11 +201,32 @@ function App() {
    } 
   },[userState?.user])
   
+
+
+  
+ 
+  const getPrices=UseAxios()
+
+  useEffect(()=>{
+    getPrices.fetchData({
+      method:'post',
+      url:'api/nft/token-price',
+      axiosInstance:Protected(sessionStorage.getItem('token')),
+      requestConfig:{
+        chainId:sessionStorage.getItem('chain'),
+        addresses: []
+      }
+
+    })
+  },[])
+  const token:any =getPrices.Response?.data
+  
   return (
     <Web3ContextProvider>
       <ChainContext.Provider value={{ chain,socketState }}>
         <LanguageContext.Provider value={langState}>
           <WalletContext.Provider value={data}>
+            <TokenContext.Provider value={token}>
             <>
               <div className="app">
                 <Toaster />
@@ -273,7 +295,9 @@ function App() {
               </p>
             </div> */}
             </>
+         </TokenContext.Provider>  
           </WalletContext.Provider>
+      
         </LanguageContext.Provider>
       </ChainContext.Provider>
     </Web3ContextProvider>
@@ -281,3 +305,6 @@ function App() {
 }
 
 export default App;
+
+
+export const TokenContext= createContext("")

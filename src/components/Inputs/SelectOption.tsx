@@ -16,8 +16,8 @@ const SelectOption = (props: any) => {
         required
       >
         <option disabled selected>Select Option</option>
-        {props.options.map((opt: any) => (
-          <option value={opt.value} key={opt.value}>
+        {props?.options?.map((opt: any) => (
+          <option value={opt.value} key={opt?.value}>
             {opt.text}
           </option>
         ))}
