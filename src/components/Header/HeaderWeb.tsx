@@ -35,6 +35,7 @@ import Notification from "../notification/notification";
 import { ChainContext } from "src/context/chain";
 import UseAxios from "src/hooks/AxiosConfig/useAxios";
 import Protected from "src/hooks/AxiosConfig/axiosInstance";
+import { UserContext } from "src/context/UserContext";
 
 const HeaderWeb = (props: any) => {
   //const [isConnected, setIsConnected] = useState(false)
@@ -111,9 +112,16 @@ const HeaderWeb = (props: any) => {
     handleSearch();
   }, [searchTerm]);
 
-  const handleModal = () => {
-    setShowConnect(!showConnect);
-  };
+  const {userState}=useContext(UserContext)
+
+   useEffect(()=>{
+    if(userState?.user){
+    setShowConnect(true)
+   }
+   else setShowConnect(false)
+  },[userState?.user])
+  
+ 
 
   // console.log("this is the", not.Response);
 
@@ -128,7 +136,7 @@ const HeaderWeb = (props: any) => {
         // }`}
       >
         <ConnectWallet
-          handleModal={handleModal}
+        
           showConnect={showConnect}
           //handleClose={handleClose}
         />

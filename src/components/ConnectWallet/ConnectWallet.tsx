@@ -37,9 +37,7 @@ const ConnectWallet = (props: any) => {
     value1: '',
     value2: '',
   })
-  //const [userState, setUserState] = useContext<any>(UserContext)
-  //const currentAccount = userState.userWallet
-  //console.log(currentAccount)
+
   const {
     connectToMetaMask,
     disableEthereum,
@@ -59,9 +57,9 @@ const ConnectWallet = (props: any) => {
   //swap states
   const [afenSwap, setAfenSwap] = useState(true)
   //const [currentAccount, setCurrentAccount] = useState('')
-  const currentAccount = sessionStorage.getItem('currentAccount')
+  const currentAccount:any = sessionStorage.getItem('currentAccount')
   const currentChain = sessionStorage.getItem('chain')
-  const userObj = sessionStorage.getItem('user')
+ 
   const [walletBalance, setWalletBalance] = useState<any>()
   const numberInputHandler = async (event: any) => {
     const valueFiltered = event.target.value.replace(/\D/g, '')
@@ -164,42 +162,28 @@ const ConnectWallet = (props: any) => {
     //getBalance()
   }, [toggleCon])
 
-
+  const {userState,setUserState}=useContext(UserContext)
   const handleSignOut = async () => {
     disableEthereum()
     disconnectWalletConnect()
     sessionStorage.clear()
-    props.handleModal()
-    disconnectSafePal()
+    setUserState()
+   
 
   }
   const handleSignIn = async () => {
-    props.handleModal()
+    // props.handleModal()
     connectToMetaMask()
-    props.handleModal()
-    disconnectSafePal()
-
+    // props.handleModal()
+   
   }
-  const handleSignIn2 = async () => {
-    props.handleModal()
-    enableWalletConnect()
-    props.handleModal()
-    disconnectSafePal()
 
-  }
   const uauth = new UAuth({
     clientID: "45721300-737c-40a0-91af-e187fff1634d",
     redirectUri: "https://staging.nftytribe.io",
     scope: "openid wallet email profile:optional social:optional"
   })
-  const connectsafepal= async ()=>{
-    disableEthereum()
-    disconnectWalletConnect()
-    props.handleModal()
-    connectSafePal()
-
-  }
-
+ 
   const connectUauth=async()=>{
     const res= await uauth.loginWithPopup()
     let address = res.idToken.wallet_address
@@ -217,8 +201,7 @@ const ConnectWallet = (props: any) => {
 
 
   
-  const { userState,setUserState}=useContext(UserContext)
-  
+ 
   return (
     <>
       <div className={`${style.container}`}>
@@ -230,7 +213,7 @@ const ConnectWallet = (props: any) => {
               }`}
             id="box"
           >
-            {currentAccount ? (
+            {userState?.user ? (
               <div className={style.top}>
                 <div className={style.topLeft}>
                   <img src={dark === 'true' ? User2 : User} alt="user" />{' '}
@@ -239,14 +222,7 @@ const ConnectWallet = (props: any) => {
 
                     <br />
                     <span>
-                      {/* <Link
-                        className={`${
-                          dark === 'true' ? 'lightTxt' : 'darkTxt'
-                        }`}
-                        to="/profile"
-                      >
-                        View Profile
-                      </Link> */}
+                    
                       Connected
                     </span>
                   </p>
@@ -297,39 +273,12 @@ const ConnectWallet = (props: any) => {
                             src={dark === 'true' ? Check2 : Check}
                             alt="check"
                           />
-                          {/* <p>0.00</p> */}
-                          {/* <p>{wBalance[0]}</p> */}
-                          {/* <p>{web3.utils.toWei(walletBalance.toString(), 'ether')}</p> */}
+                         
                         </div>
                       </div>
-                      {/* <div className={style.activeWallet}>
-                        <div className={style.awleft}>
-                          <img src={Wc} alt="wallet" />
-                          <div className={style.awInfo}>
-                            <h3>{shortenAddress(currentAccount)}</h3>
-
-                            <p>Polygon</p>
-                          </div>
-                        </div> */}
-                      {/* <div className={style.awRight}> */}
-                      {/* <img src={dark === 'true' ? Check2 : Check} alt="check" /> */}
-                      {/* <p>0.00</p>
-                        </div> */}
-                      {/* </div> */}
+                     
                     </div>
-                    {/* <div className={style.swapOptions}>
-                      <div className={style.swOption}>
-                        <img src={Add} alt="add" />
-                        <p>Add Funds</p>
-                      </div>
-                      <div
-                        className={`${style.swOption} disabled`}
-                        onClick={(e) => setView('swap')}
-                      >
-                        <img src={SwapH} alt="swap" />
-                        <p>Swap</p>
-                      </div>
-                    </div> */}
+                  
                   </>
                 )}
 
@@ -485,26 +434,9 @@ const ConnectWallet = (props: any) => {
                       <p>Unstoppable Domains</p>
                     </div>
 
-                  <div className={style.wallet} onClick={handleSignIn2}>
-                    <img src={Wc} alt="wallet-connect" />
-                    <p>Wallet Connect</p>
-                  </div>
-                  {/* <div className={style.wallet} onClick={connectTrustWallet} >
-                    <img style={{width:'40px'}} src={TWT} alt="wallet-connect" />
-                    <p>Trust Wallet</p>
-                  </div> */}
-                  <div className={style.wallet} onClick={connectsafepal}>
-                    <img style={{width:'40px'}} src={SPL} alt="wallet-connect" />
-                    <p>Safe Pal</p>
-                  </div>
+                
                   {walletError && (<p className={style.err}>{walletError}</p>)}
-                  {/* <div className={style.wallet}>
-                    <img src={Coinbase} alt="coinbase" />
-                    <p>Coinbase Wallet</p>
-                  </div> */}
-                  {/* <div className={style.wallet}>
-                <button>Show More Options</button>
-              </div> */}
+               
                 </div>
               </div>
             )}
