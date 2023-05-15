@@ -569,7 +569,7 @@ const CreateItems = () => {
               )}
               <div className={style.fieldBx2}>
                 <img className={style.toggleCheck} src={check} alt="toggle" />
-                <p>Lazy minting</p>
+                <p>Lazy minting (coming soon)</p>
                 <div className={style.toggle}>
                   <div className={style.toggleBox}>
                     <label className={style.switchToggle}>
@@ -593,7 +593,7 @@ const CreateItems = () => {
                       <input
                         onChange={() => setIsPhysical(!isPhysical)}
                         type="checkbox"
-                        name="lazyMinting"
+                       
                       />
                       <span
                         className={`${style.sliderToggle} ${style.round}`}></span>

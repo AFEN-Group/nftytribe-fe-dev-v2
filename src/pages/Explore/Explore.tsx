@@ -45,7 +45,7 @@ const Explore = () => {
 
   const [filterQuery, setFilterQuery] = useState<any>({
     chain:1,
-    physical:false,
+    
     userId:userState?.user?.id,
   });
   // const [currentPage, setCurrentPage] = useState(1)
