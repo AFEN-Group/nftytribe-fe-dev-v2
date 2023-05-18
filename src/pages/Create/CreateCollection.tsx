@@ -104,7 +104,7 @@ const CreateCollection = () => {
   console.log(Response);
   const upload = async (address: string) => {
     let formData = new FormData()
-
+    console.log(address)
     formData.append('images', imageFile.file)
 
     let key = await (await Protected(sessionStorage.getItem('token'))['post']('api/uploads/temp', formData)).data.key
@@ -157,17 +157,17 @@ const CreateCollection = () => {
 
            await upload(newCollectionAddress)
              
-            const collectionObj = {
-              wallet_address,
-              contract_address: newCollectionAddress,
-              chain,
-              title: userInput.name,
-              about: userInput.description,
-              symbol: userInput.symbol,
-              cover_image: imageFile.location,
-              background_image: imageFile.location,
-              transactionHash,
-            }
+            // const collectionObj = {
+            //   wallet_address,
+            //   contract_address: newCollectionAddress,
+            //   chain,
+            //   title: userInput.name,
+            //   about: userInput.description,
+            //   symbol: userInput.symbol,
+            //   cover_image: imageFile.location,
+            //   background_image: imageFile.location,
+            //   transactionHash,
+            // }
           
             
             //setMsg({ ...msg, sMsg: newCollectionReq.data.msg, eMsg: '' })

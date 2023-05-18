@@ -511,7 +511,7 @@ console.log(nft,userState);
                               <button
                                 
                                 className={`${nft?.listingType ? style.regBtn : style.regBtn2
-                                  } ${dark === 'true' ? 'yellowBtn' : 'blueBtn'} requestBtn `}
+                                  } ${dark === 'true' ? 'yellowBtn' : 'blueBtn'}  `}
                                 onClick={PurchaseDt}
                               >
                                 Rrequest DT item
