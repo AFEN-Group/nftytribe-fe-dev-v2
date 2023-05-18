@@ -434,7 +434,7 @@ const CreateItems = () => {
                     inputHandler={inputHandler}
                     value={userInput.price}
                   />
-                  <div className={style.iDesc}><p>({currentChain === globals.mainnetEth.chainId ? 'ETH' : currentChain === globals.mainnetBsc.chainId ? 'BNB' : ''} price)</p></div>
+                  {/* <div className={style.iDesc}><p>({currentChain === globals.mainnetEth.chainId ? 'ETH' : currentChain === globals.mainnetBsc.chainId ? 'BNB' : ''} price)</p></div> */}
 
                 </div> <div className={style.fieldBx}>
                   <p>Erc20 token</p>
@@ -543,7 +543,7 @@ const CreateItems = () => {
                 />
               </div>
               <div className={style.fieldBx}>
-                <p>Royalties</p>
+                <p>Royalties (%)</p>
 
 
 
@@ -574,6 +574,7 @@ const CreateItems = () => {
                   <div className={style.toggleBox}>
                     <label className={style.switchToggle}>
                       <input
+                      disabled
                         // onChange={handleLazy}
                         type="checkbox"
                         name="lazyMinting"

@@ -452,7 +452,7 @@ const wallet_address=sessionStorage.getItem('currentAccount')
             >
               <div className={style.modalTop2}>
                 <h1>Item Created!</h1>
-                <p>You can now view your item on the explore page.</p>
+                <p>You can now view your item on the Profile page.</p>
                 <img src={Close} alt="close" onClick={props.handleClose} />
               </div>
               <div className={style.modalBody2}>
@@ -461,8 +461,8 @@ const wallet_address=sessionStorage.getItem('currentAccount')
                 </div>
               </div>
               <div className={style.modalBtnSingle2}>
-                <Link to="/explore">
-                  <button>View Explore Page</button>
+                <Link to="/profile">
+                  <button>View Profile Page</button>
                 </Link>
               </div>
             </div>

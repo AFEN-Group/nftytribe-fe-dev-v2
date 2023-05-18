@@ -43,7 +43,7 @@ const MyCollections = () => {
               </h1>
               <p>
                 <span id="heroText">
-                  Create, curate, and manage collections of unique NFTs to share
+                  Create and manage your collections, to share
                   and sell.
                 </span>
               </p>

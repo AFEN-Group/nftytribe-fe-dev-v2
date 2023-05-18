@@ -45,7 +45,6 @@ const Explore = () => {
 
   const [filterQuery, setFilterQuery] = useState<any>({
     chain:1,
-    
     userId:userState?.user?.id,
   });
   // const [currentPage, setCurrentPage] = useState(1)
@@ -55,7 +54,9 @@ const Explore = () => {
   const {chain}= useContext(ChainContext)
   const [categories,setCategories]=useState<[any]>()
 
-
+  
+  console.log(userState);
+  
   const getCategories=async()=>{
       const res= await Protected(sessionStorage.getItem('token'))['get']('api/category')
        setCategories(res?.data)
@@ -66,9 +67,11 @@ const Explore = () => {
     const getParams= ()=>{
       let params;
       for(let key in filterQuery){
-        if(filterQuery[key]!==null){
+        if (filterQuery[key]){
+          console.log(filterQuery[key]);
+          
             if(params )  params=`${params}&${key}=${filterQuery[key]}`
-      else  params = `${key}=${filterQuery[key]}`
+             else  params = `${key}=${filterQuery[key]}`
       }
         }
     
@@ -132,7 +135,7 @@ const Explore = () => {
       // cancel the request
       controller.abort()
     }
-  }, [chain,filterQuery,page]);
+  }, [chain,filterQuery,page,userState]);
   const nextPage = () => {
     if (totalPages >page) {
       setPage((page)=>page+1)
