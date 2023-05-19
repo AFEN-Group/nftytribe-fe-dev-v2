@@ -65,6 +65,8 @@ const ConnectWalletM = (props: any) => {
             [event.target.name]: valueFiltered,
         })
     }
+
+    // const {userState}=useContext(UserContext)
     useEffect(() => {
         const t1 = gsap.timeline({ paused: true })
         let box: any = document.getElementById('box')
@@ -192,8 +194,7 @@ const ConnectWalletM = (props: any) => {
                                 <div className={style.topLeft}>
                                     <img src={dark === 'true' ? User2 : User} alt="user" />{' '}
                                     <p className={style.addy}>
-                                        {shortenAddress(currentAccount)}
-
+                                       {userState?.user?.username}
                                         <br />
                                         <span>
                                             {/* <Link

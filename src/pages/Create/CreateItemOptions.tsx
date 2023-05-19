@@ -142,17 +142,18 @@ const CreateItemOptions = () => {
             <div className={style.cOptContent1}>
               <div className={style.cOptTop}>
                 <h1>
-                  <span id="heroTitle">{t("Choose Blockchain")}</span>{" "}
+                  <span id="heroTitle">Choose Blockchain</span>{' '}
                 </h1>
                 <p>
-                  <span id="heroText">{t("Select the most")}</span>{" "}
-                </p >
-              </div >
+                  <span id="heroText">Select  the most suitable blockchain to create your collection. You need to sign in to create.
+                  </span>{' '}
+                </p>
+              </div>
               <div
                 className={`${style.cOptBody} animate__animated animate__fadeInUp animate__delay-1s`}>
                 <div className={style.optBoxes}>
                   <div
-                    className={style.optBox}
+                    className={`${style.optBox} ${style.disable}`}
                     onClick={() => {
                       checkNetwork('eth');
                       //notify()
@@ -169,20 +170,20 @@ const CreateItemOptions = () => {
                     <img src={Binance} alt="binance" />
                     <p>Binance</p>
                   </div>
-                  <div
+                  {/* <div
                     className={`${style.optBox} ${style.disable}`}
                   //onClick={() => setChain('')}
                   >
                     <img src={Skale} alt="skale" />
                     <p>Skale</p>
-                  </div>
+                  </div> */}
 
-                  <div
+                  {/* <div
                     className={`${style.optBox} ${style.disable}`}
                     onClick={() => setChain("")}>
                     <img src={Solana} alt="sol" />
                     <p className={style.mg1}>Polygon</p>
-                  </div>
+                  </div> */}
                 </div>
               </div >
             </div >

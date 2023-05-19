@@ -263,7 +263,7 @@ const ConnectWallet = (props: any) => {
                         <div className={style.awleft}>
                           <img style={{ width: '40px' }} src={sessionStorage.getItem('walletType') === 'Metamask' ? Metamask : sessionStorage.getItem('walletType') === 'uauth'?Uath: Wc} alt="wallet" />
                           <div className={style.awInfo}>
-                            <h3>{shortenAddressSmall(currentAccount)}</h3>
+                            <h3>   {userState?.user?.username}</h3>
 
                             <p>{currentChain === globals.mainnetEth.chainId ? 'Ethereum' : currentChain === globals.mainnetBsc.chainId ? 'Binance' : ''}</p>
                           </div>

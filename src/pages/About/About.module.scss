@@ -18,6 +18,12 @@
   .heroTopLeft,
   .heroTopRight {
     width: 50%;
+
+    >div{
+      >div{
+        width: 70% !important;
+      }
+    }
   }
 
   .leftContent {

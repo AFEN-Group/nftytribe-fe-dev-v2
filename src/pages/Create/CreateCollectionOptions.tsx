@@ -98,7 +98,7 @@ const CreateCollectionOptions = () => {
                         >
                             <div className={style.optBoxes}>
                                 <div
-                                    className={style.optBox}
+                                    className={`${style.optBox} ${style.disable}`}
                                     onClick={() => checkNetwork('eth')}
                                 >
                                     <img src={Eth} alt="eth" />
@@ -111,7 +111,7 @@ const CreateCollectionOptions = () => {
                                     <img src={Binance} alt="binance" />
                                     <p>Binance</p>
                                 </div>
-                                <div
+                                {/* <div
                                     className={`${style.optBox} ${style.disable}`}
                                 //onClick={() => setChain('')}
                                 >
@@ -124,8 +124,8 @@ const CreateCollectionOptions = () => {
                                     onClick={() => setChain('')}
                                 >
                                     <img src={Solana} alt="sol" />
-                                    <p className={style.mg1}>Solana</p>
-                                </div>
+                                    <p className={style.mg1}>Solana</p> 
+                                </div>*/}
 
                             </div>
                         </div>

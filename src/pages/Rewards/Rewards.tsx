@@ -46,8 +46,8 @@ const Rewards = () => {
           `}>
             <div className={style.sOneContent}>
               <div className={style.oneLeft}>
-                <h1>{t("Earn rewards for every activity on NftyTribe")}</h1>
-                <p>{t("We love")}</p>
+                <h1>Get rewarded for using NftyTribe</h1>
+                <p>We love our community and we want to make sure we reward all loyal members of the Tribe!</p>
               </div>
               <div className={style.oneRight}>
                 <motion.img
@@ -118,7 +118,7 @@ const Rewards = () => {
               </div>
               <div className={style.twoRight}>
                 <h2>{t("Staking")}</h2>
-                <p>{t("Stake your")}</p>
+                <p>Stake $AFEN tokens to earn rewards.</p>
                 <div className={style.twoBtns}>
                   {/* <a href="https://pancakeswap.finance/swap"> */}
                   {/* <Link to="/staking"> */}
@@ -151,11 +151,11 @@ const Rewards = () => {
           ${dark === "true" ? "lightTxt" : "darkTxt"}`}>
             <div className={style.sThreeContent}>
               <div className={style.threeLeft}>
-                <h2>{t("Mint,Buy, sell and earn")}</h2>
+                <h2>Create, Buy, Sell and Earn</h2>
                 <p>
                   {/* Stake your <span> $AFEN</span> tokens to earn 15% Annual
                   percentage yield as well as up to 50%+ in trading fees.{' '} */}
-                  {t("Earn 15")}
+                  Earn rewards when you mint, buy or sell NFTs using the $AFEN token.
                 </p>
                 <Link to="/explore">
                   <button
@@ -230,8 +230,10 @@ const Rewards = () => {
                 />
               </div>
               <div className={style.fourRight}>
-                <h2>{t("Periodic token burns")}</h2>
-                <p>{t("five percent")}</p>
+                <h2>Periodic Buyback and Burn
+</h2>
+                <p>Transaction fees generated on NftyTribe will be used to buy back $AFEN tokens, and consequently burned.
+</p>
                 <a href="https://bscscan.com/token/0xd0840d5f67206f865aee7cce075bd4484cd3cc81?a=0x000000000000000000000000000000000000dead"> <button
                   //className={`${dark === 'true' ? 'yellowBtn' : 'blueBtn'}}`}>
                   className={`${style.stake} ${dark === "true" ? "yellowBtn" : "blueBtn"

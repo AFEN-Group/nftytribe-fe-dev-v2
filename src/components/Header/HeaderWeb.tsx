@@ -225,11 +225,11 @@ console.log(showConnect);
                   <Link to="/createOptions">
                     <p>{t("create")}</p>
                   </Link>
-                
-                </div>
-                 <a href="" style={{margin:'auto'}}>
+                 <a href="" style={{fontWeight:'bolder'}}>
                     Art Expo
                   </a>
+                </div>
+                
                 
                 {/* <div className={style.searchBox}>
                   <input
