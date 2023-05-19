@@ -152,7 +152,7 @@ console.log(showConnect);
           {!currentAccount ? (
             <div className={style.content}>
               <Link to="/" className={style.logoBox}>
-                <img src={dark === "true" ? Logo2 : Logo} alt="logo" />
+                <img src={require('../../assets/ICON nfty logo.png')} alt="logo" />
               </Link>
 
               <div

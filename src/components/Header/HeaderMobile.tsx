@@ -88,7 +88,7 @@ const HeaderMobile = () => {
           )}
           <div className={style.contentM}>
             <Link to="/" className={style.logoBoxM}>
-              <img src={dark === "true" ? Logo2 : Logo} alt="logo" />
+              <img src={require('../../assets/ICON nfty logo.png')} alt="logo" />
             </Link>
          
 

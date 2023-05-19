@@ -406,7 +406,7 @@ ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate_
                       </div>
                       <div className={style.filterItem}>
                         <div className={style.filterTxt} >
-                          <p style={{ textAlign: 'left' }}>Auctions</p>
+                          <p style={{ textAlign: 'left' }}>Auction</p>
                         </div>
                         <Radio click={() => {
                           setPage(1)
@@ -624,7 +624,7 @@ ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate_
                       </div>
                       <div className={style.filterItem}>
                         <div className={style.filterTxt}>
-                          <p>Auctions</p>
+                          <p>Auction</p>
                         </div>
                         <Radio click={()=>{
                           setPage(1)

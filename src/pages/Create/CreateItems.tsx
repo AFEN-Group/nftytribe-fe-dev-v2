@@ -221,7 +221,7 @@ const CreateItems = () => {
 
   const handleClose = () => {
     setShowModal(false)
-
+    window?.location?.reload()
   }
   const [imgKey, setImgKey] = useState()
   const { fetchData, Response, loading, error } = UseAxios()
