@@ -9,8 +9,10 @@ import heroImg from "../assets/heroImg.png";
 import arrow from "../assets/arrow1.svg";
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
+import ItemCard from "src/components/Card/ItemCard";
+import ItemCardDefault from "src/components/Card/ItemSkeleton";
 
-const Hero = () => {
+const Hero = (props:any) => {
   const [themeState] = useContext<any>(ThemeContext);
   const dark = themeState.dark;
 
@@ -46,11 +48,7 @@ const Hero = () => {
           <div className={style.heroTopContent}>
             <div className={style.heroTopLeft}>
               <div className={style.leftContent}>
-                {/* <div
-                  className={`${style.leftTop} animate__animated animate__slideInDown`}
-                >
-                  <h2>Collect, sell & create</h2>
-                </div> */}
+               
                 <h1>
                   <span id="heroTitle">
                     About NftyTribe 
@@ -75,18 +73,15 @@ const Hero = () => {
                         {/* {t("import")} */}
                       </button>
                     </Link>
-                    {/* <a href="https://awake-cornucopia-fbb.notion.site/Getting-Started-with-NftyTribe-924b743823994844868ad3164115c370">
-                      <div className={style.readMore}>
-                        <p>Discover</p>
-                        <img src={arrow} alt="arrow" />
-                      </div>
-                    </a> */}
+                    
                   </div>
                 </div>
               </div>
             </div>
             <div className={style.heroTopRight} id="item">
               <motion.div
+                style={{ display: 'contents' }}
+                className={style.featured}
                 initial="hidden"
                 animate="visible"
                 variants={{
@@ -101,14 +96,13 @@ const Hero = () => {
                       duration: 0.1,
                       delay: 0.3,
                       scale: {
-                        duration: 1,
+                        duration: 1.5,
                       },
                     },
                   },
-                }}>
-                <div className={style.heroImg}>
-                  <img src={heroImg} alt="About us" />
-                </div>
+                }}
+              >
+                {props.isLoading ?<ItemCardDefault/> : <ItemCard nftData={props.featured} />}
               </motion.div>
             </div>
           </div>

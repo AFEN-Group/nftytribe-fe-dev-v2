@@ -43,8 +43,7 @@ const MyCollections = () => {
               </h1>
               <p>
                 <span id="heroText">
-                  Create and manage your collections, to share
-                  and sell.
+                  Create and manage your collections
                 </span>
               </p>
             </div>

@@ -25,6 +25,8 @@ import logo6 from "./logos/pllogo.svg";
 import meta from "./logos/Full text Logo Yellow II.png";
 import meta1 from "./logos/Full text logo YellowI.png";
 import { useTranslation } from "react-i18next";
+import UseAxios from "src/hooks/AxiosConfig/useAxios";
+import Protected from "src/hooks/AxiosConfig/axiosInstance";
 
 const About = () => {
   const [themeState] = useContext<any>(ThemeContext);
@@ -33,11 +35,19 @@ const About = () => {
     window.scrollTo(0, 0);
   }, []);
   const { t } = useTranslation();
-  
+  const { Response, error, fetchData, loading } = UseAxios()
+  useEffect(() => {
+    fetchData({
+      method: 'get',
+      url: '/api/nft/listings?chain=1',
+      axiosInstance: Protected(sessionStorage.getItem('token'))
+
+    })
+  }, [])
   return (
     <>
       {/* <Header /> */}
-      <Hero />
+      <Hero isLoading={loading} featured={Response?.data?.results[0]} />
       <Container>
         <div className={style.sectionTwo}>
           <h1>
@@ -68,7 +78,7 @@ const About = () => {
               <img src={logo3} alt="logo3" />
             </div>
             <div className={style.angel}>
-              <img src={dark === "true" ? logo4w : logo4d} alt="logo1" />
+              <img src={require('../../assets/usd.png')} alt="logo1" />
             </div>
 
             <div className={style.angel}>

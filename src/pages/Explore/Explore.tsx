@@ -429,7 +429,16 @@ ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate_
                         </div>
                         <Radio click={() => {
                           setPage(1)
-                          setFilterQuery({ ...filterQuery, order: 'price',direction:'ASC' })
+                          if (filterQuery.direction === 'ASC') {
+                            console.log(filterQuery.direction);
+                            
+                            setFilterQuery({ ...filterQuery, order: null, direction: null })
+                          }
+                          else {
+                            console.log(filterQuery.direction);
+                            setFilterQuery({ ...filterQuery, order: 'price',direction:'ASC' })
+
+                          }
                         }} on={filterQuery.direction === 'ASC'} />
 
                       </div>
@@ -439,6 +448,10 @@ ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate_
                         </div>
                         <Radio click={() => {
                           setPage(1)
+                         if(filterQuery.direction==='DESC'){
+                           setFilterQuery({ ...filterQuery, order: null, direction: null })
+                         }
+                         else
                           setFilterQuery({ ...filterQuery, order: 'price', direction: 'DESC' })
                         }} on={filterQuery.direction === 'DESC'} />
 
@@ -543,7 +556,16 @@ ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate_
                         {/* <div className={style.radioBx}> <RadioBtn /></div> */}
                         <Radio click={() => {
                           setPage(1)
-                          setFilterQuery({ ...filterQuery, order: 'price',direction:'ASC' })
+                          if (filterQuery.direction === 'ASC') {
+                            console.log(filterQuery.direction);
+
+                            setFilterQuery({ ...filterQuery, order: null, direction: null })
+                          }
+                          else {
+                            console.log(filterQuery.direction);
+                            setFilterQuery({ ...filterQuery, order: 'price', direction: 'ASC' })
+
+                          }
                         }} on={filterQuery.direction === 'ASC'} />
                       </div>
                       <div className={style.filterItem}>
@@ -552,11 +574,16 @@ ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate_
                         </div>
                         <Radio click={() => {
                           setPage(1)
-                          setFilterQuery({
-                            ...filterQuery, order: 'price', direction: 'DESC'
+                          if (filterQuery?.direction === 'DESC') {
+                            console.log(filterQuery.direction);
 
+                            setFilterQuery({ ...filterQuery, order: null, direction: null })
+                          }
+                          else {
+                            console.log(filterQuery.direction);
+                            setFilterQuery({ ...filterQuery, order: 'price', direction: 'DESC' })
 
-                          })
+                          }
                         }
                         } on={filterQuery.direction === 'DESC'} />
                       </div>
@@ -583,7 +610,16 @@ ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate_
                         {/* <div className={style.radioBx}> <RadioBtn /></div> */}
                         <Radio click={() => {
                           setPage(1)
-                          setFilterQuery({ ...filterQuery, listingType: 'normal' })
+                          if (filterQuery?.listingType === 'normal') {
+                           
+                            setFilterQuery({ ...filterQuery, listingType: null })
+                          }
+                          else {
+                            
+                            setFilterQuery({ ...filterQuery, listingType: 'normal' })
+
+                          }
+                          
                         }} on={filterQuery.listingType==='normal'}/>
                       </div>
                       <div className={style.filterItem}>
@@ -592,10 +628,16 @@ ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate_
                         </div>
                         <Radio click={()=>{
                           setPage(1)
-                          setFilterQuery({...filterQuery,listingType:'auction'
-                        
-                        
-                        })}
+                          if (filterQuery?.listingType === 'auction') {
+
+                            setFilterQuery({ ...filterQuery, listingType: null })
+                          }
+                          else {
+
+                            setFilterQuery({ ...filterQuery, listingType: 'auction' })
+
+                          }
+}
                           } on={filterQuery.listingType === 'auction'}/>
                       </div>
                       {/* <div className={style.filterItem}>

@@ -232,7 +232,7 @@ const Rewards = () => {
               <div className={style.fourRight}>
                 <h2>{t("Periodic token burns")}</h2>
                 <p>{t("five percent")}</p>
-                <button
+                <a href="https://bscscan.com/token/0xd0840d5f67206f865aee7cce075bd4484cd3cc81?a=0x000000000000000000000000000000000000dead"> <button
                   //className={`${dark === 'true' ? 'yellowBtn' : 'blueBtn'}}`}>
                   className={`${style.stake} ${dark === "true" ? "yellowBtn" : "blueBtn"
                     }`}>
@@ -241,7 +241,7 @@ const Rewards = () => {
                     src={dark === "true" ? arrow1 : arrow2}
                     alt="view batch"
                   />
-                </button>
+                </button></a>
               </div>
             </div>
           </div>

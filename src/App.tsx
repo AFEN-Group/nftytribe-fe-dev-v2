@@ -220,9 +220,12 @@ function App() {
     })
   },[])
   const token:any =getPrices.Response?.data
-  
+  const [showConnect,setShowConnect]=useState<any>(false)
+   
   return (
     <Web3ContextProvider>
+      {/* @ts-ignore */}
+      <ConnectContext.Provider value={{showConnect,setShowConnect}}>
       <ChainContext.Provider value={{ chain,socketState }}>
         <LanguageContext.Provider value={langState}>
           <WalletContext.Provider value={data}>
@@ -231,9 +234,9 @@ function App() {
               <div className="app">
                 <Toaster />
                 <Router>
-                  <Header />
+                  <Header  />
                   <Routes>
-                    <Route path="/" element={<Home />}></Route>
+                    <Route path="/" element={<Home  />}></Route>
                     <Route path="/explore" element={<Explore />}></Route>
                     {/* <Route
                   path="/explore/:collectionAddress/:id"
@@ -299,7 +302,8 @@ function App() {
           </WalletContext.Provider>
       
         </LanguageContext.Provider>
-      </ChainContext.Provider>
+         </ChainContext.Provider>
+        </ConnectContext.Provider>
     </Web3ContextProvider>
   );
 }
@@ -308,3 +312,4 @@ export default App;
 
 
 export const TokenContext= createContext("")
+export const ConnectContext= createContext('')

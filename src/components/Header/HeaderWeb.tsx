@@ -36,11 +36,12 @@ import { ChainContext } from "src/context/chain";
 import UseAxios from "src/hooks/AxiosConfig/useAxios";
 import Protected from "src/hooks/AxiosConfig/axiosInstance";
 import { UserContext } from "src/context/UserContext";
+import { ConnectContext } from "src/App";
 
 const HeaderWeb = (props: any) => {
   //const [isConnected, setIsConnected] = useState(false)
   const [showDropDown, setShowDropDown] = useState("None");
-  const [showConnect, setShowConnect] = useState(false);
+  const {showConnect, setShowConnect} = useContext<any>(ConnectContext);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchRes, setSearchRes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -122,8 +123,9 @@ const HeaderWeb = (props: any) => {
   },[userState?.user])
   
  
+console.log(showConnect);
 
-  // console.log("this is the", not.Response);
+  
 
   const { t } = useTranslation();
   return (
@@ -204,7 +206,7 @@ const HeaderWeb = (props: any) => {
                 to="/"
                 className={style.logoBox}
                 onMouseOver={() => setShowDropDown("None")}>
-                <img src={dark === "true" ? Logo2 : Logo} alt="logo" />
+                <img src={require('../../assets/ICON nfty logo.png')} alt="logo" />
               </Link>
               <div
                 className={`${dark === "true" ? style.navBoxD : style.navBoxL}`}

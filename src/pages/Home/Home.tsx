@@ -10,7 +10,7 @@ import Marketplace from './components/Marketplace'
 import TopProjects from './components/TopProjects'
 import Trending from './components/Trending'
 
-const Home = () => {
+const Home = (props:any) => {
 
   // const [items, setItems] = useState([])
   const [featured, setFeatured] = useState()
@@ -29,7 +29,7 @@ const Home = () => {
   return (
     <>
       {/* <Header /> */}
-      <Hero isLoading={loading} featured={Response?.data?.results[0]}  />
+      <Hero  isLoading={loading} featured={Response?.data?.results[0]}  />
       <Container>
         <Trending data={Response?.data?.results} />
         <TopProjects />

@@ -15,6 +15,8 @@ import dot1 from '../assets/yellowdot.svg'
 import dot2 from '../assets/bluedot.svg'
 import ItemSkeleton from '../../../components/Card/ItemSkeleton'
 import { useTranslation } from "react-i18next";
+import { ConnectContext } from 'src/App'
+import { toast } from 'react-hot-toast'
 
 const Hero = (props:any) => {
   // const [isLoading, setIsLoading] = useState(true)
@@ -50,11 +52,17 @@ const Hero = (props:any) => {
       ease: Expo.easeInOut,
     })
   }, [])
-
-  const handleImport = () => {
+  const {showConnect,setShowConnect}=useContext<any>(ConnectContext)
+  const  handleImport = () => {
     if (currentAccount) {
       navigate('/createOptions')
     }
+    else toast.error(` Please connect wallet`,
+      {
+        duration: 3000,
+      }
+    )
+  
   }
 
 
@@ -89,8 +97,8 @@ const Hero = (props:any) => {
                       {/* NftyTribe is a multi-chain NFT marketplace facilitating next-level experiences in exchanging NFTs. Users can trade NFTs and seamlessly send and receive physical items tied to NFTs.. */}
                       {/* {t("description")}
                        */}
-                      Whether you are an artist looking to showcase your talent, or a collector searching for the perfect addition to your collection, NftyTribe has everything you need. 
-
+                      NftyTribe is a multi-chain NFT marketplace facilitating next-level experiences in exchanging NFTs. 
+                      <br />Users can also trade and seamlessly exchange physical collectibles tied to NFTs
                     </span>
                   </p>
                   <div
