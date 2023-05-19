@@ -423,20 +423,8 @@ const CreateItems = () => {
                     value={userInput.description}
                   />
                 </div></>
-              {isPhysical && <>
+              {isPhysical && <> 
                 <div className={style.fieldBx}>
-                  <p>{t("Price")}</p>
-                  <TextInput
-                    type="text"
-                    inputName="price"
-                    holder={`Enter ${currentChain === '0x1' ? 'ETH' : currentChain === '0x38' ? 'BNB' : ''} Price`}
-                    max="12"
-                    inputHandler={inputHandler}
-                    value={userInput.price}
-                  />
-                  {/* <div className={style.iDesc}><p>({currentChain === globals.mainnetEth.chainId ? 'ETH' : currentChain === globals.mainnetBsc.chainId ? 'BNB' : ''} price)</p></div> */}
-
-                </div> <div className={style.fieldBx}>
                   <p>Erc20 token</p>
                   <TextInput
                     type="text"
@@ -449,6 +437,20 @@ const CreateItems = () => {
                   {/* <div className={style.iDesc}><p>({currentChain === globals.mainnetEth.chainId ? 'ETH' : currentChain === globals.mainnetBsc.chainId ? 'BNB' : ''} price)</p></div> */}
 
                 </div>
+                <div className={style.fieldBx}>
+                  <p>{t("Price")}</p>
+                  <TextInput
+                    type="text"
+                    inputName="price"
+                    holder={`Enter ${currentChain === '0x1' ? 'ETH' : currentChain === '0x38' ? 'BNB' : ''} Price`}
+                    max="12"
+                    inputHandler={inputHandler}
+                    value={userInput.price}
+                  />
+                  {/* <div className={style.iDesc}><p>({currentChain === globals.mainnetEth.chainId ? 'ETH' : currentChain === globals.mainnetBsc.chainId ? 'BNB' : ''} price)</p></div> */}
+
+                </div>
+              
              
                 <div className={style.fieldBx}>
                   <div className={style.smBtns}>
