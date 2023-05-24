@@ -85,7 +85,7 @@ function App() {
 
 
   useEffect(() => {
-    if (userState?.user) {
+    if (userState?.user && userState?.currentAccount) {
     
       login();
     }
@@ -132,7 +132,7 @@ function App() {
     }
   };
  
-
+const loginData=UseAxios()
   const login = async () => {
     console.log("logging in");
 
@@ -142,7 +142,7 @@ function App() {
           wallet_address: userState.currentAccount,
         },
       };
-      await getData({
+      await loginData.fetchData({
         method: "post",
         url: "/api/user/login",
         axiosInstance: Protected(null),
@@ -174,7 +174,7 @@ function App() {
       axiosInstance: Protected(sessionStorage.getItem("token")),
     });
     getUser(sessionStorage.getItem("currentAccount"));
-  }, [userState?.currentAccount]);
+  }, [userState?.currentAccount,response]);
 
   const [chain, setChain] = useState();
   // console.log('these are the chains:' ,chain);
