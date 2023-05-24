@@ -164,10 +164,11 @@ const ConnectWallet = (props: any) => {
 
   const {userState,setUserState}=useContext(UserContext)
   const handleSignOut = async () => {
-    disableEthereum()
+   setUserState({})
+    disableEthereum() 
     disconnectWalletConnect()
     sessionStorage.clear()
-    setUserState()
+   
    
 
   }
@@ -200,6 +201,9 @@ const ConnectWallet = (props: any) => {
   web3 = new Web3(window.ethereum)
 
 
+  console.log(sessionStorage.getItem('walletType'));
+  
+
   
  
   return (
@@ -218,7 +222,7 @@ const ConnectWallet = (props: any) => {
                 <div className={style.topLeft}>
                   <img src={dark === 'true' ? User2 : User} alt="user" />{' '}
                   <p className={style.addy}>
-                    {shortenAddressSmall(currentAccount)}
+                    {  shortenAddressSmall(userState?.user?.walletAddress)}
 
                     <br />
                     <span>
@@ -261,7 +265,7 @@ const ConnectWallet = (props: any) => {
                     <div className={style.wallets}>
                       <div className={style.activeWallet}>
                         <div className={style.awleft}>
-                          <img style={{ width: '40px' }} src={sessionStorage.getItem('walletType') === 'Metamask' ? Metamask : sessionStorage.getItem('walletType') === 'uauth'?Uath: Wc} alt="wallet" />
+                          <img style={{ width: '40px' }} src={sessionStorage.getItem('walletType') === 'uauth'?Uath: Metamask} alt="wallet" />
                           <div className={style.awInfo}>
                             <h3>   {userState?.user?.username}</h3>
 

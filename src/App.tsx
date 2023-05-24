@@ -79,13 +79,19 @@ function App() {
     if (user) {
       const { data } = user;
       setUserState({ ...userState, user: data });
-     
-     
     }
-    if (user && userState?.currentAccount) {
+   
+  }, [user]); 
+
+
+  useEffect(() => {
+    if (userState?.user) {
+    
       login();
     }
-  }, [user]);
+  }, [userState?.user]);
+
+
   useEffect(() => {
     if (usererror && userState?.currentAccount) {
       create();
@@ -125,7 +131,7 @@ function App() {
       console.log(err);
     }
   };
-  console.log(sessionStorage.getItem("token"));
+ 
 
   const login = async () => {
     console.log("logging in");
@@ -141,7 +147,7 @@ function App() {
         url: "/api/user/login",
         axiosInstance: Protected(null),
         requestConfig: {
-          walletAddress: userState.currentAccount,
+          walletAddress: userState?.user?.walletAddress,
         },
       });
 
@@ -161,7 +167,7 @@ function App() {
 
   useEffect(() => {
     const current = sessionStorage.getItem("currentAccount");
-    console.log(current);
+   
     getChains({
       method: "get",
       url: "/api/chain",

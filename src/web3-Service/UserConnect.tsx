@@ -146,6 +146,7 @@ const UserConnect = () => {
           })
         setUserState({...userState,currentAccount:accounts[0],walletType:'Metamask'})
 
+        console.log('connected');
         
           setWalletType("MetaMask")
           
