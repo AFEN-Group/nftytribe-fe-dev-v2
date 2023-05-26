@@ -101,8 +101,22 @@ const CreateCollection = () => {
 
  
   const {fetchData,Response,error}=UseAxios()
+  const importing:any = UseAxios()
   console.log(Response);
+
+
   const upload = async (address: string) => {
+
+   try {
+      await importing.fetchData({
+      method: 'Post',
+      url: 'api/collection',
+      axiosInstance: Protected(sessionStorage.getItem('token')),
+      requestConfig: {
+        contractAddress: address,
+        chain: sessionStorage.getItem('chain')
+      }
+    }) 
     let formData = new FormData()
     console.log(address)
     formData.append('images', imageFile.file)
@@ -117,6 +131,11 @@ const CreateCollection = () => {
         key: key
       }
     })
+ } catch (error:any) {
+    toast.error(error.response.data)
+ } 
+
+   
   }
   const handleSubmit = async (e: any) => {
     e.preventDefault()
@@ -150,27 +169,15 @@ const CreateCollection = () => {
             console.log(newCollection)
             const transactionHash = newCollection?.transactionHash
             const newCollectionAddress =
-             await newCollection?.events?.OwnershipTransferred.address
-            //console.log(newCollectionAddress, ' address'
-             
-            //image upload
+             await newCollection?.events?.CollectionCreated.returnValues[0]
 
+          
+           
+         
+            
            await upload(newCollectionAddress)
              
-            // const collectionObj = {
-            //   wallet_address,
-            //   contract_address: newCollectionAddress,
-            //   chain,
-            //   title: userInput.name,
-            //   about: userInput.description,
-            //   symbol: userInput.symbol,
-            //   cover_image: imageFile.location,
-            //   background_image: imageFile.location,
-            //   transactionHash,
-            // }
-          
-            
-            //setMsg({ ...msg, sMsg: newCollectionReq.data.msg, eMsg: '' })
+     
             
             setCreated(true)
             setShowModal(true)

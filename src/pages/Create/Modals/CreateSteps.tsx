@@ -8,7 +8,7 @@ import Happy from '../assets/happy.svg'
 import { CircularProgress } from '@material-ui/core'
 import { motion } from 'framer-motion'
 import TextInput from 'src/components/Inputs/TextInput'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import './index.scss'
 import contracts from '../../../web3-Service/contractAddress'
 import moment from 'moment'
@@ -19,6 +19,7 @@ import Web3 from 'web3'
 import physicalAbi from '../../../smart_contracts/physical.json'
 import erc721CollectionAbi from '../../../smart_contracts/erc721Collection.json'
 import tokenAbi from '../../../smart_contracts/afenToken.json'
+import { UserContext } from 'src/context/UserContext'
 
 
 
@@ -57,7 +58,7 @@ const CreateSteps = (props: any) => {
   const verify = UseAxios()
   // @ts-ignore
   const web3 = new Web3(window.ethereum)
-
+const {userState}=useContext(UserContext)
 const wallet_address=sessionStorage.getItem('currentAccount')
   const List = async () => {
     setListing(true)// @ts-ignore
@@ -71,7 +72,7 @@ const wallet_address=sessionStorage.getItem('currentAccount')
 
     const token = new web3.eth.Contract(tokenAbi.abi, props.erc20)
 
-
+   
 
     await TokenContract.methods.approve(contracts.BSC_PhysicalItem, props.mintedId).send({ from: wallet_address })
 
@@ -201,12 +202,12 @@ const wallet_address=sessionStorage.getItem('currentAccount')
                     <svg width="30" height="31" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M15 0.5C6.72 0.5 0 7.22 0 15.5C0 23.78 6.72 30.5 15 30.5C23.28 30.5 30 23.78 30 15.5C30 7.22 23.28 0.5 15 0.5ZM15 5C17.49 5 19.5 7.01 19.5 9.5C19.5 11.99 17.49 14 15 14C12.51 14 10.5 11.99 10.5 9.5C10.5 7.01 12.51 5 15 5ZM15 26.3C11.25 26.3 7.935 24.38 6 21.47C6.045 18.485 12 16.85 15 16.85C17.985 16.85 23.955 18.485 24 21.47C22.065 24.38 18.75 26.3 15 26.3Z" fill="#393936" />
                     </svg>
-                    {sessionStorage.getItem('currentAccount')?.slice(0, 6)}...
+                    {userState?.user?.username}
                   </p>
                   <span>Connected</span>
                 </div>
               </div>
-              <div className={style.modalBody2}>
+              <div style={{width:'70%'}} className={style.modalBody2}>
                 <div className={style.fieldBx}>
                   <p>Name</p>
                   <TextInput
