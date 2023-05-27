@@ -1,26 +1,35 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
-name: Node.js CI
-
+name: Development Build
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - master
 jobs:
   build:
-
-    runs-on: self-hosted
-
-    strategy:
-      matrix:
-        node-version: [16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: cp -R build/ /var/www/nftytribe.io/
+      - name: Checkout master
+        uses: actions/checkout@main
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - name: build image
+        run: docker build -t ${{ secrets.REGISTRY_NAME }}/nftytribe-client:$(echo $GITHUB_SHA | head -c7) .
+
+      - name: Log in to DigitalOcean Container Registry with short-lived credentials
+        run: doctl registry login --expiry-seconds 1200
+
+      - name: Push image to DigitalOcean Container Registry
+        run: docker push ${{ secrets.REGISTRY_NAME }}/nftytribe-client:$(echo $GITHUB_SHA | head -c7)
+
+      - name: Update deployment file
+        run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|radianceobi/nftytribe-client|${{ secrets.REGISTRY_NAME }}/nftytribe-client:'${TAG}'|' $GITHUB_WORKSPACE/k8s/client-deployment.yaml
+
+      - name: Save DigitalOcean kubeconfig with short-lived credentials
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.CLUSTER_NAME }}
+
+      - name: Deploy to DigitalOcean Kubernetes
+        run: kubectl apply -f $GITHUB_WORKSPACE/k8s --namespace=staging
+
+      - name: Verify deployment
+        run: kubectl rollout status deployment/nftytribe-deployment-client --namespace=staging
