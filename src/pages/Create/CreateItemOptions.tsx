@@ -17,10 +17,13 @@ import Switch from '../../components/Modals/Switch'
 import UpdatePrompt from '../../components/Modals/UpdatePrompt/UpdatePrompt'
 import { useTranslation } from "react-i18next";
 import globals from '../../utils/globalVariables'
+import { ChainContext } from "src/context/chain";
 
 
 const CreateItemOptions = () => {
-  const [chain, setChain] = useState('')
+  const {chain, setChain} = useContext(ChainContext)
+  console.log(chain);
+  
   const currentChain = sessionStorage.getItem('chain')
   const [showModal, setShowModal] = useState<any>()
   const [showPrompt, setShowPrompt] = useState(false)
@@ -152,6 +155,22 @@ const CreateItemOptions = () => {
               <div
                 className={`${style.cOptBody} animate__animated animate__fadeInUp animate__delay-1s`}>
                 <div className={style.optBoxes}>
+
+                  {
+                    chain?.map((chain:any)=>(
+                      <div
+                        className={`${style.optBox} ${style.disable}`}
+                        onClick={() => {
+                          checkNetwork('eth');
+                          //notify()
+                        }
+                        }
+                      >
+                        <img src={Eth} alt="eth" />
+                        <p>{chain.name}</p>
+                      </div>
+                    ))
+                  }
                   <div
                     className={`${style.optBox} ${style.disable}`}
                     onClick={() => {

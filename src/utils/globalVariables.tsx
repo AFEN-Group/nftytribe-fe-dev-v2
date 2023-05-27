@@ -1,6 +1,8 @@
 // eslint-disable-next-line
+console.log(window.location.host);
+
 export default {
-    baseURL: 'https://Dev.api.v2.nftytribe.io',
+    baseURL: window.location.host.includes('localhost') || window.location.host.includes('staging') ? 'https://Dev.api.v2.nftytribe.io' :'https://test-api.nftytribe.io',
     // baseURL:'https://a5b1-197-210-77-84.eu.ngrok.io',
    
     mainnetEth: {

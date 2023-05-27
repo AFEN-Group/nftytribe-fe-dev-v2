@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { gsap, Expo } from 'gsap'
 //import { ThemeContext } from '../../context/ThemeContext'
@@ -13,9 +13,10 @@ import Solana from './assets/sol.svg'
 import Container from '../../components/Container/Container'
 import toast from 'react-hot-toast'
 import globals from '../../utils/globalVariables'
+import { ChainContext } from 'src/context/chain'
 
 const CreateCollectionOptions = () => {
-    const [chain, setChain] = useState('')
+    const [selctedcChain, setSChain] = useState('')
     const currentChain = sessionStorage.getItem('chain')
     console.log(currentChain, "<<<<<")
     const navigate = useNavigate()
@@ -46,35 +47,36 @@ const CreateCollectionOptions = () => {
         })
 
     }, [])
-
-    const checkNetwork = (network: any) => {
-        if (network === 'eth') {
-            if (currentChain === globals.mainnetEth.chainId) {
-                setChain(network)
-                navigate(`/createCollection/${network}`)
-            } else {
-                //alert("Switch to ethereum chain")
-                toast.error(`Switch to ethereum chain`,
-                    {
-                        duration: 3000,
-                    }
-                )
-            }
-        }
-        if (network === 'binance') {
-            if (currentChain === globals.testnetBsc.chainId) {
-                setChain(network)
-                navigate(`/createCollection/${network}`)
-            } else {
-                //alert("Switch to binance chain")
-                toast.error(`Switch to binance chain`,
-                    {
-                        duration: 3000,
-                    }
-                )
-            }
-        }
-    }
+    const { chain, setChain } = useContext(ChainContext)
+    console.log(chain);
+    // const checkNetwork = (network: any) => {
+    //     if (network === 'eth') {
+    //         if (currentChain === globals.mainnetEth.chainId) {
+    //             setChain(network)
+    //             navigate(`/createCollection/${network}`)
+    //         } else {
+    //             //alert("Switch to ethereum chain")
+    //             toast.error(`Switch to ethereum chain`,
+    //                 {
+    //                     duration: 3000,
+    //                 }
+    //             )
+    //         }
+    //     }
+    //     if (network === 'binance') {
+    //         if (currentChain === globals.testnetBsc.chainId) {
+    //             setChain(network)
+    //             navigate(`/createCollection/${network}`)
+    //         } else {
+    //             //alert("Switch to binance chain")
+    //             toast.error(`Switch to binance chain`,
+    //                 {
+    //                     duration: 3000,
+    //                 }
+    //             )
+    //         }
+    //     }
+    // }
 
     console.log(chain)
     return (
@@ -97,7 +99,31 @@ const CreateCollectionOptions = () => {
                             className={`${style.cOptBody} animate__animated animate__fadeInUp animate__delay-1s`}
                         >
                             <div className={style.optBoxes}>
-                                <div
+                                {
+                                    chain?.map((chain: any) => (
+                                        <div
+                                            className={`${style.optBox} `}
+                                            onClick={() => {
+                                                if (currentChain === chain.chain) {
+                                                    setSChain(chain.chain)
+                                                    navigate(`/createCollection/${chain.chain}`)
+                                                } else {
+                                                    //alert("Switch to binance chain")
+                                                    toast.error(`Switch to Selected chain`,
+                                                        {
+                                                            duration: 3000,
+                                                        }
+                                                    )
+                                                }
+                                            }
+                                            }
+                                        >
+                                            <img src={chain?.image} alt={chain.chain} />
+                                            <p>{chain?.name}</p>
+                                        </div>
+                                    ))
+                                }
+                                {/* <div
                                     className={`${style.optBox} ${style.disable}`}
                                     onClick={() => checkNetwork('eth')}
                                 >
@@ -110,7 +136,7 @@ const CreateCollectionOptions = () => {
                                 >
                                     <img src={Binance} alt="binance" />
                                     <p>Binance</p>
-                                </div>
+                                </div> */}
                                 {/* <div
                                     className={`${style.optBox} ${style.disable}`}
                                 //onClick={() => setChain('')}
