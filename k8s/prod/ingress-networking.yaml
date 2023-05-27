@@ -10,10 +10,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - 444staging.nftytribe.io
-      secretName: nftytribe-tls
+        - test-live.nftytribe.io
+      secretName: nftytribe-tls-test-live
   rules:
-    - host: 444staging.nftytribe.io
+    - host: test-live.nftytribe.io
       http:
         paths:
           - path: /
