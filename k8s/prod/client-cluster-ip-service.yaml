@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nftytribe-client-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    component: nftytribe-client
+  ports:
+    - port: 3001
+      targetPort: 3001
