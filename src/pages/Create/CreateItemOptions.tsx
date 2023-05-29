@@ -18,12 +18,14 @@ import UpdatePrompt from '../../components/Modals/UpdatePrompt/UpdatePrompt'
 import { useTranslation } from "react-i18next";
 import globals from '../../utils/globalVariables'
 import { ChainContext } from "src/context/chain";
+import { toast } from "react-hot-toast";
 
 
 const CreateItemOptions = () => {
   const {chain, setChain} = useContext(ChainContext)
   console.log(chain);
-  
+  const [selctedcChain, setSChain] = useState('')
+
   const currentChain = sessionStorage.getItem('chain')
   const [showModal, setShowModal] = useState<any>()
   const [showPrompt, setShowPrompt] = useState(false)
@@ -107,7 +109,7 @@ const CreateItemOptions = () => {
                   <span id="heroTitle">{t("Choose Collectible")}</span>{" "}
                 </h1>
                 <p>
-                  <span> Select NFT or Collection to get started</span>{" "}
+                <span> Create an Nft or Collection to get Started</span>{" "}
                 </p>
               </div>
               <div
@@ -141,7 +143,7 @@ const CreateItemOptions = () => {
         {showPrompt && <UpdatePrompt closePrompt={closePrompt} />}
 
        {!chose&& <div className={style.createOptions}>
-          {chain === "" ? (
+          {selctedcChain === "" ? (
             <div className={style.cOptContent1}>
               <div className={style.cOptTop}>
                 <h1>
@@ -156,53 +158,34 @@ const CreateItemOptions = () => {
                 className={`${style.cOptBody} animate__animated animate__fadeInUp animate__delay-1s`}>
                 <div className={style.optBoxes}>
 
-                  {
-                    chain?.map((chain:any)=>(
-                      <div
-                        className={`${style.optBox} ${style.disable}`}
-                        onClick={() => {
-                          checkNetwork('eth');
-                          //notify()
-                        }
-                        }
-                      >
-                        <img src={Eth} alt="eth" />
-                        <p>{chain.name}</p>
-                      </div>
-                    ))
+                  
+                    {
+                      chain?.map((chain: any) => (
+                        <div
+                          className={`${style.optBox} `}
+                          onClick={() => {
+                            if (currentChain === chain.chain) {
+                              setSChain(chain.chain)
+                             
+                            } else {
+                              //alert("Switch to binance chain")
+                              toast.error(`Switch to Selected chain`,
+                                {
+                                  duration: 3000,
+                                }
+                              )
+                            }
+                          }
+                          }
+                        >
+                          <img src={chain?.image} alt={chain.chain} />
+                          <p>{chain?.name}</p>
+                        </div>
+                      ))
+                  
                   }
-                  <div
-                    className={`${style.optBox} ${style.disable}`}
-                    onClick={() => {
-                      checkNetwork('eth');
-                      //notify()
-                    }
-                    }
-                  >
-                    <img src={Eth} alt="eth" />
-                    <p>Ethereum</p>
-                  </div>
-                  <div
-                    className={`${style.optBox} `}
-                    onClick={() => checkNetwork('binance')}
-                  >
-                    <img src={Binance} alt="binance" />
-                    <p>Binance</p>
-                  </div>
-                  {/* <div
-                    className={`${style.optBox} ${style.disable}`}
-                  //onClick={() => setChain('')}
-                  >
-                    <img src={Skale} alt="skale" />
-                    <p>Skale</p>
-                  </div> */}
-
-                  {/* <div
-                    className={`${style.optBox} ${style.disable}`}
-                    onClick={() => setChain("")}>
-                    <img src={Solana} alt="sol" />
-                    <p className={style.mg1}>Polygon</p>
-                  </div> */}
+              
+                
                 </div>
               </div >
             </div >
@@ -222,13 +205,13 @@ const CreateItemOptions = () => {
                 className={`${style.cOptBody} animate__animated animate__fadeInUp animate__delay-1s`}>
                 <div className={style.optBoxes2}>
                   <Link
-                    to={`/createItem/${chain}/single`}
+                    to={`/createItem/${selctedcChain}/single`}
                     className={style.optBox2}>
                     <img className={style.tImg} src={Polygon} alt="single" />
                     <p>{t("Single")}</p>
                   </Link>
                   <Link
-                    to={`/createItem/${chain}/multiple`}
+                    to={`/createItem/${selctedcChain}/multiple`}
                     className={`${style.optBox2} `}
                   >
                     <img className={style.tImg} src={Multiple} alt="single" />

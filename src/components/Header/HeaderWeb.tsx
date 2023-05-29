@@ -225,7 +225,7 @@ console.log(showConnect);
                   <Link to="/createOptions">
                     <p>{t("create")}</p>
                   </Link>
-                 <a href="" style={{fontWeight:'bolder'}}>
+                 <a href="artexpo.nftytribe.io" style={{fontWeight:'bolder'}}>
                     Art Expo
                   </a>
                 </div>

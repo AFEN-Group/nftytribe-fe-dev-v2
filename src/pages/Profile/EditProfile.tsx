@@ -229,7 +229,7 @@ const navigate=useNavigate()
                   <TextInput
                     type="email"
                     inputName="email"
-                    holder={user?.email?user?.email:"Enter email e.g youremail@example.com"}
+                    holder={user?.email?user?.email:" youremail@example.com"}
                     inputHandler={inputHandler}
                     value={userInput.email}
                   />
@@ -250,7 +250,7 @@ const navigate=useNavigate()
                     inputName="twitter"
                     type="text"
                     inputHandler={inputHandler}
-                    holder=" http://twitter.com/your username"
+                    holder=" https://twitter.com/your username"
                     value={userInput.twitter}
                   />
                 </div>
@@ -261,7 +261,7 @@ const navigate=useNavigate()
                     inputName="website"
                     type="text"
                     inputHandler={inputHandler}
-                    holder="Enter your website url e.g http://www.xyz.io"
+                    holder="Enter your website url "
                     value={userInput.website}
                   />
                 </div>

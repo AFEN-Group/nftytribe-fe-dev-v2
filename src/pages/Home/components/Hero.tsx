@@ -98,7 +98,7 @@ const Hero = (props:any) => {
                       {/* {t("description")}
                        */}
                       NftyTribe is a multi-chain NFT marketplace facilitating next-level experiences in exchanging NFTs. 
-                      <br />Users can also trade and seamlessly exchange physical collectibles tied to NFTs
+                   Users can also trade and seamlessly exchange physical collectibles tied to NFTs
                     </span>
                   </p>
                   <div

@@ -182,6 +182,15 @@ const CreateItems = () => {
       ) {
         // console.log(value);
       } else {
+
+        if(event.target.name==='royalties'){
+          if(Number(value)>10) toast.error('Royalties Cant be more than 10%')
+          else setUserInput({
+            ...userInput,
+            [event.target.name]: value,
+          });
+        }
+        else
         setUserInput({
           ...userInput,
           [event.target.name]: value,

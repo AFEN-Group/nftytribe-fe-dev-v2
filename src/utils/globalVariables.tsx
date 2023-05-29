@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-console.log(window.location.host);
+// console.log(window.location.host);
 
 export default {
     baseURL: window.location.host.includes('localhost') || window.location.host.includes('staging') ? 'https://Dev.api.v2.nftytribe.io' :'https://test-api.nftytribe.io',

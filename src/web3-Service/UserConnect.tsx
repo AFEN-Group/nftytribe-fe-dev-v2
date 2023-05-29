@@ -125,6 +125,7 @@ const UserConnect = () => {
   )
   const [chain, setChain] = useState()
   const { loading, Response, error, fetchData } = UseAxios()
+  
   const connectToMetaMask = async () => {
     if (window.ethereum) {
       console.log(window.ethereum.chainId);
@@ -132,8 +133,42 @@ const UserConnect = () => {
         const accounts = await window.ethereum.request({
           method: 'eth_requestAccounts',
         })
-        // if (window.ethereum.chainId === '0x1' || window.ethereum.chainId === '0x38') { // for both eth and bnb on mainnet
+        if (window.location.host.includes('localhost') || window.location.host.includes('staging')){
           if (window.ethereum.chainId === '0x4' || window.ethereum.chainId === '0x61') { // for both testnet eth and bn
+            //if (window.ethereum.chainId === '0x61') { // for testnet bsc
+            //if (window.ethereum.chainId === '0x1') { // for eth only
+            // console.log(window.ethereum.chainId)
+            sessionStorage.setItem('chain', window.ethereum.chainId)
+            sessionStorage.setItem('currentAccount', accounts[0])
+            setUserInfo({
+              ...userInfo,
+              account: accounts[0],
+              chain: window.ethereum.chainId,
+            })
+            setUserState({ ...userState, currentAccount: accounts[0], walletType: 'Metamask' })
+
+            console.log('connected');
+
+            setWalletType("MetaMask")
+
+
+
+
+            setWalletError('')
+          } else {
+            toast.error(`Wrong network, please switch to recommended networks!`,
+              {
+                duration: 5000,
+              }
+            )
+            //console.log(window.ethereum.chainId);
+
+          }
+        }
+
+        else{
+            if (window.ethereum.chainId === '0x1' || window.ethereum.chainId === '0x38') { // for both eth and bnb on mainnet
+         // if (window.ethereum.chainId === '0x4' || window.ethereum.chainId === '0x61') { // for both testnet eth and bn
           //if (window.ethereum.chainId === '0x61') { // for testnet bsc
           //if (window.ethereum.chainId === '0x1') { // for eth only
           // console.log(window.ethereum.chainId)
@@ -163,6 +198,8 @@ const UserConnect = () => {
           //console.log(window.ethereum.chainId);
 
         }
+        }
+       
         // console.log("network1 >> ", window.ethereum.chainId);
       } catch (err) {
         console.log(err)
@@ -370,7 +407,7 @@ const UserConnect = () => {
         try {
           sessionStorage.removeItem('currentAccount')
           sessionStorage.removeItem('chain')
-          //sessionStorage.removeItem('user')
+        
           setUserInfo({
             ...userInfo,
             chain: ' ',

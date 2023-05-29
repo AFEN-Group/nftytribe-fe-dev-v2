@@ -78,14 +78,14 @@ const About = () => {
               <img src={logo3} alt="logo3" />
             </div>
             <div className={style.angel}>
-              <img src={require('../../assets/usd.png')} alt="logo1" />
+              <img style={{width:'100px',minWidth:'unset'}} src={require('../../assets/usd.png')} alt="logo1" />
             </div>
 
             <div className={style.angel}>
               <img src={logo6} alt="logo1" />
             </div>
             <div className={style.angel}>
-              <img src={dark === "true" ? meta : meta1} alt="logo5" id="logo5" />
+              <img style={{ width: '200px' }} src={dark === "true" ? meta : meta1} alt="logo5" id="logo5" />
             </div>
           </div>
         </div>
