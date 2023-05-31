@@ -21,7 +21,7 @@ import User2 from './assets/user4.svg'
 // import Eye2 from './assets/eye2.svg'
 import Container from '../../../components/Container/Container'
 import toast from 'react-hot-toast'
-
+import contracts from '../../../web3-Service/contractAddress'
 import erc721Abi from '../../../smart_contracts/erc721Mintable.json'
 import erc1155Abi from '../../../smart_contracts/erc1155Mintable.json'
 import erc1155MarketplaceAbi from "../../../smart_contracts/erc1155Market.json"
@@ -132,7 +132,7 @@ const ExploreSingle = () => {
           erc721Contract = new web3.eth.Contract(erc721Abi, collectionAddress)
           marketPlaceContract = new web3.eth.Contract(
             marketPlaceAbi,
-            contract_address,
+            contracts.BSC_erc721MarketplaceAddress,
           )
           if (nftDetails.is_multiple) {
             erc1155Contract = new web3.eth.Contract(erc1155Abi, collectionAddress)
