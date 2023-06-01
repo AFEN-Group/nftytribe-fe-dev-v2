@@ -5,7 +5,7 @@
     background: linear-gradient(116.82deg,
             rgba(255, 255, 255, 0.48) 0%,
             rgba(196, 196, 196, 0.14) 100%);
-    position: fixed;
+    position: fixed !important;
     @include flexRegular(column, center);
     //background: rgba(23, 18, 20, 0.32);
     // box-shadow: inset 0px 1px 100px rgba(0, 0, 0, 0.2);

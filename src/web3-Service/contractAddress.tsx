@@ -50,11 +50,11 @@ export default window.location.host.includes('staging') || window.location.host.
   BSC_erc721FactoryAddress: '0x69be9013C65E00Bc7894bCF80F296124d6A580A3',//main
     BSC_erc721MarketplaceAddress: '0x7f0E2996B10F1D99a7644042424f08c47AEF4d90',
   // BSC_PhysicalItem: '0x632B0d4135fcda8Ca662faAead4FAb558d24b818',
-  BSC_PhysicalItem: '0x59d36cca2f1425e66F0fc458c17Ec9d54021FA2d'
+    BSC_PhysicalItem: '0x482e0FEbd03460AfB52a3c3e2140744380D6fE82'
   // '0x71F722A1F16AF147e2fa088224BF1f0955f1075a'
   ,//test
   // BSC_erc721MarketplaceAddress: '0xb80a5067c6373c8d53dae3f1bf0b1aea83349b92',//main
-  physical_market: '0xB1d6A5552483FC639713644F135982c5f1761459',
+    physical_market: '0x9771e7c93d9b031045dD466b04aC716cA77bc98b',
   //BSC_erc1155MintableAdddress: '0xE1C075aA57722FbAd50BE4C87737fD9495aA0e1e',
   BSC_erc1155MintableAdddress: '0xceef91849d0871f8fab17ee4623e08406ecafef4',
   //BSC_erc1155FactoryAdddress: '0x01D5E051e07D4460D4C098f91a060cA3a25FCD57',

@@ -124,7 +124,7 @@
 
 .overlay{
     background: rgba(0, 0, 0, 0.15);
-    position: fixed;
+    position: fixed !important;
     z-index: 999999;
     display: flex;
     align-items: center;
