@@ -8,7 +8,8 @@ import Happy from './assets/happy.svg'
 import globals from '../../utils/globalVariables'
 import UseAxios from '../../hooks/AxiosConfig/useAxios'
 import Protected from '../../hooks/AxiosConfig/axiosInstance'
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
+import { ChainContext } from 'src/context/chain'
 //import { CircularProgress } from '@material-ui/core'
 
 const Import = (props: any) => {
@@ -21,7 +22,7 @@ const Import = (props: any) => {
   const [isEmpty, setIsEmpty] = useState(true)
   const [imported, setImported] = useState(false)
   const [err, setErr] = useState(0)
-
+ const {chain,setChain}=useContext(ChainContext)
   const inputHandler = (event: any) => {
     setIsEmpty(true)
     //console.log(event.target.value)
@@ -110,9 +111,9 @@ const Import = (props: any) => {
                   <select name="chain" onChange={inputHandler}>
                     {/* <option value="rinkeby">Rinkeby</option>
                     <option value="bsc testnet">BSC Testnet </option> */}
-                    <option value="0x1">Ethereum</option>
-                    <option value="0x61">Binance</option>
-
+                   {chain?.map((chain:any)=>(
+                     <option value={chain.chain}>{chain.name}</option>
+                   ))}
                   </select>
                 </div>
                 <div className={style.modalInput}>
