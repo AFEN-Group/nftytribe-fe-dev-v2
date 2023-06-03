@@ -18,11 +18,13 @@ import erc1155MintableAbi from '../../../smart_contracts/erc1155Mintable.json'
 import erc1155MarketplaceAbi from '../../../smart_contracts/erc1155Market.json'
 import TextInput from '../../../components/Inputs/TextInput'
 import SelectOption from '../../../components/Inputs/SelectOption3'
+import SelectOption1 from '../../../components/Inputs/SelectOption'
 import SelectDate from '../../../components/Inputs/SelectDate'
 import globals from '../../../utils/globalVariables'
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
 import moment from 'moment'
+import { TokenContext } from 'src/App'
 
 
 declare const window: any
@@ -54,7 +56,7 @@ const PutOnSaleModal = (props: any) => {
         to:moment().add(30,'days').unix(),
         erc20:''
     })
-    console.log(contracts.BSC_erc721MarketplaceAddress);
+   
     const abi:any= tokenAbi.abi
     const handleSubmit = async (e: any) => {
         e.preventDefault()
@@ -96,8 +98,8 @@ const PutOnSaleModal = (props: any) => {
             )
         }
     }
-    
-    
+    console.log(onsaleParams)
+    const tokens:any=useContext(TokenContext)
   
     return (
         <div className={style.bm}>
@@ -154,7 +156,22 @@ const PutOnSaleModal = (props: any) => {
                             </div>
 
                             <div className={style.pricesBx}>
-                                <div className={style.fieldBx}>
+                               <div className={style.fieldBx}>
+                                    <p>Enter ERC20 Address</p><br />
+                                    <SelectOption1
+                                        options={tokens?.map((category: any) => {
+                                            return { value: category.tokenAddress, text: category.tokenName }
+                                        })}
+                                        inputName={'erc20'}
+                                        inputHandler={(e: any) => {
+                                            setParams({ ...onsaleParams, [e.target.name]: e.target.value })
+
+                                        }}
+                                        value={onsaleParams.erc20}
+                                        required
+                                    />
+                                </div>  
+                                 <div className={style.fieldBx}>
                                     <p>Enter amount (ETH)</p><br />
                                     <TextInput
                                         type="tel"
@@ -168,20 +185,7 @@ const PutOnSaleModal = (props: any) => {
                                         required
                                     />
                                 </div> 
-                                <div className={style.fieldBx}>
-                                    <p>Enter ERC20 Address</p><br />
-                                    <TextInput
-                                        type="tel"
-                                        inputName="erc20"
-                                        holder="Enter Address"
-                                        inputHandler={(e: any) => {
-                                            setParams({ ...onsaleParams, [e.target.name]: e.target.value })
-
-                                        }}
-                                        value={onsaleParams.erc20}
-                                        required
-                                    />
-                                </div>
+                              
                                 <div className={style.fieldBx}>
                                     <p>Choose market type</p><br />
                                     <SelectOption

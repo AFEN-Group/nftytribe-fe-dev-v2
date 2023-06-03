@@ -201,7 +201,7 @@ const BuyModal = (props: any) => {
     }
   
   }
-  console.log(props.nft);
+  console.log(props.nft,  props.nft?.moreInfo);
   
   return (
     <div className={style.bm}>
@@ -269,13 +269,13 @@ const BuyModal = (props: any) => {
               <div className={style.pricesBx}>
                 <div className={style.pbItem}>
                   <p>Service pay </p>
-                  <p>0.001 {props.nftDetails?.chain === "eth" ? 'ETH' : props.nftDetails?.chain === "bsc" ? 'BNB' : ''}</p>
+                  <p>0.001 {props.nft?.chain === "eth" ? 'ETH' : props.nftDetails?.chain === "bsc" ? 'BNB' : ''}</p>
                 </div>
                 <div className={style.pbItem}>
                   <p>Amount </p>
                   <p>
                     {props.nft?.price || ''}{' '}
-                    {props.nftDetails?.chain === "eth" ? 'ETH' : props.nftDetails?.chain === "bsc" ? 'BNB' : ''}
+                    {props.nft?.moreInfo.erc20TokenSymbol}
                   </p>
                 </div>
                 {props?.nftDetails?.is_multiple && (

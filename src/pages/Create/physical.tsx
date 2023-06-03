@@ -14,10 +14,12 @@ import contracts from '../../web3-Service/contractAddress'
 import marketPlaceAbi from '../../smart_contracts/physical.json'
 import TextInput from '../../components/Inputs/TextInput'
 import SelectOption from '../../components/Inputs/SelectOption3'
+import SelectOption1 from '../../components/Inputs/SelectOption'
 
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
 import moment from 'moment'
+import { TokenContext } from 'src/App'
 
 
 declare const window: any
@@ -30,7 +32,9 @@ const PutOnSaleModal = (props: any) => {
         sessionStorage.getItem('currentAccount'),
     )
 
-
+  const tokens:any=useContext(TokenContext)
+  console.log(tokens);
+  
     const [completed, setCompleted] = useState(false)
 
     const marketType = [
@@ -57,7 +61,7 @@ const PutOnSaleModal = (props: any) => {
         const wallet_address = sessionStorage.getItem('currentAccount')
         if (window.ethereum && wallet_address) {
             //  @ts-ignore
-            // const TokenContract = new web3.eth.Contract(erc721Abi, props.collectionAddress)
+           
             // @ts-ignore
 
             const marketPlaceContract = new web3.eth.Contract(marketPlaceAbi,
@@ -167,15 +171,16 @@ const PutOnSaleModal = (props: any) => {
                                 </div>
                                 <div className={style.fieldBx}>
                                     <p>Enter ERC20 Address</p><br />
-                                    <TextInput
-                                        type="tel"
+                                    <SelectOption1
+                                        options={tokens?.map((category: any) => {
+                                            return { value: category.tokenAddress, text: category.tokenName }
+                                        })}
                                         inputName="erc20"
-                                        holder="Enter Address"
+ 
                                         inputHandler={(e: any) => {
                                             setParams({ ...onsaleParams, [e.target.name]: e.target.value })
 
                                         }}
-                                        value={onsaleParams.erc20}
                                         required
                                     />
                                 </div>

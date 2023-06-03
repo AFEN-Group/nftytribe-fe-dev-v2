@@ -41,6 +41,7 @@ import Protected from '../../hooks/AxiosConfig/axiosInstance'
 import { UserContext } from '../../context/UserContext'
 import UseAxios from '../../hooks/AxiosConfig/useAxios'
 import PutOnSaleModal from './physical'
+import { TokenContext } from 'src/App'
 
 declare const window: any
 
@@ -337,7 +338,7 @@ const CreateItems = () => {
     else return
   }, [Response])
   const { t } = useTranslation();
-
+const tokens:any=useContext(TokenContext)
 
 
 
@@ -435,14 +436,22 @@ const CreateItems = () => {
               {isPhysical && <> 
                 <div className={style.fieldBx}>
                   <p>Erc20 token</p>
-                  <TextInput
+                  <SelectOption
+                    options={tokens?.map((category: any) => {
+                      return { value: category.tokenAddress, text: category.tokenName }
+                    })}
+                    inputName="erc20"
+                    inputHandler={inputHandler}
+                    value={userInput.erc20}
+                  />
+                  {/* <TextInput
                     type="text"
                     inputName="erc20"
                     holder={`Enter ERC20 token address`}
                     // max="12"
                     inputHandler={inputHandler}
                     value={userInput.erc20}
-                  />
+                  /> */}
                   {/* <div className={style.iDesc}><p>({currentChain === globals.mainnetEth.chainId ? 'ETH' : currentChain === globals.mainnetBsc.chainId ? 'BNB' : ''} price)</p></div> */}
 
                 </div>
@@ -451,12 +460,18 @@ const CreateItems = () => {
                   <TextInput
                     type="text"
                     inputName="price"
-                    holder={`Enter ${currentChain === '0x1' ? 'ETH' : currentChain === '0x38' ? 'BNB' : ''} Price`}
+                    holder={`Enter ${tokens?.map((token:any)=>{if(token?.tokenAddress==userInput?.erc20){
+                      return token.tokenSymbol
+                    }})[0]||''} Price`}
                     max="12"
                     inputHandler={inputHandler}
                     value={userInput.price}
                   />
-                  {/* <div className={style.iDesc}><p>({currentChain === globals.mainnetEth.chainId ? 'ETH' : currentChain === globals.mainnetBsc.chainId ? 'BNB' : ''} price)</p></div> */}
+                  <div className={style.iDesc}><p>({tokens?.map((token: any) => {
+                    if (token?.tokenAddress == userInput?.erc20) {
+                      return token.tokenSymbol
+                    }
+                  })[0] +' price' || ''} )</p></div>
 
                 </div>
               

@@ -152,7 +152,7 @@ const loginData=UseAxios()
       });
 
      
-      console.log(response);
+   
 
       sessionStorage.setItem("walletType", userState?.walletType);
       setTimeout(() => {
@@ -163,10 +163,10 @@ const loginData=UseAxios()
       console.log(err);
     }
   };
-  console.log(userState);
+  
 
   useEffect(() => {
-    const current = sessionStorage.getItem("currentAccount");
+  
    
     getChains({
       method: "get",
@@ -208,7 +208,6 @@ const loginData=UseAxios()
   },[userState?.user])
   
 
-
   
  
   const getPrices=UseAxios()
@@ -220,13 +219,14 @@ const loginData=UseAxios()
       axiosInstance:Protected(sessionStorage.getItem('token')),
       requestConfig:{
         chainId:sessionStorage.getItem('chain'),
-        addresses: []
+      
       }
 
     })
   },[])
-  const token:any =getPrices.Response?.data
+  const tokens:any =getPrices.Response?.data
   const [showConnect,setShowConnect]=useState<any>(false)
+   console.log(tokens);
    
   return (
     <Web3ContextProvider>
@@ -235,7 +235,7 @@ const loginData=UseAxios()
       <ChainContext.Provider value={{ chain,socketState }}>
         <LanguageContext.Provider value={langState}>
           <WalletContext.Provider value={data}>
-            <TokenContext.Provider value={token}>
+            <TokenContext.Provider value={tokens}>
             <>
               <div className="app">
                 <Toaster />
