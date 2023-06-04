@@ -79,7 +79,7 @@ const PutOnSaleModal = (props: any) => {
                 try {
                    console.log(props.id,onsaleParams.amount);
                   const  decimal=parseInt(await token.methods.decimals().call({from:wallet_address}))
-                  let amount = parseInt(onsaleParams.amount)*10**decimal
+                  let amount = Number(onsaleParams.amount)*10**decimal
                   console.log();
                   
                     await marketPlaceContract.methods.putOnSale(props.id,JSON.stringify(amount),onsaleParams.marketType,onsaleParams.from,onsaleParams.to,props.collectionAddress,onsaleParams.erc20).send({from:wallet_address})
@@ -158,6 +158,17 @@ const PutOnSaleModal = (props: any) => {
                             <div className={style.pricesBx}>
                                <div className={style.fieldBx}>
                                     <p>Enter ERC20 Address</p><br />
+                                    {/* <TextInput
+                                        type="text"
+                                        inputName="erc20"
+                                        holder="Enter amount"
+                                        inputHandler={(e: any) => {
+                                            setParams({ ...onsaleParams, [e.target.name]: e.target.value })
+
+                                        }}
+                                        value={onsaleParams.erc20}
+                                        required
+                                    /> */}
                                     <SelectOption1
                                         options={tokens?.map((category: any) => {
                                             return { value: category.tokenAddress, text: category.tokenName }
@@ -172,7 +183,11 @@ const PutOnSaleModal = (props: any) => {
                                     />
                                 </div>  
                                  <div className={style.fieldBx}>
-                                    <p>Enter amount (ETH)</p><br />
+                                    <p>Enter amount ({tokens?.map((token: any) => {
+                                        if (token?.tokenAddress === onsaleParams?.erc20) {
+                                            return token.tokenSymbol
+                                        }
+                                    })[0]})</p><br />
                                     <TextInput
                                         type="tel"
                                         inputName="amount"
