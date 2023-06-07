@@ -428,7 +428,7 @@ const Sold = (props:any)=>{
         </div>
         <div className="quantity">{item.amount}</div>
        {item.buyer && <div className="address">{shortenAddress(item?.buyer?.walletAddress )}</div>}
-        <div className="value">{parseInt(item.price)} {item?.erc20Info?.symbol}</div>
+        <div className="value">{Number(item.price)} {item?.erc20Info?.symbol}</div>
       </div>
           ))
         }
@@ -548,7 +548,7 @@ const Item= (data:any)=>{
           <div className="name">{data?.nftData?.metadata?.name || data?.nftData?.moreInfo?.name || data?.nftData?.name || data?.nftData?.listingInfo?.name}</div>
           {(data.nftData?.moreInfo || data.nftData?.listingInfo) && <div className="price">
           <div>Floor</div>
-          {parseInt(data.nftData.price) + ' '} 
+          {Number(data.nftData.price) + ' '} 
             {data.nftData?.moreInfo?.erc20TokenSymbol || data.nftData?.erc20Info?.symbol}
          </div>}
      </div>

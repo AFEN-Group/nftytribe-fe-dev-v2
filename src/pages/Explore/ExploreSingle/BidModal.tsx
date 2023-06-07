@@ -101,7 +101,7 @@ const BidModal = (props: any) => {
     let erc721Contract
     let web3: any
     if (window.ethereum && wallet_address) {
-      const startPrice = parseInt(props.nft?.price)
+      const startPrice = Number(props.nft?.price)
       console.log("bid price", userInput.bid)
       console.log("actual price", startPrice)
 
@@ -126,7 +126,7 @@ const BidModal = (props: any) => {
               { from: userWallet }
             )
             // console.log(decimal);
-            const amount = parseInt(userInput.bid) * (10 ** decimal)
+            const amount = Number(userInput.bid) * (10 ** decimal)
             // console.log(amount);
 
 

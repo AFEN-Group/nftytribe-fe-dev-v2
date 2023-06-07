@@ -245,7 +245,7 @@ const ItemCard = (data: any) => {
             className={`${style.descBox1} animate__animated animate__fadeIn `}
           >
            <h3 style={{margin:'0'}}>
-               {parseInt(data?.nftData?.price)}{data?.nftData?.moreInfo?.erc20TokenSymbol}
+               {Number(data?.nftData?.price)}{data?.nftData?.moreInfo?.erc20TokenSymbol}
            </h3>
           {data?.nftData?.listingType!=='NORMAL'&& <h3>
               {et}

@@ -104,13 +104,13 @@ const CollectionCard = (data: any) => {
              <div>
               <p>Volume</p>
               <h3>
-                {data?.data?.volume?.toPrecision(4)||0}BSC
+                {data?.data?.volume?.toPrecision(4)||0}
               </h3>
              </div>
             <div>
             <p>Floor</p>
             <h3>
-              {data?.data?.floorPrice && data?.data?.floorPrice.slice(0,4)||0}ETH
+              {data?.data?.floorPrice && data?.data?.floorPrice.slice(0,4)||0}
             </h3>
           </div>
           </div>
