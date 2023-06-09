@@ -433,7 +433,7 @@ console.log(nft,userState);
                         {/* <p>{nft?.amount} BNB</p> */}
                         {nft?.price ? (
                           <p>
-                            {parseInt(nft?.price, 10).toString() ||
+                            {Number(nft?.price).toString() ||
                               ''}{' '}
                             {nft.moreInfo.erc20TokenName}
                           </p>
@@ -713,7 +713,7 @@ const DTPopUp=(props:any)=>{
             { from: userWallet }
           )
           // console.log(decimal);
-          const amount = (parseInt(props.nft.price)+(deliveryInToken()?deliveryInToken():0)) * (10 ** decimal)
+          const amount = (Number(props.nft.price)+(deliveryInToken()?deliveryInToken():0)) * (10 ** decimal)
           // console.log(amount);
 
           console.log(amount);

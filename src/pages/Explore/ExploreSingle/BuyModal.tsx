@@ -82,7 +82,7 @@ const BuyModal = (props: any) => {
     } else {
       setUserInput({
         ...userInput,
-        [event.target.name]: parseInt(value),
+        [event.target.name]: Number(value),
       })
       setValidated(true)
     }
@@ -124,7 +124,7 @@ const BuyModal = (props: any) => {
             {from:userWallet}
           )
           // console.log(decimal);
-          const amount= parseInt(props.nft.price)*(10**decimal)
+          const amount= Number(props.nft.price)*(10**decimal)
           // console.log(amount);
           
           
@@ -151,10 +151,10 @@ const BuyModal = (props: any) => {
 
         console.log(buyDetails, userInput.quantity, 'got details')
         if (userInput.quantity) {
-          totalPrice = parseInt(buyDetails.price, 10) * parseInt(userInput.quantity)
+          totalPrice = Number(buyDetails.price) * Number(userInput.quantity)
         }
 
-        console.log(props?.nftDetails?.collection_address, parseInt(props?.nftDetails?.token_id), props?.nftDetails?.owner ? props?.nftDetails?.owner : props?.nftDetails?.wallet_address, parseInt(userInput.quantity), totalPrice)
+        // console.log(props?.nftDetails?.collection_address, parseInt(props?.nftDetails?.token_id), props?.nftDetails?.owner ? props?.nftDetails?.owner : props?.nftDetails?.wallet_address, parseInt(userInput.quantity), totalPrice)
 
         const buy = await marketPlaceContract.methods.buy(props?.nftDetails?.collection_address, parseInt(props?.nftDetails?.token_id), props?.nftDetails?.owner ? props?.nftDetails?.owner : props?.nftDetails?.wallet_address, parseInt(userInput.quantity))
           .send({ from: userWallet, value: totalPrice?.toString() })

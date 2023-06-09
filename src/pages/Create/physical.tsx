@@ -78,7 +78,7 @@ const PutOnSaleModal = (props: any) => {
             try {
                 console.log(props.id, onsaleParams.amount);
                 const decimal = parseInt(await token.methods.decimals().call({ from: wallet_address }))
-                let amount = parseInt(onsaleParams.amount) * 10 ** decimal
+              
                 console.log(marketPlaceContract.methods);
                 
                 // await marketPlaceContract.methods.putOnSale(props.id, JSON.stringify(amount), onsaleParams.marketType, onsaleParams.from, onsaleParams.to, props.collectionAddress, onsaleParams.erc20).send({ from: wallet_address })

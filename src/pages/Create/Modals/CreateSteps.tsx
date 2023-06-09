@@ -77,7 +77,7 @@ const wallet_address=sessionStorage.getItem('currentAccount')
     await TokenContract.methods.approve(contracts.BSC_PhysicalItem, props.mintedId).send({ from: wallet_address })
 
     const decimal = parseInt(await token.methods.decimals().call({ from: wallet_address }))
-    let amount = parseInt(props.price) * 10 ** decimal
+    let amount = Number(props.price) * 10 ** decimal
 
 
     await physicalContract.methods.putOnSale(props.mintedId,
