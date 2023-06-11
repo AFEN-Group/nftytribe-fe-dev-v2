@@ -98,10 +98,12 @@ const EditProfile = () => {
             email:userInput.email
           }
          })
+        
           
-          setShowOtp(true)
         } catch (err) {
           console.log(err)
+          console.log("error");
+          
         }
       } else {
         setUpdated(true)
@@ -109,7 +111,7 @@ const EditProfile = () => {
       setIsLoading(false)
     
      
-    
+      setShowOtp(true)
 
     } catch (err) {
       console.log(err)

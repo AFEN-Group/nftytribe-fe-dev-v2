@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next";
 import globals from '../../utils/globalVariables'
 import { ChainContext } from "src/context/chain";
 import { toast } from "react-hot-toast";
+import { UserContext } from "src/context/UserContext";
 
 
 const CreateItemOptions = () => {
@@ -94,10 +95,11 @@ const CreateItemOptions = () => {
 
 
   const { t } = useTranslation();
-  console.log(chain)
+  const {userState,setUserState}=useContext(UserContext)
   const [chose,setCreate]=useState(true)
   return (
     <>
+      {/* {showPrompt && <UpdatePrompt closePrompt={closePrompt} />} */}
     {
         chose && <div className={style.createOptions}>
         
@@ -164,6 +166,7 @@ const CreateItemOptions = () => {
                         <div
                           className={`${style.optBox} `}
                           onClick={() => {
+                            if (userState?.user?.email){
                             if (currentChain === chain.chain) {
                               setSChain(chain.chain)
                              
@@ -175,6 +178,8 @@ const CreateItemOptions = () => {
                                 }
                               )
                             }
+                          }
+                          else setShowPrompt(!showPrompt)
                           }
                           }
                         >

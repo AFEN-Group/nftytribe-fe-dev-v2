@@ -20,6 +20,7 @@ import physicalAbi from '../../../smart_contracts/physical.json'
 import erc721CollectionAbi from '../../../smart_contracts/erc721Collection.json'
 import tokenAbi from '../../../smart_contracts/afenToken.json'
 import { UserContext } from 'src/context/UserContext'
+import { toast } from 'react-hot-toast'
 
 
 
@@ -56,6 +57,13 @@ const CreateSteps = (props: any) => {
   const categ=UseAxios()
   const create = UseAxios()
   const verify = UseAxios()
+  
+
+  
+  useEffect(()=>{
+    if(verify.error) toast.error('verify.error.data.message.message')
+  },[verify.error])
+  // console.log();
   // @ts-ignore
   const web3 = new Web3(window.ethereum)
 const {userState}=useContext(UserContext)
@@ -65,13 +73,15 @@ const wallet_address=sessionStorage.getItem('currentAccount')
     const physicalContract = new web3.eth.Contract(physicalAbi,
       contracts.BSC_PhysicalItem,
     )
+    console.log(erc721CollectionAbi, props.collection_address);
+    
     //  @ts-ignore
     const TokenContract = new web3.eth.Contract(erc721CollectionAbi, props.collection_address)
-    // console.log(await physicalContract.methods);
+   
     // @ts-ignore
 
     const token = new web3.eth.Contract(tokenAbi.abi, props.erc20)
-
+     console.log(TokenContract);
    
 
     await TokenContract.methods.approve(contracts.BSC_PhysicalItem, props.mintedId).send({ from: wallet_address })
@@ -96,7 +106,8 @@ const wallet_address=sessionStorage.getItem('currentAccount')
   }
   console.log(create.Response);
   
-  useEffect(() => { if (create.Response) List() }, [create.Response])
+  useEffect(() => { if (create.Response) {console.log('hi');
+   List()} }, [create.Response])
   useEffect(() => { if (verify.Response) {
     setUserInput({...userInput,address_code:verify.Response.data.address_code})
     props.handleSteps(10)
