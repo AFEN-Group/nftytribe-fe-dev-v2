@@ -697,13 +697,13 @@ const DTPopUp=(props:any)=>{
           
           
           return token.tokenAddress===props.nft.moreInfo.erc20TokenAddress})
-         const priceIntoken= onsaleParams.rates/erc20[0]?.usdPrice
+         const priceIntoken= onsaleParams.rates/(erc20[0]?.usdPrice + 0.2)
 
          return priceIntoken
         } 
        
       erc20token = new web3.eth.Contract(erc20.abi, props.nft.moreInfo.erc20TokenAddress)
-      console.log(erc20.abi, props.nft.moreInfo.erc20TokenAddress)
+      // console.log(erc20.abi, props.nft.moreInfo.erc20TokenAddress)
 
       if (props?.nft?.amount < 2) {
         try {
@@ -957,7 +957,8 @@ const DTPopUp=(props:any)=>{
          
          <div className="checkout">
           <div><span>Delivery Mode</span> <span>{onsaleParams?.service}</span></div>
-          <div><span>Delivery Fee</span><span>${onsaleParams?.rates}</span></div>
+            <div><span>Delivery Fee</span><span>${onsaleParams?.rates}</span></div>
+            <div><span>Total Fee</span><span>${onsaleParams?.service + onsaleParams?.rates}</span></div>
          </div>
         <p>Item can be shipped to Nigeria, Ghana, South Africa only.</p>
             <div className={'Btns'}>
