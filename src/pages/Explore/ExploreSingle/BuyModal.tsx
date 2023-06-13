@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import useState from 'react-usestateref'
 //import { ThemeContext } from '../../../context/ThemeContext'
 //import useState from 'react-usestateref'
@@ -20,6 +20,7 @@ import globals from '../../../utils/globalVariables'
 import { motion } from 'framer-motion'
 import erc20 from '../../../smart_contracts/afenToken.json'
 import {WhatsappShareButton} from 'react-share'
+import { UserContext } from 'src/context/UserContext'
 
 
 declare const window: any
@@ -45,7 +46,7 @@ const BuyModal = (props: any) => {
   const [erc1155MintableAddress, setErc1155MintableAddress] = useState<any>('')
   const [erc1155MarketplaceAddress, setErc1155MarketplaceAddress] = useState<any>('')
   const [chainId, setChainId, chainIdRef] = useState<string>()
-
+   const {userState,setUserState}=useContext(UserContext)
   
   
   useEffect(() => {
@@ -247,10 +248,7 @@ const BuyModal = (props: any) => {
                   <span className="blueTxt">
                     <strong>
                       {' ' +
-                        shortenAddress(
-                          props.nft?.user.walletAddress ||
-                          props.nftDetails?.wallet_address,
-                        ) || ''}{' '}
+                        userState?.user?.username }{' '}
                     </strong>
                   </span>
                 </p>
@@ -259,7 +257,7 @@ const BuyModal = (props: any) => {
               <div className={style.modalBody2}>
                 <div className={style.addrBox}>
                   <img src={user} alt="user" />
-                  {shortenAddress(userWallet) || ''}
+                  {userState?.user?.username || ''}
 
                   <div className={style.connectedBox}>
                     <p>Connected</p>
