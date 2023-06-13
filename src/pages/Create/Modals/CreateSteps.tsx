@@ -108,7 +108,9 @@ const wallet_address=sessionStorage.getItem('currentAccount')
       moment().add(30, 'days').unix(),
       '0',
       props.collection_address,
-      props.erc20,// @ts-ignore
+      // '0x3807C468D722aAf9e9A82d8b4b1674E66a12E607',
+      props.erc20,
+      // @ts-ignore
       web3.utils.asciiToHex(create?.Response?.key ?? create?.Response.data.key))
       .send({ from: wallet_address })
 
@@ -300,7 +302,7 @@ const wallet_address=sessionStorage.getItem('currentAccount')
                      
                       "name": userInput.name,
                       "phone": userInput.phone,
-                      "address": `${userInput.address},${userInput.country},${userInput.state}`
+                      "address": `${userInput.address},${userInput.state},${userInput.country}`
                     }
                   })
                 }}>
