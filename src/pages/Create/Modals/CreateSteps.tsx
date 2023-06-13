@@ -25,7 +25,8 @@ import { toast } from 'react-hot-toast'
 
 
 const CreateSteps = (props: any) => {
-  const [validated, setValidated] = useState(false)
+ console.log(props.mintedId);
+ 
  const [listing,setListing]=useState(false)
   const [userInput, setUserInput] = useState<any>({
  
@@ -61,9 +62,9 @@ const CreateSteps = (props: any) => {
 
   
   useEffect(()=>{
-    if(verify.error) toast.error('verify.error.data.message.message')
+    if(verify.error) toast.error(verify?.error?.data?.message.message)
   },[verify.error])
-  // console.log();
+  
   // @ts-ignore
   const web3 = new Web3(window.ethereum)
 const {userState}=useContext(UserContext)
@@ -80,16 +81,26 @@ const wallet_address=sessionStorage.getItem('currentAccount')
    
     // @ts-ignore
 
-    const token = new web3.eth.Contract(tokenAbi.abi, props.erc20)
-     console.log(TokenContract);
+    const token = new web3.eth.Contract(tokenAbi.abi,props.erc20)
+    console.log(TokenContract, contracts.BSC_PhysicalItem);
    
 
     await TokenContract.methods.approve(contracts.BSC_PhysicalItem, props.mintedId).send({ from: wallet_address })
 
     const decimal = parseInt(await token.methods.decimals().call({ from: wallet_address }))
     let amount = Number(props.price) * 10 ** decimal
-
-
+    console.log(amount);
+    
+    console.log(physicalContract, contracts.BSC_PhysicalItem, props.mintedId,
+      JSON.stringify(amount),
+      props.market_type,
+      moment().unix(),
+      moment().add(30, 'days').unix(),
+      '0',
+      props.collection_address,
+      props.erc20,// @ts-ignore
+      web3.utils.asciiToHex(create?.Response?.key ?? create?.Response.data.key));
+   
     await physicalContract.methods.putOnSale(props.mintedId,
       JSON.stringify(amount),
       props.market_type,
@@ -104,7 +115,7 @@ const wallet_address=sessionStorage.getItem('currentAccount')
     props.handleSteps(4)
     setListing(false)
   }
-  console.log(create.Response);
+  
   
   useEffect(() => { if (create.Response) {console.log('hi');
    List()} }, [create.Response])
@@ -112,7 +123,7 @@ const wallet_address=sessionStorage.getItem('currentAccount')
     setUserInput({...userInput,address_code:verify.Response.data.address_code})
     props.handleSteps(10)
   } }, [verify.Response])
-  console.log(verify.Response);
+  
   console.log(userInput);
  useEffect(()=>{categ.fetchData({
   method:'get',
@@ -120,7 +131,7 @@ const wallet_address=sessionStorage.getItem('currentAccount')
    axiosInstance:Protected(sessionStorage.getItem('token'))
  })},[])
  const categories= categ.Response?.data
- console.log(categories);
+
  
   return (
     <div className={style.cm}>
@@ -273,7 +284,7 @@ const wallet_address=sessionStorage.getItem('currentAccount')
                
               </div>
               <div className={`${style.modalBtnSingle2} buttons`}>
-                <button style={{ background: 'white' }} disabled={verify.loading} onClick={props.handleSteps}>
+                <button style={{ background: 'white' }} disabled={verify.loading} onClick={props.handleClose}>
                   {!verify.loading ? (
                     'Cancel'
                   ) : (
@@ -396,14 +407,16 @@ const wallet_address=sessionStorage.getItem('currentAccount')
                 </div>
               </div>
               <div className={`${style.modalBtnSingle2} buttons`}>
-                <button style={{ background: 'white' }} disabled={create.loading||listing} onClick={props.handleSteps}>
+                <button style={{ background: 'white' }} disabled={create.loading||listing} onClick={props.handleClose}>
                   {!create.loading||listing ? (
                     'Cancel'
                   ) : (
                     <CircularProgress color="inherit" size="20px" />
                   )}
                 </button>
-                <button disabled={create.loading||listing} onClick={()=>{
+                <button
+                 disabled={create.loading||listing} 
+                onClick={()=>{
                   create.fetchData({
                      method:'post',
                     url:'api/nft/physical-item',

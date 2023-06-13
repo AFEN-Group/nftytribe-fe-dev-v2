@@ -301,6 +301,9 @@ const CreateItems = () => {
 
         const req = await collectionContract.methods.mint(Response?.data?.uri, userInput.royalties).send({ from: wallet_address, value: charge })
         console.log(req)
+        console.log( req.events.Transfer.returnValues.tokenId);
+
+        setId(req.events.Transfer.returnValues.tokenId);
       }
       else {
         console.log('minting');
@@ -310,6 +313,8 @@ const CreateItems = () => {
 
 
         const mint = await contract.methods.mint(Response?.data?.uri, userInput.royalties).send({ from: wallet_address, value: charge })
+        console.log(mint, mint.events.Transfer.returnValues.tokenId);
+        
         setId(mint.events.Transfer.returnValues.tokenId);
 
       }

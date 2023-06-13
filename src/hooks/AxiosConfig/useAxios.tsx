@@ -15,7 +15,7 @@ const UseAxios = () => {
       const data = await axiosInstance[method.toLowerCase()](url, {
         ...requestConfig,
       });
-      console.log("user data>>", data.data);
+      // console.log("user data>>", data.data);
 
       if (data?.data?.token?.length > 6) {
         // console.log(data.data.token);
