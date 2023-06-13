@@ -969,7 +969,7 @@ const DTPopUp=(props:any)=>{
          <div className="checkout">
           <div><span>Delivery Mode</span> <span>{onsaleParams?.service}</span></div>
             <div><span>Delivery Fee</span><span>${onsaleParams?.rates}</span></div>
-            <div><span>Total Fee</span><span>${(Number(props.nft.price) + delp()).toFixed(2)}</span></div>
+            <div><span>Total Fee</span><span>${(Number(props.nft.price) + onsaleParams.rates + 0.2).toFixed(2)}</span></div>
          </div>
         <p>Item can be shipped to Nigeria, Ghana, South Africa only.</p>
             <div className={'Btns'}>
