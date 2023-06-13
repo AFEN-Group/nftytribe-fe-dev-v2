@@ -666,18 +666,7 @@ const DTPopUp=(props:any)=>{
   const tokenInfo:any= useContext(TokenContext)
 
   // console.log(tokenInfo,props?.nft.price);
-  const delp = () => {
-    
-
-    const erc20 = tokenInfo?.filter((token: any) => {
-
-
-      return token.tokenAddress === props.nft.moreInfo.erc20TokenAddress
-    })
-    const priceIntoken = onsaleParams.rates / (erc20[0]?.usdPrice + 0.2)
-
-    return priceIntoken
-  } 
+  
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     setIsLoading(true)
@@ -714,7 +703,7 @@ const DTPopUp=(props:any)=>{
         } 
        
       erc20token = new web3.eth.Contract(erc20.abi, props.nft.moreInfo.erc20TokenAddress)
-      // console.log(erc20.abi, props.nft.moreInfo.erc20TokenAddress)
+
 
       if (props?.nft?.amount < 2) {
         try {
@@ -724,7 +713,7 @@ const DTPopUp=(props:any)=>{
             { from: userWallet }
           )
           // console.log(decimal);
-          const amount = (Number(props.nft.price)+(deliveryInToken()?deliveryInToken():0)) * (10 ** decimal)
+          const amount = (Number(props.nft.price)+deliveryInToken()) * (10 ** decimal)
           // console.log(amount);
 
           console.log(amount);
@@ -969,7 +958,16 @@ const DTPopUp=(props:any)=>{
          <div className="checkout">
           <div><span>Delivery Mode</span> <span>{onsaleParams?.service}</span></div>
             <div><span>Delivery Fee</span><span>${onsaleParams?.rates}</span></div>
-            <div><span>Total Fee</span><span>${(Number(props.nft.price) + onsaleParams.rates + 0.2).toFixed(2)}</span></div>
+            <div><span>Total Fee</span><span>${
+            (
+               (Number(props.nft.price) 
+               * 
+               tokenInfo?.filter((token: any) => {
+                   return token.tokenAddress === props.nft.moreInfo.erc20TokenAddress
+               })[0].usdPrice
+            ) 
+            +
+             onsaleParams.rates + 0.2).toFixed(2)}</span></div>
          </div>
         <p>Item can be shipped to Nigeria, Ghana, South Africa only.</p>
             <div className={'Btns'}>
