@@ -666,7 +666,18 @@ const DTPopUp=(props:any)=>{
   const tokenInfo:any= useContext(TokenContext)
 
   // console.log(tokenInfo,props?.nft.price);
-  
+  const delp = () => {
+    
+
+    const erc20 = tokenInfo?.filter((token: any) => {
+
+
+      return token.tokenAddress === props.nft.moreInfo.erc20TokenAddress
+    })
+    const priceIntoken = onsaleParams.rates / (erc20[0]?.usdPrice + 0.2)
+
+    return priceIntoken
+  } 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     setIsLoading(true)
@@ -958,7 +969,7 @@ const DTPopUp=(props:any)=>{
          <div className="checkout">
           <div><span>Delivery Mode</span> <span>{onsaleParams?.service}</span></div>
             <div><span>Delivery Fee</span><span>${onsaleParams?.rates}</span></div>
-            <div><span>Total Fee</span><span>${onsaleParams?.service + onsaleParams?.rates}</span></div>
+            <div><span>Total Fee</span><span>${(Number(props.nft.price) + delp()).toFixed(2)}</span></div>
          </div>
         <p>Item can be shipped to Nigeria, Ghana, South Africa only.</p>
             <div className={'Btns'}>
