@@ -707,7 +707,7 @@ const DTPopUp = (props: any) => {
         const erc20 = tokenInfo?.find((token: any) => {
           return token.tokenAddress === props.nft.moreInfo.erc20TokenAddress;
         });
-        // const priceIntoken = onsaleParams.rates / (erc20?.usdPrice + 0.2);
+        
         const priceIntoken = getTotalPrice(
           erc20?.usdPrice,
           Number(props.nft.price),

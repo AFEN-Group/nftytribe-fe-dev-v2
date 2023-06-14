@@ -218,12 +218,12 @@ const loginData=UseAxios()
       url:'api/nft/token-price',
       axiosInstance:Protected(sessionStorage.getItem('token')),
       requestConfig:{
-        chainId:sessionStorage.getItem('chain'),
+        chainId:sessionStorage.getItem('chain')??'0x38',
       
       }
 
     })
-  },[])
+  },[userState.user])
   const tokens:any =getPrices.Response?.data
   const [showConnect,setShowConnect]=useState<any>(false)
    console.log(tokens);
