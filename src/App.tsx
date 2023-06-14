@@ -223,7 +223,7 @@ const loginData=UseAxios()
       }
 
     })
-  },[userState.user])
+  },[userState?.user])
   const tokens:any =getPrices.Response?.data
   const [showConnect,setShowConnect]=useState<any>(false)
    console.log(tokens);
