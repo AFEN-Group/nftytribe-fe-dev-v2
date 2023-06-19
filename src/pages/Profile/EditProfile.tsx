@@ -111,7 +111,7 @@ const EditProfile = () => {
       setIsLoading(false)
     
      
-      setShowOtp(true)
+    
 
     } catch (err) {
       console.log(err)
@@ -119,7 +119,10 @@ const EditProfile = () => {
       setIsLoading(false)
     }
   }
-
+ 
+  useEffect(()=>{
+    if (userInput.email && Response) setShowOtp(true)
+  },[Response])
   const closeModal = () => {
     setShowVerify(false)
     setUpdated(false)

@@ -40,37 +40,20 @@ const EnterOtp = (props: any) => {
             value: any;
         };
     }
-
+    const change = (e :any) => {
+        if (e.target.value.length === e.target.maxLength) {
+        
+            e.target.ElementSibling.focus()
+        }
+    }
     const inputHandler = (event: customEvent) => {
         const { name, value } = event.target
         
       
 
-            setUserInput({
-                ...userInput,
-                [name]: value,
-            })
-
            
-            //console.log(userInputRef.current.number1.length)
-            if (userInputRef.current.number1.length === 1) {
-                number2Ref.current.focus()
-            }
-            if (userInputRef.current.number2.length === 1) {
-                number3Ref.current.focus()
-            }
-            if (userInputRef.current.number3.length === 1) {
-                number4Ref.current.focus()
-            }
-            if (userInputRef.current.number4.length === 1) {
-                number5Ref.current.focus()
-            }
-            if (userInputRef.current.number5.length === 1) {
-                number6Ref.current.focus()
-            }
-            if (userInputRef.current.number6.length === 1) {
-                number1Ref.current.focus()
-            }
+            
+            
         
     }
 
@@ -78,11 +61,7 @@ const EnterOtp = (props: any) => {
         e.preventDefault()
         setIsLoading(true)
         try {
-            const otpData = {
-                token: userInput.number1 + userInput.number2 + userInput.number3 + userInput.number4 +
-                    userInput.number5 + userInput.number6,
-                // wallet_address: props.currentAddress
-            }
+            const otpData =userInput
 
             console.log(sessionStorage.getItem('token'));
             
@@ -127,13 +106,14 @@ const EnterOtp = (props: any) => {
                             <img src={Close} alt="close" onClick={props.closeModal} />
                         </div>
                         <div className={style.modalBody2}>
-                            <div className={style.modalOtp} >
-                                <input type="text" ref={number1Ref} name='number1' value={userInput.number1} onChange={inputHandler} required />
-                                <input  className={style.otpLeft} type="text" ref={number2Ref} name='number2' value={userInput.number2} onChange={inputHandler} />
-                                <input className={style.otpLeft} type="text" ref={number3Ref} name='number3' value={userInput.number3} onChange={inputHandler} />
-                                <input className={style.otpLeft} type="text" ref={number4Ref} name='number4' value={userInput.number4} onChange={inputHandler} />
-                                <input className={style.otpLeft} type="text" ref={number5Ref} name='number5' value={userInput.number5} onChange={inputHandler} />
-                                <input className={style.otpLeft} type="text" ref={number6Ref} name='number6' value={userInput.number6} onChange={inputHandler} />
+                            <div onClick={()=>number1Ref.current.focus()} className={style.modalOtp} >
+                                    <input maxLength={6} ref={number1Ref} onChange={(e)=>setUserInput(e.target.value)}  type="text" style={{opacity:'0'}} />
+                                    <input maxLength={1} type="text" name='number1' value={userInput[0]}   required />
+                                <input maxLength={1}  className={style.otpLeft} type="text"  name='number2' value={userInput[1]}  />
+                                    <input maxLength={1} className={style.otpLeft} type="text"  name='number3' value={userInput[2]} onChange={inputHandler} />
+                                    <input className={style.otpLeft} type="text"  name='number4' value={userInput[3]} onChange={inputHandler} />
+                                    <input className={style.otpLeft} type="text" name='number5' value={userInput[4]} onChange={inputHandler} />
+                                    <input className={style.otpLeft} type="text"  name='number6' value={userInput[5]} onChange={inputHandler} />
                             </div>
                             {/* <div className={style.successImg}>
                             <img src={Happy} alt="success" />

@@ -6,6 +6,7 @@ import WalletContext from '../../context/WalletContext'
 import { shortenAddress } from '../../utils/formatting'
 import style from './ConnectWallet.module.scss'
 import { motion } from 'framer-motion'
+import Uath from '../../assets/download.png'
 
 import Cancel from './assets/x.svg'
 import Cancel2 from './assets/x2.svg'
@@ -18,14 +19,15 @@ import Wc from './assets/wc.svg'
 import Coinbase from './assets/coinbase.svg'
 import Check from './assets/check.svg'
 import Check2 from './assets/check2.svg'
-import Add from './assets/add.svg'
-import SwapH from './assets/swaph.svg'
+// import Add from './assets/add.svg'
+// import SwapH from './assets/swaph.svg'
 import Afen from './assets/afen.svg'
 import BNB from './assets/bnb.svg'
 import Swap from './assets/swap01.svg'
 import Swap2 from './assets/swap02.svg'
 import globals from '../../utils/globalVariables'
 import { UserContext } from '../../context/UserContext'
+import UAuth from '@uauth/js'
 
 
 const ConnectWalletM = (props: any) => {
@@ -160,7 +162,25 @@ const ConnectWalletM = (props: any) => {
     const {userState,setUserState}=useContext(UserContext)
   const currentChain = sessionStorage.getItem('chain')
     console.log(sessionStorage.getItem('walletType')==='Metamask');
-    
+    const uauth = new UAuth({
+        clientID: "45721300-737c-40a0-91af-e187fff1634d",
+        redirectUri: "https://staging.nftytribe.io",
+        scope: "openid wallet email profile:optional social:optional"
+    })
+
+    const connectUauth = async () => {
+        const res = await uauth.loginWithPopup()
+        let address = res.idToken.wallet_address
+        // @ts-ignore
+
+        sessionStorage.setItem('chain', window.ethereum.chainId)
+        // @ts-ignore
+        sessionStorage.setItem('currentAccount', address)
+        sessionStorage.setItem('walletType', 'uauth')
+        setUserState({ ...userState, currentAccount: res.idToken.wallet_address, walletType: 'uauth' })
+
+    }
+
 
     return (
         <>
@@ -246,7 +266,8 @@ const ConnectWalletM = (props: any) => {
                                                 <img style={{width:'40px'}} src={userState?.walletType==='Metamask'?Metamask:sessionStorage.getItem('walletType')==='Metamask'? Metamask :"trustWallet"?TWT: Wc} alt="wallet" />
 
                                                     <div className={style.awInfo}>
-                                                        <h3>{shortenAddress(currentAccount)}</h3>
+                                                        <h3>                                       {userState?.user?.username}
+</h3>
 
                                                         <p>{currentChain === globals.mainnetEth.chainId ? 'Ethereum' : currentChain === globals.mainnetBsc.chainId ? 'Binance' : ''}</p>
                                                     </div>
@@ -438,9 +459,9 @@ const ConnectWalletM = (props: any) => {
                                         <p>Metamask</p>
                                     </div>
 
-                                    <div className={style.wallet} onClick={handleSignIn2}>
-                                        <img src={Wc} alt="wallet-connect" />
-                                        <p>Wallet Connect</p>
+                                    <div className={style.wallet} onClick={connectUauth}>
+                                            <img style={{width:'40px'}} src={Uath} alt="wallet-connect" />
+                                        <p>Unstoppable Domain</p>
                                     </div>
                                     {/* <div className={style.wallet} onClick={connectTrustWallet}>
                                         <img style={{width:'40px'}}src={TWT} alt="wallet-connect" />
