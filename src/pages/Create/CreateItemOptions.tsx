@@ -149,10 +149,10 @@ const CreateItemOptions = () => {
             <div className={style.cOptContent1}>
               <div className={style.cOptTop}>
                 <h1>
-                  <span id="heroTitle">Choose Blockchain</span>{' '}
+                  <span id="">Choose Blockchain</span>{' '}
                 </h1>
                 <p>
-                  <span id="heroText">Select  the most suitable blockchain to create your collection. You need to sign in to create.
+                  <span id="">Select  the most suitable blockchain to create your collection. You need to sign in to create.
                   </span>{' '}
                 </p>
               </div>

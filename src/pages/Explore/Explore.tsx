@@ -319,7 +319,7 @@ const Explore = () => {
                     `}
                           onClick={(e) => setMFilter('price')}
                         >
-                          <p>Price</p>
+                          <p>Price Range</p>
 
 
                           <img src={dark === "true" ? arrow2 : arrow} alt="arrow" />

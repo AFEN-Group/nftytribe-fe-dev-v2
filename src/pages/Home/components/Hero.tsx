@@ -228,7 +228,7 @@ const Hero = (props:any) => {
                   Join the tribe
                 </button> */}
                 {currentAccount && (
-                  <Link to="/collections">
+                  <Link to="/createOptions">
                     <button
                       className={
                         dark === 'true'
@@ -236,7 +236,7 @@ const Hero = (props:any) => {
                           : style.lButton1_light
                       }
                     >
-                      Create Collection
+                      Create 
                     </button>
                   </Link>)}
                 <Link to="/explore">

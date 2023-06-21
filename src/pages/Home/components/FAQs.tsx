@@ -67,29 +67,29 @@ const FAQs = () => {
                
              
             </div>
-            <div
+            {/* <div
               className={`${style.faqBox} ${
                 dark === "true" ? "darkGradient" : "lightGradient"
               }`}>
-            
+             */}
 
-              <div className={style.faqImg}>
-                <img src={Pie} alt="pie" />
-              </div>
-              <div className={style.faqText}>
+              {/* <div className={style.faqImg}> */}
+                {/* <img src={Pie} alt="pie" /> */}
+              {/* </div> */}
+              {/* <div className={style.faqText}>
                 <h2>
                     How does lazy minting work on NftyTribe?
 
                   {/* {t("selling-nft")} */}
-                  </h2>
-                <p>
-                    With lazy minting, NftyTribe users can simply upload their NFTs at zero cost, and our system will automatically subtract fees when a buyer purchases them. 
+                  {/* </h2> */}
+                {/* <p> */}
+                    {/* With lazy minting, NftyTribe users can simply upload their NFTs at zero cost, and our system will automatically subtract fees when a buyer purchases them.  */}
                   {/* {t("Everything you need")} */}
-                  </p>
-              </div>
+                  {/* </p> */}
+              {/* </div> */} 
               
             
-            </div>
+            {/* </div> */}
           </div>
         </div>
       </div>
