@@ -121,17 +121,17 @@ const ExploreSingleBuy = () => {
 
     //
 
-    if (currentChainId === "0x1") {
-      setErc721MintableAddress(contracts.erc721MintableAddress);
-      setErc721MarketplaceAddress(contracts.erc721MarketplaceAddress);
-      setErc1155MintableAddress(contracts.erc1155MintableAdddress);
-      setErc1155MarketplaceAddress(contracts.erc1155MarketplaceAddress);
-    } else if (currentChainId === "0x38" || currentChainId === "0x61") {
+    // if (currentChainId === "0x1") {
+    //   setErc721MintableAddress(contracts.erc721MintableAddress);
+    //   setErc721MarketplaceAddress(contracts.erc721MarketplaceAddress);
+    //   setErc1155MintableAddress(contracts.erc1155MintableAdddress);
+    //   setErc1155MarketplaceAddress(contracts.erc1155MarketplaceAddress);
+    // } else if (currentChainId === "0x38" || currentChainId === "0x61") {
       setErc721MintableAddress(contracts.BSC_erc721MintableAddress);
       setErc721MarketplaceAddress(contracts.BSC_erc721MarketplaceAddress);
       setErc1155MintableAddress(contracts.BSC_erc1155MintableAdddress);
       setErc1155MarketplaceAddress(contracts.BSC_erc1155MarketplaceAdddress);
-    }
+    // }
     if (wallet_address) {
       setWalletAddress(wallet_address);
     }
@@ -628,20 +628,20 @@ const DTPopUp = (props: any) => {
   useEffect(() => {
     const currentChain = sessionStorage.getItem("chain");
 
-    if (currentChain === "0x1") {
-      setErc721MintableAddress(contracts.erc721MintableAddress);
-      setErc721MarketplaceAddress(contracts.erc721MarketplaceAddress);
-      setErc1155MintableAddress(contracts.erc1155MintableAdddress);
-      setErc1155MarketplaceAddress(contracts.erc1155MarketplaceAddress);
-    }
-    if (currentChain === "0x38" || currentChain === "0x61") {
+    // if (currentChain === "0x1") {
+    //   setErc721MintableAddress(contracts.erc721MintableAddress);
+    //   setErc721MarketplaceAddress(contracts.erc721MarketplaceAddress);
+    //   setErc1155MintableAddress(contracts.erc1155MintableAdddress);
+    //   setErc1155MarketplaceAddress(contracts.erc1155MarketplaceAddress);
+    // }
+    // if (currentChain === "0x38" || currentChain === "0x61") {
       // setChain('bsc testnet')
       setChainId("bsc");
       setErc721MintableAddress(contracts.BSC_erc721MintableAddress);
       setErc721MarketplaceAddress(contracts.physical_market);
       setErc1155MintableAddress(contracts.BSC_erc1155MintableAdddress);
       setErc1155MarketplaceAddress(contracts.BSC_erc1155MarketplaceAdddress);
-    }
+    // }
   }, []);
   const verify = (e: any) => {
     e.preventDefault();

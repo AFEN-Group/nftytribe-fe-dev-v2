@@ -1,5 +1,7 @@
+
+export default sessionStorage.getItem('chain') !== '0x89' || sessionStorage.getItem('chain') !== '137' ?
 // eslint-disable-next-line
-export default window.location.host.includes('staging') || window.location.host.includes('localhost') ?{
+(window.location.host.includes('staging') || window.location.host.includes('localhost') ?{
   //ETH
   erc721MintableAddress: '0x94D048E1AEC1058BD6c2a32a5d4d7EC2f718623d',
   erc721FactoryAddress: '0xC6BF837444a5b201D926c8d81aAa6dc1ba71193f',
@@ -61,4 +63,21 @@ export default window.location.host.includes('staging') || window.location.host.
   BSC_erc1155FactoryAdddress: '0xc09043ac7fc88d4e93660d99ff3ceaeead1fb72d',
   //BSC_erc1155MarketplaceAdddress: '0x16d77622860658B78F6777074ecbF7c656Af80E6'
   BSC_erc1155MarketplaceAdddress: '0x2a7af86943a9e8820ab0cac88ee66234a0dae354'
+}):{
+    BSC_erc721MintableAddress: '0x64dB0C2FD20600b7AA42D99DdaEA4461d9f517b4', //mainnet
+    //BSC_erc721FactoryAddress: '0x5715d151D6A3566a340172fe89371e47E41836f8', //test
+    BSC_erc721FactoryAddress: '0xFe639121192Fb865DD09623aAd57474c21a99c37',//main
+    BSC_erc721MarketplaceAddress: '0x1f6463aEA5b8a74A4fB25DA785363E306dc16169',
+    // BSC_PhysicalItem: '0x632B0d4135fcda8Ca662faAead4FAb558d24b818',
+    BSC_PhysicalItem: '0x9771e7c93d9b031045dD466b04aC716cA77bc98b'
+    // '0x71F722A1F16AF147e2fa088224BF1f0955f1075a'
+    ,//test
+    // BSC_erc721MarketplaceAddress: '0xb80a5067c6373c8d53dae3f1bf0b1aea83349b92',//main
+    physical_market: '0x482e0FEbd03460AfB52a3c3e2140744380D6fE82',
+    //BSC_erc1155MintableAdddress: '0xE1C075aA57722FbAd50BE4C87737fD9495aA0e1e',
+    BSC_erc1155MintableAdddress: '0xceef91849d0871f8fab17ee4623e08406ecafef4',
+    //BSC_erc1155FactoryAdddress: '0x01D5E051e07D4460D4C098f91a060cA3a25FCD57',
+    BSC_erc1155FactoryAdddress: '0xc09043ac7fc88d4e93660d99ff3ceaeead1fb72d',
+    //BSC_erc1155MarketplaceAdddress: '0x16d77622860658B78F6777074ecbF7c656Af80E6'
+    BSC_erc1155MarketplaceAdddress: '0x2a7af86943a9e8820ab0cac88ee66234a0dae354'
 }

@@ -43,7 +43,7 @@ const Profile = () => {
   // const [totalPages, setTotalPages] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const [showModal, setShowModal] = useState<any>()
-  const [currentChain, setCurrentChain] = useState<any>()
+  // const [currentChain, setCurrentChain] = useState<any>()
   //console.log('auth>>', authState)
 
 
@@ -63,11 +63,11 @@ const Profile = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    if (currentChainId === '0x1') {
-      setCurrentChain('eth')
-    } else if (currentChain === '0x38') {
-      setCurrentChain('bsc')
-    }
+    // if (currentChainId === '0x1') {
+    //   setCurrentChain('eth')
+    // } else if (currentChain === '0x38') {
+    //   setCurrentChain('bsc')
+    // }
     // console.log(currentAddress);
      setUserState({...userState,currentAddress:currentAddress})
   }, [currentAddress])

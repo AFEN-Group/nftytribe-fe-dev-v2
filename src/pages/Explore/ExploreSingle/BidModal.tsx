@@ -54,22 +54,22 @@ const BidModal = (props: any) => {
     //const wallet_address = sessionStorage.getItem('currentAccount')
     const currentChain = sessionStorage.getItem('chain')
     const itemChain = props?.nftDetails?.chain
-    if (currentChain === '0x1') {
-      // setChain('rinkeby')
-      setChainId('eth')
-      setErc721MintableAddress(contracts.erc721MintableAddress)
-      setErc721MarketplaceAddress(contracts.erc721MarketplaceAddress)
-      setErc1155MintableAddress(contracts.erc1155MintableAdddress)
-      setErc1155MarketplaceAddress(contracts.erc1155MarketplaceAddress)
-    }
-    if (currentChain === '0x38'||'0x61') {
-      // setChain('bsc testnet')
-      setChainId('bsc')
+    // if (currentChain === '0x1') {
+    //   // setChain('rinkeby')
+    //   setChainId('eth')
+    //   setErc721MintableAddress(contracts.erc721MintableAddress)
+    //   setErc721MarketplaceAddress(contracts.erc721MarketplaceAddress)
+    //   setErc1155MintableAddress(contracts.erc1155MintableAdddress)
+    //   setErc1155MarketplaceAddress(contracts.erc1155MarketplaceAddress)
+    // }
+    // if (currentChain === '0x38'||'0x61') {
+    //   // setChain('bsc testnet')
+    //   setChainId('bsc')
       setErc721MintableAddress(contracts.BSC_erc721MintableAddress)
       setErc721MarketplaceAddress(contracts.BSC_erc721MarketplaceAddress)
       setErc1155MintableAddress(contracts.BSC_erc1155MintableAdddress)
       setErc1155MarketplaceAddress(contracts.BSC_erc1155MarketplaceAdddress)
-    }
+    // }
   }, [])
 
   const inputHandler = async (event: any) => {

@@ -85,17 +85,17 @@ const CreateCollection = () => {
   const wallet_address = sessionStorage.getItem('currentAccount')
 
   useEffect(() => {
-    if (currentChain === '0x1') {
-      setChain('eth')
-      setErc721FactoryAddress(contracts.erc721FactoryAddress)
-      setErc1155FactoryAddress(contracts.erc1155FactoryAddress)
-    }
-    if (currentChain === '0x38'||currentChain=='0x61') {
-      setChain('bsc')
+    // if (currentChain === '0x1') {
+    //   setChain('eth')
+    //   setErc721FactoryAddress(contracts.erc721FactoryAddress)
+    //   setErc1155FactoryAddress(contracts.erc1155FactoryAddress)
+    // }
+    // if (currentChain === '0x38'||currentChain=='0x61') {
+    //   setChain('bsc')
   
       setErc721FactoryAddress(contracts.BSC_erc721FactoryAddress)
       setErc1155FactoryAddress(contracts.BSC_erc1155FactoryAdddress)
-    }
+    // }
 
   }, [])
 
