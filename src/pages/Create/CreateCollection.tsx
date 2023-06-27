@@ -363,7 +363,7 @@ const CreateCollection = () => {
                 <TextInput
                   type="text"
                   inputName="symbol"
-                  holder="Token symbol"
+                  holder="Symbol"
                   value={userInput.symbol}
                   inputHandler={inputHandler}
                 />

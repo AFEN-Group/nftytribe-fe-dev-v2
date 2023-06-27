@@ -344,8 +344,15 @@ const CreateItems = () => {
   }, [Response])
   const { t } = useTranslation();
 const tokens:any=useContext(TokenContext)
+  const [duration,setDuration]=useState(30)
 
+  const getToken = tokens?.filter((token: any) => {
+    return token?.tokenAddress === userInput?.erc20
 
+    }
+
+)
+// console.log(getToken,tokens);
 
   return (
     <>
@@ -364,6 +371,7 @@ const tokens:any=useContext(TokenContext)
           market_type={userInput.market_type}
           price={userInput.price}
           erc20={userInput.erc20}
+          duration={duration}
         />
       )}
       {/* {!showList && <PutOnSaleModal />} */}
@@ -465,18 +473,12 @@ const tokens:any=useContext(TokenContext)
                   <TextInput
                     type="text"
                     inputName="price"
-                    holder={`Enter ${tokens?.map((token:any)=>{if(token?.tokenAddress==userInput?.erc20){
-                      return token.tokenSymbol
-                    }})[0]||''} Price`}
+                    holder={`Enter ${getToken[0]?.tokenSymbol ||''}  Price`}
                     max="12"
                     inputHandler={inputHandler}
                     value={userInput.price}
                   />
-                  <div className={style.iDesc}><p>({tokens?.map((token: any) => {
-                    if (token?.tokenAddress == userInput?.erc20) {
-                      return token.tokenSymbol
-                    }
-                  })[0] +' price' || ''} )</p></div>
+                  <div className={style.iDesc}><p>{getToken[0]?.tokenSymbol || ''} </p></div>
 
                 </div>
               
@@ -527,7 +529,19 @@ const tokens:any=useContext(TokenContext)
                     )}
                   </div>
                 </div>
-             
+                { userInput.market_type==='2'&&<div className={style.fieldBx}>
+                  <p>Duration (days)</p>
+
+
+
+                  <TextInput
+                    type="number"
+                    inputName="royalties"
+                    holder=" max:30 days"
+                    inputHandler={(e :any)=>e.target.value<31&&e.target.value>0?setDuration(e.target.value):toast.error('Range From 1-30 days')}
+                    value={duration}
+                  />
+                </div>}
               </>}
               <p>
                 Choose Collection (Nftytribe collection is chosen by default)

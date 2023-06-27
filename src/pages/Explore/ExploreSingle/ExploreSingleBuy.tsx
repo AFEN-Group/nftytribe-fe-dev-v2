@@ -386,8 +386,10 @@ const ExploreSingleBuy = () => {
                             </div>
                           </TwitterShareButton>
                           <div
-                            className="copy"
-                            onClick={() => navigator.clipboard.writeText(url)}>
+                          style={{marginTop:'0'}}
+                            className={style.dropItem}
+                            onClick={() => {navigator.clipboard.writeText(url);
+                            toast.success('Copied!!')}}>
                             Copy URL
                           </div>
                         </div>
@@ -402,9 +404,8 @@ const ExploreSingleBuy = () => {
                       <img src={dark === "true" ? User : User2} alt="user" />
                       {nft && (
                         <p>
-                          {shortenAddress(
-                            nftDetails?.owner || nft?.user.walletAddress
-                          )}
+                          {nft?.user.username
+                         }
                         </p>
                       )}
                     </div>

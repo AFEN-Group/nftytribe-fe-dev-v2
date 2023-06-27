@@ -118,6 +118,10 @@
   font-family: Neue-bold;
   font-size: 1.2em;
 
+
+  img{
+    width: 60px;
+  }
   &:hover {
     background: $mainGradient;
     transform: scale(1.03);

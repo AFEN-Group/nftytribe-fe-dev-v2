@@ -437,7 +437,10 @@ const getTimeleft=()=>{
                                                             <img src={`${dark === 'true' ? Twitter2 : Twitter}`} alt="twitter" />
                                                         </div>
                                                     </TwitterShareButton>
-                                                    <div className='copy' onClick={() => navigator.clipboard.writeText(url)}>Copy URL</div>
+                                                    <div className={style.dropItem} onClick={() => {
+                                                        navigator.clipboard.writeText(url);
+                                                        toast.success('Copied!!')
+                                                    }}>Copy URL</div>
                                                 </div>
                                                 {/* )} */}
 
@@ -449,7 +452,7 @@ const getTimeleft=()=>{
                                     <div className={style.userBx}>
                                         <img src={dark === 'true' ? User : User2} alt="user" />
                                         {nft && (
-                                            <p>{shortenAddress(nft?.user?.walletAddress)}</p>
+                                            <p>{nft?.user?.username}</p>
                                         )}
                                     </div>
                                     <div className={style.bronze}>

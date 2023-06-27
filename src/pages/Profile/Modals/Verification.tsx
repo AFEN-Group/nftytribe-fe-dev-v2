@@ -227,21 +227,21 @@ const Verification = (props: any) => {
                                     // name="address"
                                     //value={userInput.address}
                                     onChange={(e) => setSocials({ ...socials, one: e.target.value })}
-                                    placeholder="http/twitterusername.com"
+                                    placeholder=""
                                 /> 
                                  <input
                                     type="text"
                                     //name="address"
                                     //value={userInput.address}
                                     onChange={(e) => setSocials({ ...socials, two:e.target.value })}
-                                    placeholder="http/twitterusername.com"
+                                    placeholder=""
                                 /> 
                                  <input
                                     type="text"
                                     //name="address"
                                     //value={userInput.address}
                                     onChange={(e) => setSocials({ ...socials, three: e.target.value })}
-                                    placeholder="http/twitterusername.com"
+                                    placeholder=""
                                 />  
                             </div>
                             <div className={style.modalInput}>
