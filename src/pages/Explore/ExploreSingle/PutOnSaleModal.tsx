@@ -100,6 +100,12 @@ const PutOnSaleModal = (props: any) => {
     }
     console.log(onsaleParams)
     const tokens:any=useContext(TokenContext)
+    const getToken = tokens?.filter((token: any) => {
+        return token?.tokenAddress === onsaleParams?.erc20
+
+    }
+
+    )
   
     return (
         <div className={style.bm}>
@@ -183,11 +189,7 @@ const PutOnSaleModal = (props: any) => {
                                     />
                                 </div>  
                                  <div className={style.fieldBx}>
-                                    <p>Enter amount ({tokens?.map((token: any) => {
-                                        if (token?.tokenAddress === onsaleParams?.erc20) {
-                                            return token.tokenSymbol
-                                        }
-                                    })[0]})</p><br />
+                                    <p>Enter amount {getToken[0]?.tokenSymbol}</p><br />
                                     <TextInput
                                         type="tel"
                                         inputName="amount"
