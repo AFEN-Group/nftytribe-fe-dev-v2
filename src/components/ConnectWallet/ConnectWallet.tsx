@@ -100,42 +100,7 @@ const ConnectWallet = (props: any) => {
         overlay.classList.toggle(style.overlay)
       }
     }
-    // console.log(show2);
-    
-
-    // if (!currentAccount) {
-    //   show2.onclick = function () {
-    //     t1.reversed(!t1.reversed())
-    //     overlay.classList.toggle(style.overlay)
-    //   }
-    //   if (document.getElementById('show3M')) {
-    //     let show3M: any = document.getElementById('show3M')
-    //     show3M.onclick = function () {
-    //       t1.reversed(!t1.reversed())
-    //       overlay.classList.toggle(style.overlay)
-    //     }
-    //   }
-    //   if (document.getElementById('show4')) {
-    //     show3.onclick = function () {
-    //       t1.reversed(!t1.reversed())
-    //       overlay.classList.toggle(style.overlay)
-    //     }
-    //   }
-    //   if (document.getElementById('show4')) {
-    //     show4.onclick = function () {
-    //       t1.reversed(!t1.reversed())
-    //       overlay.classList.toggle(style.overlay)
-    //     }
-    //   }
-    //   if (document.getElementById('stake')) {
-    //     stake.onclick = function () {
-    //       t1.reversed(!t1.reversed())
-    //       overlay.classList.toggle(style.overlay)
-    //     }
-    //   }
-
-
-    // }
+   
     t1.to(box, 0.001, {
       right: 0,
       ease: Power3.easeInOut,
@@ -181,7 +146,7 @@ const ConnectWallet = (props: any) => {
 
   const uauth = new UAuth({
     clientID: "45721300-737c-40a0-91af-e187fff1634d",
-    redirectUri: "https://staging.nftytribe.io",
+    redirectUri: "https://nftytribe.io",
     scope: "openid wallet email profile:optional social:optional"
   })
  

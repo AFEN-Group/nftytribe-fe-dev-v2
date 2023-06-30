@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react'
 import Web3 from 'web3'
-import WalletConnectProvider from '@walletconnect/web3-provider'
+
 // import { AuthContext } from '../context/AuthContext'
 import { publicRequest } from '../utils/requestMethods'
 import toast from 'react-hot-toast'
@@ -106,19 +106,7 @@ const UserConnect = () => {
     chain: '',
   })
   // const [authState, setAuthState] = useContext<any>(AuthContext)
-  const provider: any = new WalletConnectProvider({
-    // rpc: {
-    //   '0xfa2': 'https://rpc.testnet.fantom.network',
-    // },
-    // rpc: {
-    //   '0x1' : 'https://mainnet.infura.io/v3/45b5a21bfa5b4429af59109069821ed3'
-    // }
-    // rpc: {
-    //   56: "https://bsc-dataseed1.binance.org",
-    // }
-    // infuraId: "27e484dcd9e3efcfd25a83a78777cdf1",
-    infuraId: "45b5a21bfa5b4429af59109069821ed3",
-  })
+  
   const { userState,setUserState}=useContext(UserContext)
   const [currentAccount, setCurrentAccount] = useState<any>(
     sessionStorage.getItem('currentAccount') || undefined,
@@ -314,72 +302,7 @@ const UserConnect = () => {
     })
   }
 
-  const enableWalletConnect = async () => {
-    try {
-      await provider.enable()
-      console.log("enable", provider)
-      if (provider.chainId === 1) {
-        // console.log("guyyy")
-        sessionStorage.setItem('currentAccount', provider.accounts[0])
-        setUserInfo({
-          ...userInfo,
-          account: provider.accounts[0],
-          chain: provider.chainId,
-        })
-        setUserState({...userState,currentAccount:provider.accounts[0],walletType:'WalletConnect'})
-        setWalletType("WalletConnect")
-        
-    
-      } else {
-        setWalletError('Wrong network, please switch to ethereum mainnet!')
-      }
-
-      setWeb3(new Web3(provider))
-      provider.on("connect", (accounts: any) => {
-        console.log("account?", accounts)
-      })
-      // Subscribe to accounts change
-      provider.on('accountsChanged', (accounts: any) => {
-        console.log(accounts)
-        sessionStorage.setItem('currentAccount', accounts[0])
-        setCurrentAccount(sessionStorage.getItem('currentAccount'))
-        console.log("account was set>>>", currentAccount)
-      })
-
-      // Subscribe to chainId change
-      provider.on('chainChanged', (chainId: any) => {
-        console.log('chainId>>>>', chainId)
-        setChain(chainId)
-        sessionStorage.setItem('chain', chainId)
-      })
-
-      // Subscribe to session disconnection
-      provider.on('disconnect', (code: any, reason: any) => {
-        console.log(code, reason)
-      })
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  const disconnectWalletConnect = async () => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        await provider.disconnect()
-        sessionStorage.removeItem('currentAccount')
-        sessionStorage.removeItem('chain')
-        sessionStorage.removeItem('user')
-        sessionStorage.removeItem('walletType')
-        // toast.success(`Disconnected .`,
-        //   { duration: 3000 })
-        // window.location = '/'
-        //window.location.reload()
-        resolve(true)
-      } catch (error) {
-        reject(error)
-      }
-    })
-  }
+ 
 
   useEffect(() => {
     const onWalletChange = async () => {
@@ -427,10 +350,10 @@ const UserConnect = () => {
     disableEthereum,
     walletError,
     walletType,
-    enableWalletConnect,
+   
     handleNetworkSwitch,
     handleNetworkSwitch2,
-    disconnectWalletConnect,
+
     
     // connectSafePal,
     disconnectSafePal
@@ -438,3 +361,5 @@ const UserConnect = () => {
 }
 
 export default UserConnect
+
+// QBOCpb

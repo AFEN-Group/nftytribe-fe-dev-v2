@@ -78,39 +78,7 @@ const ConnectWalletM = (props: any) => {
         let show2: any = document.getElementById('show2')
 
         let close: any = document.getElementById('close')
-        // if (document.getElementById('showBtn')) {
-        //     let btn: any = document.getElementById('showBtn')
-        //     btn.onclick = function () {
-        //         t1.reversed(!t1.reversed())
-        //         overlay.classList.toggle(style.overlay)
-        //     }
-        // }
-        // icon.onclick = function () {
-        //     t1.reversed(!t1.reversed())
-        //     overlay.classList.toggle(style.overlay)
-        // }
-        // if (document.getElementById('showIconM')) {
-        //     let iconM: any = document.getElementById('showIconM')
-        //     iconM.onclick = function () {
-        //         t1.reversed(!t1.reversed())
-        //         overlay.classList.toggle(style.overlay)
-        //     }
-        // }
-        // if (!currentAccount) {
-        //     let show3M: any = document.getElementById("show3M")
-        //     show3M.onclick = function () {
-        //         t1.reversed(!t1.reversed())
-        //         overlay.classList.toggle(style.overlay)
-        //     }
-        // }
-
-        // if (!currentAccount) {
-        //     show2.onclick = function () {
-        //         t1.reversed(!t1.reversed())
-        //         overlay.classList.toggle(style.overlay)
-        //     }
-
-        // }
+    
 
         t1.to(box, 0.001, {
             right: 0,
@@ -144,19 +112,7 @@ const ConnectWalletM = (props: any) => {
         connectToMetaMask()
         //props.handleModal()
     }
-    const handleSignIn2 = async () => {
-        props.handleModal()
-        enableWalletConnect()
-        props.handleModal()
-    }
-    const connectTrustWallet= async ()=>{
-        disableEthereum()
-        disconnectWalletConnect()
-        props.handleModal()
-        connectTrustwallet()
-        disconnectSafePal()
-    
-      }
+ 
     
    
     const {userState,setUserState}=useContext(UserContext)

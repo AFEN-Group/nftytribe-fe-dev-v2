@@ -200,7 +200,7 @@ canvas{
     .modalOtp {
         @include flexRegular(row, center);
         margin: 1em auto 2em auto;
-
+        gap: 12px;
         input {
             outline: none;
             width: 40px;
@@ -209,7 +209,7 @@ canvas{
             border-radius: 10px;
           
             height: 50px;
-            padding-left: 0.7em;
+            padding:4px;
             margin: 0.5em auto;
             font-size: 1.2em;
         }

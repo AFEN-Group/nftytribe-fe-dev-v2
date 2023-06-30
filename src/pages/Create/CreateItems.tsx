@@ -284,7 +284,13 @@ const CreateItems = () => {
 
     }
   };
-  //  console.log(collectionabi)
+
+  useEffect(()=>{
+    if (!userInput.collection_address) setUserInput({ ...userInput, collection_address: contracts.BSC_erc721MintableAddress })
+  },[userInput])
+
+  console.log(userInput);
+  
   const [mintedId, setId] = useState()
   const create = UseAxios()
   const Mint = async () => {
@@ -309,7 +315,7 @@ const CreateItems = () => {
         console.log('minting');
 
         const charge = await contract.methods.mintingCharge().call()
-        console.log(charge);
+        console.log(charge, Response?.data?.uri);
 
 
         const mint = await contract.methods.mint(Response?.data?.uri, userInput.royalties).send({ from: wallet_address, value: charge })
@@ -336,7 +342,7 @@ const CreateItems = () => {
 
     }
   }
-  console.log(tokenAbi);
+  
 
   useEffect(() => {
     if (Response) Mint()
