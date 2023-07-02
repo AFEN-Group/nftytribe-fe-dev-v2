@@ -16,6 +16,7 @@ import Protected from 'src/hooks/AxiosConfig/axiosInstance'
 import axios from 'axios'
 import baseUrl from '../../../utils/globalVariables'
 import UpdateComplete from './UpdateComplete'
+import { toast } from 'react-hot-toast'
 const Verification = (props: any) => {
     const [isLoading, setIsLoading] = useState(false)
     const [userInput, setUserInput, userInputRef] = useState<any>({
@@ -29,7 +30,7 @@ const Verification = (props: any) => {
     const [err, setErr] = useState(0)
     const [currentStep, setCurrentStep] = useState(1)
     const [imageFile, setImageFile] = useState<any>(null)
-
+    const [gov, setGov] = useState<any>(null)
     const inputHandler = (event: any) => {
         setIsEmpty(true)
         setUserInput({
@@ -41,29 +42,14 @@ const Verification = (props: any) => {
         }
     }
     console.log(userInput);
-    const upload=UseAxios()
+    // const upload=UseAxios()
     const selectMedia = async (e: any) => {
         setIsLoading(true)
         if (e.target.files && e.target.files.length > 0) {
-            setImageFile(e.target.files[0])
+            setGov(e.target.files[0])
             var form_data = new FormData()
             form_data.append('upload', e.target.files[0])
-            //   try {
-            //     const resp = await fetch(
-            //       'https://dev.api.nftytribe.io/api/collectibles/upload-image',
-            //       {
-            //         method: 'POST',
-            //         body: form_data,
-            //       },
-            //     )
-            //     const data = await resp.json()
-            //     setCardImage(data.location)
-            //     console.log(data)
-            //     setIsLoading(false)
-            //   } catch (error) {
-            //     console.log(error)
-            //     setIsLoading(false)
-            //   }
+       
         }
     }
     const [socials,setSocials]=useState({})
@@ -112,7 +98,7 @@ const Verification = (props: any) => {
         setLiveImage(dataURLtoFile(image_data_url,'selfie'))
        setShowPrev(!showPrev)
     }
-    console.log(liveImage);
+  
     
     useEffect(()=>{if(showPrev)takePicture()},[showPrev])
    const header={
@@ -120,6 +106,7 @@ const Verification = (props: any) => {
    }
     const [updated, setUpdated] = useState(false)
     const [error, setError] = useState(false)
+    const [loading, setLoading] = useState(false)
     return (
         <div >
             {updated && <UpdateComplete closeModal={()=>navigate(-1)} />}
@@ -247,7 +234,7 @@ const Verification = (props: any) => {
                             <div className={style.modalInput}>
                                 <p>Upload gov issued ID</p>
                                 <div className={style.fileContainer}>
-                                    {!imageFile && (
+                                    {!gov && (
                                         <div className={style.fileTxt}>
                                             <img src={require('./assets/cloud.png')} alt="upload" />
                                            
@@ -260,13 +247,13 @@ const Verification = (props: any) => {
                                         onChange={selectMedia}
                                         required
                                     />
-                                    {imageFile && (
+                                    {gov && (
                                         <div className={style.fileBx}>
                                             {/* <img src={guy} alt="guy" /> */}
-                                            <img src={URL.createObjectURL(imageFile)} alt="nft" />
+                                            <img src={URL.createObjectURL(gov)} alt="nft" />
                                             <Cancel
                                                 className={style.cancel}
-                                                onClick={() => setImageFile(null)}
+                                                onClick={() => setGov(null)}
                                             />
                                         </div>
                                     )}
@@ -291,28 +278,40 @@ const Verification = (props: any) => {
                             <div
                                 onClick={async () => {
                                     // console.log(liveImage &&  && userInput.fullName && imageFile, liveImage, socials.one, userInput.fullName, imageFile);
-
+                                    setLoading(true)
                                     const form = new FormData()
-                                    if (liveImage && Object.values(socials).length && userInput.fullName && imageFile) {
+                                    if (liveImage && Object.values(socials).length && userInput.fullName && gov) {
 
                                         form.append('selfie', liveImage)
                                         form.append('phoneNumber', userInput.phoneNumber)
                                         form.append('fullName', userInput.fullName)
                                         form.append('professionalName', userInput.fullName)
-                                        form.append('id', imageFile)
+                                        form.append('id', gov)
                                         form.append('socialLinks', JSON.stringify(Object.values(socials)))
-                                       
-                                        let res = await axios.post(`${baseUrl.baseURL}/api/user/kyc-v1`, form, { headers: header }).catch(error=>setError(true))
+                                       try {
+                                         let res = await axios.post(`${baseUrl.baseURL}/api/user/kyc-v1`, form, { headers: header }).catch(error=>setError(true))
                                         if(res)setUpdated(true)
-
+                                       } catch (error) {
+                                          
+                                          toast.error('An Error Occured !')
+                                       }
+                                       finally{
+                                           setLoading(false)
+                                       }
+                                       
                                       
+                                      
+                                    }
+                                    else{
+                                        toast.error('Fill All Compulsory Data')
+                                        setLoading(false)
                                     }
                                 }} className={style.button}>
                                     <div
                                        
                                         //onClick={showCon}
                                         id="showIcon">
-                                       Submit
+                                      {loading?"Loading...":'Submit'} 
                                     </div>
                                 </div>
                               
