@@ -165,17 +165,7 @@ const loginData=UseAxios()
   };
   
 
-  useEffect(() => {
-  
-   
-    getChains({
-      method: "get",
-      url: "/api/chain",
-      axiosInstance: Protected(sessionStorage.getItem("token")),
-    });
-    getUser(sessionStorage.getItem("currentAccount"));
-  }, [userState?.currentAccount,response]);
-
+    
   const [chain, setChain] = useState();
   // console.log('these are the chains:' ,chain);
 

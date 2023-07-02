@@ -25,6 +25,7 @@ import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
 import moment from 'moment'
 import { TokenContext } from 'src/App'
+import { UserContext } from "../../../context/UserContext";
 
 
 declare const window: any
@@ -37,7 +38,8 @@ const PutOnSaleModal = (props: any) => {
         sessionStorage.getItem('currentAccount'),
     )
    
-  
+    const { userState, setUserState } = useContext(UserContext);
+
     const [completed, setCompleted] = useState(false)
     
     const marketType = [
@@ -143,7 +145,7 @@ const PutOnSaleModal = (props: any) => {
                                 <p className={style.mText}>
                                     You are about to put
                                     <span className="blueTxt">
-                                        <strong> {' ' + props.nft?.name} </strong>
+                                        <strong> NFT </strong>
                                     </span>{' '}
                                     on sale
                                    
@@ -153,7 +155,7 @@ const PutOnSaleModal = (props: any) => {
                             <div className={style.modalBody2}>
                                 <div className={style.addrBox}>
                                     <img src={user} alt="user" />
-                                    {shortenAddress(userWallet) || ''}
+                                    {userState?.user?.username || ''}
 
                                     <div className={style.connectedBox}>
                                         <p>Connected</p>
@@ -163,7 +165,7 @@ const PutOnSaleModal = (props: any) => {
 
                             <div className={style.pricesBx}>
                                <div className={style.fieldBx}>
-                                    <p>Enter ERC20 Address</p><br />
+                                    <p>Select Token</p><br />
                                     {/* <TextInput
                                         type="text"
                                         inputName="erc20"

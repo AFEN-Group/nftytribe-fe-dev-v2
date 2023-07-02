@@ -244,7 +244,7 @@ const ItemCard = (data: any) => {
             //className={style.descBox1}
             className={`${style.descBox1} animate__animated animate__fadeIn `}
           >
-           <h3 style={{margin:'0'}}>
+          <h3 onClick={() => data?.nftData?.listingType === "AUCTION"?open2(data):open(data)} style={{margin:'0'}}>
                {Number(data?.nftData?.price)}{data?.nftData?.moreInfo?.erc20TokenSymbol}
            </h3>
           {data?.nftData?.listingType!=='NORMAL'&& <h3>

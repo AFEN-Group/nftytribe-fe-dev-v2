@@ -79,15 +79,10 @@ const Footer = () => {
               {/* <Link to="/">
                 <p>Roadmap</p>
               </Link> */}
-              <a href="/NftyTribeLitePaper.pdf" download>
-                <p>Litepaper</p>
-              </a>
+              
               {/* <Link to="/">
                 <p>Blog</p>
-              </Link> */}
-            </div>
-          </div>
-          <div className={style.rightBtm}>
+              </Link> */} <div style={{margin:'12px 0 0 24px',}} className={style.rightBtm}>
             {/* <Link to="/">
               <img src={Facebook} alt="facebook" />
             </Link> */}
@@ -104,6 +99,9 @@ const Footer = () => {
               <img src={Twitter} alt="twitter" />
             </a>
           </div>
+            </div>
+          </div>
+         
         </div>
       </div>
     </div>

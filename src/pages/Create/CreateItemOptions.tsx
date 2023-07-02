@@ -111,7 +111,7 @@ const CreateItemOptions = () => {
                   <span id="heroTitle">{t("Choose Collectible")}</span>{" "}
                 </h1>
                 <p>
-                <span> Create an Nft or Collection to get Started</span>{" "}
+                <span> Create an NFT or Collection to get Started</span>{" "}
                 </p>
               </div>
               <div
