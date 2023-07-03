@@ -74,12 +74,7 @@ const ConnectWallet = (props: any) => {
     let box: any = document.getElementById('box')
     let overlay: any = document.getElementById('overlay')
     let icon: any = document.getElementById('showIcon')
-    //let iconM: any = document.getElementById('showIconM')
-    // let show2: any = document.getElementById('show2')
-    // let show3: any = document.getElementById('show3')
-    // let show3M: any = document.getElementById('show3M')
-    // let show4: any = document.getElementById('show4')
-    // let stake: any = document.getElementById('stake')
+    
     let close: any = document.getElementById('close')
     if (document.getElementById('showBtn')) {
       let btn: any = document.getElementById('showBtn')

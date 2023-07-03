@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 //import { UserContext } from '../../context/UserContext'
 import { ThemeContext } from "../../context/ThemeContext";
@@ -52,6 +52,7 @@ const HeaderWeb = (props: any) => {
   const dark = themeState.dark;
   const navigate = useNavigate();
   // console.log(dark)
+  const connectRef = useRef(null)
 
   const handleTheme = () => {
     // change theme
@@ -69,7 +70,8 @@ const HeaderWeb = (props: any) => {
     if (currentAccount) {
       navigate("/createOptions");
     } else {
-      //setShowModal(true)
+      // @ts-ignore
+    connectRef.current?.click()
     }
   };
 
@@ -122,8 +124,7 @@ const HeaderWeb = (props: any) => {
    else setShowConnect(false)
   },[userState?.user])
   
- 
-console.log(showConnect);
+// console.log(showConnect);
 
   
 
@@ -186,9 +187,11 @@ console.log(showConnect);
                     className={`${style.btn} ${
                       dark === "true" ? "yellowBtn" : "blueBtn"
                     }`}
+                    ref={connectRef}
                     onClick={() => setShowConnect(!showConnect)}
                     //onClick={showCon}
-                    id="showIcon">
+                    id="showIcon"
+                    >
                     {t("connect wallet")}
                   </div>
                 </div>
