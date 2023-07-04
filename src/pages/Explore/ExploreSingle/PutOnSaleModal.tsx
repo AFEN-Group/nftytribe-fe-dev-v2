@@ -26,6 +26,7 @@ import toast from 'react-hot-toast'
 import moment from 'moment'
 import { TokenContext } from 'src/App'
 import { UserContext } from "../../../context/UserContext";
+import BigNumber from 'bignumber.js'
 
 
 declare const window: any
@@ -47,7 +48,7 @@ const PutOnSaleModal = (props: any) => {
         { value: '2', text: 'Auction' },
     ]
 
-  
+  const [days,setDays]=useState(30)
     const web3= new Web3(window.ethereum)
 
     const [onsaleParams,setParams]=useState({
@@ -55,7 +56,7 @@ const PutOnSaleModal = (props: any) => {
         marketType:'1',
         amount:'',
         from:moment().unix(),
-        to:moment().add(30,'days').unix(),
+        // to: moment().add(parseInt(days) ?? 30, 'days').unix(),
         erc20:''
     })
    
@@ -73,7 +74,7 @@ const PutOnSaleModal = (props: any) => {
                 contracts.BSC_erc721MarketplaceAddress,
             )
             const token = new web3.eth.Contract(abi, onsaleParams.erc20)
-            console.log(token);
+          
             
             await TokenContract.methods.approve(contracts.BSC_erc721MarketplaceAddress, props.id).send({ from: wallet_address })
            
@@ -81,13 +82,14 @@ const PutOnSaleModal = (props: any) => {
                 try {
                    console.log(props.id,onsaleParams.amount);
                   const  decimal=parseInt(await token.methods.decimals().call({from:wallet_address}))
-                  let amount = Number(onsaleParams.amount)*10**decimal
-                  console.log();
-                  
-                    await marketPlaceContract.methods.putOnSale(props.id,JSON.stringify(amount),onsaleParams.marketType,onsaleParams.from,onsaleParams.to,props.collectionAddress,onsaleParams.erc20).send({from:wallet_address})
+                    const amount = new BigNumber(onsaleParams.amount).times(10 ** decimal).toFixed();
+
+                    console.log(amount, await marketPlaceContract.methods);
+                    // @ts-ignore
+                    await marketPlaceContract.methods.putOnSale(props.id, amount, onsaleParams.marketType, onsaleParams.from, moment().add(parseInt(days) ?? 30, 'days').unix(),props.collectionAddress,onsaleParams.erc20).send({from:wallet_address})
                     setCompleted(!completed)
                 } catch (error) {
-
+                      
                 }
           
           
@@ -145,7 +147,7 @@ const PutOnSaleModal = (props: any) => {
                                 <p className={style.mText}>
                                     You are about to put
                                     <span className="blueTxt">
-                                        <strong> NFT </strong>
+                                        <strong> {props.nft?.metadata?.name} </strong>
                                     </span>{' '}
                                     on sale
                                    
@@ -213,6 +215,19 @@ const PutOnSaleModal = (props: any) => {
                                         value={onsaleParams.marketType}
                                     />
                                 </div>
+                                {onsaleParams.marketType === '2' && <div className={style.fieldBx}>
+                                    <p>Duration (days)</p>
+
+
+
+                                    <TextInput
+                                        type="number"
+                                        inputName="royalties"
+                                        holder=" max:30 days"
+                                        inputHandler={(e: any) => e.target.value < 31 && e.target.value > 0 ? setDays(e.target.value) : toast.error('Range From 1-30 days')}
+                                        value={days}
+                                    />
+                                </div>}
                                 {/* {onsaleParams.marketType === '2' && (
                                     <>
                                         <div className={style.fieldBx}>

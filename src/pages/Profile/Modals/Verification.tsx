@@ -52,6 +52,7 @@ const Verification = (props: any) => {
        
         }
     }
+    
     const [socials,setSocials]=useState({})
     const videoRef = useRef(null)
     const pictureRef = useRef(null)
@@ -83,6 +84,18 @@ const Verification = (props: any) => {
         return new File([u8arr], filename, { type: mime });
     }
 
+    const isLink =()=>{
+        
+       const array= Object.values(socials).filter((social:any)=> {return !social?.includes('.com')})
+    //    console.log(array);
+       
+      if(array.length){
+        return true
+      }
+      else return false
+    } 
+
+    console.log(isLink());
     
     const Capture=()=>{
         let video= videoRef.current
@@ -213,21 +226,27 @@ const Verification = (props: any) => {
                                     type="text"
                                     // name="address"
                                     //value={userInput.address}
-                                    onChange={(e) => setSocials({ ...socials, one: e.target.value })}
+                                    onChange={(e) => 
+                                      
+                                        setSocials({ ...socials, one: e.target.value })
+                                    }
                                     placeholder=""
                                 /> 
                                  <input
                                     type="text"
                                     //name="address"
                                     //value={userInput.address}
-                                    onChange={(e) => setSocials({ ...socials, two:e.target.value })}
+                                    onChange={(e) =>
+                                        setSocials({ ...socials, two:e.target.value })
+                                    }
                                     placeholder=""
                                 /> 
                                  <input
                                     type="text"
                                     //name="address"
                                     //value={userInput.address}
-                                    onChange={(e) => setSocials({ ...socials, three: e.target.value })}
+                                    onChange={(e) =>
+                                        setSocials({ ...socials, three: e.target.value })}
                                     placeholder=""
                                 />  
                             </div>
@@ -280,6 +299,8 @@ const Verification = (props: any) => {
                                     // console.log(liveImage &&  && userInput.fullName && imageFile, liveImage, socials.one, userInput.fullName, imageFile);
                                     setLoading(true)
                                     const form = new FormData()
+                                    // @ts-ignore
+                                    if(!isLink()){
                                     if (liveImage && Object.values(socials).length && userInput.fullName && gov) {
 
                                         form.append('selfie', liveImage)
@@ -290,7 +311,8 @@ const Verification = (props: any) => {
                                         form.append('socialLinks', JSON.stringify(Object.values(socials)))
                                        try {
                                          let res = await axios.post(`${baseUrl.baseURL}/api/user/kyc-v1`, form, { headers: header }).catch(error=>setError(true))
-                                        if(res)setUpdated(true)
+                                        if(res)
+                                        setUpdated(true)
                                        } catch (error) {
                                           
                                           toast.error('An Error Occured !')
@@ -305,7 +327,10 @@ const Verification = (props: any) => {
                                     else{
                                         toast.error('Fill All Compulsory Data')
                                         setLoading(false)
-                                    }
+                                    }}
+                                    else {
+                                        setLoading(false)
+                                        toast.error('Enter Correct Social Links')}
                                 }} className={style.button}>
                                     <div
                                        

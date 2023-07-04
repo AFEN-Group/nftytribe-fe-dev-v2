@@ -176,6 +176,9 @@ const HeaderWeb = (props: any) => {
                 <Link to="/rewards">
                   <p>{t("rewards")}</p>
                 </Link>
+                <a href="https://artexpo.nftytribe.io" style={{ fontWeight: 'bolder' }}>
+                  Art Expo
+                </a>
                 {/* <div className={style.nItem}>
                   <LangDropDown />
                 </div> */}
