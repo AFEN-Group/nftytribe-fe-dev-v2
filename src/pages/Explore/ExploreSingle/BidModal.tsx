@@ -246,13 +246,13 @@ console.log(props.nft);
                 </div>
                 <div className={style.pbItem}>
                   <p>Service pay </p>
-                  <p>0.001 ETH</p>
+                  <p>0.001 </p>
                 </div>
                 <div className={style.pbItem}>
                   <p>Amount </p>
                   <p>
-                    {props.nft?.price}
-                    ETH
+                    {props.nft?.price || ''}{' '}
+                    {props.nft?.moreInfo?.erc20TokenSymbol}
                   </p>
                 </div>
                 {/* <div className={style.pbItem}>

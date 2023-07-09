@@ -110,6 +110,7 @@ const PutOnSaleModal = (props: any) => {
     }
 
     )
+  console.log(props);
   
     return (
         <div className={style.bm}>
@@ -291,7 +292,7 @@ const PutOnSaleModal = (props: any) => {
                                 <h1>Congratulations</h1>
                                 <p className={style.mText}>
                                     Your item
-                                    <strong> {' ' + props.nft?.name} </strong>
+                                    <strong> {' ' + props.nft?.metadata?.name} </strong>
                                     is on sale.
                                 </p>
                                 <img src={Close} alt="close" onClick={props.handleClose} />

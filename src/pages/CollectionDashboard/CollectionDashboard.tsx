@@ -85,7 +85,7 @@ const CollectionDashboard = () => {
               </h1>
               <p>
                 <span id="heroText">
-                  Top NfTs are ranked according to volume and floor price.
+                  Top collections are ranked according to volume and floor price.
                 </span>
               </p>
             </div>

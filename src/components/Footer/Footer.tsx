@@ -55,8 +55,8 @@ const Footer = () => {
                 <p>{t("team")}</p>
               </Link>
              
-              <a href="https://awake-cornucopia-fbb.notion.site/NftyTribe-FAQs-and-User-guides-06062b612e2d41649c95c9b2baff7502">
-                <p>{t("support")}</p>
+              <a href=" https://t.co/Qg3utZwFEz">
+                <p>Launch Pad</p>
               </a>
               {/* <Link to="/">
                 <p>Careers</p>
