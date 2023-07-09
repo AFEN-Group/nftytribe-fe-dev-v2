@@ -91,7 +91,7 @@ const ExploreSingleBuy = () => {
   const [itemCollected, setItemCollected] = useState(false);
   const [themeState] = useContext<any>(ThemeContext);
   const dark = themeState.dark;
-  const {connectRef}=useContext<any>(ConnectContext)
+  const {connectRef,connectRefM}=useContext<any>(ConnectContext)
   // network
 
   const [chainId, setChainId, chainIdRef] = useState<string>();
@@ -198,8 +198,11 @@ const ExploreSingleBuy = () => {
     }
     }
     else {
+    
+      
       toast.error('Connect your wallet')
       connectRef?.current?.click()
+      connectRefM?.current?.click()
     }
    
   };

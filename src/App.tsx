@@ -207,7 +207,8 @@ const loginData=UseAxios()
    } 
   },[userState?.user])
   
-  const connectRef=useRef(null)
+  const connectRef = useRef(null)
+  const connectRefM = useRef(null)
 
   
  
@@ -232,7 +233,7 @@ const loginData=UseAxios()
   return (
     <Web3ContextProvider>
       {/* @ts-ignore */}
-      <ConnectContext.Provider value={{connectRef}}>
+      <ConnectContext.Provider value={{connectRef,connectRefM}}>
       <ChainContext.Provider value={{ chain,socketState }}>
         <LanguageContext.Provider value={langState}>
           <WalletContext.Provider value={data}>

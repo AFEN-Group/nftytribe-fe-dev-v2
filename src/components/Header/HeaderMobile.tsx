@@ -13,6 +13,7 @@ import Sun from "./assets/sun.svg";
 import "./menu.css";
 import ConnectWallet2 from "../ConnectWallet/ConnectWalletM";
 import { useTranslation } from "react-i18next";
+import { ConnectContext } from 'src/App'
 //import Footer from '../Footer/Footer'
 
 const HeaderMobile = () => {
@@ -69,8 +70,10 @@ const HeaderMobile = () => {
     }
   }
   const open: any= useRef(null)
+  const {connectRefM}= useContext<any>(ConnectContext)
   return (
     <>
+    <div style={{display:'none'}} ref={connectRefM} onClick={handleMConnect}>test</div>
       <div className={style.headerM}>
         <div
           className={`${style.containerM} ${dark === "true" ? "darkTheme" : "lightTheme"
@@ -304,6 +307,7 @@ const HeaderMobile = () => {
                                 }`}
                               //onClick={() => setShowConnect(!showConnect)}
                               onClick={handleMConnect}
+                              ref={connectRefM}
                             //id="showIconM"
                             >
                               Connect wallet
