@@ -52,16 +52,13 @@ const Hero = (props:any) => {
       ease: Expo.easeInOut,
     })
   }, [])
-  const {showConnect,setShowConnect}=useContext<any>(ConnectContext)
+  const {connectRef}=useContext<any>(ConnectContext)
   const  handleImport = () => {
     if (currentAccount) {
       navigate('/createOptions')
     }
-    else toast.error(` Please connect wallet`,
-      {
-        duration: 3000,
-      }
-    )
+    else connectRef.current.click()
+     
   
   }
 

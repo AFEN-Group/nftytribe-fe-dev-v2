@@ -43,32 +43,20 @@ const Profile = () => {
   // const [totalPages, setTotalPages] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const [showModal, setShowModal] = useState<any>()
-  // const [currentChain, setCurrentChain] = useState<any>()
-  //console.log('auth>>', authState)
+  const [postData,setData]=useState<any>()
 
-
-
-  
- 
- 
-  // const {error:getError,loading:getLoading,Response:response,fetchData:getData}=UseAxios()
   const {error:Error,loading:Loading,Response:postResponse,fetchData:Data}=UseAxios()
   const {userState,setUserState}=useContext(UserContext)
-  const cursor= postResponse?.data.cursor
+  
   const page = postResponse?.data.page
   useEffect(()=>{
     setRes(userState?.user)
   },[userState])
-
+  const [reload,setReload]=useState(false)
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    // if (currentChainId === '0x1') {
-    //   setCurrentChain('eth')
-    // } else if (currentChain === '0x38') {
-    //   setCurrentChain('bsc')
-    // }
-    // console.log(currentAddress);
+    
      setUserState({...userState,currentAddress:currentAddress})
   }, [currentAddress])
  
@@ -78,12 +66,12 @@ const Profile = () => {
     if(!query||query===''){
       Data({
         method: 'get',
-        url: `api/nft/user/${currentAddress}?page=${cursor?cursor:''}&chain=${currentChainId}`,
+        url: `api/nft/user/${currentAddress}?page=${postResponse?.data?.cursor ? postResponse?.data?.cursor :''}&chain=${currentChainId}`,
         axiosInstance: Protected(sessionStorage.getItem('token'))
       })
     }
 
-    else if(query=='on_sale'){
+    else if(query==='on_sale'){
       Data({
         method: 'get',
         url: `api/nft/listings?owner=${userState.user.id}&chain=${chain.filter((chain: any) => { return chain.chain === currentChainId })[0].id}`,
@@ -99,13 +87,16 @@ const Profile = () => {
     }
    else Data({
      method:'get',
-     url:  `api/nft/transactions/?type=${query}&page=${currentPage}&limit=10`,
+     url: `api/nft/transactions/?type=${query}&page=${postResponse?.data?.cursor ? postResponse?.data?.cursor:''}&limit=10`,
      axiosInstance:Protected(sessionStorage.getItem('token'))
     })
     
-  }, [currentAddress,currentPage,query])
+  }, [currentAddress,reload,query])
 
 
+  
+  console.log(currentPage);
+  console.log(postResponse?.data?.cursor);
 
  useEffect(()=>{
     
@@ -113,10 +104,10 @@ const Profile = () => {
       data?:any
      }
      const {data}=postResponse||({} as data)
-    //  setTotalPages(data?.cursor);
-  
-    //  console.log(data.results);
-     
+   
+    setData(data)
+     console.log(data?.cursor);
+   
       if(!query){
         page > 1 ? setCollectibles([...collectibles,...data?.result]) :setCollectibles(data?.result)
       }
@@ -131,9 +122,8 @@ const Profile = () => {
 
  
   
-  const nextPage = () => {
-     setCurrentPage(cursor)  
-  }
+
+ console.log(reload);
  
   const closeModal = () => {
     setShowModal(false)
@@ -148,8 +138,10 @@ const Profile = () => {
     const [entry] = entries;
     console.log(entry.isIntersecting);
     
-    if(entry.isIntersecting)  nextPage();
-    return
+    if(entry.isIntersecting) {
+       setReload((reload)=>!reload)
+    } 
+  
   };
   let options = {
     root: null,

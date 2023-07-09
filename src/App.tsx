@@ -207,6 +207,7 @@ const loginData=UseAxios()
    } 
   },[userState?.user])
   
+  const connectRef=useRef(null)
 
   
  
@@ -225,13 +226,13 @@ const loginData=UseAxios()
     })
   },[userState?.user])
   const tokens:any =getPrices.Response?.data
-  const [showConnect,setShowConnect]=useState<any>(false)
+  // const [showConnect,setShowConnect]=useState<any>(false)
    console.log(tokens);
    
   return (
     <Web3ContextProvider>
       {/* @ts-ignore */}
-      <ConnectContext.Provider value={{showConnect,setShowConnect}}>
+      <ConnectContext.Provider value={{connectRef}}>
       <ChainContext.Provider value={{ chain,socketState }}>
         <LanguageContext.Provider value={langState}>
           <WalletContext.Provider value={data}>

@@ -59,7 +59,7 @@ import Protected from "../../../hooks/AxiosConfig/axiosInstance";
 import { ChainContext } from "../../../context/chain";
 import TextInput from "src/components/Inputs/TextInput";
 import SelectOption from "src/components/Inputs/SelectOption";
-import { TokenContext } from "src/App";
+import { ConnectContext, TokenContext } from "src/App";
 declare const window: any;
 
 // const erc721Mintable_address = contracts.erc721MintableAddress
@@ -91,7 +91,7 @@ const ExploreSingleBuy = () => {
   const [itemCollected, setItemCollected] = useState(false);
   const [themeState] = useContext<any>(ThemeContext);
   const dark = themeState.dark;
-
+  const {connectRef}=useContext<any>(ConnectContext)
   // network
 
   const [chainId, setChainId, chainIdRef] = useState<string>();
@@ -164,7 +164,8 @@ const ExploreSingleBuy = () => {
   };
 
   const handleSubmit = async () => {
-    if (userState.user.email) {
+    if(userState?.user){
+       if (userState.user.email) {
       const currentChainId = sessionStorage.getItem("chain");
       console.log(currentChainId);
       if (
@@ -195,6 +196,12 @@ const ExploreSingleBuy = () => {
     } else {
       setShowPrompt(true);
     }
+    }
+    else {
+      toast.error('Connect your wallet')
+      connectRef?.current?.click()
+    }
+   
   };
   const web3 = new Web3(window.ethereum);
   const handleSale = async (e: any) => {
@@ -234,11 +241,20 @@ const ExploreSingleBuy = () => {
   };
   console.log(nft, userState);
   const [purchaseDt, setPDT] = useState(false);
+
+
   const PurchaseDt = (e: any) => {
     e.preventDefault();
-    if (userState.user.email) {
+    if(userState?.user){
+       if (userState.user.email) {
       setPDT(true);
     } else setShowPrompt(true);
+    }
+    else {
+      toast.error('Connect your wallet')
+      connectRef?.current?.click()
+    }
+   
   };
   const [step, setStep] = useState(1);
   return (

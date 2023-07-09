@@ -41,7 +41,7 @@ import { ConnectContext } from "src/App";
 const HeaderWeb = (props: any) => {
   //const [isConnected, setIsConnected] = useState(false)
   const [showDropDown, setShowDropDown] = useState("None");
-  const {showConnect, setShowConnect} = useContext<any>(ConnectContext);
+  const {connectRef} = useContext<any>(ConnectContext);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchRes, setSearchRes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -52,7 +52,7 @@ const HeaderWeb = (props: any) => {
   const dark = themeState.dark;
   const navigate = useNavigate();
   // console.log(dark)
-  const connectRef = useRef(null)
+  // const connectRef = useRef(null)
 
   const handleTheme = () => {
     // change theme
@@ -117,12 +117,12 @@ const HeaderWeb = (props: any) => {
 
   const {userState}=useContext(UserContext)
 
-   useEffect(()=>{
-    if(userState?.user){
-    setShowConnect(true)
-   }
-   else setShowConnect(false)
-  },[userState?.user])
+  //  useEffect(()=>{
+  //   if(userState?.user){
+  //   setShowConnect(true)
+  //  }
+  //  else setShowConnect(false)
+  // },[userState?.user])
   
 // console.log(showConnect);
 
@@ -140,7 +140,7 @@ const HeaderWeb = (props: any) => {
       >
         <ConnectWallet
         
-          showConnect={showConnect}
+          // showConnect={showConnect}
           //handleClose={handleClose}
         />
         <div
@@ -191,7 +191,7 @@ const HeaderWeb = (props: any) => {
                       dark === "true" ? "yellowBtn" : "blueBtn"
                     }`}
                     ref={connectRef}
-                    onClick={() => setShowConnect(!showConnect)}
+                    // onClick={() => setShowConnect(!showConnect)}
                     //onClick={showCon}
                     id="showIcon"
                     >
@@ -300,7 +300,7 @@ const HeaderWeb = (props: any) => {
                   style={{ cursor: "pointer" }}
                   src={dark === "true" ? Wallet2 : Wallet}
                   alt="wallet"
-                  onClick={() => setShowConnect(!showConnect)}
+                  // onClick={() => setShowConnect(!showConnect)}
                   //onClick={showCon}
                   onMouseOver={() => setShowDropDown("None")}
                   id="showIcon"
