@@ -17,6 +17,8 @@ import ItemSkeleton from '../../../components/Card/ItemSkeleton'
 import { useTranslation } from "react-i18next";
 import { ConnectContext } from 'src/App'
 import { toast } from 'react-hot-toast'
+import UseAxios from 'src/hooks/AxiosConfig/useAxios'
+import Protected from 'src/hooks/AxiosConfig/axiosInstance'
 
 const Hero = (props:any) => {
   // const [isLoading, setIsLoading] = useState(true)
@@ -62,7 +64,15 @@ const Hero = (props:any) => {
   
   }
 
+  const {Response,fetchData,loading}=UseAxios()
 
+  useEffect(()=>{
+    fetchData({
+      method:'get',
+      url:'announcements',
+      axiosInstance:Protected()
+    })
+  },[])
 
   return (
     <>

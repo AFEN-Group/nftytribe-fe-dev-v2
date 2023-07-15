@@ -164,6 +164,7 @@ const ExploreSingleBuy = () => {
   };
 
   const handleSubmit = async () => {
+    toggle()
     if(userState?.user){
        if (userState.user.email) {
       const currentChainId = sessionStorage.getItem("chain");
@@ -224,6 +225,8 @@ const ExploreSingleBuy = () => {
 
       window.location.reload();
     } else {
+      toggle()
+
       setShowPutOnSale(!showPutOnSale);
     }
   };
@@ -239,13 +242,21 @@ const ExploreSingleBuy = () => {
   };
 
   const handleClose = () => {
+    toggle()
     setShowBuy(false);
     setShowPutOnSale(false);
   };
   console.log(nft, userState);
   const [purchaseDt, setPDT] = useState(false);
 
-
+  
+  const bodystyle= document.body.style
+  const [isLocked ,setIsLocked]=useState(bodystyle.overflowY==='hidden')
+  useEffect(()=>{
+    bodystyle.overflowY= isLocked?'hidden':'auto'
+    bodystyle.height = isLocked ? '100vh':'unset'
+  },[isLocked,bodystyle])
+  const toggle=()=>setIsLocked(!isLocked)
   const PurchaseDt = (e: any) => {
     e.preventDefault();
     if(userState?.user){
@@ -291,6 +302,7 @@ const ExploreSingleBuy = () => {
       {showPrompt && <UpdatePrompt closePrompt={closePrompt} />}
       <Container>
         <div
+         
           className={`${style.container} animate__animated animate__fadeInLeft`}>
           <div className={style.content}>
             <div className={style.top}>
@@ -469,7 +481,7 @@ const ExploreSingleBuy = () => {
                         {nft?.price ? (
                           <p>
                             {Number(nft?.price).toString() || ""}{" "}
-                            {nft.moreInfo.erc20TokenName}
+                            {nft.moreInfo.erc20TokenSymbol}
                           </p>
                         ) : (
                           <p>0.00 </p>

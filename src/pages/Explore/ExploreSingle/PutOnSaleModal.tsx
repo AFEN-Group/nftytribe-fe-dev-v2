@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import useState from 'react-usestateref'
 import tokenAbi from '../../../smart_contracts/afenToken.json'
 // import ContractContext from '../../../context/ContractContext'
@@ -27,6 +27,7 @@ import moment from 'moment'
 import { TokenContext } from 'src/App'
 import { UserContext } from "../../../context/UserContext";
 import BigNumber from 'bignumber.js'
+import Protected from 'src/hooks/AxiosConfig/axiosInstance'
 
 
 declare const window: any
@@ -56,6 +57,7 @@ const PutOnSaleModal = (props: any) => {
         marketType:'1',
         amount:'',
         from:moment().unix(),
+        category:'',
         // to: moment().add(parseInt(days) ?? 30, 'days').unix(),
         erc20:''
     })
@@ -110,8 +112,15 @@ const PutOnSaleModal = (props: any) => {
     }
 
     )
-  console.log(props);
-  
+    const [categories, setCategories] = useState<any>([])
+    const getCategories = async () => {
+        const res = await Protected(sessionStorage.getItem('token'))['get']('api/category')
+        setCategories(res?.data)
+
+    }
+    useEffect(()=>{getCategories()},[])
+    // console.log(props,onsaleParams);
+    
     return (
         <div className={style.bm}>
             <div className={style.bmContent}>
@@ -209,10 +218,21 @@ const PutOnSaleModal = (props: any) => {
                                 </div> 
                               
                                 <div className={style.fieldBx}>
+                                    <p>Select a category</p>
+                                    <SelectOption
+                                        options={categories.map((category: any) => {
+                                            return { value: category.id, text: category.name }
+                                        })}
+                                        inputName="category"
+                                        inputHandler={(e: any) => setParams({ ...onsaleParams, category: e.target.value })}
+                                        value={onsaleParams?.category}
+                                    />
+                                </div> 
+                                 <div className={style.fieldBx}>
                                     <p>Choose market type</p><br />
                                     <SelectOption
                                         options={marketType}
-                                        inputHandler={(e:any)=>setParams({...onsaleParams,marketType:e.target.value})}
+                                        inputHandler={(e: any) => setParams({ ...onsaleParams, marketType: e.target.value })}
                                         value={onsaleParams.marketType}
                                     />
                                 </div>

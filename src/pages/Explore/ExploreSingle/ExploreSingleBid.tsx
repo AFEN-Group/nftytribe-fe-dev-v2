@@ -199,8 +199,9 @@ const getTimeleft=()=>{
         const erc20token = new web3.eth.Contract(erc20.abi, nft.moreInfo.erc20TokenAddress)
         const owner = await erc721Contract.methods.ownerOf(nft?.tokenId).call()
         
+       console.log(await erc20token.methods);
         
-        const name = await erc20token.methods.name().call()
+        const name = await erc20token.methods.symbol().call()
         // console.log("ownerr", owner)
         const auctionInfo = await marketPlaceContract.methods.auctions(collectionAddress, nft.tokenId).call()
         //alert('ggg')

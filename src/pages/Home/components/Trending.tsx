@@ -23,6 +23,8 @@ const Trending = ({data}:any) => {
   //   };
   //   getExploreCollectibles();
   // }, []);
+  console.log(data);
+  
   const { t } = useTranslation();
   return (
     <>
@@ -31,7 +33,7 @@ const Trending = ({data}:any) => {
           <div className={style.trContent}>
             <div className={style.trTop}>
               <h1>
-                <span>{t("trending-today")}</span>{" "}
+                <span>New Listings</span>{" "}
               </h1>
             </div>
             <div className={style.trBody}>
@@ -43,7 +45,7 @@ const Trending = ({data}:any) => {
                 className={style.slidesContainer}>
                 {data?.map((nft: any, i: any) => {
                   return (
-                    (nft?._id && nft?.cardImage) && (
+                    nft?.id  && (
                       <div className={style.trSlide} key={nft._id}>
                         <ItemCard nftData={nft} />
                       </div>
@@ -69,6 +71,7 @@ const Trending = ({data}:any) => {
                   );
                 })}
               </Marquee>
+              
               {/* </div> */}
             </div>
           </div>
