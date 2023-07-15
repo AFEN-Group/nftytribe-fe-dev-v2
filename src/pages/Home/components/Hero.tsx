@@ -69,11 +69,12 @@ const Hero = (props:any) => {
   useEffect(()=>{
     fetchData({
       method:'get',
-      url:'announcements',
+      url:'api/announcements',
       axiosInstance:Protected()
     })
   },[])
-
+  console.log(Response);
+  
   return (
     <>
       <div
@@ -273,42 +274,35 @@ const Hero = (props:any) => {
                 } `}
             >
               <ul className={style.hb1Content}>
-                <li>NFTYTRIBE IS LIVE! {' >'}</li>
-                <li></li>
-                <li>NFTYTRIBE IS LIVE! {' >'}</li>
-                <li></li>
-                <li>NFTYTRIBE IS LIVE! {' >'}</li>
-                <li></li>
-                <li>NFTYTRIBE IS LIVE! {' >'}</li>
-                <li></li>
-                <li>NFTYTRIBE IS LIVE! {' >'}</li>
-                <li></li>
-                <li>NFTYTRIBE IS LIVE! {' >'}</li>
-                <li></li>
-                <li>NFTYTRIBE IS LIVE! {' >'}</li>
-                <li></li>
-                <li>NFTYTRIBE IS LIVE! {' >'}</li>
-                <li></li>
+                {
+                  Response?.data.length ? Response?.data.map((data: any, idx: number) => (
+                    <>
+                      <li> {data}{' >'}</li>
+                      <li></li>
+                    </>
+
+                  )) : (<>
+                    <li> Welcome{' >'}</li>
+                    <li></li>
+                  </>)
+                }
+           
               </ul>
             </div>
             <div className={style.hBanner2}>
               <ul className={style.hb2Content}>
-                <li>NFTYTRIBE IS LIVE! {' >'}</li>
-                <li></li>
-                <li>NFTYTRIBE IS LIVE! {' >'}</li>
-                <li></li>
-                <li>NFTYTRIBE IS LIVE! {' >'}</li>
-                <li></li>
-                <li>NFTYTRIBE IS LIVE! {' >'}</li>
-                <li></li>
-                <li>NFTYTRIBE IS LIVE! {' >'}</li>
-                <li></li>
-                <li>NFTYTRIBE IS LIVE! {' >'}</li>
-                <li></li>
-                <li>NFTYTRIBE IS LIVE! {' >'}</li>
-                <li></li>
-                <li>NFTYTRIBE IS LIVE! {' >'}</li>
-                <li></li>
+                {
+                  Response?.data.length ? Response?.data.map((data: any, idx: number) => (
+                    <>
+                      <li> {data}{' >'}</li>
+                      <li></li>
+                    </>
+
+                 )) : (<>
+                   <li> Welcome{' >'}</li>
+                   <li></li>
+                 </>)
+                }
               </ul>
             </div>
           </div>
