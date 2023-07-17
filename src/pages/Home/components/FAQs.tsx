@@ -80,7 +80,7 @@ const FAQs = () => {
                 <h2>
                     How does lazy minting work on NftyTribe?
 
-                  {t("selling-nft")}
+                 
                   </h2>
                 <p>
                     With lazy minting, NftyTribe users can simply upload their NFTs at zero cost, and our system will automatically subtract fees when a buyer purchases them. 
