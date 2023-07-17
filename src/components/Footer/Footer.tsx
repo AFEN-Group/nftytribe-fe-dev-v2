@@ -34,7 +34,7 @@ const Footer = () => {
             <br />
             <button className={style.sub}>Subscribe</button>
           </div> */}
-          <Subscribe />
+          {/* <Subscribe /> */}
           <div className={style.lbottom}>
             <div className={style.logoBox}>
               <p>Powered by</p>
