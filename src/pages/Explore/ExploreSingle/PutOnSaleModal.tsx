@@ -91,6 +91,7 @@ const PutOnSaleModal = (props: any) => {
                     await marketPlaceContract.methods.putOnSale(props.id, amount, onsaleParams.marketType, onsaleParams.from, moment().add(parseInt(days) ?? 30, 'days').unix(),props.collectionAddress,onsaleParams.erc20).send({from:wallet_address})
                     setCompleted(!completed)
                 } catch (error) {
+                      console.log(error);
                       
                 }
           

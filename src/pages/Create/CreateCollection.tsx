@@ -71,7 +71,7 @@ const CreateCollection = () => {
 
   const contractOptions = [
     { value: 'erc721', text: 'erc721' },
-    { value: 'erc1155', text: 'erc1155' },
+    // { value: 'erc1155', text: 'erc1155' },
   ]
 
   // network

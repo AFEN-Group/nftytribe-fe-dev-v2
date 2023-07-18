@@ -128,7 +128,7 @@ const Portfolio = () => {
                     <div className={style.content}>
                         <div className={style.top}>
                             <h1>
-                                <span id="heroTitle">{user?.username}'s Portfolio</span>{' '}
+                                <span id="heroTitle">{user?.data?.username}'s Portfolio</span>{' '}
                             </h1>
                             <p>
                                 <span id="heroText">

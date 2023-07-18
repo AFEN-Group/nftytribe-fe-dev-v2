@@ -14,6 +14,7 @@ import "./menu.css";
 import ConnectWallet2 from "../ConnectWallet/ConnectWalletM";
 import { useTranslation } from "react-i18next";
 import { ConnectContext } from 'src/App'
+import { UserContext } from 'src/context/UserContext'
 //import Footer from '../Footer/Footer'
 
 const HeaderMobile = () => {
@@ -71,6 +72,7 @@ const HeaderMobile = () => {
   }
   const open: any= useRef(null)
   const {connectRefM}= useContext<any>(ConnectContext)
+  const {userState}=useContext(UserContext)
   return (
     <>
     <div style={{display:'none'}} ref={connectRefM} onClick={handleMConnect}>test</div>
@@ -161,6 +163,26 @@ const HeaderMobile = () => {
                             },
                           }}>
                           <Link to="/explore">Explore</Link>
+                        </motion.li> 
+                         <motion.li
+                          //className={style.disabled}
+                          initial="hidden"
+                          animate="visible"
+                          variants={{
+                            hidden: {
+                              opacity: 0,
+                              scale: 0.2,
+                            },
+                            visible: {
+                              scale: 1,
+                              opacity: 1,
+                              transition: {
+                                delay: 0.4,
+                                duration: 0.4,
+                              },
+                            },
+                          }}>
+                          <Link to={"/portfolio/"+ userState?.user.id}>Portfolio</Link>
                         </motion.li>
                         {/* {currentAccount && ( */}
 

@@ -42,6 +42,7 @@ import { ChainContext } from "./context/chain";
 import config from '../src/utils/globalVariables'
 import Verification from "./pages/Profile/Modals/Verification";
 import { createContext } from "react";
+import Portfolio from "./pages/Portfolio";
 
 
 
@@ -259,9 +260,12 @@ const loginData=UseAxios()
                     <Route
                       path="/exploreBid/:collectionAddress/:id"
                       element={<ExploreBid />}></Route>
-                    <Route
-                      path="/collections"
-                      element={<Collections />}></Route> 
+                        <Route
+                          path="/collections"
+                          element={<Collections />}></Route> 
+                     <Route
+                            path="/portfolio/:id"
+                            element={<Portfolio />}></Route> 
                     <Route
                         path="/verify"
                         element={<Verification  />}>
