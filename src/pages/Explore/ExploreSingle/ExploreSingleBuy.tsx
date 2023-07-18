@@ -271,7 +271,9 @@ const ExploreSingleBuy = () => {
    
   };
   const [step, setStep] = useState(1);
-  return (
+
+  // console.log(nft?.user);
+    return (
     <>
       {purchaseDt && (
         <DTPopUp
@@ -439,8 +441,8 @@ const ExploreSingleBuy = () => {
                     <div className={style.userBx}>
                       <img src={dark === "true" ? User : User2} alt="user" />
                       {nft && (
-                        <p>
-                          {nft?.user.username
+                        <p style={{cursor:'pointer'}} onClick={()=>navigate(`/portfolio/${nft?.userId}`)}>
+                          {nft?.user?.username
                          }
                         </p>
                       )}

@@ -6,9 +6,7 @@ import { publicRequest } from "../../utils/requestMethods";
 import { CircularProgress } from "@material-ui/core";
 import { gsap, Power3 } from "gsap";
 import style from "./Header.module.scss";
-import Logo from "./assets/logo.svg";
-import Logo2 from "./assets/logo-light.svg";
-import Search from "./assets/search.svg";
+
 import User from "./assets/user.svg";
 import User2 from "./assets/User2.svg";
 import Wallet from "./assets/wallet.svg";
@@ -25,6 +23,8 @@ import Language2 from "./assets/lD.svg";
 import Collection2 from "./assets/cD.svg";
 //import Notification from './assets/notifications.svg'
 import Moon from "./assets/moon.svg";
+import Port1 from "./assets/port1.svg";
+import Port2 from "./assets/port2.svg";
 import Sun from "./assets/sun.svg";
 //
 import ConnectWallet from "../ConnectWallet/ConnectWallet";
@@ -352,13 +352,20 @@ const HeaderWeb = (props: any) => {
                         />
                         <p>Settings</p>
                       </Link>
-                      <Link to="/collections" className={style.dropItem}>
-                        <img
-                          src={dark === "true" ? Collection2 : Collection}
-                          alt="collection"
-                        />
-                        <p>My collections</p>
-                      </Link>
+                        <Link to="/collections" className={style.dropItem}>
+                          <img
+                            src={dark === "true" ? Collection2 : Collection}
+                            alt="collection"
+                          />
+                          <p>My collections</p>
+                        </Link>
+                         <Link to={"/portfolio/"+ userState?.user?.id} className={style.dropItem}>
+                          <img
+                            src={dark === "true" ? Port2 : Port1}
+                            alt="collection"
+                          />
+                          <p>My Portfolio</p>
+                        </Link>
                       {/* <Link to="" className={style.dropItem}>
                         <img
                           src={dark === "true" ? Language2 : Language}
