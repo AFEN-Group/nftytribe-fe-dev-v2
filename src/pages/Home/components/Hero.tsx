@@ -277,7 +277,7 @@ const Hero = (props:any) => {
                 {
                   Response?.data.length ? Response?.data.map((data: any, idx: number) => (
                     <>
-                      <li> {data}{' >'}</li>
+                      <li> {data.title}{' >'}</li>
                       <li></li>
                     </>
 
@@ -294,7 +294,7 @@ const Hero = (props:any) => {
                 {
                   Response?.data.length ? Response?.data.map((data: any, idx: number) => (
                     <>
-                      <li> {data}{' >'}</li>
+                      <li> {data?.title}{' >'}</li>
                       <li></li>
                     </>
 
