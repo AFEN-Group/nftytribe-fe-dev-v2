@@ -1,7 +1,7 @@
 
 export default sessionStorage.getItem('chain') !== '0x89' || sessionStorage.getItem('chain') !== '137' ?
 // eslint-disable-next-line
-(window.location.host.includes('staging') || window.location.host.includes('localhost') ?{
+(window.location.host.includes('staging')  ?{
   //ETH
   erc721MintableAddress: '0x94D048E1AEC1058BD6c2a32a5d4d7EC2f718623d',
   erc721FactoryAddress: '0xC6BF837444a5b201D926c8d81aAa6dc1ba71193f',

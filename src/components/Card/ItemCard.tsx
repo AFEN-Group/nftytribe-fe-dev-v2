@@ -9,13 +9,15 @@ import { ThemeContext } from '../../context/ThemeContext'
 import UseAxios from '../../hooks/AxiosConfig/useAxios'
 import Protected from '../../hooks/AxiosConfig/axiosInstance'
 import { Like, Star } from './CollectionCard'
+import { TokenContext } from 'src/App'
+import numeral from 'numeral'
 
 
 const ItemCard = (data: any) => {
   const [themeState] = useContext<any>(ThemeContext)
   const dark = themeState.dark
   const {pathname}=useLocation()
-  
+  const tokens= useContext<any>(TokenContext)
   const [liked, setLiked] = useState(data?.nftData?.isLiked)
   const [favorite, setFavorite] = useState(data?.nftData?.isFavorite)
   const [watchCount, setWatchCount] = useState(data?.nftData?.watchCount)
@@ -46,10 +48,15 @@ const ItemCard = (data: any) => {
   const [Wtag, setWTag] = useState(false)
 
   
-
-  const currentAddress: any = sessionStorage.getItem('currentAccount')
+console.log(tokens,data);
+const dollarEq =()=>{ 
+  const token= tokens?.filter((token :any)=>token.tokenAddress==data.nftData.moreInfo.erc20TokenAddress)
+  if(token?.length)return token[0]?.usdPrice * data.nftData.price
+}
+  // const currentAddress: any = sessionStorage.getItem('currentAccount')
   const navigate=useNavigate()
-  
+   console.log(dollarEq());
+   
   const open=(data: any)=>{
     if(pathname.includes('profile')){
        console.log(data);
@@ -237,7 +244,10 @@ const ItemCard = (data: any) => {
                   </div>
                 
                 </div>
-                <p>{data?.nftData?.name}</p>
+                <p style={{display:'flex',justifyContent:'space-between'}}>
+                    <span>{data?.nftData?.name}</span>
+                     <span style={{fontSize:'0.8em'}}>${numeral(dollarEq()).format()}</span>
+                </p>
                 {/* <span>{data?.nftData?.description}</span> */}
               </div>
           <div

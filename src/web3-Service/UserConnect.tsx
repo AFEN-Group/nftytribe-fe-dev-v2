@@ -122,7 +122,7 @@ const UserConnect = () => {
           method: 'eth_requestAccounts',
         })
         if (window.location.host.includes('localhost') || window.location.host.includes('staging')){
-          if (window.ethereum.chainId === '0x4' || window.ethereum.chainId === '0x61') { // for both testnet eth and bn
+          if (window.ethereum.chainId === '0x4' || window.ethereum.chainId === '0x38') { // for both testnet eth and bn
             //if (window.ethereum.chainId === '0x61') { // for testnet bsc
             //if (window.ethereum.chainId === '0x1') { // for eth only
             // console.log(window.ethereum.chainId)
