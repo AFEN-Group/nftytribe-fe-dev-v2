@@ -50,7 +50,7 @@ const ItemCard = (data: any) => {
   
 console.log(tokens,data);
 const dollarEq =()=>{ 
-  const token= tokens?.filter((token :any)=>token.tokenAddress==data.nftData.moreInfo.erc20TokenAddress)
+  const token= tokens?.filter((token :any)=>token.tokenAddress==data.nftData?.moreInfo?.erc20TokenAddress)
   if(token?.length)return token[0]?.usdPrice * data.nftData.price
 }
   // const currentAddress: any = sessionStorage.getItem('currentAccount')
@@ -125,7 +125,7 @@ const dollarEq =()=>{
   },[])
    
    
-    
+    useEffect(()=>setWatch(data?.nftData?.isWatched),[])
 
     
     
@@ -218,7 +218,7 @@ const dollarEq =()=>{
                     </svg>}
                   </div>
 <div style={{position:'relative'}} className="watch">
-              {data?.nftData?.isWatched &&
+              {(watch) &&
               <svg onMouseEnter={() => {
                 setWTag(true)
               }} onMouseLeave={() => setWTag(false)} onClick={() => patchData('watch')} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
@@ -232,7 +232,7 @@ const dollarEq =()=>{
 </svg>
 
             }
-               {!data?.nftData?.isWatched && <svg onMouseEnter={() => {
+               {(!watch) && <svg onMouseEnter={() => {
                 setWTag(true)
               }} onMouseLeave={() => setWTag(false)} onClick={() => patchData('watch')} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M8.25 12C8.25 9.92893 9.92893 8.25 12 8.25C14.0711 8.25 15.75 9.92893 15.75 12C15.75 14.0711 14.0711 15.75 12 15.75C9.92893 15.75 8.25 14.0711 8.25 12ZM12 9.75C10.7574 9.75 9.75 10.7574 9.75 12C9.75 13.2426 10.7574 14.25 12 14.25C13.2426 14.25 14.25 13.2426 14.25 12C14.25 10.7574 13.2426 9.75 12 9.75Z" fill="#3F3F46" />

@@ -43,10 +43,10 @@ const Switch = (props: any) => {
                     className={`${style.modal2} `}
                 >
                     <div className={style.modalTop}>
-                        <h1>Wrong Chain</h1>
-                        <p>
+                        <h1>{props.header || 'Wrong Chain'}</h1>
+                        {props.message || <p>
                             Please switch to <strong>{props.blockChain}</strong> chain
-                        </p>
+                        </p>}
                         <img src={Close} alt="close" onClick={props.closeModal} />
                     </div>
                     <div className={style.modalBody2}>
@@ -57,11 +57,11 @@ const Switch = (props: any) => {
 
                     {/* <Link to="/editProfile" className={style.modalBtnSingle}> */}
                     <div className={style.modalBtnSingle}>
-                        {props.blockChain === 'Binance' && (
+                        {(props.blockChain === 'Binance' || props.button) && (
                             <button
                                 className="blueBtn"
-                                onClick={() => handleNetworkSwitch("bscMain")}
-                            >Switch to Binance </button>
+                                onClick={props.clicked ? props.clicked : () => handleNetworkSwitch("bscMain")}
+                            >{props.button || 'Switch to Binance'} </button>
                         )}
                         {/* {props.blockChain === 'Ethereum' && (
                             <button
@@ -71,7 +71,7 @@ const Switch = (props: any) => {
                         )} */}
                     </div>
 
-                    {/* <p style={{fontSize:'12px',marginTop:'12px'}}>Having any Issue? Do well to watch our <a style={{fontWeight:'bolder'}} href="" target={'_blank'}> Staking Tutorial 😊</a></p> */}
+                    <p style={{ fontSize: '12px', marginTop: '12px' }}>Having any Issue? Do well to watch our <a style={{ fontWeight: 'bolder' }} href="" target={'_blank'}> Staking Tutorial 😊</a></p>
                     {/* <button>Update</button> */}
                     {/* </Link> */}
                 </motion.div>

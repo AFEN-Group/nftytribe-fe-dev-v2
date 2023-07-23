@@ -206,11 +206,12 @@ const PutOnSaleModal = (props: any) => {
                                  <div className={style.fieldBx}>
                                     <p>Enter amount {getToken[0]?.tokenSymbol}</p><br />
                                     <TextInput
-                                        type="tel"
+                                        type="number"
                                         inputName="amount"
                                         holder="Enter amount"
                                         inputHandler={(e: any) => {
-                                            setParams({ ...onsaleParams, [e.target.name]: e.target.value })
+
+                                           if(e.target.value>-1) setParams({ ...onsaleParams, [e.target.name]: e.target.value })
 
                                         }}
                                         value={onsaleParams.amount}

@@ -119,15 +119,17 @@ const Staking = () => {
   
 
   const handleWithdraw = async () => {
+    console.log('yes');
     // setUnstakeModal(!unstakeModal)
     if (parseInt(statistics.userStakeData.stake) < parseInt(userInput.unstake)) {
       setStakingError({ error: true, type: 'unstaking' })
+      console.log('not');
     }
     else{ 
     if (walletAddress) {
       if (userInput.unstake !== '' && Number(userInput.unstake) !== 0) {
         if (userInput.unstake <= statistics?.unstakable) {
-          if (currentChain === "0x61") {
+          if (currentChain === "0x38") {
             //setChain(network)
             setErr("")
             setIsLoading(true)
@@ -172,7 +174,8 @@ const Staking = () => {
         if (userInput.unstake !== '' && Number(userInput.unstake) !== 0) {
 
           if (currentChain === "0x38") {
-            //setChain(network)
+            console.log('yes');
+            
             setErr("")
             setIsLoading(true)
             try {
@@ -188,6 +191,7 @@ const Staking = () => {
             }
             setIsLoading(false)
           } else {
+            console.log('no');
             setBlockChain("Binance")
             setShowModal(true)
           }
@@ -213,9 +217,9 @@ const Staking = () => {
   return (
     <>
    
-      {showModal && (
+      {/* {showModal && (
         <Switch closeModal={closeModal} blockChain={blockChain} />
-      )}
+      )} */}
       {
         unstakeModal && <Switch
         button={'Unstake'} message=
