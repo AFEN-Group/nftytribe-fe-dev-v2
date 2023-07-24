@@ -341,11 +341,20 @@ const Explore = () => {
                         </div>
                       </div>
                       <div className={style.expBx}>
-                        <div  className={`${style.exploreCatM } 
+                        <div className={`${style.exploreCatM} 
                     `}
-                          onClick={(e) => setFilterQuery({...filterQuery,physical:!filterQuery.physical})}
+                          onClick={(e) => setFilterQuery({ ...filterQuery, physical: !filterQuery.physical })}
                         >
                           <p >Physical Item</p>
+
+                        </div>
+                      </div> 
+                      <div className={style.expBx}>
+                        <div className={`${style.exploreCatM} 
+                    `}
+                          onClick={(e) => setFilterQuery({ ...filterQuery, isWatched: !filterQuery.isWatched })}
+                        >
+                          <p >Watched</p>
 
                         </div>
                       </div>
@@ -679,13 +688,13 @@ ${dark === 'true' ? 'darkGradient' : 'lightGradient'} animate__animated animate_
                     
                   </div>
                   <div className={style.sBItem}>
-                    <p>Favorited</p>
+                    <p>Watched</p>
                     <Radio click={() => {
-                      if (filterQuery.isFavorite) setFilterQuery({ ...filterQuery, isFavorite: undefined })
+                      if (filterQuery.isWatched) setFilterQuery({ ...filterQuery, isWatched: undefined })
                       else
-                        setFilterQuery({ ...filterQuery, isFavorite: true })
+                        setFilterQuery({ ...filterQuery, isWatched: true })
                     }}
-                      on={filterQuery.isFavorite} />
+                      on={filterQuery.isWatched} />
                     
                   </div>
                   <form className={`${style.sBItem}`}>

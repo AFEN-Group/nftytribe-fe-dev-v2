@@ -37,8 +37,7 @@ const FAQs = () => {
 
                   </h2>
                 <p>
-                    To buy or sell NFTs on NftyTribe, you need to connect your wallet and create an account. 
-                  {/* {t("account creating")} */}
+                  Connect your wallet and update your NftyTribe profile to get started.
                 </p>
               </div>
               
@@ -59,9 +58,7 @@ const FAQs = () => {
                   {/* {t("buying-nft")} */}
                   </h2>
                 <p>
-                    NftyTribe charges a flat $5 fee for minting NFTs, and a 2% selling fee. However, users can simply upload their NFTs at zero cost using our lazy minting feature.
-                  {/* 
-                  {t("get help navigating")} */}
+                  Minting or listing an NFT on NftyTribe incurs a $2.5 charge, with an additional 2% selling fee when an NFT is sold.
                   </p>
               </div>
                
@@ -83,8 +80,7 @@ const FAQs = () => {
                  
                   </h2>
                 <p>
-                    With lazy minting, NftyTribe users can simply upload their NFTs at zero cost, and our system will automatically subtract fees when a buyer purchases them. 
-                  {/* {t("Everything you need")} */}
+                  Lazy minting on NftyTribe allows users to create NFTs for free. Fees are deducted only when NFT is sold.
                 </p>
               </div> 
               
