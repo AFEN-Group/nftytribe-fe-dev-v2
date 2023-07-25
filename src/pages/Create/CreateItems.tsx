@@ -105,7 +105,7 @@ const CreateItems = () => {
     market_type: "1",
     category: 0,
     royalties: 0,
-    copies: 2,
+    // copies: 2,
     is_lazy_mint: false,
     starting_time: 0,
     ending_time: 1

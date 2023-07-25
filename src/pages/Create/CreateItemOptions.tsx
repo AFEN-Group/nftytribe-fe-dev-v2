@@ -215,13 +215,13 @@ const CreateItemOptions = () => {
                     <img className={style.tImg} src={Polygon} alt="single" />
                     <p>{t("Single")}</p>
                   </Link>
-                  <Link
+                  {/* <Link
                     to={`/createItem/${selctedcChain}/multiple`}
                     className={`${style.optBox2} `}
                   >
                     <img className={style.tImg} src={Multiple} alt="single" />
                     <p>{t("Multiple")}</p>
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
             </div>
