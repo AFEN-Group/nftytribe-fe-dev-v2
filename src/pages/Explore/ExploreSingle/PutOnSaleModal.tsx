@@ -49,6 +49,8 @@ const PutOnSaleModal = (props: any) => {
         { value: '2', text: 'Auction' },
     ]
 
+    console.log(props);
+    
   const [days,setDays]=useState(30)
     const web3= new Web3(window.ethereum)
 
@@ -68,6 +70,8 @@ const PutOnSaleModal = (props: any) => {
         setIsLoading(true)
         const wallet_address = sessionStorage.getItem('currentAccount')
         if (window.ethereum && wallet_address) {
+            console.log(props.collectionAddress);
+            
               //  @ts-ignore
             const TokenContract = new web3.eth.Contract(erc721Abi, props.collectionAddress)
             // @ts-ignore
@@ -88,7 +92,7 @@ const PutOnSaleModal = (props: any) => {
 
                     console.log(amount, await marketPlaceContract.methods);
                     // @ts-ignore
-                    await marketPlaceContract.methods.putOnSale(props.id, amount, onsaleParams.marketType, onsaleParams.from, moment().add(parseInt(days) ?? 30, 'days').unix(),props.collectionAddress,onsaleParams.erc20).send({from:wallet_address})
+                    await marketPlaceContract.methods.putOnSale(props.id, amount, onsaleParams.marketType, onsaleParams.from, moment().add(parseInt(days) ?? 30, 'days').unix(),onsaleParams.category,props.collectionAddress,onsaleParams.erc20,'0x00000000000000000000000000000000').send({from:wallet_address})
                     setCompleted(!completed)
                 } catch (error) {
                       console.log(error);
@@ -203,7 +207,7 @@ const PutOnSaleModal = (props: any) => {
                                         required
                                     />
                                 </div>  
-                                 <div className={style.fieldBx}>
+                               <div className={style.fieldBx}>
                                     <p>Enter amount {getToken[0]?.tokenSymbol}</p><br />
                                     <TextInput
                                         type="number"
