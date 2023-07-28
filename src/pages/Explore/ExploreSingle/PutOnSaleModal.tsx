@@ -39,40 +39,36 @@ const PutOnSaleModal = (props: any) => {
     const [userWallet, setUserWallet] = useState<any>(
         sessionStorage.getItem('currentAccount'),
     )
-   
+
     const { userState, setUserState } = useContext(UserContext);
 
     const [completed, setCompleted] = useState(false)
-    
+
     const marketType = [
         { value: '1', text: 'Fixed price' },
         { value: '2', text: 'Auction' },
     ]
 
-    console.log(props);
-    
-  const [days,setDays]=useState(30)
-    const web3= new Web3(window.ethereum)
+    const [days, setDays] = useState(30)
+    const web3 = new Web3(window.ethereum)
 
-    const [onsaleParams,setParams]=useState({
+    const [onsaleParams, setParams] = useState({
         // tokenId:props.id,
-        marketType:'1',
-        amount:'',
-        from:moment().unix(),
-        category:'',
+        marketType: '1',
+        amount: '',
+        from: moment().unix(),
+        category: '',
         // to: moment().add(parseInt(days) ?? 30, 'days').unix(),
-        erc20:''
+        erc20: ''
     })
-   
-    const abi:any= tokenAbi.abi
+
+    const abi: any = tokenAbi.abi
     const handleSubmit = async (e: any) => {
         e.preventDefault()
         setIsLoading(true)
         const wallet_address = sessionStorage.getItem('currentAccount')
         if (window.ethereum && wallet_address) {
-            console.log(props.collectionAddress);
-            
-              //  @ts-ignore
+            //  @ts-ignore
             const TokenContract = new web3.eth.Contract(erc721Abi, props.collectionAddress)
             // @ts-ignore
 
@@ -80,28 +76,28 @@ const PutOnSaleModal = (props: any) => {
                 contracts.BSC_erc721MarketplaceAddress,
             )
             const token = new web3.eth.Contract(abi, onsaleParams.erc20)
-          
-            
-            await TokenContract.methods.approve(contracts.BSC_erc721MarketplaceAddress, props.id).send({ from: wallet_address })
-           
-            
-                try {
-                   console.log(props.id,onsaleParams.amount);
-                  const  decimal=parseInt(await token.methods.decimals().call({from:wallet_address}))
-                    const amount = new BigNumber(onsaleParams.amount).times(10 ** decimal).toFixed();
 
-                    console.log(amount, await marketPlaceContract.methods);
-                    // @ts-ignore
-                    await marketPlaceContract.methods.putOnSale(props.id, amount, onsaleParams.marketType, onsaleParams.from, moment().add(parseInt(days) ?? 30, 'days').unix(),onsaleParams.category,props.collectionAddress,onsaleParams.erc20,'0x00000000000000000000000000000000').send({from:wallet_address})
-                    setCompleted(!completed)
-                } catch (error) {
-                      console.log(error);
-                      
-                }
-          
-          
+
+            await TokenContract.methods.approve(contracts.BSC_erc721MarketplaceAddress, props.id).send({ from: wallet_address })
+
+
+            try {
+                console.log(props.id, onsaleParams.amount);
+                const decimal = parseInt(await token.methods.decimals().call({ from: wallet_address }))
+                const amount = new BigNumber(onsaleParams.amount).times(10 ** decimal).toFixed();
+
+                console.log(amount, await marketPlaceContract.methods);
+                // @ts-ignore
+                await marketPlaceContract.methods.putOnSale(props.id, amount, onsaleParams.marketType, onsaleParams.from, moment().add(parseInt(days) ?? 30, 'days').unix(), props.collectionAddress, onsaleParams.erc20).send({ from: wallet_address })
+                setCompleted(!completed)
+            } catch (error) {
+                console.log(error);
+
+            }
+
+
         } else {
-           
+
             toast.error(` Please connect wallet`,
                 {
                     duration: 3000,
@@ -110,7 +106,7 @@ const PutOnSaleModal = (props: any) => {
         }
     }
     console.log(onsaleParams)
-    const tokens:any=useContext(TokenContext)
+    const tokens: any = useContext(TokenContext)
     const getToken = tokens?.filter((token: any) => {
         return token?.tokenAddress === onsaleParams?.erc20
 
@@ -123,9 +119,9 @@ const PutOnSaleModal = (props: any) => {
         setCategories(res?.data)
 
     }
-    useEffect(()=>{getCategories()},[])
+    useEffect(() => { getCategories() }, [])
     // console.log(props,onsaleParams);
-    
+
     return (
         <div className={style.bm}>
             <div className={style.bmContent}>
@@ -165,7 +161,7 @@ const PutOnSaleModal = (props: any) => {
                                         <strong> {props.nft?.metadata?.name} </strong>
                                     </span>{' '}
                                     on sale
-                                   
+
                                 </p>
                                 <img src={Close} alt="close" onClick={props.handleClose} />
                             </div>
@@ -181,7 +177,7 @@ const PutOnSaleModal = (props: any) => {
                             </div>
 
                             <div className={style.pricesBx}>
-                               <div className={style.fieldBx}>
+                                <div className={style.fieldBx}>
                                     <p>Select Token</p><br />
                                     {/* <TextInput
                                         type="text"
@@ -206,8 +202,8 @@ const PutOnSaleModal = (props: any) => {
                                         value={onsaleParams.erc20}
                                         required
                                     />
-                                </div>  
-                               <div className={style.fieldBx}>
+                                </div>
+                                <div className={style.fieldBx}>
                                     <p>Enter amount {getToken[0]?.tokenSymbol}</p><br />
                                     <TextInput
                                         type="number"
@@ -215,14 +211,14 @@ const PutOnSaleModal = (props: any) => {
                                         holder="Enter amount"
                                         inputHandler={(e: any) => {
 
-                                           if(e.target.value>-1) setParams({ ...onsaleParams, [e.target.name]: e.target.value })
+                                            if (e.target.value > -1) setParams({ ...onsaleParams, [e.target.name]: e.target.value })
 
                                         }}
                                         value={onsaleParams.amount}
                                         required
                                     />
-                                </div> 
-                              
+                                </div>
+
                                 <div className={style.fieldBx}>
                                     <p>Select a category</p>
                                     <SelectOption
@@ -233,8 +229,8 @@ const PutOnSaleModal = (props: any) => {
                                         inputHandler={(e: any) => setParams({ ...onsaleParams, category: e.target.value })}
                                         value={onsaleParams?.category}
                                     />
-                                </div> 
-                                 <div className={style.fieldBx}>
+                                </div>
+                                <div className={style.fieldBx}>
                                     <p>Choose market type</p><br />
                                     <SelectOption
                                         options={marketType}
@@ -269,7 +265,7 @@ const PutOnSaleModal = (props: any) => {
                                         </div>
                                
                                */}
-            
+
                             </div>
                             <div className={style.modalBtns2}>
                                 <button
